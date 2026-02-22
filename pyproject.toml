@@ -1,0 +1,18 @@
+[project]
+name = "foresight-phys"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+	"deepeval>=3.7.0",
+	"openai>=1.65.0",
+	"python-dotenv>=1.0.1",
+	"tenacity>=9.0.0",
+	"tqdm>=4.66.0",
+	"chardet<6",
+	"deepeval",
+]
+
+[tool.uv.sources]
+deepeval = { git = "https://github.com/confident-ai/deepeval.git" }
