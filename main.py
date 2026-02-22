@@ -114,8 +114,7 @@ class LangfuseRunLogger:
                     "masked_input": item.masked_input,
                 },
                 output={
-                    "predicted": item.actual_output,
-                    "reference": item.expected_output,
+                    "predicted": item.actual_output
                 },
                 metadata={
                     "file": item.file_name,
@@ -131,8 +130,7 @@ class LangfuseRunLogger:
                         "masked_input": item.masked_input,
                     },
                     output={
-                        "predicted": item.actual_output,
-                        "reference": item.expected_output,
+                        "predicted": item.actual_output
                     },
                     metadata={
                         "file": item.file_name,

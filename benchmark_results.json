@@ -2,20 +2,21 @@
   "model": "gpt-5-nano",
   "max_workers": 5,
   "files_evaluated": 5,
-  "aggregate_mape": 2013.7848795489651,
-  "aggregate_bool_categorical_accuracy": 0.3611111111111111,
+  "aggregate_mape": 2130.291501074626,
+  "aggregate_bool_categorical_accuracy": 0.47222222222222215,
   "total_excluded_numeric_values_for_mape": 1,
   "langfuse": {
-    "enabled": false,
-    "run_name": null,
-    "session_id": null,
+    "enabled": true,
+    "run_name": "foresight-phys-20260222T102305Z",
+    "session_id": "foresight-phys-20260222T102305Z-92f88f3c",
     "host": null,
-    "warning": "Langfuse disabled: package import failed (unable to infer type for attribute \"description\")."
+    "trace_url": "https://us.cloud.langfuse.com/project/cmlxk72hh04c1ad078ri8p1x7/traces/c09cfb16843de3eb1c3b3ea4ad35dfd2",
+    "warning": null
   },
   "per_file": [
     {
       "file": "Enhanced Terahertz Thermoelectricity via Engineered van Hove Singularities and Nernst Effect in Moiré Superlattices.json",
-      "mape": 408.7897190041153,
+      "mape": 209.49207467287965,
       "bool_categorical_accuracy": null,
       "numeric_count": 10,
       "excluded_numeric_for_mape": 0,
@@ -24,7 +25,7 @@
     },
     {
       "file": "Giant optical anisotropy in CrSBr from giant exciton oscillator strength.json",
-      "mape": 78.75683798398767,
+      "mape": 49.708949254550404,
       "bool_categorical_accuracy": 0.75,
       "numeric_count": 16,
       "excluded_numeric_for_mape": 1,
@@ -33,7 +34,7 @@
     },
     {
       "file": "Interaction-limited conductivity of twisted bilayer graphene revealed by giant terahertz photoresistance.json",
-      "mape": 72.98985507246377,
+      "mape": 92.8835403726708,
       "bool_categorical_accuracy": 0.0,
       "numeric_count": 3,
       "excluded_numeric_for_mape": 0,
@@ -42,7 +43,7 @@
     },
     {
       "file": "Milli-Tesla quantization enabled by tuneable Coulomb screening in large-angle twisted graphene.json",
-      "mape": 9452.46138216806,
+      "mape": 10215.226489503648,
       "bool_categorical_accuracy": null,
       "numeric_count": 8,
       "excluded_numeric_for_mape": 0,
@@ -51,8 +52,8 @@
     },
     {
       "file": "Record Index-Bandgap Trade-off: CdPS3 as a High-Index van der Waals Platform for Ultraviolet-Visible Nanophotonics.json",
-      "mape": 55.92660351619972,
-      "bool_categorical_accuracy": 0.3333333333333333,
+      "mape": 84.14645156938111,
+      "bool_categorical_accuracy": 0.6666666666666666,
       "numeric_count": 6,
       "excluded_numeric_for_mape": 0,
       "bool_categorical_count": 3,
