@@ -14,7 +14,6 @@ The descriptions were extracted from recent open-access papers by Kostya Novosel
 	- masked JSON as user input
 - Runs OpenAI calls in parallel with retry/backoff using `tenacity`.
 - Shows a live progress bar while files are being predicted.
-- Runs DeepEval reporting by default for each benchmark run.
 - Parses the model JSON output and compares predicted `result` values to ground truth.
 - Computes per JSON file:
 	- `mape` (Mean Absolute Percentage Error) for numeric predictions
@@ -29,6 +28,15 @@ uv sync
 
 Ensure `.env` contains your provider API keys (for OpenAI-compatible use, set `OPENAI_API_KEY`).
 
+To enable Langfuse tracing (optional), also set:
+
+```bash
+LANGFUSE_PUBLIC_KEY=...
+LANGFUSE_SECRET_KEY=...
+# Optional (defaults to cloud host)
+LANGFUSE_HOST=https://cloud.langfuse.com
+```
+
 ## Run benchmark
 
 ```bash
@@ -40,8 +48,21 @@ uv run python main.py
 ```bash
 uv run python main.py --max-files 2
 uv run python main.py --max-workers 8
-uv run python main.py --disable-deepeval
+uv run python main.py --langfuse-run-name paper-benchmark-run-01
+uv run python main.py --disable-langfuse
 uv run python main.py --output benchmark_results.json
 ```
 
 The run writes summary output to `benchmark_results.json`.
+
+## Langfuse dashboard view
+
+- If Langfuse keys are present, each file evaluation is logged as a trace.
+- Traces are grouped by a `session_id` per benchmark run and include:
+	- masked input JSON
+	- predicted JSON (`predicted`)
+	- reference JSON (`reference`)
+	- correction entry (`Corrected Output`) populated from the reference JSON
+	- per-file metrics (`mape`, `bool_categorical_accuracy`, etc.)
+- The same `session_id` is written to the output summary under `langfuse.session_id`.
+- In Langfuse UI, filter traces by that `session_id` to see the full run dashboard.

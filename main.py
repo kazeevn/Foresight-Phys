@@ -4,17 +4,24 @@ import argparse
 import copy
 import concurrent.futures
 import json
+import os
+import uuid
 from dataclasses import dataclass
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from deepeval import evaluate
-from deepeval.metrics import BaseMetric
-from deepeval.test_case import LLMTestCase
 from dotenv import load_dotenv
 from openai import APIConnectionError, APITimeoutError, InternalServerError, OpenAI, RateLimitError
 from tenacity import retry, retry_if_exception_type, stop_after_attempt, wait_random_exponential
 from tqdm import tqdm
+
+LANGFUSE_IMPORT_ERROR: str | None = None
+try:
+    from langfuse import Langfuse
+except Exception as exc:
+    Langfuse = None
+    LANGFUSE_IMPORT_ERROR = str(exc)
 
 TO_PREDICT_TOKEN = "TO_PREDICT"
 MAPE_MIN_ABS_TARGET = 1e-3
@@ -26,6 +33,223 @@ class BenchmarkItem:
     masked_input: Any
     expected_output: Any
     actual_output: Any
+
+
+@dataclass
+class LangfuseRunLogger:
+    enabled: bool
+    model: str
+    run_name: str | None = None
+    session_id: str | None = None
+    host: str | None = None
+    client: Any | None = None
+    warning: str | None = None
+    trace_urls: list[str] | None = None
+
+    @classmethod
+    def from_args(cls, args: argparse.Namespace) -> "LangfuseRunLogger":
+        if args.disable_langfuse:
+            return cls(enabled=False, model=args.model)
+
+        public_key = os.getenv("LANGFUSE_PUBLIC_KEY")
+        secret_key = os.getenv("LANGFUSE_SECRET_KEY")
+        host = args.langfuse_host or os.getenv("LANGFUSE_HOST")
+
+        if not public_key or not secret_key:
+            return cls(
+                enabled=False,
+                model=args.model,
+                warning="Langfuse disabled: LANGFUSE_PUBLIC_KEY and/or LANGFUSE_SECRET_KEY not set.",
+            )
+
+        if Langfuse is None:
+            import_detail = f" ({LANGFUSE_IMPORT_ERROR})" if LANGFUSE_IMPORT_ERROR else ""
+            return cls(
+                enabled=False,
+                model=args.model,
+                warning=f"Langfuse disabled: package import failed{import_detail}.",
+            )
+
+        timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+        run_name = args.langfuse_run_name or f"foresight-phys-{timestamp}"
+        session_id = f"{run_name}-{uuid.uuid4().hex[:8]}"
+
+        client_kwargs: dict[str, Any] = {
+            "public_key": public_key,
+            "secret_key": secret_key,
+        }
+        if host:
+            client_kwargs["host"] = host
+
+        try:
+            client = Langfuse(**client_kwargs)
+        except Exception as exc:
+            return cls(
+                enabled=False,
+                model=args.model,
+                warning=f"Langfuse disabled: failed to initialize client ({exc}).",
+            )
+
+        return cls(
+            enabled=True,
+            model=args.model,
+            run_name=run_name,
+            session_id=session_id,
+            host=host,
+            client=client,
+            trace_urls=[],
+        )
+
+    def log_file_result(self, item: BenchmarkItem, metrics: dict[str, Any]) -> None:
+        if not self.enabled or self.client is None:
+            return
+
+        try:
+            with self.client.start_as_current_observation(
+                name="llm-prediction",
+                as_type="generation",
+                model=self.model,
+                input={
+                    "file": item.file_name,
+                    "masked_input": item.masked_input,
+                },
+                output={
+                    "predicted": item.actual_output,
+                    "reference": item.expected_output,
+                },
+                metadata={
+                    "file": item.file_name,
+                    "run_name": self.run_name,
+                    "metrics": metrics,
+                },
+            ) as generation:
+                generation.update_trace(
+                    name="foresight-phys.file-eval",
+                    session_id=self.session_id,
+                    input={
+                        "file": item.file_name,
+                        "masked_input": item.masked_input,
+                    },
+                    output={
+                        "predicted": item.actual_output,
+                        "reference": item.expected_output,
+                    },
+                    metadata={
+                        "file": item.file_name,
+                        "model": self.model,
+                        "run_name": self.run_name,
+                        **metrics,
+                    },
+                    tags=["foresight-phys", "benchmark", "file-eval"],
+                )
+
+                if metrics.get("mape") is not None:
+                    generation.score(
+                    name="mape",
+                    value=float(metrics["mape"]),
+                    data_type="NUMERIC",
+                    comment="Lower is better",
+                )
+
+                accuracy = metrics.get("bool_categorical_accuracy")
+                if accuracy is not None:
+                    generation.score(
+                        name="bool_categorical_accuracy",
+                        value=float(accuracy),
+                        data_type="NUMERIC",
+                        comment="Higher is better",
+                    )
+
+                correction_payload = json.dumps(
+                    item.expected_output,
+                    ensure_ascii=False,
+                    indent=2,
+                )
+                correction_common = {
+                    "name": "output",
+                    "value": correction_payload,
+                    "dataType": "CORRECTION",
+                    "source": "ANNOTATION",
+                    "comment": "Ground-truth expected output",
+                    "metadata": {
+                        "file": item.file_name,
+                        "run_name": self.run_name,
+                    },
+                }
+
+                self.client.api.score.create(
+                    request={
+                        **correction_common,
+                        "traceId": generation.trace_id,
+                    }
+                )
+
+                self.client.api.score.create(
+                    request={
+                        **correction_common,
+                        "traceId": generation.trace_id,
+                        "observationId": generation.id,
+                    }
+                )
+
+                if self.trace_urls is not None:
+                    trace_url = self.client.get_trace_url(trace_id=generation.trace_id)
+                    if trace_url:
+                        self.trace_urls.append(trace_url)
+        except Exception as exc:
+            self.warning = f"Langfuse logging warning: {exc}"
+
+    def log_run_summary(self, summary: dict[str, Any], args: argparse.Namespace) -> None:
+        if not self.enabled or self.client is None:
+            return
+
+        try:
+            with self.client.start_as_current_span(
+                name="foresight-phys.run-summary",
+                input={
+                    "json_dir": args.json_dir,
+                    "system_prompt": args.system_prompt,
+                    "model": args.model,
+                    "max_files": args.max_files,
+                    "max_workers": args.max_workers,
+                },
+                output=summary,
+                metadata={
+                    "run_name": self.run_name,
+                },
+            ) as span:
+                span.update_trace(
+                    name="foresight-phys.run-summary",
+                    session_id=self.session_id,
+                    tags=["foresight-phys", "benchmark", "run-summary"],
+                    metadata={"run_name": self.run_name},
+                )
+
+                if self.trace_urls is not None:
+                    trace_url = self.client.get_trace_url(trace_id=span.trace_id)
+                    if trace_url:
+                        self.trace_urls.append(trace_url)
+        except Exception as exc:
+            self.warning = f"Langfuse logging warning: {exc}"
+
+    def flush(self) -> None:
+        if not self.enabled or self.client is None:
+            return
+        try:
+            self.client.flush()
+        except Exception as exc:
+            self.warning = f"Langfuse flush warning: {exc}"
+
+    def summary(self) -> dict[str, Any]:
+        primary_trace_url = self.trace_urls[0] if self.trace_urls else None
+        return {
+            "enabled": self.enabled,
+            "run_name": self.run_name,
+            "session_id": self.session_id,
+            "host": self.host,
+            "trace_url": primary_trace_url,
+            "warning": self.warning,
+        }
 
 
 def iter_result_paths(node: Any, path: tuple[Any, ...] = ()):
@@ -232,113 +456,6 @@ def compute_file_metrics(expected_json: Any, actual_json: Any) -> dict[str, Any]
         "bool_categorical_count": classification_total,
         "missing_predictions": missing,
     }
-
-
-class MapeMetric(BaseMetric):
-    def __init__(self):
-        self.threshold = 0.0
-        self.score = None
-        self.reason = None
-        self.success = None
-        self.error = None
-        self.evaluation_model = "deterministic"
-        self.strict_mode = False
-        self.async_mode = False
-        self.verbose_mode = False
-        self.include_reason = True
-        self.evaluation_cost = 0
-
-    def measure(self, test_case: LLMTestCase, *args, **kwargs) -> float:
-        expected_json = json.loads(test_case.expected_output)
-        actual_json = json.loads(test_case.actual_output)
-        metrics = compute_file_metrics(expected_json, actual_json)
-        mape_value = metrics["mape"]
-        self.score = float(mape_value) if mape_value is not None else 0.0
-        self.reason = (
-            f"mape={mape_value}, excluded_numeric_for_mape={metrics['excluded_numeric_for_mape']}, "
-            f"numeric_count={metrics['numeric_count']}, missing_predictions={metrics['missing_predictions']}"
-        )
-        self.success = True
-        return self.score
-
-    async def a_measure(self, test_case: LLMTestCase, *args, **kwargs) -> float:
-        return self.measure(test_case, *args, **kwargs)
-
-    def is_successful(self) -> bool:
-        self.success = True
-        return True
-
-    @property
-    def __name__(self):
-        return "mape"
-
-
-class BoolCategoricalAccuracyMetric(BaseMetric):
-    def __init__(self):
-        self.threshold = 0.0
-        self.score = None
-        self.reason = None
-        self.success = None
-        self.error = None
-        self.evaluation_model = "deterministic"
-        self.strict_mode = False
-        self.async_mode = False
-        self.verbose_mode = False
-        self.include_reason = True
-        self.evaluation_cost = 0
-
-    def measure(self, test_case: LLMTestCase, *args, **kwargs) -> float:
-        expected_json = json.loads(test_case.expected_output)
-        actual_json = json.loads(test_case.actual_output)
-        metrics = compute_file_metrics(expected_json, actual_json)
-        accuracy_value = metrics["bool_categorical_accuracy"]
-        self.score = float(accuracy_value) if accuracy_value is not None else 0.0
-        self.reason = (
-            f"bool_categorical_accuracy={accuracy_value}, "
-            f"bool_categorical_count={metrics['bool_categorical_count']}, "
-            f"missing_predictions={metrics['missing_predictions']}"
-        )
-        self.success = True
-        return self.score
-
-    async def a_measure(self, test_case: LLMTestCase, *args, **kwargs) -> float:
-        return self.measure(test_case, *args, **kwargs)
-
-    def is_successful(self) -> bool:
-        self.success = True
-        return True
-
-    @property
-    def __name__(self):
-        return "bool_categorical_accuracy"
-
-
-def run_deepeval_report(benchmark_items: list[BenchmarkItem]) -> None:
-    if not benchmark_items:
-        return
-
-    test_cases = [
-        LLMTestCase(
-            input=json.dumps(item.masked_input, ensure_ascii=False),
-            actual_output=json.dumps(item.actual_output, ensure_ascii=False),
-            expected_output=json.dumps(item.expected_output, ensure_ascii=False),
-            context=[item.file_name],
-        )
-        for item in benchmark_items
-    ]
-
-    evaluate(test_cases=test_cases, metrics=[MapeMetric()])
-
-    bool_case_indices = [
-        i
-        for i, item in enumerate(benchmark_items)
-        if has_bool_or_categorical_targets(item.expected_output)
-    ]
-    if bool_case_indices:
-        bool_test_cases = [test_cases[i] for i in bool_case_indices]
-        evaluate(test_cases=bool_test_cases, metrics=[BoolCategoricalAccuracyMetric()])
-
-
 @retry(
     wait=wait_random_exponential(multiplier=1, min=1, max=60),
     stop=stop_after_attempt(6),
@@ -445,6 +562,7 @@ def build_benchmark_items(
 
 def run_benchmark(args: argparse.Namespace) -> dict[str, Any]:
     load_dotenv()
+    langfuse_logger = LangfuseRunLogger.from_args(args)
 
     system_prompt = Path(args.system_prompt).read_text(encoding="utf-8").strip()
     benchmark_items = build_benchmark_items(
@@ -455,12 +573,10 @@ def run_benchmark(args: argparse.Namespace) -> dict[str, Any]:
         max_workers=args.max_workers,
     )
 
-    if args.enable_deepeval:
-        run_deepeval_report(benchmark_items)
-
     rows = []
     for item in benchmark_items:
         metrics = compute_file_metrics(item.expected_output, item.actual_output)
+        langfuse_logger.log_file_result(item, metrics)
         rows.append(
             {
                 "file": item.file_name,
@@ -486,13 +602,16 @@ def run_benchmark(args: argparse.Namespace) -> dict[str, Any]:
     summary = {
         "model": args.model,
         "max_workers": args.max_workers,
-        "deepeval_enabled": args.enable_deepeval,
         "files_evaluated": len(rows),
         "aggregate_mape": aggregate_mape,
         "aggregate_bool_categorical_accuracy": aggregate_bool_categorical_accuracy,
         "total_excluded_numeric_values_for_mape": total_excluded_numeric_values,
+        "langfuse": langfuse_logger.summary(),
         "per_file": rows,
     }
+
+    langfuse_logger.log_run_summary(summary, args)
+    langfuse_logger.flush()
 
     Path(args.output).write_text(
         json.dumps(summary, ensure_ascii=False, indent=2),
@@ -519,9 +638,19 @@ def parse_args() -> argparse.Namespace:
         help="Maximum parallel OpenAI requests.",
     )
     parser.add_argument(
-        "--disable-deepeval",
+        "--disable-langfuse",
         action="store_true",
-        help="Disable DeepEval reporting output.",
+        help="Disable Langfuse tracing output.",
+    )
+    parser.add_argument(
+        "--langfuse-host",
+        default=None,
+        help="Optional Langfuse host URL override (otherwise LANGFUSE_HOST is used).",
+    )
+    parser.add_argument(
+        "--langfuse-run-name",
+        default=None,
+        help="Optional run name for grouping traces in Langfuse dashboard.",
     )
     parser.add_argument(
         "--max-files",
@@ -534,9 +663,7 @@ def parse_args() -> argparse.Namespace:
         default="benchmark_results.json",
         help="Path for summary JSON output.",
     )
-    args = parser.parse_args()
-    args.enable_deepeval = not args.disable_deepeval
-    return args
+    return parser.parse_args()
 
 
 def main() -> None:

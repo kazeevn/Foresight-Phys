@@ -9,8 +9,6 @@ wheels/
 # Virtual environments
 .venv
 
-.deepeval/
-
 # Debug evals
 benchmark_results_*.json
 .env
