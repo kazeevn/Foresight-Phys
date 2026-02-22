@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Foresight-Phys Human-Readable Report</title>
+    <style>
+        :root {
+            color-scheme: light;
+            --bg: #ffffff;
+            --surface: #ffffff;
+            --text: #000000;
+            --muted: #333333;
+            --border: #cccccc;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Inter, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+        .header { margin-bottom: 14px; }
+        .title { font-size: 24px; font-weight: 700; margin: 0 0 8px; }
+        .meta { color: var(--muted); font-size: 14px; line-height: 1.5; }
+        .layout {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 16px;
+            margin-top: 16px;
+            min-height: calc(100vh - 190px);
+        }
+        .sidebar {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 10px;
+            background: var(--surface);
+        }
+        .paper-tab {
+            width: 100%;
+            text-align: left;
+            border: 1px solid var(--border);
+            background: #f7f7f7;
+            color: var(--text);
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            line-height: 1.35;
+        }
+        .paper-tab:hover { background: #efefef; }
+        .paper-tab.is-active {
+            background: #e9f2ff;
+            border-color: #8bb8ff;
+            font-weight: 600;
+        }
+        .content {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--surface);
+            padding: 14px;
+            overflow: auto;
+        }
+        .paper-panel { display: none; }
+        .paper-panel.is-active { display: block; }
+        .paper-panel h2 { margin: 0 0 10px; font-size: 22px; }
+        .paper-metrics {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .metric-chip {
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            padding: 6px 10px;
+            font-size: 13px;
+            background: #fafafa;
+        }
+        .metric-label { color: var(--muted); margin-right: 8px; }
+        .metric-value { font-weight: 700; }
+        .experiment-card {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 12px;
+            background: #fcfcfc;
+        }
+        .experiment-card h3 { margin: 0 0 8px; font-size: 18px; }
+        .experiment-description { margin: 0 0 10px; color: #111; }
+        .empty-results { color: var(--muted); margin: 0; }
+        .table-wrap { overflow-x: auto; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        th, td {
+            border: 1px solid var(--border);
+            padding: 8px;
+            vertical-align: top;
+            text-align: left;
+        }
+        th { background: #f3f3f3; }
+        .status-match { color: #0b7d2b; font-weight: 700; }
+        .status-mismatch { color: #b3261e; font-weight: 700; }
+        .status-relative-error { color: #0b57d0; font-weight: 700; }
+        @media (max-width: 980px) {
+            .layout { grid-template-columns: 1fr; }
+            .sidebar { order: 1; }
+            .content { order: 2; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 class="title">Offline Prediction vs Reference Report</h1>
+        <div class="meta">Model: gpt-5</div>
+        <div class="meta">Generated: 2026-02-22T11:34:23.263306+00:00</div>
+        <div class="meta">Files: 5</div>
+        <div class="meta">Aggregate MAPE: 221.6693</div>
+        <div class="meta">Aggregate bool/categorical accuracy: 0.6944</div>
+    </div>
+    <div class="layout">
+        <aside class="sidebar" aria-label="Papers">
+            <button class="paper-tab is-active" data-paper-id="paper-0" type="button">Enhanced Terahertz Thermoelectricity via Engineered van Hove Singularities and Nernst Effect in Moiré Superlattices</button>
+<button class="paper-tab" data-paper-id="paper-1" type="button">Giant optical anisotropy in CrSBr from giant exciton oscillator strength</button>
+<button class="paper-tab" data-paper-id="paper-2" type="button">Interaction-limited conductivity of twisted bilayer graphene revealed by giant terahertz photoresistance</button>
+<button class="paper-tab" data-paper-id="paper-3" type="button">Milli-Tesla quantization enabled by tuneable Coulomb screening in large-angle twisted graphene</button>
+<button class="paper-tab" data-paper-id="paper-4" type="button">Record Index-Bandgap Trade-off: CdPS3 as a High-Index van der Waals Platform for Ultraviolet-Visible Nanophotonics</button>
+        </aside>
+        <main class="content">
+            <section class="paper-panel is-active" id="paper-0">
+<h2>Enhanced Terahertz Thermoelectricity via Engineered van Hove Singularities and Nernst Effect in Moiré Superlattices</h2>
+<div class="paper-metrics">
+<div class="metric-chip"><span class="metric-label">MAPE</span><span class="metric-value">155.8069</span></div>
+<div class="metric-chip"><span class="metric-label">Bool/Categorical Accuracy</span><span class="metric-value">n/a</span></div>
+</div>
+<article class="experiment-card">
+<h3>Experiment 1</h3>
+<p class="experiment-description">Perform transport characterization of a monolayer graphene/hexagonal boron nitride (MLG/hBN) moiré superlattice multiterminal split-gate field-effect transistor. Apply a small AC current and measure the four-terminal longitudinal resistance and Hall reactivity across the junction using a lock-in technique as a function of the left and right split-gate voltages and an applied back-gate voltage.</p>
+<div class="table-wrap">
+<table><thead><tr><th>Result</th><th>Description</th><th>Ground Truth</th><th>Predicted</th><th>Status</th></tr></thead><tbody>
+<tr><td>AC_current_RMS_nA</td><td>Root-mean-square amplitude of the AC current applied using a voltage-controlled current source.</td><td>200.0</td><td>10.0</td><td><span class="status-relative-error">rel err 95.00%</span></td></tr>
+<tr><td>lock_in_frequency_Hz</td><td>Frequency of the lock-in amplifier used for transport measurements.</td><td>11.0</td><td>13.7</td><td><span class="status-relative-error">rel err 24.55%</span></td></tr>
+<tr><td>fixed_back_gate_voltage_V</td><td>Fixed DC voltage applied to the back gate during the split-gate voltage sweeps.</td><td>-2.5</td><td>0.0</td><td><span class="status-relative-error">rel err 100.00%</span></td></tr>
+</tbody></table></div>
+</article>
+<article class="experiment-card">
+<h3>Experiment 2</h3>
+<p class="experiment-description">Expose the MLG/hBN split-gate device to continuous sub-terahertz radiation. Measure the generated photovoltage across the device using a lock-in amplifier referenced to the modulation frequency of the terahertz source. Conduct these measurements at zero magnetic field while sweeping the left and right split-gate voltages. Repeat measurements at various radiation attenuation levels and operating temperatures.</p>
+<div class="table-wrap">
+<table><thead><tr><th>Result</th><th>Description</th><th>Ground Truth</th><th>Predicted</th><th>Status</th></tr></thead><tbody>
+<tr><td>THz_radiation_frequency_THz</td><td>Frequency of the incident terahertz radiation used to illuminate the device.</td><td>0.14</td><td>0.3</td><td><span class="status-relative-error">rel err 114.29%</span></td></tr>
+<tr><td>laser_modulation_frequency_Hz</td><td>Modulation frequency of the terahertz source to which the lock-in amplifiers are referenced.</td><td>37.0</td><td>377.0</td><td><span class="status-relative-error">rel err 918.92%</span></td></tr>
+<tr><td>calculated_incident_power_nW</td><td>Calculated sub-terahertz power incident on the antenna after accounting for optical path losses, attenuation, and cryostat window absorption.</td><td>340.0</td><td>90.0</td><td><span class="status-relative-error">rel err 73.53%</span></td></tr>
+<tr><td>cryostat_window_absorption_percent</td><td>Measured percentage of terahertz radiation absorbed by the cryostat windows.</td><td>19.0</td><td>22.0</td><td><span class="status-relative-error">rel err 15.79%</span></td></tr>
+</tbody></table></div>
+</article>
+<article class="experiment-card">
+<h3>Experiment 3</h3>
+<p class="experiment-description">Measure the photovoltage of the MLG/hBN split-gate device under terahertz illumination while applying an out-of-plane magnetic field. Map the photovoltage as a function of the left and right split-gate voltages at specific constant magnetic field values, and trace the signal as a function of the magnetic field magnitude by sweeping the field.</p>
+<div class="table-wrap">
+<table><thead><tr><th>Result</th><th>Description</th><th>Ground Truth</th><th>Predicted</th><th>Status</th></tr></thead><tbody>
+<tr><td>magnetic_field_sweep_limit_T</td><td>Maximum absolute value of the out-of-plane magnetic field applied during the photovoltage mapping.</td><td>0.5</td><td>1.0</td><td><span class="status-relative-error">rel err 100.00%</span></td></tr>
+</tbody></table></div>
+</article>
+<article class="experiment-card">
+<h3>Experiment 4</h3>
+<p class="experiment-description">Evaluate the zero-bias terahertz photodetector performance metrics of the fabricated moiré superlattice devices. Calculate the external voltage responsivity using the derived peak photovoltage and the calculated incident terahertz power. Determine the noise-equivalent power (NEP) by taking the ratio of the calculated thermal voltage noise spectral density to the calculated voltage responsivity.</p>
+<div class="table-wrap">
+<table><thead><tr><th>Result</th><th>Description</th><th>Ground Truth</th><th>Predicted</th><th>Status</th></tr></thead><tbody>
+<tr><td>voltage_responsivity_kV_W</td><td>Evaluated external voltage responsivity of the detector based on incident power.</td><td>2.2</td><td>3.3</td><td><span class="status-relative-error">rel err 50.00%</span></td></tr>
+<tr><td>zero_field_NEP_pW_sqrtHz</td><td>Calculated noise-equivalent power of the device at zero applied magnetic field.</td><td>1.0</td><td>0.34</td><td><span class="status-relative-error">rel err 66.00%</span></td></tr>
+</tbody></table></div>
+</article>
+</section>
+<section class="paper-panel" id="paper-1">
+<h2>Giant optical anisotropy in CrSBr from giant exciton oscillator strength</h2>
+<div class="paper-metrics">
+<div class="metric-chip"><span class="metric-label">MAPE</span><span class="metric-value">68.3693</span></div>
+<div class="metric-chip"><span class="metric-label">Bool/Categorical Accuracy</span><span class="metric-value">0.7500</span></div>
+</div>
+<article class="experiment-card">
+<h3>Experiment 1</h3>
+<p class="experiment-description">Measurement of the Raman spectrum of a bulk CrSBr crystal averaged over polarization angles using a 532 nm excitation laser wavelength.</p>
+<div class="table-wrap">
+<table><thead><tr><th>Result</th><th>Description</th><th>Ground Truth</th><th>Predicted</th><th>Status</th></tr></thead><tbody>
+<tr><td>Ag_1_phonon_mode_frequency</td><td>Frequency shift of the Ag_1 Raman mode.</td><td>115.0</td><td>154.0</td><td><span class="status-relative-error">rel err 33.91%</span></td></tr>
+<tr><td>Ag_2_phonon_mode_frequency</td><td>Frequency shift of the Ag_2 Raman mode.</td><td>246.0</td><td>224.0</td><td><span class="status-relative-error">rel err 8.94%</span></td></tr>
+<tr><td>Ag_3_phonon_mode_frequency</td><td>Frequency shift of the Ag_3 Raman mode.</td><td>342.0</td><td>300.0</td><td><span class="status-relative-error">rel err 12.28%</span></td></tr>
+</tbody></table></div>
+</article>
+<article class="experiment-card">
+<h3>Experiment 2</h3>
+<p class="experiment-description">Determination of the complete refractive index tensor of a CrSBr sample across a broadband spectral range utilizing parallel-polarized optical reflection microscopy and Kramers-Kronig relations.</p>
+<div class="table-wrap">
+<table><thead><tr><th>Result</th><th>Description</th><th>Ground Truth</th><th>Predicted</th><th>Status</th></tr></thead><tbody>
+<tr><td>exciton_resonance_energy</td><td>Central energy of the fundamental exciton resonance for light polarized along the crystallographic b-axis.</td><td>1.38</td><td>1.32</td><td><span class="status-relative-error">rel err 4.35%</span></td></tr>
+<tr><td>exciton_resonance_wavelength</td><td>Central wavelength of the fundamental exciton resonance for light polarized along the crystallographic b-axis.</td><td>898.0</td><td>940.0</td><td><span class="status-relative-error">rel err 4.68%</span></td></tr>
+<tr><td>peak_extinction_coefficient_b_axis</td><td>Maximum value of the extinction coefficient for light polarized along the b-axis at the exciton resonance energy.</td><td>1.8</td><td>0.75</td><td><span class="status-relative-error">rel err 58.33%</span></td></tr>
+<tr><td>extinction_coefficient_a_axis_at_resonance</td><td>Value of the extinction coefficient for light polarized along the a-axis across the exciton resonance spectral range.</td><td>0.0</td><td>0.03</td><td><span class="status-mismatch">mismatch</span></td></tr>
+<tr><td>peak_in_plane_birefringence</td><td>Peak value of the in-plane birefringence near the exciton resonance.</td><td>1.45</td><td>0.52</td><td><span class="status-relative-error">rel err 64.14%</span></td></tr>
+<tr><td>min_transparency_region_birefringence</td><td>Minimum measured in-plane birefringence in the transparency region for wavelengths greater than 1100 nm.</td><td>0.25</td><td>0.01</td><td><span class="status-relative-error">rel err 96.00%</span></td></tr>
+<tr><td>max_transparency_region_birefringence</td><td>Maximum measured in-plane birefringence in the transparency region for wavelengths greater than 1100 nm.</td><td>0.52</td><td>0.06</td><td><span class="status-relative-error">rel err 88.46%</span></td></tr>
+</tbody></table></div>
+</article>
+<article class="experiment-card">
+<h3>Experiment 3</h3>
+<p class="experiment-description">Scattering-type scanning near-field optical microscopy (s-SNOM) performed in a reflection configuration on a CrSBr flake. The flake is examined at two orthogonal orientations by rotating the sample 90 degrees with respect to a 900 nm excitation laser propagation direction to assess guided modes.</p>
+<div class="table-wrap">
+<table><thead><tr><th>Result</th><th>Description</th><th>Ground Truth</th><th>Predicted</th><th>Status</th></tr></thead><tbody>
+<tr><td>TM0_mode_supported_a_axis</td><td>Indicates whether the TM0 guided mode is supported along the crystallographic a-axis under 900 nm excitation.</td><td>true</td><td>true</td><td><span class="status-match">match</span></td></tr>
+<tr><td>TE0_mode_supported_a_axis</td><td>Indicates whether the TE0 guided mode is supported along the crystallographic a-axis under 900 nm excitation.</td><td>false</td><td>false</td><td><span class="status-match">match</span></td></tr>
+<tr><td>TM0_mode_supported_b_axis</td><td>Indicates whether the TM0 guided mode is supported along the crystallographic b-axis under 900 nm excitation.</td><td>true</td><td>false</td><td><span class="status-mismatch">mismatch</span></td></tr>
+<tr><td>TE0_mode_supported_b_axis</td><td>Indicates whether the TE0 guided mode is supported along the crystallographic b-axis under 900 nm excitation.</td><td>true</td><td>true</td><td><span class="status-match">match</span></td></tr>
+</tbody></table></div>
+</article>
+<article class="experiment-card">
+<h3>Experiment 4</h3>
+<p class="experiment-description">Fabrication of a zero-order quarter-wave plate from an exfoliated CrSBr flake on a transparent CaF2 substrate. Measurement of phase retardance of transmitted light as a function of wavelength. Angle-resolved transmittance maps of transmitted intensity versus input polarizer and analyzer angles are recorded to locate conditions for uniform circular polarization output.</p>
+<div class="table-wrap">
+<table><thead><tr><th>Result</th><th>Description</th><th>Ground Truth</th><th>Predicted</th><th>Status</th></tr></thead><tbody>
+<tr><td>qwp_flake_thickness</td><td>Thickness of the CrSBr flake utilized for the wave plate.</td><td>305.0</td><td>1900.0</td><td><span class="status-relative-error">rel err 522.95%</span></td></tr>
+<tr><td>qwp_operation_wavelength_1</td><td>First near-infrared wavelength at which a phase retardance of 90 degrees is observed.</td><td>940.0</td><td>940.0</td><td><span class="status-relative-error">rel err 0.00%</span></td></tr>
+<tr><td>qwp_operation_wavelength_2</td><td>Second near-infrared wavelength at which a phase retardance of 90 degrees is observed.</td><td>1029.0</td><td>1029.0</td><td><span class="status-relative-error">rel err 0.00%</span></td></tr>
+<tr><td>optimal_polarizer_angle_1029nm</td><td>Input polarizer angle setting at 1029 nm wavelength where the transmitted intensity becomes independent of the analyzer angle.</td><td>44.0</td><td>50.0</td><td><span class="status-relative-error">rel err 13.64%</span></td></tr>
+<tr><td>optimal_polarizer_angle_940nm</td><td>Input polarizer angle setting at 940 nm wavelength where the transmitted intensity becomes independent of the analyzer angle.</td><td>68.5</td><td>56.0</td><td><span class="status-relative-error">rel err 18.25%</span></td></tr>
+<tr><td>wavelength_to_thickness_ratio_940nm</td><td>Ratio of the measured operating wavelength to the measured device thickness at the 940 nm setpoint.</td><td>3.4</td><td>0.4947368421</td><td><span class="status-relative-error">rel err 85.45%</span></td></tr>
+<tr><td>wavelength_to_thickness_ratio_1029nm</td><td>Ratio of the measured operating wavelength to the measured device thickness at the 1029 nm setpoint.</td><td>3.1</td><td>0.5415789474</td><td><span class="status-relative-error">rel err 82.53%</span></td></tr>
+</tbody></table></div>
+</article>
+</section>
+<section class="paper-panel" id="paper-2">
+<h2>Interaction-limited conductivity of twisted bilayer graphene revealed by giant terahertz photoresistance</h2>
+<div class="paper-metrics">
+<div class="metric-chip"><span class="metric-label">MAPE</span><span class="metric-value">65.2981</span></div>
+<div class="metric-chip"><span class="metric-label">Bool/Categorical Accuracy</span><span class="metric-value">1.0000</span></div>
+</div>
+<article class="experiment-card">
+<h3>Experiment 1</h3>
+<p class="experiment-description">Measure the temperature dependence of the longitudinal resistivity in a magic-angle twisted bilayer graphene device (MATBG1, twist angle 1.05 degrees) at a filling factor of 1.7 to determine the linear slope of the temperature-dependent resistivity.</p>
+<div class="table-wrap">
+<table><thead><tr><th>Result</th><th>Description</th><th>Ground Truth</th><th>Predicted</th><th>Status</th></tr></thead><tbody>
+<tr><td>drho_dT_slope</td><td>The linear slope of resistivity with respect to temperature in Ohms per Kelvin.</td><td>92.0</td><td>85.0</td><td><span class="status-relative-error">rel err 7.61%</span></td></tr>
+</tbody></table></div>
+</article>
+<article class="experiment-card">
+<h3>Experiment 2</h3>
+<p class="experiment-description">Subject a magic-angle twisted bilayer graphene device to continuous-wave 0.14 THz radiation while maintaining the lattice temperature at 2 K. Measure the relative THz-induced photoresistance (change in resistivity normalized to the dark resistivity) at its peak magnitude.</p>
+<div class="table-wrap">
+<table><thead><tr><th>Result</th><th>Description</th><th>Ground Truth</th><th>Predicted</th><th>Status</th></tr></thead><tbody>
+<tr><td>max_relative_photoresistance_percentage</td><td>The maximum observed relative THz photoresistance expressed as a percentage.</td><td>70.0</td><td>6.8</td><td><span class="status-relative-error">rel err 90.29%</span></td></tr>
+</tbody></table></div>
+</article>
+<article class="experiment-card">
+<h3>Experiment 3</h3>
+<p class="experiment-description">Measure the THz-induced change in resistivity of a doped monolayer graphene (MLG) control device under 0.14 THz irradiation while keeping the lattice temperature at 2 K and applying zero external magnetic field.</p>
+<div class="table-wrap">
+<table><thead><tr><th>Result</th><th>Description</th><th>Ground Truth</th><th>Predicted</th><th>Status</th></tr></thead><tbody>
+<tr><td>zero_field_photoresistance_response</td><td>The qualitative magnitude of the photoresistance response observed at zero magnetic field.</td><td>vanishingly small</td><td>vanishingly small</td><td><span class="status-match">match</span></td></tr>
+</tbody></table></div>
+</article>
+<article class="experiment-card">
+<h3>Experiment 4</h3>
+<p class="experiment-description">Measure the longitudinal resistivity as a function of temperature for a twisted bilayer graphene device with a twist angle of 1.58 degrees in the low-temperature regime, specifically at fillings where umklapp scattering is forbidden, to extract the experimental prefactor of the quadratic temperature dependence.</p>
+<div class="table-wrap">
+<table><thead><tr><th>Result</th><th>Description</th><th>Ground Truth</th><th>Predicted</th><th>Status</th></tr></thead><tbody>
+<tr><td>T2_resistivity_prefactor</td><td>The measured prefactor for the quadratic temperature dependence of resistivity in Ohms per Kelvin squared.</td><td>0.1</td><td>0.002</td><td><span class="status-relative-error">rel err 98.00%</span></td></tr>
+</tbody></table></div>
+</article>
+</section>
+<section class="paper-panel" id="paper-3">
+<h2>Milli-Tesla quantization enabled by tuneable Coulomb screening in large-angle twisted graphene</h2>
+<div class="paper-metrics">
+<div class="metric-chip"><span class="metric-label">MAPE</span><span class="metric-value">755.2558</span></div>
+<div class="metric-chip"><span class="metric-label">Bool/Categorical Accuracy</span><span class="metric-value">n/a</span></div>
+</div>
+<article class="experiment-card">
+<h3>Experiment 1</h3>
+<p class="experiment-description">Measurement of longitudinal resistance of a large-angle twisted bilayer graphene (LATBG) Hall bar device (twist angle approximately 20 degrees) at zero out-of-plane displacement field (D = 0 V/nm) and zero magnetic field as a function of total charge density at a temperature of 2 K.</p>
+<div class="table-wrap">
+<table><thead><tr><th>Result</th><th>Description</th><th>Ground Truth</th><th>Predicted</th><th>Status</th></tr></thead><tbody>
+<tr><td>charge_inhomogeneity</td><td>Charge inhomogeneity of individual layers estimated from the resistance curve half-width at half-maximum, measured in cm^-2.</td><td>7000000000.0</td><td>17000000000.0</td><td><span class="status-relative-error">rel err 142.86%</span></td></tr>
+<tr><td>electron_mobility</td><td>Electron mobility extracted from the zero magnetic field resistance measurements, measured in cm^2/Vs.</td><td>500000.0</td><td>80000.0</td><td><span class="status-relative-error">rel err 84.00%</span></td></tr>
+</tbody></table></div>
+</article>
+<article class="experiment-card">
+<h3>Experiment 2</h3>
+<p class="experiment-description">Measurement of longitudinal resistivity as a function of magnetic field and total charge density (Landau fan diagram) for the LATBG device at zero displacement field (D = 0 V/nm) and a temperature of 2 K.</p>
+<div class="table-wrap">
+<table><thead><tr><th>Result</th><th>Description</th><th>Ground Truth</th><th>Predicted</th><th>Status</th></tr></thead><tbody>
+<tr><td>quantization_onset_magnetic_field</td><td>Magnetic field required to resolve the onset of Landau quantization, measured in mT.</td><td>100.0</td><td>120.0</td><td><span class="status-relative-error">rel err 20.00%</span></td></tr>
+</tbody></table></div>
+</article>
+<article class="experiment-card">
+<h3>Experiment 3</h3>
+<p class="experiment-description">Measurement of high-resolution Landau fan diagrams (magnetoresistance versus magnetic field and charge density) for the LATBG device under an applied displacement field (D = 0.6 V/nm and D = -0.75 V/nm) at 2 K.</p>
+<div class="table-wrap">
+<table><thead><tr><th>Result</th><th>Description</th><th>Ground Truth</th><th>Predicted</th><th>Status</th></tr></thead><tbody>
+<tr><td>quantization_onset_magnetic_field</td><td>Magnetic field required to resolve the onset of Landau quantization under applied displacement field, measured in mT.</td><td>5.5</td><td>75.0</td><td><span class="status-relative-error">rel err 1263.64%</span></td></tr>
+<tr><td>charge_inhomogeneity</td><td>Charge inhomogeneity under applied displacement field estimated from the resolution of the first cyclotron gap, measured in cm^-2.</td><td>250000000.0</td><td>7000000000.0</td><td><span class="status-relative-error">rel err 2700.00%</span></td></tr>
+<tr><td>charge_neutrality_point_gap</td><td>Energy gap size measured at the charge neutrality points of the individual graphene layers, measured in meV.</td><td>5.0</td><td>5.0</td><td><span class="status-relative-error">rel err 0.00%</span></td></tr>
+</tbody></table></div>
+</article>
+<article class="experiment-card">
+<h3>Experiment 4</h3>
+<p class="experiment-description">Magnetic focusing measurements conducted on the LATBG device under an applied displacement field of D = -0.55 V/nm with an alternating magnetic field and a contact center distance of 2.7 micrometers.</p>
+<div class="table-wrap">
+<table><thead><tr><th>Result</th><th>Description</th><th>Ground Truth</th><th>Predicted</th><th>Status</th></tr></thead><tbody>
+<tr><td>lower_bound_electron_mobility</td><td>Lower boundary for electron mobility estimated from the magnetic focusing measurements, measured in cm^2/Vs.</td><td>7300000.0</td><td>130000.0</td><td><span class="status-relative-error">rel err 98.22%</span></td></tr>
+</tbody></table></div>
+</article>
+<article class="experiment-card">
+<h3>Experiment 5</h3>
+<p class="experiment-description">Measurement of longitudinal resistance and high-resolution Landau fan diagrams for large-angle twisted trilayer graphene (LATTG) Hall bar devices under applied displacement fields (D = -0.5 V/nm and D = 0.5 V/nm) and fixed charge densities at 2 K.</p>
+<div class="table-wrap">
+<table><thead><tr><th>Result</th><th>Description</th><th>Ground Truth</th><th>Predicted</th><th>Status</th></tr></thead><tbody>
+<tr><td>quantization_onset_magnetic_field</td><td>Magnetic field required to resolve the onset of Landau quantization in the trilayer device geometry, measured in mT.</td><td>6.0</td><td>110.0</td><td><span class="status-relative-error">rel err 1733.33%</span></td></tr>
+</tbody></table></div>
+</article>
+</section>
+<section class="paper-panel" id="paper-4">
+<h2>Record Index-Bandgap Trade-off: CdPS3 as a High-Index van der Waals Platform for Ultraviolet-Visible Nanophotonics</h2>
+<div class="paper-metrics">
+<div class="metric-chip"><span class="metric-label">MAPE</span><span class="metric-value">63.6165</span></div>
+<div class="metric-chip"><span class="metric-label">Bool/Categorical Accuracy</span><span class="metric-value">0.3333</span></div>
+</div>
+<article class="experiment-card">
+<h3>Experiment 1</h3>
+<p class="experiment-description">Bulk CdPS3 single crystals were mechanically exfoliated onto Si, Si/SiO2, and Schott glass substrates at ambient conditions using adhesive scotch tapes after the substrates were sequentially treated with acetone, isopropanol, and deionized water, followed by exposure to air plasma. The thickness and surface morphology of the flakes were then characterized using an atomic force microscope in HybriD mode at ambient conditions.</p>
+<div class="table-wrap">
+<table><thead><tr><th>Result</th><th>Description</th><th>Ground Truth</th><th>Predicted</th><th>Status</th></tr></thead><tbody>
+<tr><td>measured_bilayer_thickness_nm</td><td>The measured height of an exfoliated bilayer flake in the out-of-plane direction.</td><td>1.35</td><td>1.3</td><td><span class="status-relative-error">rel err 3.70%</span></td></tr>
+</tbody></table></div>
+</article>
+<article class="experiment-card">
+<h3>Experiment 2</h3>
+<p class="experiment-description">Bulk CdPS3 crystal flakes transferred onto a Si substrate were analyzed via energy-dispersive X-ray spectroscopy (EDX) using a Bruker QUANTAX EDX spectrometer integrated into a JEOL JSM-7001F scanning electron microscope operating in secondary electron imaging mode.</p>
+<div class="table-wrap">
+<table><thead><tr><th>Result</th><th>Description</th><th>Ground Truth</th><th>Predicted</th><th>Status</th></tr></thead><tbody>
+<tr><td>atomic_ratio_cadmium_percent</td><td>The measured atomic percentage of Cadmium (Cd) in the flake.</td><td>59.6</td><td>20.1</td><td><span class="status-relative-error">rel err 66.28%</span></td></tr>
+<tr><td>atomic_ratio_phosphorus_percent</td><td>The measured atomic percentage of Phosphorus (P) in the flake.</td><td>20.2</td><td>19.9</td><td><span class="status-relative-error">rel err 1.49%</span></td></tr>
+<tr><td>atomic_ratio_sulfur_percent</td><td>The measured atomic percentage of Sulfur (S) in the flake.</td><td>20.2</td><td>60.0</td><td><span class="status-relative-error">rel err 197.03%</span></td></tr>
+</tbody></table></div>
+</article>
+<article class="experiment-card">
+<h3>Experiment 3</h3>
+<p class="experiment-description">Angle-resolved Raman spectra were acquired using a Horiba LabRAM HR Evolution confocal microscope equipped with a 100x/N.A.=0.90 objective, a parallel analyzer, and an 1800 lines/mm diffraction grating. The excitation wavelength was 632.8 nm with a power density of 125 kW/cm2, an integration time of 10 s per point, and a spot area of 1.8 um2. Background-subtracted spectra were fitted by Lorentzian lines to determine peak positions and polarization dependence.</p>
+<div class="table-wrap">
+<table><thead><tr><th>Result</th><th>Description</th><th>Ground Truth</th><th>Predicted</th><th>Status</th></tr></thead><tbody>
+<tr><td>raman_shift_peak_1_cm_inv</td><td>The position of the lowest wavenumber Raman peak identified in the spectrum.</td><td>78.0</td><td>152.0</td><td><span class="status-relative-error">rel err 94.87%</span></td></tr>
+<tr><td>polarization_dependence_247_cm_inv</td><td>The observed angular dependence of the Raman peak located at 247 cm-1 as a function of incident polarization angle.</td><td>independent</td><td>dependent</td><td><span class="status-mismatch">mismatch</span></td></tr>
+<tr><td>polarization_dependence_223_cm_inv</td><td>The observed angular dependence of the Raman peak located at 223 cm-1 as a function of incident polarization angle.</td><td>dependent</td><td>independent</td><td><span class="status-mismatch">mismatch</span></td></tr>
+</tbody></table></div>
+</article>
+<article class="experiment-card">
+<h3>Experiment 4</h3>
+<p class="experiment-description">Spectroscopic ellipsometry measurements were performed on CdPS3 flakes with thicknesses of 50 nm and 165 nm using an Accurion EP4 spectroscopic imaging ellipsometer in the rotating analyzer mode. Measurements were taken over a spectral range of 250-1700 nm in 1 nm steps at incident angles of 45, 50, 55, and 60 degrees.</p>
+<div class="table-wrap">
+<table><thead><tr><th>Result</th><th>Description</th><th>Ground Truth</th><th>Predicted</th><th>Status</th></tr></thead><tbody>
+<tr><td>approximate_in_plane_refractive_index_near_uv</td><td>The measured value of the in-plane refractive index in the near-ultraviolet spectrum.</td><td>3.0</td><td>2.45</td><td><span class="status-relative-error">rel err 18.33%</span></td></tr>
+</tbody></table></div>
+</article>
+<article class="experiment-card">
+<h3>Experiment 5</h3>
+<p class="experiment-description">Scattering-type scanning near-field optical microscopy (s-SNOM) was performed on a 254 nm thick CdPS3 flake on a CaF2 substrate using a NeaSNOM microscope operating in reflection mode. Excitation was provided by a Ti:Sapphire laser at 700 nm. The detected signal was demodulated at the third harmonic frequency using an interferometric pseudoheterodyne detection scheme.</p>
+<div class="table-wrap">
+<table><thead><tr><th>Result</th><th>Description</th><th>Ground Truth</th><th>Predicted</th><th>Status</th></tr></thead><tbody>
+<tr><td>waveguide_mode_fringes_detected</td><td>The detection of interference fringes corresponding to waveguide mode momentum.</td><td>true</td><td>true</td><td><span class="status-match">match</span></td></tr>
+</tbody></table></div>
+</article>
+</section>
+        </main>
+    </div>
+    <script>
+        const tabs = Array.from(document.querySelectorAll('.paper-tab'));
+        const panels = Array.from(document.querySelectorAll('.paper-panel'));
+        function activatePanel(panelId) {
+            tabs.forEach((tab) => tab.classList.toggle('is-active', tab.dataset.paperId === panelId));
+            panels.forEach((panel) => panel.classList.toggle('is-active', panel.id === panelId));
+        }
+        tabs.forEach((tab) => {
+            tab.addEventListener('click', () => activatePanel(tab.dataset.paperId));
+        });
+    </script>
+</body>
+</html>
