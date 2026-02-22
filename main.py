@@ -3,6 +3,8 @@ from __future__ import annotations
 import argparse
 import copy
 import concurrent.futures
+import hashlib
+import html
 import json
 import os
 import uuid
@@ -33,6 +35,85 @@ class BenchmarkItem:
     masked_input: Any
     expected_output: Any
     actual_output: Any
+
+
+@dataclass
+class PredictionCache:
+    enabled: bool
+    path: Path
+    entries: dict[str, Any]
+    warning: str | None = None
+    hits: int = 0
+    misses: int = 0
+    _dirty: bool = False
+
+    @classmethod
+    def from_args(cls, args: argparse.Namespace) -> "PredictionCache":
+        cache_path = Path(args.cache_path)
+        if args.disable_cache:
+            return cls(enabled=False, path=cache_path, entries={})
+
+        if cache_path.exists():
+            try:
+                loaded = json.loads(cache_path.read_text(encoding="utf-8"))
+                if isinstance(loaded, dict):
+                    return cls(enabled=True, path=cache_path, entries=loaded)
+                return cls(
+                    enabled=True,
+                    path=cache_path,
+                    entries={},
+                    warning=f"Cache reset: expected JSON object at {cache_path}.",
+                )
+            except Exception as exc:
+                return cls(
+                    enabled=True,
+                    path=cache_path,
+                    entries={},
+                    warning=f"Cache reset: failed reading {cache_path} ({exc}).",
+                )
+
+        return cls(enabled=True, path=cache_path, entries={})
+
+    def get(self, key: str) -> Any | None:
+        if not self.enabled:
+            return None
+        if key in self.entries:
+            self.hits += 1
+            return copy.deepcopy(self.entries[key])
+        self.misses += 1
+        return None
+
+    def set(self, key: str, value: Any) -> None:
+        if not self.enabled:
+            return
+        self.entries[key] = copy.deepcopy(value)
+        self._dirty = True
+
+    def flush(self) -> None:
+        if not self.enabled or not self._dirty:
+            return
+
+        try:
+            self.path.parent.mkdir(parents=True, exist_ok=True)
+            temp_path = self.path.with_suffix(f"{self.path.suffix}.tmp")
+            temp_path.write_text(
+                json.dumps(self.entries, ensure_ascii=False, sort_keys=True),
+                encoding="utf-8",
+            )
+            temp_path.replace(self.path)
+            self._dirty = False
+        except Exception as exc:
+            self.warning = f"Cache write warning: {exc}"
+
+    def summary(self) -> dict[str, Any]:
+        return {
+            "enabled": self.enabled,
+            "path": str(self.path),
+            "hits": self.hits,
+            "misses": self.misses,
+            "entries": len(self.entries),
+            "warning": self.warning,
+        }
 
 
 @dataclass
@@ -354,6 +435,28 @@ def build_prediction_response_format(ground_truth: Any) -> dict[str, Any]:
     }
 
 
+def build_prediction_cache_key(
+    *,
+    model: str,
+    system_prompt: str,
+    masked_payload: Any,
+    response_format: dict[str, Any],
+) -> str:
+    canonical_payload = {
+        "model": model,
+        "system_prompt": system_prompt,
+        "masked_payload": masked_payload,
+        "response_format": response_format,
+    }
+    canonical_json = json.dumps(
+        canonical_payload,
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+    )
+    return hashlib.sha256(canonical_json.encode("utf-8")).hexdigest()
+
+
 def coerce_bool(value: Any) -> tuple[bool, bool]:
     if isinstance(value, bool):
         return True, value
@@ -513,22 +616,39 @@ def build_benchmark_items(
     model: str,
     max_files: int | None,
     max_workers: int,
+    prediction_cache: PredictionCache,
 ) -> list[BenchmarkItem]:
     json_paths = sorted(json_dir.glob("*.json"))
     if max_files is not None:
         json_paths = json_paths[:max_files]
 
-    tasks: list[tuple[str, Any, Any, dict[str, Any]]] = []
+    items_by_file: dict[str, BenchmarkItem] = {}
+    tasks: list[tuple[str, Any, Any, dict[str, Any], str]] = []
     for json_path in json_paths:
         ground_truth = json.loads(json_path.read_text(encoding="utf-8"))
         masked_payload = build_masked_payload(ground_truth)
         response_format = build_prediction_response_format(ground_truth)
-        tasks.append((json_path.name, masked_payload, ground_truth, response_format))
+        cache_key = build_prediction_cache_key(
+            model=model,
+            system_prompt=system_prompt,
+            masked_payload=masked_payload,
+            response_format=response_format,
+        )
 
-    items_by_file: dict[str, BenchmarkItem] = {}
+        cached_prediction = prediction_cache.get(cache_key)
+        if cached_prediction is not None:
+            items_by_file[json_path.name] = BenchmarkItem(
+                file_name=json_path.name,
+                masked_input=masked_payload,
+                expected_output=ground_truth,
+                actual_output=cached_prediction,
+            )
+            continue
+
+        tasks.append((json_path.name, masked_payload, ground_truth, response_format, cache_key))
 
     if not tasks:
-        return []
+        return [items_by_file[path.name] for path in json_paths]
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
         futures = {
@@ -538,13 +658,13 @@ def build_benchmark_items(
                 system_prompt=system_prompt,
                 masked_payload=masked_payload,
                 response_format=response_format,
-            ): (file_name, masked_payload, ground_truth)
-            for file_name, masked_payload, ground_truth, response_format in tasks
+            ): (file_name, masked_payload, ground_truth, cache_key)
+            for file_name, masked_payload, ground_truth, response_format, cache_key in tasks
         }
 
         with tqdm(total=len(futures), desc="Predicting", unit="file") as progress:
             for future in concurrent.futures.as_completed(futures):
-                file_name, masked_payload, ground_truth = futures[future]
+                file_name, masked_payload, ground_truth, cache_key = futures[future]
                 predicted_json = future.result()
                 items_by_file[file_name] = BenchmarkItem(
                     file_name=file_name,
@@ -552,15 +672,322 @@ def build_benchmark_items(
                     expected_output=ground_truth,
                     actual_output=predicted_json,
                 )
+                prediction_cache.set(cache_key, predicted_json)
                 progress.update(1)
 
     items = [items_by_file[path.name] for path in json_paths]
     return items
 
 
+def write_human_readable_report(
+    *,
+    items: list[BenchmarkItem],
+    output_path: Path,
+    model: str,
+    aggregate_mape: float | None,
+    aggregate_bool_categorical_accuracy: float | None,
+) -> None:
+    generated_at_utc = datetime.now(timezone.utc).isoformat()
+
+    def format_metric(value: float | None) -> str:
+        if value is None:
+            return "n/a"
+        return f"{value:.4f}"
+
+    def display_file_title(file_name: str) -> str:
+        if file_name.lower().endswith(".json"):
+            return file_name[:-5]
+        return file_name
+
+    def format_value(value: Any) -> str:
+        if value is None:
+            return "MISSING"
+        if isinstance(value, (int, float)) and not isinstance(value, bool):
+            return str(value)
+        if isinstance(value, str):
+            return value
+        return json.dumps(value, ensure_ascii=False)
+
+    def normalize_for_comparison(value: Any) -> Any:
+        if isinstance(value, str):
+            return value.strip().lower()
+        return value
+
+    def values_match(expected_value: Any, actual_value: Any) -> bool:
+        if expected_value is None and actual_value is None:
+            return True
+        return normalize_for_comparison(expected_value) == normalize_for_comparison(actual_value)
+
+    def collect_file_section(item: BenchmarkItem) -> str:
+        metrics = compute_file_metrics(item.expected_output, item.actual_output)
+        expected_experiments = item.expected_output if isinstance(item.expected_output, list) else [item.expected_output]
+        actual_experiments = item.actual_output if isinstance(item.actual_output, list) else [item.actual_output]
+
+        section_parts: list[str] = []
+        section_parts.append("<div class=\"paper-metrics\">")
+        section_parts.append(
+            f"<div class=\"metric-chip\"><span class=\"metric-label\">MAPE</span><span class=\"metric-value\">{html.escape(format_metric(metrics.get('mape')))}</span></div>"
+        )
+        section_parts.append(
+            f"<div class=\"metric-chip\"><span class=\"metric-label\">Bool/Categorical Accuracy</span><span class=\"metric-value\">{html.escape(format_metric(metrics.get('bool_categorical_accuracy')))}</span></div>"
+        )
+        section_parts.append("</div>")
+
+        for experiment_index, expected_exp in enumerate(expected_experiments, start=1):
+            actual_exp = actual_experiments[experiment_index - 1] if experiment_index - 1 < len(actual_experiments) else {}
+            expected_desc = ""
+            if isinstance(expected_exp, dict):
+                expected_desc = str(expected_exp.get("experiment_description", ""))
+
+            expected_results = expected_exp.get("experiment_results", {}) if isinstance(expected_exp, dict) else {}
+            actual_results = actual_exp.get("experiment_results", {}) if isinstance(actual_exp, dict) else {}
+
+            section_parts.append('<article class="experiment-card">')
+            section_parts.append(f"<h3>Experiment {experiment_index}</h3>")
+            section_parts.append(
+                f"<p class=\"experiment-description\">{html.escape(expected_desc)}</p>"
+            )
+
+            if not isinstance(expected_results, dict) or not expected_results:
+                section_parts.append('<p class="empty-results">No result fields found.</p>')
+                section_parts.append("</article>")
+                continue
+
+            section_parts.append("<div class=\"table-wrap\">")
+            section_parts.append(
+                "<table><thead><tr><th>Result</th><th>Description</th><th>Ground Truth</th><th>Predicted</th><th>Status</th></tr></thead><tbody>"
+            )
+
+            for field_name, expected_meta in expected_results.items():
+                expected_meta_dict = expected_meta if isinstance(expected_meta, dict) else {}
+                field_description = str(expected_meta_dict.get("description", ""))
+                field_type = str(expected_meta_dict.get("type", "")).strip().lower()
+                expected_value = expected_meta_dict.get("result")
+
+                actual_meta = actual_results.get(field_name, {}) if isinstance(actual_results, dict) else {}
+                actual_meta_dict = actual_meta if isinstance(actual_meta, dict) else {}
+                actual_value = actual_meta_dict.get("result")
+
+                is_numeric_expected = isinstance(expected_value, (int, float)) and not isinstance(expected_value, bool)
+                is_numeric_actual = isinstance(actual_value, (int, float)) and not isinstance(actual_value, bool)
+
+                if (
+                    field_type == "float"
+                    and is_numeric_expected
+                    and abs(float(expected_value)) > MAPE_MIN_ABS_TARGET
+                ):
+                    status_class = "status-relative-error"
+                    if is_numeric_actual:
+                        relative_error = (
+                            abs(float(actual_value) - float(expected_value))
+                            / abs(float(expected_value))
+                        ) * 100
+                        status_text = f"rel err {relative_error:.2f}%"
+                    else:
+                        status_text = "rel err n/a"
+                else:
+                    match = values_match(expected_value, actual_value)
+                    status_text = "match" if match else "mismatch"
+                    status_class = "status-match" if match else "status-mismatch"
+
+                section_parts.append(
+                    "<tr>"
+                    f"<td>{html.escape(str(field_name))}</td>"
+                    f"<td>{html.escape(field_description)}</td>"
+                    f"<td>{html.escape(format_value(expected_value))}</td>"
+                    f"<td>{html.escape(format_value(actual_value))}</td>"
+                    f"<td><span class=\"{status_class}\">{status_text}</span></td>"
+                    "</tr>"
+                )
+
+            section_parts.append("</tbody></table></div>")
+            section_parts.append("</article>")
+
+        return "\n".join(section_parts)
+
+    sections = [collect_file_section(item) for item in items]
+
+    sidebar_buttons: list[str] = []
+    paper_panels: list[str] = []
+    for index, item in enumerate(items):
+        active_class = " is-active" if index == 0 else ""
+        button_escaped = html.escape(display_file_title(item.file_name))
+        sidebar_buttons.append(
+            f'<button class="paper-tab{active_class}" data-paper-id="paper-{index}" type="button">{button_escaped}</button>'
+        )
+        paper_panels.append(
+            "\n".join(
+                [
+                    f'<section class="paper-panel{active_class}" id="paper-{index}">',
+                    f'<h2>{button_escaped}</h2>',
+                    sections[index],
+                    "</section>",
+                ]
+            )
+        )
+
+    if not items:
+        sidebar_html = '<div class="empty-sidebar">No files evaluated.</div>'
+        panels_html = '<section class="paper-panel is-active" id="paper-empty"><p>No files evaluated.</p></section>'
+    else:
+        sidebar_html = "\n".join(sidebar_buttons)
+        panels_html = "\n".join(paper_panels)
+
+    report_html = f"""<!DOCTYPE html>
+<html lang=\"en\">
+<head>
+    <meta charset=\"UTF-8\" />
+    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />
+    <title>Foresight-Phys Human-Readable Report</title>
+    <style>
+        :root {{
+            color-scheme: light;
+            --bg: #ffffff;
+            --surface: #ffffff;
+            --text: #000000;
+            --muted: #333333;
+            --border: #cccccc;
+        }}
+        * {{ box-sizing: border-box; }}
+        body {{
+            margin: 0;
+            padding: 20px;
+            font-family: Inter, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }}
+        .header {{ margin-bottom: 14px; }}
+        .title {{ font-size: 24px; font-weight: 700; margin: 0 0 8px; }}
+        .meta {{ color: var(--muted); font-size: 14px; line-height: 1.5; }}
+        .layout {{
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 16px;
+            margin-top: 16px;
+            min-height: calc(100vh - 190px);
+        }}
+        .sidebar {{
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 10px;
+            background: var(--surface);
+        }}
+        .paper-tab {{
+            width: 100%;
+            text-align: left;
+            border: 1px solid var(--border);
+            background: #f7f7f7;
+            color: var(--text);
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            line-height: 1.35;
+        }}
+        .paper-tab:hover {{ background: #efefef; }}
+        .paper-tab.is-active {{
+            background: #e9f2ff;
+            border-color: #8bb8ff;
+            font-weight: 600;
+        }}
+        .content {{
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--surface);
+            padding: 14px;
+            overflow: auto;
+        }}
+        .paper-panel {{ display: none; }}
+        .paper-panel.is-active {{ display: block; }}
+        .paper-panel h2 {{ margin: 0 0 10px; font-size: 22px; }}
+        .paper-metrics {{
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
+        }}
+        .metric-chip {{
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            padding: 6px 10px;
+            font-size: 13px;
+            background: #fafafa;
+        }}
+        .metric-label {{ color: var(--muted); margin-right: 8px; }}
+        .metric-value {{ font-weight: 700; }}
+        .experiment-card {{
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 12px;
+            background: #fcfcfc;
+        }}
+        .experiment-card h3 {{ margin: 0 0 8px; font-size: 18px; }}
+        .experiment-description {{ margin: 0 0 10px; color: #111; }}
+        .empty-results {{ color: var(--muted); margin: 0; }}
+        .table-wrap {{ overflow-x: auto; }}
+        table {{
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }}
+        th, td {{
+            border: 1px solid var(--border);
+            padding: 8px;
+            vertical-align: top;
+            text-align: left;
+        }}
+        th {{ background: #f3f3f3; }}
+        .status-match {{ color: #0b7d2b; font-weight: 700; }}
+        .status-mismatch {{ color: #b3261e; font-weight: 700; }}
+        .status-relative-error {{ color: #0b57d0; font-weight: 700; }}
+        @media (max-width: 980px) {{
+            .layout {{ grid-template-columns: 1fr; }}
+            .sidebar {{ order: 1; }}
+            .content {{ order: 2; }}
+        }}
+    </style>
+</head>
+<body>
+    <div class=\"header\">
+        <h1 class=\"title\">Offline Prediction vs Reference Report</h1>
+        <div class=\"meta\">Model: {html.escape(model)}</div>
+        <div class=\"meta\">Generated: {html.escape(generated_at_utc)}</div>
+        <div class=\"meta\">Files: {len(items)}</div>
+        <div class=\"meta\">Aggregate MAPE: {format_metric(aggregate_mape)}</div>
+        <div class=\"meta\">Aggregate bool/categorical accuracy: {format_metric(aggregate_bool_categorical_accuracy)}</div>
+    </div>
+    <div class=\"layout\">
+        <aside class=\"sidebar\" aria-label=\"Papers\">
+            {sidebar_html}
+        </aside>
+        <main class=\"content\">
+            {panels_html}
+        </main>
+    </div>
+    <script>
+        const tabs = Array.from(document.querySelectorAll('.paper-tab'));
+        const panels = Array.from(document.querySelectorAll('.paper-panel'));
+        function activatePanel(panelId) {{
+            tabs.forEach((tab) => tab.classList.toggle('is-active', tab.dataset.paperId === panelId));
+            panels.forEach((panel) => panel.classList.toggle('is-active', panel.id === panelId));
+        }}
+        tabs.forEach((tab) => {{
+            tab.addEventListener('click', () => activatePanel(tab.dataset.paperId));
+        }});
+    </script>
+</body>
+</html>
+"""
+
+    output_path.write_text(report_html, encoding="utf-8")
+
+
 def run_benchmark(args: argparse.Namespace) -> dict[str, Any]:
     load_dotenv()
     langfuse_logger = LangfuseRunLogger.from_args(args)
+    prediction_cache = PredictionCache.from_args(args)
 
     system_prompt = Path(args.system_prompt).read_text(encoding="utf-8").strip()
     benchmark_items = build_benchmark_items(
@@ -569,6 +996,7 @@ def run_benchmark(args: argparse.Namespace) -> dict[str, Any]:
         model=args.model,
         max_files=args.max_files,
         max_workers=args.max_workers,
+        prediction_cache=prediction_cache,
     )
 
     rows = []
@@ -604,12 +1032,24 @@ def run_benchmark(args: argparse.Namespace) -> dict[str, Any]:
         "aggregate_mape": aggregate_mape,
         "aggregate_bool_categorical_accuracy": aggregate_bool_categorical_accuracy,
         "total_excluded_numeric_values_for_mape": total_excluded_numeric_values,
+        "human_readable_report": args.html_output,
+        "cache": prediction_cache.summary(),
         "langfuse": langfuse_logger.summary(),
         "per_file": rows,
     }
 
+    if args.html_output:
+        write_human_readable_report(
+            items=benchmark_items,
+            output_path=Path(args.html_output),
+            model=args.model,
+            aggregate_mape=aggregate_mape,
+            aggregate_bool_categorical_accuracy=aggregate_bool_categorical_accuracy,
+        )
+
     langfuse_logger.log_run_summary(summary, args)
     langfuse_logger.flush()
+    prediction_cache.flush()
 
     Path(args.output).write_text(
         json.dumps(summary, ensure_ascii=False, indent=2),
@@ -658,10 +1098,28 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--output",
-        default="benchmark_results.json",
+        default="docs/benchmark_results.json",
         help="Path for summary JSON output.",
     )
-    return parser.parse_args()
+    parser.add_argument(
+        "--html-output",
+        default="docs/benchmark_human_readable_report.html",
+        help="Path for static offline HTML human-readable report (set empty string to disable).",
+    )
+    parser.add_argument(
+        "--cache-path",
+        default=".cache/llm_predictions.json",
+        help="Path to persistent cache for raw LLM predictions.",
+    )
+    parser.add_argument(
+        "--disable-cache",
+        action="store_true",
+        help="Disable local prediction cache and always call the LLM.",
+    )
+    args = parser.parse_args()
+    if args.html_output == "":
+        args.html_output = None
+    return args
 
 
 def main() -> None:

@@ -12,3 +12,4 @@ wheels/
 # Debug evals
 benchmark_results_*.json
 .env
+.cache/

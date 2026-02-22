@@ -15,10 +15,12 @@ The descriptions were extracted from recent open-access papers by Kostya Novosel
 - Runs OpenAI calls in parallel with retry/backoff using `tenacity`.
 - Shows a live progress bar while files are being predicted.
 - Parses the model JSON output and compares predicted `result` values to ground truth.
+- Caches raw model predictions on disk so report/formatting changes can be iterated without re-calling the LLM.
 - Computes per JSON file:
 	- `mape` (Mean Absolute Percentage Error) for numeric predictions
 	- `bool_categorical_accuracy` for boolean and categorical predictions
 - Computes aggregate averages across files for both metrics.
+- Generates a static HTML report with a left paper switcher and per-experiment tables (instead of raw markdown text).
 
 ## Setup (uv)
 
@@ -43,6 +45,11 @@ LANGFUSE_HOST=https://cloud.langfuse.com
 uv run python main.py
 ```
 
+This writes:
+
+- JSON summary to `benchmark_results.json`
+- Offline human-readable report to `benchmark_human_readable_report.html`
+
 ### Useful options
 
 ```bash
@@ -50,7 +57,16 @@ uv run python main.py --max-files 2
 uv run python main.py --max-workers 8
 uv run python main.py --langfuse-run-name paper-benchmark-run-01
 uv run python main.py --disable-langfuse
+uv run python main.py --cache-path .cache/llm_predictions.json
+uv run python main.py --disable-cache
 uv run python main.py --output benchmark_results.json
+uv run python main.py --html-output benchmark_human_readable_report.html
+```
+
+To disable HTML report generation:
+
+```bash
+uv run python main.py --html-output ""
 ```
 
 The run writes summary output to `benchmark_results.json`.

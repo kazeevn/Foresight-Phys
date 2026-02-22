@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Foresight-Phys Human-Readable Report</title>
+    <style>
+        :root {
+            color-scheme: light;
+            --bg: #ffffff;
+            --surface: #ffffff;
+            --text: #000000;
+            --muted: #333333;
+            --border: #cccccc;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Inter, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+        .header { margin-bottom: 14px; }
+        .title { font-size: 24px; font-weight: 700; margin: 0 0 8px; }
+        .meta { color: var(--muted); font-size: 14px; line-height: 1.5; }
+        .layout {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 16px;
+            margin-top: 16px;
+            min-height: calc(100vh - 190px);
+        }
+        .sidebar {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 10px;
+            background: var(--surface);
+        }
+        .paper-tab {
+            width: 100%;
+            text-align: left;
+            border: 1px solid var(--border);
+            background: #f7f7f7;
+            color: var(--text);
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            line-height: 1.35;
+        }
+        .paper-tab:hover { background: #efefef; }
+        .paper-tab.is-active {
+            background: #e9f2ff;
+            border-color: #8bb8ff;
+            font-weight: 600;
+        }
+        .content {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--surface);
+            padding: 14px;
+            overflow: auto;
+        }
+        .paper-panel { display: none; }
+        .paper-panel.is-active { display: block; }
+        .paper-panel h2 { margin: 0 0 10px; font-size: 22px; }
+        .paper-metrics {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .metric-chip {
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            padding: 6px 10px;
+            font-size: 13px;
+            background: #fafafa;
+        }
+        .metric-label { color: var(--muted); margin-right: 8px; }
+        .metric-value { font-weight: 700; }
+        .experiment-card {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 12px;
+            background: #fcfcfc;
+        }
+        .experiment-card h3 { margin: 0 0 8px; font-size: 18px; }
+        .experiment-description { margin: 0 0 10px; color: #111; }
+        .empty-results { color: var(--muted); margin: 0; }
+        .table-wrap { overflow-x: auto; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        th, td {
+            border: 1px solid var(--border);
+            padding: 8px;
+            vertical-align: top;
+            text-align: left;
+        }
+        th { background: #f3f3f3; }
+        .status-match { color: #0b7d2b; font-weight: 700; }
+        .status-mismatch { color: #b3261e; font-weight: 700; }
+        @media (max-width: 980px) {
+            .layout { grid-template-columns: 1fr; }
+            .sidebar { order: 1; }
+            .content { order: 2; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 class="title">Offline Prediction vs Reference Report</h1>
+        <div class="meta">Model: gpt-5-nano</div>
+        <div class="meta">Generated: 2026-02-22T11:22:00.550911+00:00</div>
+        <div class="meta">Files: 1</div>
+        <div class="meta">Aggregate MAPE: 326.3154</div>
+        <div class="meta">Aggregate bool/categorical accuracy: n/a</div>
+    </div>
+    <div class="layout">
+        <aside class="sidebar" aria-label="Papers">
+            <button class="paper-tab is-active" data-paper-id="paper-0" type="button">Enhanced Terahertz Thermoelectricity via Engineered van Hove Singularities and Nernst Effect in Moiré Superlattices</button>
+        </aside>
+        <main class="content">
+            <section class="paper-panel is-active" id="paper-0">
+<h2>Enhanced Terahertz Thermoelectricity via Engineered van Hove Singularities and Nernst Effect in Moiré Superlattices</h2>
+<div class="paper-metrics">
+<div class="metric-chip"><span class="metric-label">MAPE</span><span class="metric-value">326.3154</span></div>
+<div class="metric-chip"><span class="metric-label">Bool/Categorical Accuracy</span><span class="metric-value">n/a</span></div>
+</div>
+<article class="experiment-card">
+<h3>Experiment 1</h3>
+<p class="experiment-description">Perform transport characterization of a monolayer graphene/hexagonal boron nitride (MLG/hBN) moiré superlattice multiterminal split-gate field-effect transistor. Apply a small AC current and measure the four-terminal longitudinal resistance and Hall reactivity across the junction using a lock-in technique as a function of the left and right split-gate voltages and an applied back-gate voltage.</p>
+<div class="table-wrap">
+<table><thead><tr><th>Field</th><th>Description</th><th>Ground Truth</th><th>Predicted</th><th>Status</th></tr></thead><tbody>
+<tr><td>AC_current_RMS_nA</td><td>Root-mean-square amplitude of the AC current applied using a voltage-controlled current source.</td><td>200.0</td><td>6.2</td><td><span class="status-mismatch">mismatch</span></td></tr>
+<tr><td>lock_in_frequency_Hz</td><td>Frequency of the lock-in amplifier used for transport measurements.</td><td>11.0</td><td>133.0</td><td><span class="status-mismatch">mismatch</span></td></tr>
+<tr><td>fixed_back_gate_voltage_V</td><td>Fixed DC voltage applied to the back gate during the split-gate voltage sweeps.</td><td>-2.5</td><td>-25.0</td><td><span class="status-mismatch">mismatch</span></td></tr>
+</tbody></table></div>
+</article>
+<article class="experiment-card">
+<h3>Experiment 2</h3>
+<p class="experiment-description">Expose the MLG/hBN split-gate device to continuous sub-terahertz radiation. Measure the generated photovoltage across the device using a lock-in amplifier referenced to the modulation frequency of the terahertz source. Conduct these measurements at zero magnetic field while sweeping the left and right split-gate voltages. Repeat measurements at various radiation attenuation levels and operating temperatures.</p>
+<div class="table-wrap">
+<table><thead><tr><th>Field</th><th>Description</th><th>Ground Truth</th><th>Predicted</th><th>Status</th></tr></thead><tbody>
+<tr><td>THz_radiation_frequency_THz</td><td>Frequency of the incident terahertz radiation used to illuminate the device.</td><td>0.14</td><td>0.25</td><td><span class="status-mismatch">mismatch</span></td></tr>
+<tr><td>laser_modulation_frequency_Hz</td><td>Modulation frequency of the terahertz source to which the lock-in amplifiers are referenced.</td><td>37.0</td><td>17.0</td><td><span class="status-mismatch">mismatch</span></td></tr>
+<tr><td>calculated_incident_power_nW</td><td>Calculated sub-terahertz power incident on the antenna after accounting for optical path losses, attenuation, and cryostat window absorption.</td><td>340.0</td><td>3.2</td><td><span class="status-mismatch">mismatch</span></td></tr>
+<tr><td>cryostat_window_absorption_percent</td><td>Measured percentage of terahertz radiation absorbed by the cryostat windows.</td><td>19.0</td><td>12.0</td><td><span class="status-mismatch">mismatch</span></td></tr>
+</tbody></table></div>
+</article>
+<article class="experiment-card">
+<h3>Experiment 3</h3>
+<p class="experiment-description">Measure the photovoltage of the MLG/hBN split-gate device under terahertz illumination while applying an out-of-plane magnetic field. Map the photovoltage as a function of the left and right split-gate voltages at specific constant magnetic field values, and trace the signal as a function of the magnetic field magnitude by sweeping the field.</p>
+<div class="table-wrap">
+<table><thead><tr><th>Field</th><th>Description</th><th>Ground Truth</th><th>Predicted</th><th>Status</th></tr></thead><tbody>
+<tr><td>magnetic_field_sweep_limit_T</td><td>Maximum absolute value of the out-of-plane magnetic field applied during the photovoltage mapping.</td><td>0.5</td><td>3.0</td><td><span class="status-mismatch">mismatch</span></td></tr>
+</tbody></table></div>
+</article>
+<article class="experiment-card">
+<h3>Experiment 4</h3>
+<p class="experiment-description">Evaluate the zero-bias terahertz photodetector performance metrics of the fabricated moiré superlattice devices. Calculate the external voltage responsivity using the derived peak photovoltage and the calculated incident terahertz power. Determine the noise-equivalent power (NEP) by taking the ratio of the calculated thermal voltage noise spectral density to the calculated voltage responsivity.</p>
+<div class="table-wrap">
+<table><thead><tr><th>Field</th><th>Description</th><th>Ground Truth</th><th>Predicted</th><th>Status</th></tr></thead><tbody>
+<tr><td>voltage_responsivity_kV_W</td><td>Evaluated external voltage responsivity of the detector based on incident power.</td><td>2.2</td><td>0.25</td><td><span class="status-mismatch">mismatch</span></td></tr>
+<tr><td>zero_field_NEP_pW_sqrtHz</td><td>Calculated noise-equivalent power of the device at zero applied magnetic field.</td><td>1.0</td><td>4.0</td><td><span class="status-mismatch">mismatch</span></td></tr>
+</tbody></table></div>
+</article>
+</section>
+        </main>
+    </div>
+    <script>
+        const tabs = Array.from(document.querySelectorAll('.paper-tab'));
+        const panels = Array.from(document.querySelectorAll('.paper-panel'));
+        function activatePanel(panelId) {
+            tabs.forEach((tab) => tab.classList.toggle('is-active', tab.dataset.paperId === panelId));
+            panels.forEach((panel) => panel.classList.toggle('is-active', panel.id === panelId));
+        }
+        tabs.forEach((tab) => {
+            tab.addEventListener('click', () => activatePanel(tab.dataset.paperId));
+        });
+    </script>
+</body>
+</html>

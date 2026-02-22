@@ -2,21 +2,30 @@
   "model": "gpt-5-nano",
   "max_workers": 5,
   "files_evaluated": 5,
-  "aggregate_mape": 2130.291501074626,
+  "aggregate_mape": 1844.9769887530736,
   "aggregate_bool_categorical_accuracy": 0.47222222222222215,
   "total_excluded_numeric_values_for_mape": 1,
+  "human_readable_report": "docs/benchmark_human_readable_report.html",
+  "cache": {
+    "enabled": true,
+    "path": ".cache/llm_predictions.json",
+    "hits": 5,
+    "misses": 0,
+    "entries": 6,
+    "warning": null
+  },
   "langfuse": {
     "enabled": true,
-    "run_name": "foresight-phys-20260222T102305Z",
-    "session_id": "foresight-phys-20260222T102305Z-92f88f3c",
+    "run_name": "foresight-phys-20260222T113015Z",
+    "session_id": "foresight-phys-20260222T113015Z-43fc644f",
     "host": null,
-    "trace_url": "https://us.cloud.langfuse.com/project/cmlxk72hh04c1ad078ri8p1x7/traces/c09cfb16843de3eb1c3b3ea4ad35dfd2",
+    "trace_url": "https://us.cloud.langfuse.com/project/cmlxk72hh04c1ad078ri8p1x7/traces/7167f9d43ff8fe39fc45ea0639c50826",
     "warning": null
   },
   "per_file": [
     {
       "file": "Enhanced Terahertz Thermoelectricity via Engineered van Hove Singularities and Nernst Effect in Moiré Superlattices.json",
-      "mape": 209.49207467287965,
+      "mape": 558.5511596595188,
       "bool_categorical_accuracy": null,
       "numeric_count": 10,
       "excluded_numeric_for_mape": 0,
@@ -25,7 +34,7 @@
     },
     {
       "file": "Giant optical anisotropy in CrSBr from giant exciton oscillator strength.json",
-      "mape": 49.708949254550404,
+      "mape": 63.654971976491986,
       "bool_categorical_accuracy": 0.75,
       "numeric_count": 16,
       "excluded_numeric_for_mape": 1,
@@ -34,7 +43,7 @@
     },
     {
       "file": "Interaction-limited conductivity of twisted bilayer graphene revealed by giant terahertz photoresistance.json",
-      "mape": 92.8835403726708,
+      "mape": 69.89389233954451,
       "bool_categorical_accuracy": 0.0,
       "numeric_count": 3,
       "excluded_numeric_for_mape": 0,
@@ -43,7 +52,7 @@
     },
     {
       "file": "Milli-Tesla quantization enabled by tuneable Coulomb screening in large-angle twisted graphene.json",
-      "mape": 10215.226489503648,
+      "mape": 8474.562494811125,
       "bool_categorical_accuracy": null,
       "numeric_count": 8,
       "excluded_numeric_for_mape": 0,
@@ -52,7 +61,7 @@
     },
     {
       "file": "Record Index-Bandgap Trade-off: CdPS3 as a High-Index van der Waals Platform for Ultraviolet-Visible Nanophotonics.json",
-      "mape": 84.14645156938111,
+      "mape": 58.222424978687854,
       "bool_categorical_accuracy": 0.6666666666666666,
       "numeric_count": 6,
       "excluded_numeric_for_mape": 0,
