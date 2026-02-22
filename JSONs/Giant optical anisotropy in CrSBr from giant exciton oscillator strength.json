@@ -1,0 +1,127 @@
+[
+  {
+    "experiment_description": "Measurement of the Raman spectrum of a bulk CrSBr crystal averaged over polarization angles using a 532 nm excitation laser wavelength.",
+    "experiment_results": {
+      "Ag_1_phonon_mode_frequency": {
+        "type": "float",
+        "description": "Frequency shift of the Ag_1 Raman mode.",
+        "result": 115.0
+      },
+      "Ag_2_phonon_mode_frequency": {
+        "type": "float",
+        "description": "Frequency shift of the Ag_2 Raman mode.",
+        "result": 246.0
+      },
+      "Ag_3_phonon_mode_frequency": {
+        "type": "float",
+        "description": "Frequency shift of the Ag_3 Raman mode.",
+        "result": 342.0
+      }
+    }
+  },
+  {
+    "experiment_description": "Determination of the complete refractive index tensor of a CrSBr sample across a broadband spectral range utilizing parallel-polarized optical reflection microscopy and Kramers-Kronig relations.",
+    "experiment_results": {
+      "exciton_resonance_energy": {
+        "type": "float",
+        "description": "Central energy of the fundamental exciton resonance for light polarized along the crystallographic b-axis.",
+        "result": 1.38
+      },
+      "exciton_resonance_wavelength": {
+        "type": "float",
+        "description": "Central wavelength of the fundamental exciton resonance for light polarized along the crystallographic b-axis.",
+        "result": 898.0
+      },
+      "peak_extinction_coefficient_b_axis": {
+        "type": "float",
+        "description": "Maximum value of the extinction coefficient for light polarized along the b-axis at the exciton resonance energy.",
+        "result": 1.8
+      },
+      "extinction_coefficient_a_axis_at_resonance": {
+        "type": "float",
+        "description": "Value of the extinction coefficient for light polarized along the a-axis across the exciton resonance spectral range.",
+        "result": 0.0
+      },
+      "peak_in_plane_birefringence": {
+        "type": "float",
+        "description": "Peak value of the in-plane birefringence near the exciton resonance.",
+        "result": 1.45
+      },
+      "min_transparency_region_birefringence": {
+        "type": "float",
+        "description": "Minimum measured in-plane birefringence in the transparency region for wavelengths greater than 1100 nm.",
+        "result": 0.25
+      },
+      "max_transparency_region_birefringence": {
+        "type": "float",
+        "description": "Maximum measured in-plane birefringence in the transparency region for wavelengths greater than 1100 nm.",
+        "result": 0.52
+      }
+    }
+  },
+  {
+    "experiment_description": "Scattering-type scanning near-field optical microscopy (s-SNOM) performed in a reflection configuration on a CrSBr flake. The flake is examined at two orthogonal orientations by rotating the sample 90 degrees with respect to a 900 nm excitation laser propagation direction to assess guided modes.",
+    "experiment_results": {
+      "TM0_mode_supported_a_axis": {
+        "type": "bool",
+        "description": "Indicates whether the TM0 guided mode is supported along the crystallographic a-axis under 900 nm excitation.",
+        "result": true
+      },
+      "TE0_mode_supported_a_axis": {
+        "type": "bool",
+        "description": "Indicates whether the TE0 guided mode is supported along the crystallographic a-axis under 900 nm excitation.",
+        "result": false
+      },
+      "TM0_mode_supported_b_axis": {
+        "type": "bool",
+        "description": "Indicates whether the TM0 guided mode is supported along the crystallographic b-axis under 900 nm excitation.",
+        "result": true
+      },
+      "TE0_mode_supported_b_axis": {
+        "type": "bool",
+        "description": "Indicates whether the TE0 guided mode is supported along the crystallographic b-axis under 900 nm excitation.",
+        "result": true
+      }
+    }
+  },
+  {
+    "experiment_description": "Fabrication of a zero-order quarter-wave plate from an exfoliated CrSBr flake on a transparent CaF2 substrate. Measurement of phase retardance of transmitted light as a function of wavelength. Angle-resolved transmittance maps of transmitted intensity versus input polarizer and analyzer angles are recorded to locate conditions for uniform circular polarization output.",
+    "experiment_results": {
+      "qwp_flake_thickness": {
+        "type": "float",
+        "description": "Thickness of the CrSBr flake utilized for the wave plate.",
+        "result": 305.0
+      },
+      "qwp_operation_wavelength_1": {
+        "type": "float",
+        "description": "First near-infrared wavelength at which a phase retardance of 90 degrees is observed.",
+        "result": 940.0
+      },
+      "qwp_operation_wavelength_2": {
+        "type": "float",
+        "description": "Second near-infrared wavelength at which a phase retardance of 90 degrees is observed.",
+        "result": 1029.0
+      },
+      "optimal_polarizer_angle_1029nm": {
+        "type": "float",
+        "description": "Input polarizer angle setting at 1029 nm wavelength where the transmitted intensity becomes independent of the analyzer angle.",
+        "result": 44.0
+      },
+      "optimal_polarizer_angle_940nm": {
+        "type": "float",
+        "description": "Input polarizer angle setting at 940 nm wavelength where the transmitted intensity becomes independent of the analyzer angle.",
+        "result": 68.5
+      },
+      "wavelength_to_thickness_ratio_940nm": {
+        "type": "float",
+        "description": "Ratio of the measured operating wavelength to the measured device thickness at the 940 nm setpoint.",
+        "result": 3.4
+      },
+      "wavelength_to_thickness_ratio_1029nm": {
+        "type": "float",
+        "description": "Ratio of the measured operating wavelength to the measured device thickness at the 1029 nm setpoint.",
+        "result": 3.1
+      }
+    }
+  }
+]

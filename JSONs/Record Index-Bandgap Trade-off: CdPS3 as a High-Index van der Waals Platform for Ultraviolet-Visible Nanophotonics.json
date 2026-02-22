@@ -1,0 +1,80 @@
+[
+{
+"experiment_description": "Bulk CdPS3 single crystals were mechanically exfoliated onto Si, Si/SiO2, and Schott glass substrates at ambient conditions using adhesive scotch tapes after the substrates were sequentially treated with acetone, isopropanol, and deionized water, followed by exposure to air plasma. The thickness and surface morphology of the flakes were then characterized using an atomic force microscope in HybriD mode at ambient conditions.",
+"experiment_results": {
+"measured_bilayer_thickness_nm": {
+"type": "float",
+"description": "The measured height of an exfoliated bilayer flake in the out-of-plane direction.",
+"result": 1.35
+}
+}
+},
+{
+"experiment_description": "Bulk CdPS3 crystal flakes transferred onto a Si substrate were analyzed via energy-dispersive X-ray spectroscopy (EDX) using a Bruker QUANTAX EDX spectrometer integrated into a JEOL JSM-7001F scanning electron microscope operating in secondary electron imaging mode.",
+"experiment_results": {
+"atomic_ratio_cadmium_percent": {
+"type": "float",
+"description": "The measured atomic percentage of Cadmium (Cd) in the flake.",
+"result": 59.6
+},
+"atomic_ratio_phosphorus_percent": {
+"type": "float",
+"description": "The measured atomic percentage of Phosphorus (P) in the flake.",
+"result": 20.2
+},
+"atomic_ratio_sulfur_percent": {
+"type": "float",
+"description": "The measured atomic percentage of Sulfur (S) in the flake.",
+"result": 20.2
+}
+}
+},
+{
+"experiment_description": "Angle-resolved Raman spectra were acquired using a Horiba LabRAM HR Evolution confocal microscope equipped with a 100x/N.A.=0.90 objective, a parallel analyzer, and an 1800 lines/mm diffraction grating. The excitation wavelength was 632.8 nm with a power density of 125 kW/cm2, an integration time of 10 s per point, and a spot area of 1.8 um2. Background-subtracted spectra were fitted by Lorentzian lines to determine peak positions and polarization dependence.",
+"experiment_results": {
+"raman_shift_peak_1_cm_inv": {
+"type": "float",
+"description": "The position of the lowest wavenumber Raman peak identified in the spectrum.",
+"result": 78.0
+},
+"polarization_dependence_247_cm_inv": {
+"type": "categorical",
+"description": "The observed angular dependence of the Raman peak located at 247 cm-1 as a function of incident polarization angle.",
+"result": "independent",
+"allowed_categorial_values": [
+"dependent",
+"independent"
+]
+},
+"polarization_dependence_223_cm_inv": {
+"type": "categorical",
+"description": "The observed angular dependence of the Raman peak located at 223 cm-1 as a function of incident polarization angle.",
+"result": "dependent",
+"allowed_categorial_values": [
+"dependent",
+"independent"
+]
+}
+}
+},
+{
+"experiment_description": "Spectroscopic ellipsometry measurements were performed on CdPS3 flakes with thicknesses of 50 nm and 165 nm using an Accurion EP4 spectroscopic imaging ellipsometer in the rotating analyzer mode. Measurements were taken over a spectral range of 250-1700 nm in 1 nm steps at incident angles of 45, 50, 55, and 60 degrees.",
+"experiment_results": {
+"approximate_in_plane_refractive_index_near_uv": {
+"type": "float",
+"description": "The measured value of the in-plane refractive index in the near-ultraviolet spectrum.",
+"result": 3.0
+}
+}
+},
+{
+"experiment_description": "Scattering-type scanning near-field optical microscopy (s-SNOM) was performed on a 254 nm thick CdPS3 flake on a CaF2 substrate using a NeaSNOM microscope operating in reflection mode. Excitation was provided by a Ti:Sapphire laser at 700 nm. The detected signal was demodulated at the third harmonic frequency using an interferometric pseudoheterodyne detection scheme.",
+"experiment_results": {
+"waveguide_mode_fringes_detected": {
+"type": "bool",
+"description": "The detection of interference fringes corresponding to waveguide mode momentum.",
+"result": true
+}
+}
+}
+]

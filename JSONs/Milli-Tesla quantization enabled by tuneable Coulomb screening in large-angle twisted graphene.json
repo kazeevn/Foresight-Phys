@@ -1,0 +1,67 @@
+[
+  {
+    "experiment_description": "Measurement of longitudinal resistance of a large-angle twisted bilayer graphene (LATBG) Hall bar device (twist angle approximately 20 degrees) at zero out-of-plane displacement field (D = 0 V/nm) and zero magnetic field as a function of total charge density at a temperature of 2 K.",
+    "experiment_results": {
+      "charge_inhomogeneity": {
+        "type": "float",
+        "description": "Charge inhomogeneity of individual layers estimated from the resistance curve half-width at half-maximum, measured in cm^-2.",
+        "result": 7000000000.0
+      },
+      "electron_mobility": {
+        "type": "float",
+        "description": "Electron mobility extracted from the zero magnetic field resistance measurements, measured in cm^2/Vs.",
+        "result": 500000.0
+      }
+    }
+  },
+  {
+    "experiment_description": "Measurement of longitudinal resistivity as a function of magnetic field and total charge density (Landau fan diagram) for the LATBG device at zero displacement field (D = 0 V/nm) and a temperature of 2 K.",
+    "experiment_results": {
+      "quantization_onset_magnetic_field": {
+        "type": "float",
+        "description": "Magnetic field required to resolve the onset of Landau quantization, measured in mT.",
+        "result": 100.0
+      }
+    }
+  },
+  {
+    "experiment_description": "Measurement of high-resolution Landau fan diagrams (magnetoresistance versus magnetic field and charge density) for the LATBG device under an applied displacement field (D = 0.6 V/nm and D = -0.75 V/nm) at 2 K.",
+    "experiment_results": {
+      "quantization_onset_magnetic_field": {
+        "type": "float",
+        "description": "Magnetic field required to resolve the onset of Landau quantization under applied displacement field, measured in mT.",
+        "result": 5.5
+      },
+      "charge_inhomogeneity": {
+        "type": "float",
+        "description": "Charge inhomogeneity under applied displacement field estimated from the resolution of the first cyclotron gap, measured in cm^-2.",
+        "result": 250000000.0
+      },
+      "charge_neutrality_point_gap": {
+        "type": "float",
+        "description": "Energy gap size measured at the charge neutrality points of the individual graphene layers, measured in meV.",
+        "result": 5.0
+      }
+    }
+  },
+  {
+    "experiment_description": "Magnetic focusing measurements conducted on the LATBG device under an applied displacement field of D = -0.55 V/nm with an alternating magnetic field and a contact center distance of 2.7 micrometers.",
+    "experiment_results": {
+      "lower_bound_electron_mobility": {
+        "type": "float",
+        "description": "Lower boundary for electron mobility estimated from the magnetic focusing measurements, measured in cm^2/Vs.",
+        "result": 7300000.0
+      }
+    }
+  },
+  {
+    "experiment_description": "Measurement of longitudinal resistance and high-resolution Landau fan diagrams for large-angle twisted trilayer graphene (LATTG) Hall bar devices under applied displacement fields (D = -0.5 V/nm and D = 0.5 V/nm) and fixed charge densities at 2 K.",
+    "experiment_results": {
+      "quantization_onset_magnetic_field": {
+        "type": "float",
+        "description": "Magnetic field required to resolve the onset of Landau quantization in the trilayer device geometry, measured in mT.",
+        "result": 6.0
+      }
+    }
+  }
+]

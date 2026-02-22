@@ -1,0 +1,47 @@
+[
+  {
+    "experiment_description": "Measure the temperature dependence of the longitudinal resistivity in a magic-angle twisted bilayer graphene device (MATBG1, twist angle 1.05 degrees) at a filling factor of 1.7 to determine the linear slope of the temperature-dependent resistivity.",
+    "experiment_results": {
+      "drho_dT_slope": {
+        "type": "float",
+        "description": "The linear slope of resistivity with respect to temperature in Ohms per Kelvin.",
+        "result": 92.0
+      }
+    }
+  },
+  {
+    "experiment_description": "Subject a magic-angle twisted bilayer graphene device to continuous-wave 0.14 THz radiation while maintaining the lattice temperature at 2 K. Measure the relative THz-induced photoresistance (change in resistivity normalized to the dark resistivity) at its peak magnitude.",
+    "experiment_results": {
+      "max_relative_photoresistance_percentage": {
+        "type": "float",
+        "description": "The maximum observed relative THz photoresistance expressed as a percentage.",
+        "result": 70.0
+      }
+    }
+  },
+  {
+    "experiment_description": "Measure the THz-induced change in resistivity of a doped monolayer graphene (MLG) control device under 0.14 THz irradiation while keeping the lattice temperature at 2 K and applying zero external magnetic field.",
+    "experiment_results": {
+      "zero_field_photoresistance_response": {
+        "type": "categorical",
+        "description": "The qualitative magnitude of the photoresistance response observed at zero magnetic field.",
+        "result": "vanishingly small",
+        "allowed_categorial_values": [
+          "vanishingly small",
+          "measurable",
+          "large"
+        ]
+      }
+    }
+  },
+  {
+    "experiment_description": "Measure the longitudinal resistivity as a function of temperature for a twisted bilayer graphene device with a twist angle of 1.58 degrees in the low-temperature regime, specifically at fillings where umklapp scattering is forbidden, to extract the experimental prefactor of the quadratic temperature dependence.",
+    "experiment_results": {
+      "T2_resistivity_prefactor": {
+        "type": "float",
+        "description": "The measured prefactor for the quadratic temperature dependence of resistivity in Ohms per Kelvin squared.",
+        "result": 0.1
+      }
+    }
+  }
+]
