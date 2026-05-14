@@ -8,25 +8,25 @@ from pathlib import Path
 from typing import Any, Literal
 
 from openai import APIConnectionError, APITimeoutError, InternalServerError, OpenAI, RateLimitError
-from pydantic import BaseModel, ConfigDict, StrictBool, StrictFloat, StrictInt
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictFloat, StrictInt
 from tenacity import retry, retry_if_exception_type, stop_after_attempt, wait_random_exponential
 
 
 class ExperimentResultField(BaseModel):
     model_config = ConfigDict(extra='forbid')
 
-    key: str
-    type: Literal['float', 'integer', 'bool', 'categorical', 'string']
-    description: str
-    result: StrictFloat | StrictInt | StrictBool | str
-    allowed_categorial_values: list[str] | None
+    key: str = Field(description="The name of the measured intrinsic physical or material property. Must represent a predictable scientific outcome, not a contingent artifact. Encode units in the key (e.g., 'optical_bandgap_eV').")
+    type: Literal['float', 'integer', 'bool', 'categorical', 'string'] = Field(description="The data type of the result.")
+    description: str = Field(description="A precise description of this specific intrinsic measurement. MUST NOT be a subjective assessment, random artifact (like flake thickness), or highly contingent value. DO NOT use this for experimental settings or independent variables.")
+    result: StrictFloat | StrictInt | StrictBool | str = Field(description="The actual measured intrinsic value or empirical result obtained from the experiment.")
+    allowed_categorial_values: list[str] | None = Field(default=None, description="If type is categorical, list the possible valid string categories.")
 
 
 class ExperimentRecord(BaseModel):
     model_config = ConfigDict(extra='forbid')
 
-    experiment_description: str
-    experiment_results: list[ExperimentResultField]
+    experiment_description: str = Field(description="A rich, self-contained procedure detailing the setup, material, equipment, environmental conditions, sweep ranges, and independent variables. Must provide enough context to predict the intrinsic properties. Must NOT contain the final measured results/outcomes, as these are meant to be predicted.")
+    experiment_results: list[ExperimentResultField] = Field(description="The intrinsic empirical findings or dependent variables obtained from the experiment. NEVER include extrinsic/contingent properties (e.g., random thicknesses), subjective qualitative agreements, experimental settings, equipment parameters, or independent variables here.")
 
 
 class PaperExtractionPayload(BaseModel):

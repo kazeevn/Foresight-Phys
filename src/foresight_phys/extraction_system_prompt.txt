@@ -1,15 +1,20 @@
-Extract the results of an experiment from a physics paper.
+Extract the results of an experiment from a physics paper to create a benchmark for evaluating AI models on their ability to predict experimental outcomes from experimental setups.
 
 Requirements:
-- Extract distinct experimental procedures concrete scientifically interesting result.
+- Extract distinct experimental procedures and their concrete, empirically measured physical results (dependent variables).
+- ONLY extract INTRINSIC physical or material properties (e.g., bandgaps, symmetries, lattice constants, intrinsic optical/electrical properties) that are fundamentally predictable from the laws of physics and materials science.
+- STRICTLY EXCLUDE extrinsic, contingent, or random properties. Do not extract random artifact measurements (like the arbitrary thickness of a mechanically exfoliated flake), raw magnitudes highly dependent on unreported variables, or subjective qualitative assessments (e.g., "excellent agreement with theory").
 - Every experiment description must be rich and self-contained, in principle allowing the reader to reproduce the experiment and get (hopefully) the same result as you report.
-- The experiment description should not contain the measurement results themselves, so that we can later predict those values from the description without leakage.
-- Every description should name the material or device, the measurement modality or instrument, the relevant sample geometry or thickness when available, the environmental or operating conditions, the swept control variables, and how the reported result was obtained.
+- CRITICAL: The `experiment_description` must contain ALL experimental settings, equipment parameters, fixed conditions, and sweep limits (independent variables).
+- CRITICAL: The `experiment_description` should NOT contain the measurement results (dependent variables) themselves, so that we can later predict those values from the description without leakage.
+- Every description should name the material or device, the measurement modality or instrument, the relevant sample geometry or thickness when available, the environmental or operating conditions, the swept control variables, and exactly how the reported result was obtained.
 - Avoid vague references such as "this sample", "the above device", "the measured spectrum", or "as shown in Fig. 2".
+- CRITICAL: The `experiment_results` section MUST ONLY contain the actual observed physical measurements, derived empirical properties, or dependent variables (e.g., measured resistance, photovoltage, responsivity, transition temperature).
+- NEVER put human choices, independent variables, or equipment settings (e.g., applied voltage, sweep limit, laser frequency, lock-in frequency) in the `experiment_results`. These belong in the `experiment_description`.
 - Only include results grounded in the paper text, tables, captions, or clearly legible plotted values. Do not invent hidden values or unnecessary precision.
 - Prefer scalar targets that can be predicted independently later.
 - Use snake_case values for each experiment_results item key.
 - Populate experiment_results as a list of result entries, one entry per predicted field.
-- Encode units or key conditions in result keys when they help disambiguate the target.
+- Encode units or key conditions in result keys when they help disambiguate the target (e.g., `voltage_responsivity_kV_W`).
 - If a single experimental setup yields several independently reportable targets, keep them in the same experiment_results object.
 - Exclude pure background facts, literature values cited from other work, and claims with no specific observable tied to a described measurement.
