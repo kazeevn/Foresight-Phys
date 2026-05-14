@@ -10,7 +10,7 @@ The descriptions were extracted from recent open-access papers by Kostya Novosel
 - Loads each JSON file in `JSONs/`.
 - Replaces every `experiment_results.*.result` value with `"TO_PREDICT"`.
 - Prompts the LLM with:
-	- system prompt from `system_prompt.txt`
+	- system prompt from `src/foresight_phys/system_prompt.txt`
 	- masked JSON as user input
 - Runs OpenAI calls in parallel with retry/backoff using `tenacity`.
 - Shows a live progress bar while files are being predicted.
@@ -28,6 +28,8 @@ The descriptions were extracted from recent open-access papers by Kostya Novosel
 uv sync
 ```
 
+This installs the project from the src layout and exposes the `foresight-phys` CLI.
+
 Ensure `.env` contains your provider API keys (for OpenAI-compatible use, set `OPENAI_API_KEY`).
 
 To enable Langfuse tracing (optional), also set:
@@ -42,34 +44,34 @@ LANGFUSE_HOST=https://cloud.langfuse.com
 ## Run benchmark
 
 ```bash
-uv run python main.py
+uv run foresight-phys
 ```
 
 This writes:
 
-- JSON summary to `benchmark_results.json`
-- Offline human-readable report to `benchmark_human_readable_report.html`
+- JSON summary to `docs/benchmark_results.json`
+- Offline human-readable report to `docs/benchmark_human_readable_report.html`
 
 ### Useful options
 
 ```bash
-uv run python main.py --max-files 2
-uv run python main.py --max-workers 8
-uv run python main.py --langfuse-run-name paper-benchmark-run-01
-uv run python main.py --disable-langfuse
-uv run python main.py --cache-path .cache/llm_predictions.json
-uv run python main.py --disable-cache
-uv run python main.py --output benchmark_results.json
-uv run python main.py --html-output benchmark_human_readable_report.html
+uv run foresight-phys --max-files 2
+uv run foresight-phys --max-workers 8
+uv run foresight-phys --langfuse-run-name paper-benchmark-run-01
+uv run foresight-phys --disable-langfuse
+uv run foresight-phys --cache-path .cache/llm_predictions.json
+uv run foresight-phys --disable-cache
+uv run foresight-phys --output docs/benchmark_results.json
+uv run foresight-phys --html-output docs/benchmark_human_readable_report.html
 ```
 
 To disable HTML report generation:
 
 ```bash
-uv run python main.py --html-output ""
+uv run foresight-phys --html-output ""
 ```
 
-The run writes summary output to `benchmark_results.json`.
+The run writes summary output to `docs/benchmark_results.json`.
 
 ## Langfuse dashboard view
 
