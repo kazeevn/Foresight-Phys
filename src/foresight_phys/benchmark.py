@@ -51,6 +51,7 @@ def run_benchmark(args: argparse.Namespace) -> dict[str, Any]:
         rows.append(
             {
                 'file': item.file_name,
+                'paper_title': item.paper_title,
                 **metrics,
             }
         )

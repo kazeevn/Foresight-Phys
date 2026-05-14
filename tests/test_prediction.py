@@ -279,6 +279,129 @@ class PredictionCallTests(unittest.TestCase):
             ],
         )
 
+    def test_build_benchmark_items_attaches_manifest_paper_titles(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            json_dir = Path(tmp_dir)
+            paper_path = json_dir / 'paper.json'
+            paper_path.write_text(
+                json.dumps(
+                    [
+                        {
+                            'experiment_description': 'Example experiment',
+                            'experiment_results': {
+                                'bandgap_eV': {
+                                    'type': 'float',
+                                    'description': 'Measured bandgap',
+                                    'result': 1.23,
+                                }
+                            },
+                        }
+                    ]
+                ),
+                encoding='utf-8',
+            )
+
+            prediction_cache = PredictionCache(
+                enabled=False,
+                path=json_dir / 'cache.json',
+                entries={},
+            )
+
+            manifest = {
+                'runs': [
+                    {
+                        'paper_title': 'Manifest Title',
+                        'filtered_output_path': str(paper_path.resolve()),
+                    }
+                ]
+            }
+
+            with patch(
+                'foresight_phys.prediction.call_openai_with_retry',
+                return_value=[
+                    {
+                        'experiment_description': 'Example experiment',
+                        'experiment_results': {
+                            'bandgap_eV': {
+                                'type': 'float',
+                                'description': 'Measured bandgap',
+                                'result': 1.5,
+                            }
+                        },
+                    }
+                ],
+            ), patch(
+                'foresight_phys.prediction.load_response_id_manifest',
+                return_value=manifest,
+            ):
+                items = build_benchmark_items(
+                    json_dir=json_dir,
+                    system_prompt='Predict outcomes.',
+                    model='gpt-5.4-nano',
+                    max_files=None,
+                    max_workers=1,
+                    prediction_cache=prediction_cache,
+                )
+
+        self.assertEqual(items[0].paper_title, 'Manifest Title')
+
+    def test_build_benchmark_items_backfills_arxiv_titles_from_file_name(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            json_dir = Path(tmp_dir)
+            paper_path = json_dir / '2601.11796.json'
+            paper_path.write_text(
+                json.dumps(
+                    [
+                        {
+                            'experiment_description': 'Example experiment',
+                            'experiment_results': {
+                                'bandgap_eV': {
+                                    'type': 'float',
+                                    'description': 'Measured bandgap',
+                                    'result': 1.23,
+                                }
+                            },
+                        }
+                    ]
+                ),
+                encoding='utf-8',
+            )
+
+            prediction_cache = PredictionCache(
+                enabled=False,
+                path=json_dir / 'cache.json',
+                entries={},
+            )
+
+            with patch(
+                'foresight_phys.prediction.call_openai_with_retry',
+                return_value=[
+                    {
+                        'experiment_description': 'Example experiment',
+                        'experiment_results': {
+                            'bandgap_eV': {
+                                'type': 'float',
+                                'description': 'Measured bandgap',
+                                'result': 1.5,
+                            }
+                        },
+                    }
+                ],
+            ), patch(
+                'foresight_phys.prediction.resolve_arxiv_titles',
+                return_value={'2601.11796': 'Backfilled ArXiv Title'},
+            ):
+                items = build_benchmark_items(
+                    json_dir=json_dir,
+                    system_prompt='Predict outcomes.',
+                    model='gpt-5.4-nano',
+                    max_files=None,
+                    max_workers=1,
+                    prediction_cache=prediction_cache,
+                )
+
+        self.assertEqual(items[0].paper_title, 'Backfilled ArXiv Title')
+
 
 class PredictionCachePersistenceTests(unittest.TestCase):
     def test_set_persists_entries_without_explicit_flush(self) -> None:

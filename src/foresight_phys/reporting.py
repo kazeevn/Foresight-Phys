@@ -333,7 +333,14 @@ def write_human_readable_report(
 ) -> None:
     generated_at_utc = datetime.now(timezone.utc).isoformat()
 
-    def display_file_title(file_name: str) -> str:
+    def display_file_title(item: BenchmarkItem) -> str:
+        if isinstance(item.paper_title, str) and item.paper_title.strip():
+            return item.paper_title.strip()
+        if item.file_name.lower().endswith(".json"):
+            return item.file_name[:-5]
+        return item.file_name
+
+    def display_file_name(file_name: str) -> str:
         if file_name.lower().endswith(".json"):
             return file_name[:-5]
         return file_name
@@ -475,7 +482,8 @@ def write_human_readable_report(
     paper_panels: list[str] = []
     for index, item in enumerate(items):
         active_class = ' is-active' if index == 0 else ''
-        button_escaped = html.escape(display_file_title(item.file_name))
+        button_escaped = html.escape(display_file_title(item))
+        file_name_escaped = html.escape(display_file_name(item.file_name))
         sidebar_buttons.append(
             f'<button class="paper-tab{active_class}" data-paper-id="paper-{index}" type="button">{button_escaped}</button>'
         )
@@ -484,6 +492,7 @@ def write_human_readable_report(
                 [
                     f'<section class="paper-panel{active_class}" id="paper-{index}">',
                     f'<h2>{button_escaped}</h2>',
+                    f'<div class="paper-file-name">{file_name_escaped}</div>',
                     sections[index],
                     '</section>',
                 ]
@@ -565,6 +574,7 @@ def write_human_readable_report(
         .paper-panel {{ display: none; }}
         .paper-panel.is-active {{ display: block; }}
         .paper-panel h2 {{ margin: 0 0 10px; font-size: 22px; }}
+        .paper-file-name {{ margin: -4px 0 12px; color: var(--muted); font-size: 13px; }}
         .paper-metrics {{
             display: flex;
             flex-wrap: wrap;

@@ -13,3 +13,4 @@ wheels/
 benchmark_results_*.json
 .env
 .cache/
+papers/

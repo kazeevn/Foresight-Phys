@@ -12,6 +12,7 @@ class BenchmarkItem:
     masked_input: Any
     expected_output: Any
     actual_output: Any
+    paper_title: str | None = None
 
 
 class BenchmarkPredictionResultField(BaseModel):

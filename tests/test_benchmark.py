@@ -9,7 +9,7 @@ from unittest.mock import patch
 
 from foresight_phys.benchmark import run_benchmark
 from foresight_phys.models import BenchmarkItem
-from foresight_phys.reporting import write_runs_index
+from foresight_phys.reporting import write_human_readable_report, write_runs_index
 
 
 class DummyLogger:
@@ -220,6 +220,51 @@ class RunBenchmarkTests(unittest.TestCase):
 
 
 class ReportingTests(unittest.TestCase):
+    def test_write_human_readable_report_displays_paper_title(self) -> None:
+        item = BenchmarkItem(
+            file_name="paper-one.json",
+            masked_input={},
+            expected_output={
+                "experiment_description": "Paper one",
+                "experiment_results": {
+                    "temperature": {
+                        "type": "float",
+                        "description": "Measured temperature",
+                        "result": 10.0,
+                    },
+                },
+            },
+            actual_output={
+                "experiment_description": "Paper one",
+                "experiment_results": {
+                    "temperature": {
+                        "type": "float",
+                        "description": "Measured temperature",
+                        "result": 10.0,
+                    },
+                },
+            },
+            paper_title="Visible Paper Title",
+        )
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            report_path = Path(tmp_dir) / "benchmark_human_readable_report.html"
+            write_human_readable_report(
+                items=[item],
+                output_path=report_path,
+                model="gpt-5.4-nano",
+                aggregate_prediction_quality=1.0,
+                aggregate_smape=0.0,
+                aggregate_normalized_smape_score=1.0,
+                aggregate_bool_categorical_accuracy=None,
+                aggregate_formula_accuracy=None,
+            )
+
+            report_html = report_path.read_text(encoding="utf-8")
+
+        self.assertIn("Visible Paper Title", report_html)
+        self.assertIn(">paper-one<", report_html)
+
     def test_write_runs_index_lists_available_runs(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:
             docs_dir = Path(tmp_dir) / "docs"

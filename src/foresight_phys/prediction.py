@@ -11,6 +11,7 @@ from tenacity import retry, retry_if_exception_type, stop_after_attempt, wait_ra
 from tqdm import tqdm
 
 from .cache import PredictionCache
+from .extraction import load_response_id_manifest
 from .json_payloads import (
     build_prediction_format_signature,
     build_masked_payload,
@@ -18,6 +19,7 @@ from .json_payloads import (
     build_prediction_text_format,
 )
 from .models import BenchmarkItem, BenchmarkPredictionEnvelope
+from .paper_titles import extract_arxiv_id_from_file_name, resolve_arxiv_titles
 
 
 def extract_refusal_text(response: Any) -> str | None:
@@ -73,6 +75,71 @@ def restore_payload_shape(*, experiments: list[Any], original_payload: Any) -> A
 
 def should_skip_benchmark_payload(payload: Any) -> bool:
     return isinstance(payload, list) and len(payload) == 0
+
+
+def load_paper_titles_for_sources(
+    source_paths: list[Path],
+    *,
+    ids_path: Path | None = None,
+) -> dict[str, str]:
+    manifest_path = ids_path or Path('.cache/extraction_response_ids.json')
+    manifest: dict[str, Any] = {}
+    if manifest_path.exists():
+        try:
+            manifest = load_response_id_manifest(manifest_path)
+        except (OSError, ValueError, TypeError, json.JSONDecodeError):
+            manifest = {}
+
+    resolved_sources: dict[Path, str] = {}
+    for source_path in source_paths:
+        try:
+            resolved_sources[source_path.resolve()] = source_path.name
+        except OSError:
+            continue
+
+    titles_by_file: dict[str, str] = {}
+    runs = manifest.get('runs', []) if isinstance(manifest, dict) else []
+    for run in runs:
+        if not isinstance(run, dict):
+            continue
+
+        paper_title = run.get('paper_title')
+        if not isinstance(paper_title, str) or not paper_title.strip():
+            continue
+
+        output_path = run.get('filtered_output_path') or run.get('output_path')
+        if not isinstance(output_path, str) or not output_path.strip():
+            continue
+
+        try:
+            resolved_output_path = Path(output_path).resolve()
+        except OSError:
+            continue
+
+        file_name = resolved_sources.get(resolved_output_path)
+        if file_name is None:
+            continue
+
+        titles_by_file[file_name] = paper_title.strip()
+
+    missing_arxiv_ids_by_file: dict[str, str] = {}
+    for source_path in source_paths:
+        if source_path.name in titles_by_file:
+            continue
+
+        arxiv_id = extract_arxiv_id_from_file_name(source_path.name)
+        if arxiv_id is None:
+            continue
+        missing_arxiv_ids_by_file[source_path.name] = arxiv_id
+
+    if missing_arxiv_ids_by_file:
+        resolved_arxiv_titles = resolve_arxiv_titles(list(missing_arxiv_ids_by_file.values()))
+        for file_name, arxiv_id in missing_arxiv_ids_by_file.items():
+            paper_title = resolved_arxiv_titles.get(arxiv_id)
+            if paper_title is not None:
+                titles_by_file[file_name] = paper_title
+
+    return titles_by_file
 
 
 @retry(
@@ -140,6 +207,10 @@ def build_benchmark_items(
 
     if max_files is not None:
         benchmark_sources = benchmark_sources[:max_files]
+
+    paper_titles_by_file = load_paper_titles_for_sources(
+        [json_path for json_path, _, _ in benchmark_sources]
+    )
 
     text_format = build_prediction_text_format()
     format_signature = build_prediction_format_signature()
@@ -217,6 +288,7 @@ def build_benchmark_items(
         items.append(
             BenchmarkItem(
                 file_name=json_path.name,
+                paper_title=paper_titles_by_file.get(json_path.name),
                 masked_input=masked_payload,
                 expected_output=ground_truth,
                 actual_output=restore_payload_shape(
