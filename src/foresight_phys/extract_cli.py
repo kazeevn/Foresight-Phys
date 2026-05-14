@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Any
 
 from dotenv import load_dotenv
+from tqdm import tqdm
 
 from .extraction import (
     DEFAULT_BENCHMARK_FILTER_MODEL,
@@ -170,19 +171,28 @@ def main() -> None:
         )
 
     ids_path = Path(args.ids_path)
-    results = [
-        extract_single_url(
-            paper_url=paper_url,
-            model=args.model,
-            extraction_system_prompt=extraction_system_prompt,
-            extraction_system_prompt_path=extraction_system_prompt_path,
-            raw_output_override=args.raw_output,
-            filtered_output_override=args.output,
-            ids_path=ids_path,
-            overwrite=args.overwrite,
+    results: list[dict[str, Any]] = []
+    paper_url_iterator = paper_urls
+    if len(paper_urls) > 1:
+        paper_url_iterator = tqdm(
+            paper_urls,
+            desc='Extracting papers',
+            unit='paper',
         )
-        for paper_url in paper_urls
-    ]
+
+    for paper_url in paper_url_iterator:
+        results.append(
+            extract_single_url(
+                paper_url=paper_url,
+                model=args.model,
+                extraction_system_prompt=extraction_system_prompt,
+                extraction_system_prompt_path=extraction_system_prompt_path,
+                raw_output_override=args.raw_output,
+                filtered_output_override=args.output,
+                ids_path=ids_path,
+                overwrite=args.overwrite,
+            )
+        )
 
     payload: dict[str, Any]
     if len(results) == 1:
