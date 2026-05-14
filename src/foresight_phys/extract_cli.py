@@ -7,9 +7,13 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 from .extraction import (
+    DEFAULT_BENCHMARK_FILTER_MODEL,
     extract_experiments_from_url,
+    filter_experiments_for_benchmark,
     record_response_id,
-    resolve_output_path,
+    resolve_filtered_output_path,
+    resolve_raw_output_path,
+    validate_output_path,
     write_extraction_output,
 )
 from .resources import resolve_extraction_system_prompt_path
@@ -27,7 +31,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         '--output',
         default=None,
-        help='Output JSON path. Defaults to JSONs/<extracted paper title>.json.',
+        help='Filtered output JSON path. Defaults to JSONs/filtered/<extracted paper title>.json.',
+    )
+    parser.add_argument(
+        '--raw-output',
+        default=None,
+        help='Raw parsed JSON path. Defaults to JSONs/raw/<extracted paper title>.json.',
     )
     parser.add_argument(
         '--model',
@@ -64,20 +73,41 @@ def main() -> None:
         paper_url=args.paper_url,
         extraction_system_prompt=extraction_system_prompt,
     )
-    output_path = resolve_output_path(args.output, title=extraction.paper_title)
+    filtering = filter_experiments_for_benchmark(
+        paper_title=extraction.paper_title,
+        experiments=extraction.experiments,
+        model=DEFAULT_BENCHMARK_FILTER_MODEL,
+    )
+    raw_output_path = resolve_raw_output_path(args.raw_output, title=extraction.paper_title)
+    filtered_output_path = resolve_filtered_output_path(args.output, title=extraction.paper_title)
+
+    if raw_output_path.resolve() == filtered_output_path.resolve():
+        raise ValueError('Raw and filtered outputs must be different files.')
+
+    validate_output_path(raw_output_path, overwrite=args.overwrite)
+    validate_output_path(filtered_output_path, overwrite=args.overwrite)
 
     write_extraction_output(
-        output_path,
+        raw_output_path,
         extraction.experiments,
+        overwrite=args.overwrite,
+    )
+    write_extraction_output(
+        filtered_output_path,
+        filtering.filtered_experiments,
         overwrite=args.overwrite,
     )
     record_response_id(
         Path(args.ids_path),
         source_url=args.paper_url,
-        output_path=output_path,
+        raw_output_path=raw_output_path,
+        filtered_output_path=filtered_output_path,
         paper_title=extraction.paper_title,
         model=args.model,
         response_id=extraction.response_id,
+        filter_model=DEFAULT_BENCHMARK_FILTER_MODEL,
+        filter_response_id=filtering.response_id,
+        validity_by_experiment=filtering.validity_by_experiment,
         system_prompt_path=extraction_system_prompt_path,
     )
 
@@ -86,9 +116,14 @@ def main() -> None:
             {
                 'paper_title': extraction.paper_title,
                 'source_url': args.paper_url,
-                'output_path': str(output_path),
-                'response_id': extraction.response_id,
+                'raw_output_path': str(raw_output_path),
+                'filtered_output_path': str(filtered_output_path),
+                'extraction_response_id': extraction.response_id,
+                'filter_model': DEFAULT_BENCHMARK_FILTER_MODEL,
+                'filter_response_id': filtering.response_id,
                 'experiments_extracted': len(extraction.experiments),
+                'experiments_retained': len(filtering.filtered_experiments),
+                'validity_by_experiment': filtering.validity_by_experiment,
                 'ids_path': args.ids_path,
             },
             ensure_ascii=False,

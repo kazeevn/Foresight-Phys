@@ -1,0 +1,113 @@
+[
+  {
+    "experiment_description": "Bulk cadmium phosphorus trisulfide (CdPS3) single crystals were mechanically exfoliated under ambient conditions. CdPS3 layers were transferred onto porous SiNx TEM grids using a dry-transfer process assisted by a polydimethylsiloxane support layer. The crystal structure of the transferred flake was characterized by high-angle annular dark-field scanning transmission electron microscopy and selected-area electron diffraction using a Titan Themis Z transmission/scanning electron microscope equipped with spherical-aberration correction. The analysis used real-space lattice imaging and reciprocal-space diffraction to identify crystallographic spacings and reflections of the exfoliated CdPS3 flake.",
+    "experiment_results": {
+      "haadf_stem_lattice_spacing_angstrom": {
+        "type": "float",
+        "description": "Real-space lattice spacing measured from the HAADF-STEM image of exfoliated CdPS3.",
+        "result": 2.177
+      }
+    }
+  },
+  {
+    "experiment_description": "Bulk CdPS3 flakes were examined at ambient conditions by angle-resolved Raman spectroscopy using a Horiba LabRAM HR Evolution confocal Raman microscope. The excitation wavelength was 632.8 nm. A 100× objective with numerical aperture 0.90, a parallel analyzer configuration, and an 1800 lines/mm diffraction grating were used. For each polarization angle, Raman mapping collected an array of 9 spectra with a 5 µm lateral step. The excitation power density was 125 kW/cm2, the integration time was 10 s per point, and the laser spot area was 1.8 µm2. Spectra at each polarization angle were averaged, background-subtracted, and fitted with Lorentzian lines to determine phonon mode positions and their polarization dependence.",
+    "experiment_results": {
+      "raman_mode_1_cm_minus_1": {
+        "type": "float",
+        "description": "Measured Raman-active phonon mode position of bulk CdPS3 under 632.8 nm excitation.",
+        "result": 78
+      },
+      "raman_mode_2_cm_minus_1": {
+        "type": "float",
+        "description": "Measured Raman-active phonon mode position of bulk CdPS3 under 632.8 nm excitation.",
+        "result": 125
+      },
+      "raman_mode_3_cm_minus_1": {
+        "type": "float",
+        "description": "Measured Raman-active phonon mode position of bulk CdPS3 under 632.8 nm excitation.",
+        "result": 223
+      },
+      "raman_mode_4_cm_minus_1": {
+        "type": "float",
+        "description": "Measured Raman-active phonon mode position of bulk CdPS3 under 632.8 nm excitation.",
+        "result": 247
+      },
+      "raman_mode_5_cm_minus_1": {
+        "type": "float",
+        "description": "Measured Raman-active phonon mode position of bulk CdPS3 under 632.8 nm excitation.",
+        "result": 271
+      },
+      "raman_mode_6_cm_minus_1": {
+        "type": "float",
+        "description": "Measured Raman-active phonon mode position of bulk CdPS3 under 632.8 nm excitation.",
+        "result": 377
+      },
+      "raman_mode_7_cm_minus_1": {
+        "type": "float",
+        "description": "Measured Raman-active phonon mode position of bulk CdPS3 under 632.8 nm excitation.",
+        "result": 564
+      },
+      "raman_223_cm_minus_1_polarization_response": {
+        "type": "categorical",
+        "description": "Polarization dependence of the Raman intensity for the 223 cm-1 phonon mode of bulk CdPS3.",
+        "result": "anisotropic",
+        "allowed_categorial_values": [
+          "isotropic",
+          "anisotropic"
+        ]
+      },
+      "raman_247_cm_minus_1_polarization_response": {
+        "type": "categorical",
+        "description": "Polarization dependence of the Raman intensity for the 247 cm-1 phonon mode of bulk CdPS3.",
+        "result": "isotropic",
+        "allowed_categorial_values": [
+          "isotropic",
+          "anisotropic"
+        ]
+      },
+      "raman_377_cm_minus_1_polarization_response": {
+        "type": "categorical",
+        "description": "Polarization dependence of the Raman intensity for the 377 cm-1 phonon mode of bulk CdPS3.",
+        "result": "isotropic",
+        "allowed_categorial_values": [
+          "isotropic",
+          "anisotropic"
+        ]
+      }
+    }
+  },
+  {
+    "experiment_description": "The in-plane polarization dependence of the optical response of a bulk CdPS3 flake exfoliated onto a Schott glass substrate was measured in the visible spectral range by polarization-resolved transmission microspectroscopy. A Zeiss Axio Lab.A1 optical microscope illuminated by a halogen light source was coupled through a Thorlabs M92L02 optical fiber with 200 µm core diameter to an Optosky ATP5020P grating spectrometer. Transmitted light was collected from a spot smaller than 15 µm using an N-Achroplan 50× Pol M27 objective with numerical aperture 0.8. The incident polarization angle was swept while recording transmittance spectra over 450–850 nm.",
+    "experiment_results": {
+      "visible_in_plane_optical_response_polarization_dependence": {
+        "type": "categorical",
+        "description": "Observed dependence of visible-range transmittance of bulk CdPS3 on incident in-plane polarization angle.",
+        "result": "isotropic",
+        "allowed_categorial_values": [
+          "isotropic",
+          "anisotropic"
+        ]
+      }
+    }
+  },
+  {
+    "experiment_description": "Broadband optical constants of bulk CdPS3 were determined by a global analysis combining spectroscopic ellipsometry with normal-incidence reflectance and transmittance spectra from multiple exfoliated flakes of different thicknesses. Visible micro-transmittance used a Zeiss Axio Lab.A1 microscope with halogen source, Optosky ATP5020P spectrometer, Thorlabs M92L02 fiber, and N-Achroplan 50× Pol M27 objective with numerical aperture 0.8. Visible reflection used an RX50M microscope with SOPTOP MPlanFL 50× objective, numerical aperture 0.8. Near- and mid-infrared spectra were acquired using a Bruker Vertex 80v Fourier-transform infrared spectrometer coupled to a Hyperion 2000 infrared microscope in normal-incidence geometry with a 15× reflective objective, numerical aperture 0.4; the 900–1400 nm range used a tungsten-halogen lamp, CaF2 beamsplitter, and nitrogen-cooled MCT detector, while the 1400–17000 nm range used a Globar source and KBr beamsplitter. Spectroscopic ellipsometry used an Accurion EP4 spectroscopic imaging ellipsometer in rotating-analyzer mode on CdPS3 flakes with 50 nm and 165 nm thicknesses, over 250–1700 nm with 1 nm steps and incidence angles of 45°, 50°, 55°, and 60°. The dielectric tensor, refractive index, extinction coefficient, transparency threshold, and optical band edge were obtained by fitting the combined spectra.",
+    "experiment_results": {
+      "optical_bandgap_eV": {
+        "type": "float",
+        "description": "Optical bandgap of CdPS3 inferred from the broadband optical characterization; described in the paper as a wide indirect bandgap.",
+        "result": 3.4
+      },
+      "shortest_high_transparency_wavelength_for_k_0p01_nm": {
+        "type": "float",
+        "description": "Shortest wavelength at which CdPS3 maintains high transparency according to the extinction-coefficient threshold k = 0.01 extracted from the measured optical constants.",
+        "result": 375
+      },
+      "in_plane_refractive_index_exceeds_3_visible_near_uv": {
+        "type": "bool",
+        "description": "Whether the measured in-plane refractive index of CdPS3 exceeds 3 in the visible to near-ultraviolet spectral region.",
+        "result": true
+      }
+    }
+  }
+]

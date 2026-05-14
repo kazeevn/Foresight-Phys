@@ -12,6 +12,12 @@ from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictFloat, Stri
 from tenacity import retry, retry_if_exception_type, stop_after_attempt, wait_random_exponential
 
 
+BENCHMARK_FILTER_SYSTEM_PROMPT = (
+    "Is it suitable for benchmarking the ability of AIs to predict the results of physical experiments?"
+)
+DEFAULT_BENCHMARK_FILTER_MODEL = "gpt-5.5"
+
+
 class ExperimentResultField(BaseModel):
     model_config = ConfigDict(extra='forbid')
 
@@ -36,10 +42,29 @@ class PaperExtractionPayload(BaseModel):
     experiments: list[ExperimentRecord]
 
 
+class ExperimentSuitabilityPayload(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+
+    experiment_validity: list[StrictBool] = Field(
+        description=(
+            "One boolean per experiment in the same order as the input JSON. "
+            "True means the experiment is suitable for benchmarking the ability of "
+            "AIs to predict the results of physical experiments."
+        )
+    )
+
+
 @dataclass
 class ExtractionResult:
     paper_title: str
     experiments: list[dict[str, Any]]
+    response_id: str
+
+
+@dataclass
+class FilteringResult:
+    filtered_experiments: list[dict[str, Any]]
+    validity_by_experiment: list[bool]
     response_id: str
 
 
@@ -72,6 +97,13 @@ def extract_refusal_text(response: Any) -> str | None:
     except (AttributeError, TypeError):
         return None
     return None
+
+
+def extract_response_id(response: Any) -> str:
+    response_id = getattr(response, 'id', None)
+    if not isinstance(response_id, str) or not response_id:
+        raise ValueError('OpenAI response did not include a response ID.')
+    return response_id
 
 
 @retry(
@@ -107,9 +139,7 @@ def extract_experiments_from_url(
         service_tier="flex",
     )
 
-    response_id = getattr(response, "id", None)
-    if not isinstance(response_id, str) or not response_id:
-        raise ValueError("OpenAI response did not include a response ID.")
+    response_id = extract_response_id(response)
 
     parsed = getattr(response, 'output_parsed', None)
     if not isinstance(parsed, PaperExtractionPayload):
@@ -131,6 +161,81 @@ def extract_experiments_from_url(
     )
 
 
+@retry(
+    wait=wait_random_exponential(multiplier=1, min=1, max=60),
+    stop=stop_after_attempt(6),
+    retry=retry_if_exception_type(
+        (RateLimitError, APIConnectionError, APITimeoutError, InternalServerError)
+    ),
+)
+def filter_experiments_for_benchmark(
+    *,
+    paper_title: str,
+    experiments: list[dict[str, Any]],
+    model: str = DEFAULT_BENCHMARK_FILTER_MODEL,
+) -> FilteringResult:
+    client = OpenAI()
+
+    response = client.responses.parse(
+        model=model,
+        input=[
+            {
+                'role': 'system',
+                'content': [
+                    {
+                        'type': 'input_text',
+                        'text': BENCHMARK_FILTER_SYSTEM_PROMPT,
+                    }
+                ],
+            },
+            {
+                'role': 'user',
+                'content': [
+                    {
+                        'type': 'input_text',
+                        'text': (
+                            f'Paper title: {paper_title}\n\n'
+                            'Per-experiment JSON:\n'
+                            f'{json.dumps(experiments, ensure_ascii=False, indent=2)}'
+                        ),
+                    }
+                ],
+            },
+        ],
+        text_format=ExperimentSuitabilityPayload,
+        service_tier='flex',
+    )
+
+    response_id = extract_response_id(response)
+
+    parsed = getattr(response, 'output_parsed', None)
+    if not isinstance(parsed, ExperimentSuitabilityPayload):
+        refusal = extract_refusal_text(response)
+        if refusal:
+            raise ValueError(f'Model refused benchmark suitability request: {refusal}')
+        raise ValueError(
+            'OpenAI structured output parsing did not return an ExperimentSuitabilityPayload.'
+        )
+
+    validity_by_experiment = list(parsed.experiment_validity)
+    if len(validity_by_experiment) != len(experiments):
+        raise ValueError(
+            'Structured suitability output length did not match the number of experiments.'
+        )
+
+    filtered_experiments = [
+        experiment
+        for experiment, is_valid in zip(experiments, validity_by_experiment)
+        if is_valid
+    ]
+
+    return FilteringResult(
+        filtered_experiments=filtered_experiments,
+        validity_by_experiment=validity_by_experiment,
+        response_id=response_id,
+    )
+
+
 def sanitize_title_for_filename(title: str) -> str:
     sanitized = re.sub(r"[\x00-\x1f]", "", title).strip()
     sanitized = sanitized.replace("/", "-")
@@ -138,17 +243,27 @@ def sanitize_title_for_filename(title: str) -> str:
     return sanitized or "extracted-paper"
 
 
-def resolve_output_path(output: str | None, *, title: str) -> Path:
+def resolve_raw_output_path(output: str | None, *, title: str) -> Path:
     if output:
         return Path(output)
-    return Path("JSONs") / f"{sanitize_title_for_filename(title)}.json"
+    return Path('JSONs/raw') / f'{sanitize_title_for_filename(title)}.json'
+
+
+def resolve_filtered_output_path(output: str | None, *, title: str) -> Path:
+    if output:
+        return Path(output)
+    return Path('JSONs/filtered') / f'{sanitize_title_for_filename(title)}.json'
+
+
+def validate_output_path(output_path: Path, *, overwrite: bool) -> None:
+    if output_path.exists() and not overwrite:
+        raise FileExistsError(
+            f'Refusing to overwrite existing file: {output_path}. Pass --overwrite to replace it.'
+        )
 
 
 def write_extraction_output(output_path: Path, experiments: list[dict[str, Any]], *, overwrite: bool) -> None:
-    if output_path.exists() and not overwrite:
-        raise FileExistsError(
-            f"Refusing to overwrite existing file: {output_path}. Pass --overwrite to replace it."
-        )
+    validate_output_path(output_path, overwrite=overwrite)
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(
@@ -161,10 +276,14 @@ def record_response_id(
     ids_path: Path,
     *,
     source_url: str,
-    output_path: Path,
+    raw_output_path: Path,
+    filtered_output_path: Path,
     paper_title: str,
     model: str,
     response_id: str,
+    filter_model: str,
+    filter_response_id: str,
+    validity_by_experiment: list[bool],
     system_prompt_path: Path,
 ) -> None:
     payload: dict[str, Any] = {"runs": []}
@@ -181,9 +300,14 @@ def record_response_id(
             "created_at": datetime.now(timezone.utc).isoformat(),
             "source_url": source_url,
             "paper_title": paper_title,
-            "output_path": str(output_path.resolve()),
+            "output_path": str(filtered_output_path.resolve()),
+            "raw_output_path": str(raw_output_path.resolve()),
+            "filtered_output_path": str(filtered_output_path.resolve()),
             "model": model,
             "response_id": response_id,
+            'filter_model': filter_model,
+            'filter_response_id': filter_response_id,
+            'validity_by_experiment': validity_by_experiment,
             "system_prompt_path": str(system_prompt_path.resolve()),
         }
     )

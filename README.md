@@ -75,10 +75,10 @@ The run writes summary output to `docs/benchmark_results.json`.
 
 ## Extract benchmark JSON from arXiv PDFs
 
-Use the dedicated extraction CLI to generate new files in the same format as `JSONs/`.
-The command sends the PDF to OpenAI by public URL using `input_file`, asks `gpt-5.5`
-for rich standalone experiment descriptions, writes the extracted experiments to disk,
-and stores the OpenAI response ID locally for traceability.
+Use the dedicated extraction CLI to generate new files in the same format as the benchmark JSONs.
+The command sends the PDF to OpenAI by public URL using `input_file`, asks the extraction
+model for rich standalone experiment descriptions, then sends the extracted JSON through a
+second `gpt-5.5` suitability pass that returns one validity boolean per experiment.
 
 ```bash
 uv run foresight-phys-extract --paper-url https://arxiv.org/pdf/2511.14269
@@ -86,21 +86,29 @@ uv run foresight-phys-extract --paper-url https://arxiv.org/pdf/2511.14269
 
 By default this will:
 
-- derive the output filename from the extracted paper title and write it under `JSONs/`
-- append the OpenAI response ID and run metadata to `.cache/extraction_response_ids.json`
-- preserve the benchmark-compatible JSON shape already used in `JSONs/`
+- derive the output filename from the extracted paper title
+- write the raw parsed experiment list under `JSONs/raw/`
+- write only the benchmark-suitable experiments under `JSONs/filtered/`
+- append both OpenAI response IDs and run metadata to `.cache/extraction_response_ids.json`
+- preserve the benchmark-compatible JSON shape in both output files
 
 Useful options:
 
 ```bash
-uv run foresight-phys-extract --paper-url https://arxiv.org/pdf/2511.14269 --output JSONs/my-paper.json
+uv run foresight-phys-extract --paper-url https://arxiv.org/pdf/2511.14269 --output JSONs/filtered/my-paper.json
+uv run foresight-phys-extract --paper-url https://arxiv.org/pdf/2511.14269 --raw-output JSONs/raw/my-paper.json
 uv run foresight-phys-extract --paper-url https://arxiv.org/pdf/2511.14269 --model gpt-5.5
 uv run foresight-phys-extract --paper-url https://arxiv.org/pdf/2511.14269 --ids-path .cache/extraction_ids.json
 uv run foresight-phys-extract --paper-url https://arxiv.org/pdf/2511.14269 --overwrite
 ```
 
 The output JSON remains a top-level list of experiments so it can be consumed by the
-existing benchmark pipeline without any format conversion.
+existing benchmark pipeline without any format conversion. To benchmark newly filtered
+files directly, point the benchmark CLI at `JSONs/filtered`, for example:
+
+```bash
+uv run foresight-phys --json-dir JSONs/filtered
+```
 
 ## Langfuse dashboard view
 
