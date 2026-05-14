@@ -194,12 +194,46 @@ def has_bool_or_categorical_targets(payload: Any) -> bool:
     return False
 
 
-def compute_file_metrics(
-    expected_json: Any,
-    actual_json: Any,
+METRIC_KEYS = (
+    "prediction_quality",
+    "smape",
+    "normalized_smape_score",
+    "bool_categorical_accuracy",
+    "formula_accuracy",
+)
+
+COUNT_KEYS = (
+    "result_count",
+    "numeric_count",
+    "nonzero_numeric_count",
+    "zero_reference_numeric_count",
+    "smape_count",
+    "normalized_smape_count",
+    "bool_categorical_count",
+    "formula_count",
+    "missing_predictions",
+)
+
+
+def _experiments_for_aggregation(payload: Any) -> list[Any]:
+    """Return the list of experiment objects in a benchmark payload.
+
+    Top-level payloads are either a list of experiments or a single
+    experiment dict. Anything else collapses to a single-element list so
+    `compute_experiment_metrics` can still walk its result paths.
+    """
+    if isinstance(payload, list):
+        return list(payload)
+    return [payload]
+
+
+def compute_experiment_metrics(
+    expected_experiment: Any,
+    actual_experiment: Any,
     *,
     formula_judge: FormulaJudge | None = None,
 ) -> dict[str, Any]:
+    """Compute metrics for a single experiment (one element of the payload list)."""
     raw_smape_values: list[float] = []
     normalized_smape_scores: list[float] = []
     classification_total = 0
@@ -213,13 +247,13 @@ def compute_file_metrics(
     nonzero_numeric_count = 0
     zero_reference_numeric_count = 0
 
-    for path, expected_value in iter_result_paths(expected_json):
+    for path, expected_value in iter_result_paths(expected_experiment):
         total_results += 1
-        found, actual_value = get_at_path(actual_json, path)
+        found, actual_value = get_at_path(actual_experiment, path)
         if not found:
             missing += 1
 
-        result_type = get_result_type(expected_json, path)
+        result_type = get_result_type(expected_experiment, path)
         is_numeric = is_numeric_result(result_type, expected_value)
         is_formula = is_formula_result(result_type)
         is_bool_or_categorical = is_bool_or_categorical_result(result_type, expected_value)
@@ -253,8 +287,8 @@ def compute_file_metrics(
         if is_formula:
             formula_total += 1
             formula_judgment = judge_formula_result(
-                expected_json,
-                actual_json,
+                expected_experiment,
+                actual_experiment,
                 path,
                 formula_judge=formula_judge,
             )
@@ -300,3 +334,42 @@ def compute_file_metrics(
         "formula_count": formula_total,
         "missing_predictions": missing,
     }
+
+
+def compute_file_metrics(
+    expected_json: Any,
+    actual_json: Any,
+    *,
+    formula_judge: FormulaJudge | None = None,
+) -> dict[str, Any]:
+    """Aggregate per-experiment metrics into per-paper metrics.
+
+    For each metric, average the per-experiment values, skipping experiments
+    where the metric is undefined (None). Count fields are summed across
+    experiments. This gives the intended
+    ``mean(mean(experiments in paper) for paper in all_papers)`` semantics
+    once the caller averages over papers.
+    """
+    expected_experiments = _experiments_for_aggregation(expected_json)
+    actual_experiments = _experiments_for_aggregation(actual_json)
+
+    per_experiment = []
+    for index, expected_experiment in enumerate(expected_experiments):
+        actual_experiment = (
+            actual_experiments[index] if index < len(actual_experiments) else {}
+        )
+        per_experiment.append(
+            compute_experiment_metrics(
+                expected_experiment,
+                actual_experiment,
+                formula_judge=formula_judge,
+            )
+        )
+
+    aggregated: dict[str, Any] = {}
+    for key in METRIC_KEYS:
+        values = [m[key] for m in per_experiment if m[key] is not None]
+        aggregated[key] = sum(values) / len(values) if values else None
+    for key in COUNT_KEYS:
+        aggregated[key] = sum(m[key] for m in per_experiment)
+    return aggregated

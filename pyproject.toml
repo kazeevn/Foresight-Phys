@@ -23,6 +23,7 @@ dependencies = [
 foresight-phys = "foresight_phys.cli:main"
 foresight-phys-extract = "foresight_phys.extract_cli:main"
 foresight-phys-cleanup = "foresight_phys.cleanup_jsons:main"
+foresight-phys-analysis = "foresight_phys.analysis.cli:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/foresight_phys"]
@@ -30,3 +31,11 @@ packages = ["src/foresight_phys"]
 [tool.hatch.build.targets.wheel.force-include]
 "src/foresight_phys/system_prompt.txt" = "foresight_phys/system_prompt.txt"
 "src/foresight_phys/extraction_system_prompt.txt" = "foresight_phys/extraction_system_prompt.txt"
+
+[dependency-groups]
+dev = [
+    "matplotlib>=3.10.9",
+    "pandas>=2.3.3",
+    "pyarrow>=24.0.0",
+    "seaborn>=0.13.2",
+]
