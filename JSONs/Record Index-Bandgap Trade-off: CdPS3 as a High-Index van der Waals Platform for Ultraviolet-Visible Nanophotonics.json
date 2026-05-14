@@ -1,80 +1,229 @@
 [
-{
-"experiment_description": "Bulk CdPS3 single crystals were mechanically exfoliated onto Si, Si/SiO2, and Schott glass substrates at ambient conditions using adhesive scotch tapes after the substrates were sequentially treated with acetone, isopropanol, and deionized water, followed by exposure to air plasma. The thickness and surface morphology of the flakes were then characterized using an atomic force microscope in HybriD mode at ambient conditions.",
-"experiment_results": {
-"measured_bilayer_thickness_nm": {
-"type": "float",
-"description": "The measured height of an exfoliated bilayer flake in the out-of-plane direction.",
-"result": 1.35
-}
-}
-},
-{
-"experiment_description": "Bulk CdPS3 crystal flakes transferred onto a Si substrate were analyzed via energy-dispersive X-ray spectroscopy (EDX) using a Bruker QUANTAX EDX spectrometer integrated into a JEOL JSM-7001F scanning electron microscope operating in secondary electron imaging mode.",
-"experiment_results": {
-"atomic_ratio_cadmium_percent": {
-"type": "float",
-"description": "The measured atomic percentage of Cadmium (Cd) in the flake.",
-"result": 59.6
-},
-"atomic_ratio_phosphorus_percent": {
-"type": "float",
-"description": "The measured atomic percentage of Phosphorus (P) in the flake.",
-"result": 20.2
-},
-"atomic_ratio_sulfur_percent": {
-"type": "float",
-"description": "The measured atomic percentage of Sulfur (S) in the flake.",
-"result": 20.2
-}
-}
-},
-{
-"experiment_description": "Angle-resolved Raman spectra were acquired using a Horiba LabRAM HR Evolution confocal microscope equipped with a 100x/N.A.=0.90 objective, a parallel analyzer, and an 1800 lines/mm diffraction grating. The excitation wavelength was 632.8 nm with a power density of 125 kW/cm2, an integration time of 10 s per point, and a spot area of 1.8 um2. Background-subtracted spectra were fitted by Lorentzian lines to determine peak positions and polarization dependence.",
-"experiment_results": {
-"raman_shift_peak_1_cm_inv": {
-"type": "float",
-"description": "The position of the lowest wavenumber Raman peak identified in the spectrum.",
-"result": 78.0
-},
-"polarization_dependence_247_cm_inv": {
-"type": "categorical",
-"description": "The observed angular dependence of the Raman peak located at 247 cm-1 as a function of incident polarization angle.",
-"result": "independent",
-"allowed_categorial_values": [
-"dependent",
-"independent"
-]
-},
-"polarization_dependence_223_cm_inv": {
-"type": "categorical",
-"description": "The observed angular dependence of the Raman peak located at 223 cm-1 as a function of incident polarization angle.",
-"result": "dependent",
-"allowed_categorial_values": [
-"dependent",
-"independent"
-]
-}
-}
-},
-{
-"experiment_description": "Spectroscopic ellipsometry measurements were performed on CdPS3 flakes with thicknesses of 50 nm and 165 nm using an Accurion EP4 spectroscopic imaging ellipsometer in the rotating analyzer mode. Measurements were taken over a spectral range of 250-1700 nm in 1 nm steps at incident angles of 45, 50, 55, and 60 degrees.",
-"experiment_results": {
-"approximate_in_plane_refractive_index_near_uv": {
-"type": "float",
-"description": "The measured value of the in-plane refractive index in the near-ultraviolet spectrum.",
-"result": 3.0
-}
-}
-},
-{
-"experiment_description": "Scattering-type scanning near-field optical microscopy (s-SNOM) was performed on a 254 nm thick CdPS3 flake on a CaF2 substrate using a NeaSNOM microscope operating in reflection mode. Excitation was provided by a Ti:Sapphire laser at 700 nm. The detected signal was demodulated at the third harmonic frequency using an interferometric pseudoheterodyne detection scheme.",
-"experiment_results": {
-"waveguide_mode_fringes_detected": {
-"type": "bool",
-"description": "The detection of interference fringes corresponding to waveguide mode momentum.",
-"result": true
-}
-}
-}
+  {
+    "experiment_description": "Mechanically exfoliated cadmium phosphorus trisulfide (CdPS3) flakes were prepared at ambient conditions using adhesive tape and deposited on cleaned substrates. A few-layer flake was imaged with an NT-MDT Ntegra II atomic force microscope operated in HybriD mode under ambient conditions. The sample topography was analyzed by taking a height profile across the flake edge, and the apparent flake thickness was obtained from the step height in the AFM image.",
+    "experiment_results": {
+      "afm_flake_step_height_nm": {
+        "type": "float",
+        "description": "Step height of the exfoliated few-layer CdPS3 flake determined from the AFM height profile.",
+        "result": 1.35
+      },
+      "afm_flake_step_height_uncertainty_nm": {
+        "type": "float",
+        "description": "Reported uncertainty of the AFM step-height measurement for the exfoliated CdPS3 flake.",
+        "result": 0.18
+      }
+    }
+  },
+  {
+    "experiment_description": "Mechanically exfoliated CdPS3 was transferred onto a porous SiNx transmission electron microscopy membrane using a dry-transfer process assisted by a PDMS support layer. The transferred flake was examined in a Titan Themis Z scanning transmission electron microscope with spherical-aberration correction. High-angle annular dark-field STEM imaging was used to resolve the lattice, and a line distance between visible atomic columns in the high-resolution image was measured.",
+    "experiment_results": {
+      "haadf_stem_resolved_lattice_spacing_nm": {
+        "type": "float",
+        "description": "Lattice spacing marked in the high-resolution HAADF-STEM image of the transferred CdPS3 flake.",
+        "result": 0.177
+      }
+    }
+  },
+  {
+    "experiment_description": "A bulk CdPS3 flake transferred onto a silicon substrate was characterized by scanning electron microscopy combined with energy-dispersive X-ray spectroscopy. The SEM was a JEOL JSM-7001F operating in secondary-electron imaging mode with a Bruker QUANTAX EDX spectrometer. EDX spectra and elemental maps were collected over the flake area to determine the relative atomic composition of Cd, P, and S across the flake.",
+    "experiment_results": {
+      "edx_s_atomic_percent": {
+        "type": "float",
+        "description": "Sulfur atomic percentage inferred from the EDX compositional analysis reported for the CdPS3 flake.",
+        "result": 59.6
+      },
+      "edx_p_atomic_percent": {
+        "type": "float",
+        "description": "Phosphorus atomic percentage inferred from the EDX compositional analysis reported for the CdPS3 flake.",
+        "result": 20.2
+      },
+      "edx_cd_atomic_percent": {
+        "type": "float",
+        "description": "Cadmium atomic percentage inferred from the EDX compositional analysis reported for the CdPS3 flake.",
+        "result": 20.2
+      }
+    }
+  },
+  {
+    "experiment_description": "Bulk CdPS3 flakes were measured by confocal Raman spectroscopy at ambient conditions using a Horiba LabRAM HR Evolution microscope with a 632.8 nm excitation laser, a 100× objective with numerical aperture 0.90, a parallel analyzer, and an 1800 lines/mm diffraction grating. For angle-resolved measurements, polarization was rotated; at each polarization angle a 3-by-3 Raman map with 5 µm lateral step was collected, using an excitation power density of 125 kW/cm2, a 1.8 µm2 spot area, and 10 s integration per point. Spectra at each angle were averaged, background-subtracted, fitted with Lorentzian peaks, and selected mode intensities were fitted as a function of polarization angle.",
+    "experiment_results": {
+      "raman_mode_1_cm_minus_1": {
+        "type": "integer",
+        "description": "Raman shift of the first distinct phonon mode observed in the representative ambient Raman spectrum of bulk CdPS3.",
+        "result": 78
+      },
+      "raman_mode_2_cm_minus_1": {
+        "type": "integer",
+        "description": "Raman shift of the second distinct phonon mode observed in the representative ambient Raman spectrum of bulk CdPS3.",
+        "result": 125
+      },
+      "raman_mode_3_cm_minus_1": {
+        "type": "integer",
+        "description": "Raman shift of the third distinct phonon mode observed in the representative ambient Raman spectrum of bulk CdPS3.",
+        "result": 223
+      },
+      "raman_mode_4_cm_minus_1": {
+        "type": "integer",
+        "description": "Raman shift of the fourth distinct phonon mode observed in the representative ambient Raman spectrum of bulk CdPS3.",
+        "result": 247
+      },
+      "raman_mode_5_cm_minus_1": {
+        "type": "integer",
+        "description": "Raman shift of the fifth distinct phonon mode observed in the representative ambient Raman spectrum of bulk CdPS3.",
+        "result": 271
+      },
+      "raman_mode_6_cm_minus_1": {
+        "type": "integer",
+        "description": "Raman shift of the sixth distinct phonon mode observed in the representative ambient Raman spectrum of bulk CdPS3.",
+        "result": 377
+      },
+      "raman_mode_7_cm_minus_1": {
+        "type": "integer",
+        "description": "Raman shift of the seventh distinct phonon mode observed in the representative ambient Raman spectrum of bulk CdPS3.",
+        "result": 564
+      },
+      "raman_223_cm_minus_1_polarization_response": {
+        "type": "categorical",
+        "description": "Polarization dependence classification of the Raman mode centered at 223 cm-1 from angle-resolved polarized Raman fitting.",
+        "result": "anisotropic",
+        "allowed_categorial_values": [
+          "anisotropic",
+          "polarization_independent"
+        ]
+      },
+      "raman_247_cm_minus_1_polarization_response": {
+        "type": "categorical",
+        "description": "Polarization dependence classification of the Raman mode centered at 247 cm-1 from angle-resolved polarized Raman fitting.",
+        "result": "polarization_independent",
+        "allowed_categorial_values": [
+          "anisotropic",
+          "polarization_independent"
+        ]
+      },
+      "raman_377_cm_minus_1_polarization_response": {
+        "type": "categorical",
+        "description": "Polarization dependence classification of the Raman mode centered at 377 cm-1 from angle-resolved polarized Raman fitting.",
+        "result": "polarization_independent",
+        "allowed_categorial_values": [
+          "anisotropic",
+          "polarization_independent"
+        ]
+      }
+    }
+  },
+  {
+    "experiment_description": "The broadband optical constants of CdPS3 were obtained by a global fit combining multiple optical measurements on mechanically exfoliated flakes of different thicknesses. Polarization-resolved visible transmittance was measured on CdPS3 flakes on Schott glass with a Zeiss Axio Lab.A1 microscope, halogen source, 50× Pol objective, and grating spectrometer while sweeping wavelength from 450 to 850 nm and incident polarization angle. Normal-incidence micro-reflectance and transmittance spectra were extended through the near- and mid-infrared using a Bruker Vertex 80v Fourier-transform infrared spectrometer coupled to a Hyperion 2000 microscope. Spectroscopic ellipsometry was performed with an Accurion EP4 rotating-analyzer imaging ellipsometer on 50 nm and 165 nm CdPS3 flakes over 250–1700 nm at incidence angles of 45°, 50°, 55°, and 60°. The combined reflectance, transmittance, and ellipsometry data were fitted to extract in-plane and out-of-plane refractive index and extinction coefficient spectra.",
+    "experiment_results": {
+      "optical_characterization_spectral_lower_bound_nm": {
+        "type": "integer",
+        "description": "Lower wavelength bound of the broadband optical-constant retrieval reported for CdPS3.",
+        "result": 250
+      },
+      "optical_characterization_spectral_upper_bound_nm": {
+        "type": "integer",
+        "description": "Upper wavelength bound of the broadband optical-constant retrieval reported for CdPS3.",
+        "result": 16000
+      },
+      "in_plane_refractive_index_exceeds_3_in_visible_near_uv": {
+        "type": "bool",
+        "description": "Whether the extracted in-plane refractive index of CdPS3 was reported to exceed 3 in the visible to near-UV spectral range.",
+        "result": true
+      },
+      "in_plane_extinction_coefficient_near_zero": {
+        "type": "bool",
+        "description": "Whether the extracted in-plane extinction coefficient of CdPS3 was reported to remain near zero over the transparent visible/near-infrared portion of the spectrum.",
+        "result": true
+      },
+      "reported_bandgap_ev": {
+        "type": "float",
+        "description": "Approximate bandgap reported from the optical characterization discussion for CdPS3.",
+        "result": 3.4
+      }
+    }
+  },
+  {
+    "experiment_description": "Guided modes in mechanically exfoliated CdPS3 flakes on CaF2 were imaged by scattering-type scanning near-field optical microscopy in reflection geometry. A thin flake with thickness about 254 nm was measured using a NeaSNOM system with Pt/Ir-coated silicon tips oscillating near 280 kHz and visible-to-near-infrared laser excitation at discrete wavelengths from a Ti:sapphire source and a tunable continuous-wave laser; the near-field signal was demodulated at the third harmonic using pseudoheterodyne detection. A thicker flake with thickness about 1200 nm was measured with an NT-MDT NTEGRA nanoIR s-SNOM using quantum-cascade laser sources in the mid-infrared and a Pt-coated silicon tip. Near-field amplitude and phase maps were line-averaged, complex Fourier transformed, and the resulting momenta were geometrically corrected for oblique incidence to identify guided transverse-electric and transverse-magnetic modes.",
+    "experiment_results": {
+      "thin_flake_thickness_nm": {
+        "type": "integer",
+        "description": "Thickness of the CdPS3 flake used for the visible/near-infrared near-field waveguide-mode measurements.",
+        "result": 254
+      },
+      "thick_flake_thickness_nm": {
+        "type": "integer",
+        "description": "Thickness of the CdPS3 flake used for the mid-infrared near-field waveguide-mode measurements.",
+        "result": 1200
+      },
+      "te0_mode_resolved_by_s_snom": {
+        "type": "bool",
+        "description": "Whether the fundamental transverse-electric guided mode was resolved in the near-field Fourier analysis of CdPS3 flakes.",
+        "result": true
+      },
+      "tm0_mode_resolved_by_s_snom": {
+        "type": "bool",
+        "description": "Whether the fundamental transverse-magnetic guided mode was resolved in the near-field Fourier analysis of CdPS3 flakes.",
+        "result": true
+      }
+    }
+  },
+  {
+    "experiment_description": "Square-cross-section dielectric waveguides made from CdPS3 and comparison materials were numerically modeled on an SiO2 substrate using COMSOL Multiphysics as the electromagnetic solver controlled from MATLAB through LiveLink. The operating wavelength for each material was chosen as the shortest wavelength for which the material met a transparency criterion based on an extinction-coefficient threshold of k = 0.01, except for hBN where the lower bound of available data was used. A two-dimensional model was solved while sweeping waveguide width; a binary search was used to find the square waveguide width that fixed the evanescent-field exponential decay constant into the SiO2 cladding at the specified value. Separate coupled-waveguide simulations swept core separation and optimized widths to estimate crosstalk length.",
+    "experiment_results": {
+      "fixed_decay_constant_um_minus_1": {
+        "type": "float",
+        "description": "Evanescent-field decay constant into the SiO2 cladding used as the confinement criterion for comparing square waveguides.",
+        "result": 2.49
+      },
+      "cdps3_operating_wavelength_nm_for_k_0p01": {
+        "type": "integer",
+        "description": "Operating wavelength assigned to CdPS3 under the transparency criterion used in the waveguide comparison.",
+        "result": 375
+      },
+      "cdps3_square_waveguide_width_nm": {
+        "type": "integer",
+        "description": "Required side width of a square CdPS3 waveguide on SiO2 at the chosen operating wavelength for the fixed evanescent decay constant.",
+        "result": 94
+      },
+      "tio2_operating_wavelength_nm_for_k_0p01": {
+        "type": "integer",
+        "description": "Operating wavelength assigned to TiO2 under the transparency criterion used in the waveguide comparison.",
+        "result": 370
+      },
+      "tio2_square_waveguide_width_nm": {
+        "type": "integer",
+        "description": "Required side width of a square TiO2 waveguide on SiO2 at the chosen operating wavelength for the fixed evanescent decay constant.",
+        "result": 132
+      },
+      "si_operating_wavelength_nm_for_k_0p01": {
+        "type": "integer",
+        "description": "Operating wavelength assigned to silicon under the transparency criterion used in the waveguide comparison.",
+        "result": 730
+      },
+      "si_square_waveguide_width_nm": {
+        "type": "integer",
+        "description": "Required side width of a square silicon waveguide on SiO2 at the chosen operating wavelength for the fixed evanescent decay constant.",
+        "result": 244
+      },
+      "mos2_operating_wavelength_nm_for_k_0p01": {
+        "type": "integer",
+        "description": "Operating wavelength assigned to MoS2 under the transparency criterion used in the waveguide comparison.",
+        "result": 865
+      },
+      "mos2_square_waveguide_width_nm": {
+        "type": "integer",
+        "description": "Required side width of a square MoS2 waveguide on SiO2 at the chosen operating wavelength for the fixed evanescent decay constant.",
+        "result": 211
+      },
+      "hbn_operating_wavelength_nm_available_data_bound": {
+        "type": "integer",
+        "description": "Operating wavelength assigned to hBN from the lower bound of the available optical data used in the waveguide comparison.",
+        "result": 250
+      },
+      "hbn_square_waveguide_width_nm": {
+        "type": "integer",
+        "description": "Required side width of a square hBN waveguide on SiO2 at the chosen operating wavelength for the fixed evanescent decay constant.",
+        "result": 59
+      }
+    }
+  }
 ]
