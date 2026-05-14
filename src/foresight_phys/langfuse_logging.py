@@ -8,7 +8,7 @@ import os
 import uuid
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Mapping
 
 from .models import BenchmarkItem
 
@@ -31,6 +31,36 @@ class LangfuseRunLogger:
     client: Any | None = None
     warning: str | None = None
     trace_urls: list[str] | None = None
+
+    def _build_trace_metadata(self, **values: str | None) -> dict[str, str] | None:
+        metadata = {
+            key: value
+            for key, value in values.items()
+            if value is not None
+        }
+        return metadata or None
+
+    def _propagate_trace_attributes(
+        self,
+        *,
+        trace_name: str,
+        tags: list[str],
+        metadata: Mapping[str, str | None] | None = None,
+    ):
+        trace_metadata = None
+        if metadata is not None:
+            trace_metadata = {
+                key: value
+                for key, value in metadata.items()
+                if value is not None
+            }
+
+        return self.client.propagate_attributes(
+            session_id=self.session_id,
+            trace_name=trace_name,
+            tags=tags,
+            metadata=trace_metadata or None,
+        )
 
     @classmethod
     def from_args(cls, args: argparse.Namespace) -> "LangfuseRunLogger":
@@ -108,106 +138,106 @@ class LangfuseRunLogger:
                     "metrics": metrics,
                 },
             ) as generation:
-                generation.update_trace(
-                    name="foresight-phys.file-eval",
-                    session_id=self.session_id,
-                    input={
-                        "file": item.file_name,
-                        "masked_input": item.masked_input,
-                    },
-                    output={
-                        "predicted": item.actual_output,
-                    },
+                with self._propagate_trace_attributes(
+                    trace_name="foresight-phys.file-eval",
+                    tags=["foresight-phys", "benchmark", "file-eval"],
                     metadata={
                         "file": item.file_name,
                         "model": self.model,
                         "run_name": self.run_name,
-                        **metrics,
                     },
-                    tags=["foresight-phys", "benchmark", "file-eval"],
-                )
-
-                prediction_quality = metrics.get("prediction_quality")
-                if prediction_quality is not None:
-                    generation.score(
-                        name="prediction_quality",
-                        value=float(prediction_quality),
-                        data_type="NUMERIC",
-                        comment="Higher is better",
+                ):
+                    generation.set_trace_io(
+                        input={
+                            "file": item.file_name,
+                            "masked_input": item.masked_input,
+                        },
+                        output={
+                            "predicted": item.actual_output,
+                        },
                     )
 
-                smape = metrics.get("smape")
-                if smape is not None:
-                    generation.score(
-                        name="smape",
-                        value=float(smape),
-                        data_type="NUMERIC",
-                        comment="Lower is better",
+                    prediction_quality = metrics.get("prediction_quality")
+                    if prediction_quality is not None:
+                        generation.score(
+                            name="prediction_quality",
+                            value=float(prediction_quality),
+                            data_type="NUMERIC",
+                            comment="Higher is better",
+                        )
+
+                    smape = metrics.get("smape")
+                    if smape is not None:
+                        generation.score(
+                            name="smape",
+                            value=float(smape),
+                            data_type="NUMERIC",
+                            comment="Lower is better",
+                        )
+
+                    normalized_smape_score = metrics.get("normalized_smape_score")
+                    if normalized_smape_score is not None:
+                        generation.score(
+                            name="normalized_smape_score",
+                            value=float(normalized_smape_score),
+                            data_type="NUMERIC",
+                            comment="Higher is better",
+                        )
+
+                    accuracy = metrics.get("bool_categorical_accuracy")
+                    if accuracy is not None:
+                        generation.score(
+                            name="bool_categorical_accuracy",
+                            value=float(accuracy),
+                            data_type="NUMERIC",
+                            comment="Higher is better",
+                        )
+
+                    formula_accuracy = metrics.get("formula_accuracy")
+                    if formula_accuracy is not None:
+                        generation.score(
+                            name="formula_accuracy",
+                            value=float(formula_accuracy),
+                            data_type="NUMERIC",
+                            comment="Higher is better",
+                        )
+
+                    correction_payload = json.dumps(
+                        item.expected_output,
+                        ensure_ascii=False,
+                        indent=2,
                     )
-
-                normalized_smape_score = metrics.get("normalized_smape_score")
-                if normalized_smape_score is not None:
-                    generation.score(
-                        name="normalized_smape_score",
-                        value=float(normalized_smape_score),
-                        data_type="NUMERIC",
-                        comment="Higher is better",
-                    )
-
-                accuracy = metrics.get("bool_categorical_accuracy")
-                if accuracy is not None:
-                    generation.score(
-                        name="bool_categorical_accuracy",
-                        value=float(accuracy),
-                        data_type="NUMERIC",
-                        comment="Higher is better",
-                    )
-
-                formula_accuracy = metrics.get("formula_accuracy")
-                if formula_accuracy is not None:
-                    generation.score(
-                        name="formula_accuracy",
-                        value=float(formula_accuracy),
-                        data_type="NUMERIC",
-                        comment="Higher is better",
-                    )
-
-                correction_payload = json.dumps(
-                    item.expected_output,
-                    ensure_ascii=False,
-                    indent=2,
-                )
-                correction_common = {
-                    "name": "output",
-                    "value": correction_payload,
-                    "dataType": "CORRECTION",
-                    "source": "ANNOTATION",
-                    "comment": "Ground-truth expected output",
-                    "metadata": {
-                        "file": item.file_name,
-                        "run_name": self.run_name,
-                    },
-                }
-
-                self.client.api.score.create(
-                    request={
-                        **correction_common,
-                        "traceId": generation.trace_id,
+                    correction_common = {
+                        "name": "output",
+                        "value": correction_payload,
+                        "dataType": "CORRECTION",
+                        "source": "ANNOTATION",
+                        "comment": "Ground-truth expected output",
+                        "metadata": {
+                            "file": item.file_name,
+                            "run_name": self.run_name,
+                        },
                     }
-                )
 
-                self.client.api.score.create(
-                    request={
-                        **correction_common,
-                        "traceId": generation.trace_id,
-                        "observationId": generation.id,
-                    }
-                )
+                    self.client.api.score.create(
+                        request={
+                            **correction_common,
+                            "traceId": generation.trace_id,
+                        }
+                    )
 
-                if self.trace_urls is not None:
-                    trace_url = self.client.get_trace_url(trace_id=generation.trace_id)
-                    if trace_url:
-                        self.trace_urls.append(trace_url)
+                    self.client.api.score.create(
+                        request={
+                            **correction_common,
+                            "traceId": generation.trace_id,
+                            "observationId": generation.id,
+                        }
+                    )
+
+                    if self.trace_urls is not None:
+                        trace_url = self.client.get_trace_url(trace_id=generation.trace_id)
+                        if trace_url:
+                            self.trace_urls.append(trace_url)
         except Exception as exc:
             self.warning = f"Langfuse logging warning: {exc}"
 
@@ -216,7 +246,7 @@ class LangfuseRunLogger:
             return
 
         try:
-            with self.client.start_as_current_span(
+            with self.client.start_as_current_observation(
                 name="foresight-phys.run-summary",
                 input={
                     "json_dir": args.json_dir,
@@ -230,12 +260,12 @@ class LangfuseRunLogger:
                     "run_name": self.run_name,
                 },
             ) as span:
-                span.update_trace(
-                    name="foresight-phys.run-summary",
-                    session_id=self.session_id,
+                with self._propagate_trace_attributes(
+                    trace_name="foresight-phys.run-summary",
                     tags=["foresight-phys", "benchmark", "run-summary"],
                     metadata={"run_name": self.run_name},
-                )
+                ):
+                    pass
 
                 if self.trace_urls is not None:
                     trace_url = self.client.get_trace_url(trace_id=span.trace_id)

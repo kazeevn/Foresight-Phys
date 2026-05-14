@@ -1,0 +1,117 @@
+[
+  {
+    "experiment_description": "Linear Stark response of the optical transition was measured in a 0.1% Eu3+:Y2SiO5 crystal with dimensions 5 mm × 5 mm × 10 mm along the D1, D2, and C2 axes. Eu3+ ions at crystallographic site 1 were used. The crystal was cooled to 1.8 K. Optical excitation was at the Eu3+ 580 nm transition, propagated along the C2 axis, and polarized along the D1 axis. Electric fields were applied parallel to D1 using copper electrodes attached with silver paint. The ensemble was first prepared by class cleaning and spin polarization using 1-ms frequency-chirped optical pulses with 100 µW peak power, producing a spectrally isolated absorption feature used for the echo measurements. Stark modulation was characterized with two-pulse photon-echo, four-level photon-echo, and Stark-echo sequences by applying electric-field pulses and sweeping the Stark pulse area over the plotted range of approximately 0 to 27 V cm^-1 µs. Echo intensity modulation versus Stark pulse area was fitted to extract the linear electric-field-induced optical-frequency shift coefficient for the selected Eu3+ transition and field orientation.",
+    "experiment_results": {
+      "linear_stark_coefficient_kHz_per_V_cm_inverse": {
+        "type": "float",
+        "description": "Measured optical-frequency shift per applied electric field for Eu3+ site-1 ions in Eu3+:Y2SiO5 with electric field parallel to D1; reported uncertainty is ±0.2 kHz/(V cm^-1).",
+        "result": 27.5
+      }
+    }
+  },
+  {
+    "experiment_description": "Forward-retrieval Stark-echo spin-wave memory was implemented in the same 0.1% Eu3+:Y2SiO5 crystal at 1.8 K, using Eu3+ site-1 ions. Light propagated along C2 with D1 polarization, and electric fields were applied along D1. Class cleaning and spin polarization used 1-ms frequency-chirped pulses with 100 µW peak power, preparing an absorption feature of optical depth 1.3 and bandwidth 2 MHz. The memory sequence used an input optical signal on transition ωa at time t0, a Stark pulse at t1 with pulse area 9.25 V cm^-1 µs to scramble the ensemble phase and suppress the unwanted four-level echo, four optical π-pulses on the relevant hyperfine optical transitions at t2, t3, t5, and t6, and a second Stark pulse at t7 for rephasing. For the forward-retrieval geometry, the optical pulses were arranged in the co-propagating phase-matched configuration so that the Stark echo was emitted in the forward direction at t8 = t0 − t2 − t3 + t5 + t6. The echo intensity was detected directly with an avalanche photodiode to determine memory efficiency at the specified echo time, after pulse timings were adjusted to separate the Stark echo from four-level-echo background. Coherence decay was measured by heterodyne detection while varying the spin-storage intervals t6 − t3 and t5 − t2 over echo times spanning roughly 20–60 µs. The decay fits used ηdecay = exp[-Γ13^2(t5−t2)^2/(2 ln2/π^2)] exp[-Γ35^2(t6−t3)^2/(2 ln2/π^2) − 2γ(t6−t3)], where Γ13 is the inhomogeneous linewidth of the ground-state spin transition |±1/2>g ↔ |±3/2>g, Γ35 is the inhomogeneous linewidth of the excited-state spin transition |±3/2>e ↔ |±5/2>e, and γ is the effective optical decoherence rate.",
+    "experiment_results": {
+      "forward_memory_efficiency_at_29_us_percent": {
+        "type": "float",
+        "description": "Measured forward Stark-echo spin-wave memory efficiency at an echo time of 29 µs; reported uncertainty is ±0.06 percentage points.",
+        "result": 4.8
+      },
+      "forward_fit_excited_state_spin_linewidth_gamma35_kHz": {
+        "type": "float",
+        "description": "Inhomogeneous linewidth Γ35 extracted from the forward-retrieval Stark-echo decay fit for the |±3/2>e ↔ |±5/2>e spin transition; reported uncertainty is ±1.0 kHz.",
+        "result": 21.9
+      },
+      "forward_fit_ground_state_spin_linewidth_gamma13_kHz": {
+        "type": "float",
+        "description": "Inhomogeneous linewidth Γ13 extracted from the forward-retrieval Stark-echo decay fit for the |±1/2>g ↔ |±3/2>g spin transition; reported uncertainty is ±1.2 kHz.",
+        "result": 17.4
+      },
+      "two_pulse_echo_optical_decoherence_rate_kHz": {
+        "type": "float",
+        "description": "Effective optical decoherence rate γ obtained from an independent two-pulse photon-echo measurement under the same experimental conditions; reported uncertainty is ±1.6 kHz.",
+        "result": 11.0
+      },
+      "all_optical_ground_state_spin_linewidth_gamma13_kHz": {
+        "type": "float",
+        "description": "Independent all-optical measurement of the |±1/2>g ↔ |±3/2>g spin-transition inhomogeneous linewidth Γ13; reported uncertainty is ±0.9 kHz.",
+        "result": 16.1
+      }
+    }
+  },
+  {
+    "experiment_description": "Backward-retrieval Stark-echo spin-wave memory was implemented in the same 0.1% Eu3+:Y2SiO5 crystal at 1.8 K, using Eu3+ site-1 ions. Light propagated along the C2 axis with D1 polarization, and electric fields were applied along D1. Class cleaning and spin polarization used 1-ms frequency-chirped pulses with 100 µW peak power, preparing an absorption feature of optical depth 1.3 and bandwidth 2 MHz. The sequence used an input signal on transition ωa at t0, a Stark pulse at t1 with pulse area 9.25 V cm^-1 µs, four optical π-pulses on the relevant hyperfine optical transitions, and a second Stark pulse at t7. To satisfy the backward phase-matching condition kecho = k0 − k2 − k3 + k5 + k6, the propagation direction of the π-pulse at t5 was reversed relative to the forward-retrieval implementation, and the t5 and t6 π-pulses were swapped; timing was adjusted so that four-level-echo backgrounds were separated from the desired Stark echo by spatial and temporal discrimination. The backward echo was detected to determine memory efficiency at the specified echo time. Decay curves were obtained by heterodyne detection while varying t6 − t3 and t5 − t2 over echo times spanning roughly 25–60 µs. The same decay model was fitted, with Γ13 denoting the inhomogeneous linewidth of |±1/2>g ↔ |±3/2>g, Γ35 denoting the inhomogeneous linewidth of |±3/2>e ↔ |±5/2>e, and γ denoting the effective optical decoherence rate.",
+    "experiment_results": {
+      "backward_memory_efficiency_at_23_us_percent": {
+        "type": "float",
+        "description": "Measured backward Stark-echo spin-wave memory efficiency at an echo time of 23 µs; reported uncertainty is ±0.01 percentage points.",
+        "result": 0.6
+      },
+      "backward_fit_excited_state_spin_linewidth_gamma35_kHz": {
+        "type": "float",
+        "description": "Inhomogeneous linewidth Γ35 extracted from the backward-retrieval Stark-echo decay fit for the |±3/2>e ↔ |±5/2>e spin transition; reported uncertainty is ±1.2 kHz.",
+        "result": 24.3
+      },
+      "backward_fit_ground_state_spin_linewidth_gamma13_kHz": {
+        "type": "float",
+        "description": "Inhomogeneous linewidth Γ13 extracted from the backward-retrieval Stark-echo decay fit for the |±1/2>g ↔ |±3/2>g spin transition; reported uncertainty is ±1.1 kHz.",
+        "result": 16.6
+      }
+    }
+  },
+  {
+    "experiment_description": "Conditional time-bin qubit storage fidelities were measured using the Stark-echo spin-wave memory in the 0.1% Eu3+:Y2SiO5 crystal at 1.8 K. The optical and electric-field geometries, class-cleaning and spin-polarization preparation, Stark pulses, and four-pulse spin-wave memory sequence were the same as in the forward- and backward-retrieval memory experiments. Input time-bin qubits were prepared as |ψ> = (|e> + exp(iΔα)|l>)/sqrt(2), where |e> and |l> are early and late temporal modes and Δα is their relative optical phase. For forward retrieval the early–late separation Δt was 4 µs; for backward retrieval Δt was 5 µs. Computational-basis fidelities Fe and Fl were obtained from the signal-to-noise ratio using Fe,l = (S + N)/(S + 2N), where S is the noise-subtracted retrieved signal and N is the measured noise. Superposition-state fidelities were measured by replacing the final π-pulse at t6 with two π/2 pulses separated by Δt and phase offset Δβ, forming an unbalanced Mach-Zehnder-type interferometric analysis. Interference fringes were recorded while sweeping Δβ for input phases Δα = 0° and Δα = 90°. Visibility V was converted to equatorial-state fidelity by Fequator = (1 + V)/2. The total conditional fidelity per qubit was calculated as FT = (1/3)Fpoles + (2/3)Fequator, with Fpoles = (Fe + Fl)/2 and the equatorial contribution obtained from the two superposition-state measurements.",
+    "experiment_results": {
+      "forward_early_time_bin_fidelity_percent": {
+        "type": "float",
+        "description": "Conditional fidelity for storage and forward retrieval of the early computational-basis time-bin state |e>; reported uncertainty is ±0.2 percentage points.",
+        "result": 98.4
+      },
+      "forward_late_time_bin_fidelity_percent": {
+        "type": "float",
+        "description": "Conditional fidelity for storage and forward retrieval of the late computational-basis time-bin state |l>; reported uncertainty is ±0.3 percentage points.",
+        "result": 96.7
+      },
+      "forward_plus_superposition_fidelity_percent": {
+        "type": "float",
+        "description": "Conditional fidelity for storage and forward retrieval of the measured plus-type time-bin superposition state; reported uncertainty is ±1.2 percentage points.",
+        "result": 97.0
+      },
+      "forward_minus_superposition_fidelity_percent": {
+        "type": "float",
+        "description": "Conditional fidelity for storage and forward retrieval of the measured minus-type time-bin superposition state; reported uncertainty is ±0.8 percentage points.",
+        "result": 98.6
+      },
+      "forward_total_conditional_qubit_fidelity_percent": {
+        "type": "float",
+        "description": "Overall conditional fidelity per time-bin qubit for forward retrieval, combining computational-basis and superposition measurements; reported uncertainty is ±0.8 percentage points.",
+        "result": 97.7
+      },
+      "backward_early_time_bin_fidelity_percent": {
+        "type": "float",
+        "description": "Conditional fidelity for storage and backward retrieval of the early computational-basis time-bin state |e>; reported uncertainty is ±0.4 percentage points.",
+        "result": 96.3
+      },
+      "backward_late_time_bin_fidelity_percent": {
+        "type": "float",
+        "description": "Conditional fidelity for storage and backward retrieval of the late computational-basis time-bin state |l>; reported uncertainty is ±0.4 percentage points.",
+        "result": 97.1
+      },
+      "backward_plus_superposition_fidelity_percent": {
+        "type": "float",
+        "description": "Conditional fidelity for storage and backward retrieval of the measured plus-type time-bin superposition state; reported uncertainty is ±1.0 percentage points.",
+        "result": 98.2
+      },
+      "backward_minus_superposition_fidelity_percent": {
+        "type": "float",
+        "description": "Conditional fidelity for storage and backward retrieval of the measured minus-type time-bin superposition state; reported uncertainty is ±1.3 percentage points.",
+        "result": 97.6
+      },
+      "backward_total_conditional_qubit_fidelity_percent": {
+        "type": "float",
+        "description": "Overall conditional fidelity per time-bin qubit for backward retrieval, combining computational-basis and superposition measurements; reported uncertainty is ±0.9 percentage points.",
+        "result": 97.5
+      }
+    }
+  }
+]
