@@ -17,10 +17,12 @@ The descriptions were extracted from recent open-access papers by Kostya Novosel
 - Parses the model JSON output and compares predicted `result` values to ground truth.
 - Caches raw model predictions on disk so report/formatting changes can be iterated without re-calling the LLM.
 - Computes per JSON file:
-	- `mape` (Mean Absolute Percentage Error) for numeric predictions
+	- `prediction_quality`, the average per-result score across the paper
+	- `smape` (raw symmetric mean absolute percentage error) for numeric predictions with nonzero references
+	- `normalized_smape_score`, the average of `1 - min(sMAPE, 1)` across numeric predictions with nonzero references
 	- `bool_categorical_accuracy` for boolean and categorical predictions
 	- `formula_accuracy` for formula predictions, judged by `gpt-5.4-nano`
-- Computes aggregate averages across files for all reported metrics.
+- Uses the average per-paper `prediction_quality` as the main model-comparison result and also reports aggregate averages across files for all supporting metrics.
 - Generates a static HTML report with a left paper switcher and per-experiment tables (instead of raw markdown text).
 
 ## Setup (uv)
@@ -103,6 +105,7 @@ By default this will:
 - write only the benchmark-suitable experiments under `JSONs/filtered/`
 - append both OpenAI response IDs and run metadata to `.cache/extraction_response_ids.json`
 - preserve the benchmark-compatible JSON shape in both output files
+- check resolved output paths before calling OpenAI
 
 Useful options:
 
@@ -117,9 +120,18 @@ uv run foresight-phys-extract --paper-url https://arxiv.org/pdf/2511.14269 --ove
 
 For `--paper-urls-file`, blank lines and lines starting with `#` are ignored. In batch mode,
 the CLI writes each paper to its default title-derived path under `JSONs/raw/` and
-`JSONs/filtered/`; `--output` and `--raw-output` remain single-paper-only overrides. If a
-batch item resolves to an existing raw or filtered output path and `--overwrite` is not set,
-that paper is skipped instead of aborting the whole batch.
+`JSONs/filtered/`; `--output` and `--raw-output` remain single-paper-only overrides. Before
+calling OpenAI, the CLI checks any output paths it can resolve up front. If both target JSONs
+already exist and `--overwrite` is not set, that paper is skipped. If only one resolved target
+already exists, the command fails fast without calling OpenAI. For default title-derived paths,
+this preflight check uses the latest matching `source_url` entry in
+`.cache/extraction_response_ids.json`, so a paper must have been processed once already before a
+later run can skip it by URL alone.
+
+This preflight behavior applies to both single-paper and batch runs.
+
+If you want to regenerate outputs regardless of existing files, pass `--overwrite`.
+
 
 The output JSON remains a top-level list of experiments so it can be consumed by the
 existing benchmark pipeline without any format conversion. To benchmark newly filtered
@@ -137,6 +149,6 @@ uv run foresight-phys --json-dir JSONs/filtered
 	- predicted JSON (`predicted`)
 	- reference JSON (`reference`)
 	- correction entry (`Corrected Output`) populated from the reference JSON
-	- per-file metrics (`mape`, `bool_categorical_accuracy`, etc.)
+	- per-file metrics (`prediction_quality`, `smape`, `normalized_smape_score`, `bool_categorical_accuracy`, etc.)
 - The same `session_id` is written to the output summary under `langfuse.session_id`.
 - In Langfuse UI, filter traces by that `session_id` to see the full run dashboard.

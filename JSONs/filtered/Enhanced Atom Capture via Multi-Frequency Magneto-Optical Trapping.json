@@ -1,0 +1,47 @@
+[
+  {
+    "experiment_description": "A vapor-cell 87Rb magneto-optical trap was operated with three orthogonal pairs of counter-propagating, non-retro-reflected beams on the D2 line. The Gaussian trapping beams had approximately 38 mm diameter, 1/e^2 radius about 15 mm, and were truncated at about 19 mm radius. The trapping light was tuned about 20 MHz red of the F=2 -> F'=3 transition, with about 20 mW per beam, and the repumper light was resonant with the F=1 -> F'=2 transition, with about 18 mW per beam. For the multi-frequency configuration, an additional ring-shaped cooling beam generated with a pair of axicon lenses was overlapped with the Gaussian MOT beams; this ring light contained about five additional red-detuned optical frequency components spanning roughly 25 to 45 MHz below the F=2 -> F'=3 transition, with about 45 mW per beam. Anti-Helmholtz coils produced an axial magnetic-field gradient swept over the experimentally accessible range up to about 22 G cm^-1. At each selected gradient, the MOT load time t was varied, with about 20 ms at the end of loading using only single-frequency trapping light. The atom cloud was then released; after about 15 ms fall time it was imaged by a 35 us absorption-imaging pulse resonant with F=2 -> F'=3. The optical-depth image was fitted to a two-dimensional Gaussian, rescaled for the physical cloud extent, and integrated to obtain atom number N. Loading curves were fitted to N(t)=R*tau*(1-exp(-t/tau)), where R is the MOT loading rate, tau is the characteristic loading time, t is the load time, and the steady-state atom number is Nss=R*tau. The reported fitted examples used the multi-frequency configuration at axial magnetic-field gradients of 12.0 G cm^-1 for the loading-rate example and 12.9 G cm^-1 for the steady-state atom-number example.",
+    "experiment_results": {
+      "multi_frequency_loading_rate_at_12_0_G_cm_atoms_per_s": {
+        "type": "float",
+        "description": "Loading rate R obtained from the fitted multi-frequency MOT loading curve at an axial magnetic-field gradient of 12.0 G cm^-1; the paper reports an uncertainty of 0.6e10 atoms s^-1.",
+        "result": 85000000000.0
+      },
+      "multi_frequency_steady_state_atom_number_at_12_9_G_cm_atoms": {
+        "type": "float",
+        "description": "Steady-state atom number Nss obtained from the fitted multi-frequency MOT loading curve at an axial magnetic-field gradient of 12.9 G cm^-1; the paper reports an uncertainty of 0.6e9 atoms.",
+        "result": 8200000000.0
+      }
+    }
+  },
+  {
+    "experiment_description": "The same 87Rb MOT apparatus was used to determine the best observed atom capture performance from a thermal rubidium background without any additional slowing stage. The MOT used three pairs of counter-propagating Gaussian beams with cooling/trapping light near the F=2 -> F'=3 D2 transition and repumper light resonant with F=1 -> F'=2. The Gaussian MOT beams had 1/e^2 radius about 15 mm and were physically truncated near 19 mm radius. Multi-frequency operation added axicon-generated annular cooling beams containing several closely spaced red-detuned frequency components below the F=2 -> F'=3 transition, while the conventional single-frequency comparison used the otherwise identical MOT without these additional multi-frequency annular cooling components. Absorption imaging was performed after release using a resonant F=2 -> F'=3 probe pulse of about 35 us following about 15 ms time of flight. For each parameter setting, the load time was scanned and the measured atom number N(t) was fitted to N(t)=R*tau*(1-exp(-t/tau)), where R is loading rate, tau is characteristic loading time, t is load time, and Nss=R*tau is the steady-state atom number. The reported extrema were obtained over the explored MOT operating parameter space, including axial magnetic-field gradients up to about 22 G cm^-1 and beam-size/truncation settings within the available optical aperture.",
+    "experiment_results": {
+      "maximum_multi_frequency_loading_rate_atoms_per_s": {
+        "type": "float",
+        "description": "Largest fitted MOT loading rate reported for the multi-frequency 87Rb MOT; the paper reports an uncertainty of 0.2e11 atoms s^-1.",
+        "result": 130000000000.0
+      },
+      "maximum_multi_frequency_steady_state_atom_number_atoms": {
+        "type": "float",
+        "description": "Largest fitted steady-state atom number reported for the multi-frequency 87Rb MOT; the paper reports an uncertainty of 0.1e10 atoms.",
+        "result": 10000000000.0
+      },
+      "shortest_characteristic_loading_time_s": {
+        "type": "float",
+        "description": "Shortest characteristic MOT loading time constant tau reported from the fitted loading curves.",
+        "result": 0.1
+      },
+      "maximum_loading_rate_enhancement_factor_vs_single_frequency": {
+        "type": "float",
+        "description": "Largest reported ratio of multi-frequency MOT loading rate to the corresponding conventional single-frequency MOT loading rate under comparable operating conditions.",
+        "result": 4.0
+      },
+      "steady_state_atom_number_enhancement_factor_vs_single_frequency": {
+        "type": "float",
+        "description": "Approximate reported ratio of multi-frequency MOT steady-state atom number to the corresponding conventional single-frequency MOT steady-state atom number under comparable operating conditions.",
+        "result": 2.0
+      }
+    }
+  }
+]

@@ -6,9 +6,16 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from .constants import MAPE_MIN_ABS_TARGET
 from .formula_judging import FormulaJudge
-from .metrics import compute_file_metrics, is_formula_result, is_numeric_result, judge_formula_values
+from .metrics import (
+    coerce_numeric,
+    compute_file_metrics,
+    compute_smape,
+    is_formula_result,
+    is_numeric_result,
+    judge_formula_values,
+    values_match,
+)
 from .models import BenchmarkItem
 
 
@@ -17,7 +24,9 @@ def write_human_readable_report(
     items: list[BenchmarkItem],
     output_path: Path,
     model: str,
-    aggregate_mape: float | None,
+    aggregate_prediction_quality: float | None,
+    aggregate_smape: float | None,
+    aggregate_normalized_smape_score: float | None,
     aggregate_bool_categorical_accuracy: float | None,
     aggregate_formula_accuracy: float | None,
     formula_judge: FormulaJudge | None = None,
@@ -43,16 +52,6 @@ def write_human_readable_report(
             return value
         return json.dumps(value, ensure_ascii=False)
 
-    def normalize_for_comparison(value: Any) -> Any:
-        if isinstance(value, str):
-            return value.strip().lower()
-        return value
-
-    def values_match(expected_value: Any, actual_value: Any) -> bool:
-        if expected_value is None and actual_value is None:
-            return True
-        return normalize_for_comparison(expected_value) == normalize_for_comparison(actual_value)
-
     def collect_file_section(item: BenchmarkItem) -> str:
         metrics = compute_file_metrics(
             item.expected_output,
@@ -65,7 +64,13 @@ def write_human_readable_report(
         section_parts: list[str] = []
         section_parts.append('<div class="paper-metrics">')
         section_parts.append(
-            f'<div class="metric-chip"><span class="metric-label">MAPE</span><span class="metric-value">{html.escape(format_metric(metrics.get("mape")))}</span></div>'
+            f'<div class="metric-chip"><span class="metric-label">Prediction Quality</span><span class="metric-value">{html.escape(format_metric(metrics.get("prediction_quality")))}</span></div>'
+        )
+        section_parts.append(
+            f'<div class="metric-chip"><span class="metric-label">Raw sMAPE</span><span class="metric-value">{html.escape(format_metric(metrics.get("smape")))}</span></div>'
+        )
+        section_parts.append(
+            f'<div class="metric-chip"><span class="metric-label">Normalized sMAPE Score</span><span class="metric-value">{html.escape(format_metric(metrics.get("normalized_smape_score")))}</span></div>'
         )
         section_parts.append(
             f'<div class="metric-chip"><span class="metric-label">Bool/Categorical Accuracy</span><span class="metric-value">{html.escape(format_metric(metrics.get("bool_categorical_accuracy")))}</span></div>'
@@ -111,22 +116,28 @@ def write_human_readable_report(
                 actual_value = actual_meta_dict.get("result")
 
                 is_numeric_expected = is_numeric_result(field_type, expected_value)
-                is_numeric_actual = isinstance(actual_value, (int, float)) and not isinstance(actual_value, bool)
                 status_title = ""
 
-                if (
-                    is_numeric_expected
-                    and abs(float(expected_value)) > MAPE_MIN_ABS_TARGET
-                ):
-                    status_class = "status-relative-error"
-                    if is_numeric_actual:
-                        relative_error = (
-                            abs(float(actual_value) - float(expected_value))
-                            / abs(float(expected_value))
-                        ) * 100
-                        status_text = f'rel err {relative_error:.2f}%'
+                if is_numeric_expected:
+                    expected_ok, expected_numeric = coerce_numeric(expected_value)
+                    actual_ok, actual_numeric = coerce_numeric(actual_value)
+
+                    if expected_ok and expected_numeric == 0.0:
+                        zero_match = actual_ok and actual_numeric == 0.0
+                        status_text = 'zero match' if zero_match else 'zero mismatch'
+                        status_class = 'status-match' if zero_match else 'status-mismatch'
+                    elif expected_ok:
+                        if actual_ok:
+                            smape = compute_smape(expected_numeric, actual_numeric)
+                            status_text = f'sMAPE {smape:.4f}'
+                            status_class = 'status-numeric'
+                        else:
+                            status_text = 'sMAPE n/a'
+                            status_class = 'status-mismatch'
                     else:
-                        status_text = 'rel err n/a'
+                        match = values_match(expected_value, actual_value)
+                        status_text = 'match' if match else 'mismatch'
+                        status_class = 'status-match' if match else 'status-mismatch'
                 elif is_formula_result(field_type):
                     formula_judgment = judge_formula_values(
                         expected_formula=expected_value,
@@ -299,7 +310,7 @@ def write_human_readable_report(
         th {{ background: #f3f3f3; }}
         .status-match {{ color: #0b7d2b; font-weight: 700; }}
         .status-mismatch {{ color: #b3261e; font-weight: 700; }}
-        .status-relative-error {{ color: #0b57d0; font-weight: 700; }}
+        .status-numeric {{ color: #0b57d0; font-weight: 700; }}
         @media (max-width: 980px) {{
             .layout {{ grid-template-columns: 1fr; }}
             .sidebar {{ order: 1; }}
@@ -313,7 +324,9 @@ def write_human_readable_report(
         <div class="meta">Model: {html.escape(model)}</div>
         <div class="meta">Generated: {html.escape(generated_at_utc)}</div>
         <div class="meta">Files: {len(items)}</div>
-        <div class="meta">Aggregate MAPE: {format_metric(aggregate_mape)}</div>
+        <div class="meta">Aggregate prediction quality: {format_metric(aggregate_prediction_quality)}</div>
+        <div class="meta">Aggregate raw sMAPE: {format_metric(aggregate_smape)}</div>
+        <div class="meta">Aggregate normalized sMAPE score: {format_metric(aggregate_normalized_smape_score)}</div>
         <div class="meta">Aggregate bool/categorical accuracy: {format_metric(aggregate_bool_categorical_accuracy)}</div>
         <div class="meta">Aggregate formula accuracy: {format_metric(aggregate_formula_accuracy)}</div>
     </div>

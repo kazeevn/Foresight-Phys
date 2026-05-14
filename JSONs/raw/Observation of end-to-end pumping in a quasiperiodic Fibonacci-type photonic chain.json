@@ -1,0 +1,147 @@
+[
+  {
+    "experiment_description": "Coupling calibration was performed on isolated two-waveguide directional couplers fabricated under the same conditions as the photonic Fibonacci-type lattices. The waveguides were written in transparent glass by femtosecond-laser direct writing using a Menlo Systems BlueCut laser at 1030 nm central wavelength, approximately 350 fs pulse duration, and 1 MHz repetition rate. The beam was focused with a 40× objective of numerical aperture 0.6 while the glass sample was translated at 40 mm/s; the waveguides were written about 100 µm below the surface. The fabricated guides were single-mode at the 780 nm probe wavelength, with nominal Gaussian mode field diameter about 10 µm. Directional-coupler pairs with varied center-to-center separations d_ij were fabricated. Light was injected into one waveguide of each pair, the output powers were measured at the end facet, and the coupling strength J_ij was extracted from the power oscillations using coupled-mode theory. The measured dependence was fit to the exponential model J_ij(d_ij)=J exp(-d_ij/xi), where J_ij is the coupling strength in mm^-1 between two waveguides i and j, d_ij is their center-to-center separation in µm, J is the extrapolated bare coupling amplitude in mm^-1, and xi is the coupling decay length in µm.",
+    "experiment_results": {
+      "bare_coupling_amplitude_mm_minus1": {
+        "type": "float",
+        "description": "Extrapolated prefactor J in the exponential fit of inter-waveguide coupling strength versus separation.",
+        "result": 63.5
+      },
+      "coupling_decay_length_um": {
+        "type": "float",
+        "description": "Decay length xi in the exponential fit of inter-waveguide coupling strength versus separation.",
+        "result": 2.2
+      },
+      "coupling_strength_vs_separation_mm_minus1": {
+        "type": "formula",
+        "description": "Empirical coupling strength J_ij as a function of waveguide separation d_ij, with d_ij expressed in micrometres and J_ij in inverse millimetres.",
+        "result": "J_ij(d_ij)=63.5*exp(-d_ij/2.2)"
+      }
+    }
+  },
+  {
+    "experiment_description": "A fixed, non-bent 11-site quasiperiodic Fibonacci-type photonic waveguide chain was fabricated in glass by femtosecond-laser direct writing. Neighboring waveguide separations were chosen from dA=10 µm and dB=7 µm according to the Fibonacci-type Sturmian rule chi_i=sgn[cos(2*pi*i/tau + pi/tau + phi)-cos(pi/tau)], where tau=(1+sqrt(5))/2, positive chi_i selects dB, negative chi_i selects dA, and phi is the phason angle. The array used the paper's configuration 1 geometry at constant separations along the full propagation length L=40 mm, with no z-dependent bending of waveguides. Optical characterization used 780 nm laser light coupled into the leftmost waveguide at z=0 with a 10× objective of numerical aperture 0.25. The output facet at z=L was imaged with a matching objective onto a CCD camera to record the light-intensity distribution over all 11 waveguides.",
+    "experiment_results": {
+      "output_localization_edge": {
+        "type": "categorical",
+        "description": "Edge of the waveguide array at which the measured output light intensity remained localized after propagation through the fixed configuration 1 array.",
+        "result": "left_edge",
+        "allowed_categorial_values": [
+          "left_edge",
+          "right_edge",
+          "bulk_or_delocalized"
+        ]
+      },
+      "output_peak_waveguide_index": {
+        "type": "integer",
+        "description": "Waveguide index carrying the localized output peak after propagation through the fixed configuration 1 array, with indices numbered from 1 at the left edge to 11 at the right edge.",
+        "result": 1
+      }
+    }
+  },
+  {
+    "experiment_description": "A fixed, non-bent 11-site quasiperiodic Fibonacci-type photonic waveguide chain was fabricated in glass by femtosecond-laser direct writing. Neighboring waveguide separations were chosen from dA=10 µm and dB=7 µm according to the Fibonacci-type Sturmian rule chi_i=sgn[cos(2*pi*i/tau + pi/tau + phi)-cos(pi/tau)], where tau=(1+sqrt(5))/2, positive chi_i selects dB, negative chi_i selects dA, and phi is the phason angle. The array used the paper's configuration 2 geometry at constant separations along the full propagation length L=40 mm, with no z-dependent bending of waveguides. Optical characterization used 780 nm laser light coupled into the rightmost waveguide at z=0 with a 10× objective of numerical aperture 0.25. The output facet at z=L was imaged with a matching objective onto a CCD camera to record the light-intensity distribution over all 11 waveguides.",
+    "experiment_results": {
+      "output_localization_edge": {
+        "type": "categorical",
+        "description": "Edge of the waveguide array at which the measured output light intensity remained localized after propagation through the fixed configuration 2 array.",
+        "result": "right_edge",
+        "allowed_categorial_values": [
+          "left_edge",
+          "right_edge",
+          "bulk_or_delocalized"
+        ]
+      },
+      "output_peak_waveguide_index": {
+        "type": "integer",
+        "description": "Waveguide index carrying the localized output peak after propagation through the fixed configuration 2 array, with indices numbered from 1 at the left edge to 11 at the right edge.",
+        "result": 11
+      }
+    }
+  },
+  {
+    "experiment_description": "End-to-end pumping was measured in an 11-waveguide quasiperiodic Fibonacci-type photonic chain fabricated by femtosecond-laser direct writing in glass. Neighboring spacings were selected from dA=10 µm and dB=7 µm by the Fibonacci-type Sturmian rule chi_i=sgn[cos(2*pi*i/tau + pi/tau + phi)-cos(pi/tau)], with tau=(1+sqrt(5))/2, positive chi_i selecting dB and negative chi_i selecting dA. The propagation length was L=40 mm. The chain was designed to interpolate along z between configuration 1 at z=0 and configuration 2 at z=L by bending only waveguides 2 and 10. In the ideal model, the varying bond lengths were d1,9(z)=dB-(dB-dA)cos(pi*z/(2L)) and d2,10(z)=dA+(dB-dA)cos(pi*z/(2L)), where d1 is the distance between waveguides 1 and 2, d2 between 2 and 3, d9 between 9 and 10, and d10 between 10 and 11; all other separations retained their Fibonacci-type values. Experimentally this was implemented as an S-bend made of two circular arcs of opposite curvature joined at z=L/2, sharing the same endpoints, zero slopes at z=0 and z=L, and midpoint position as the cosine profile; the bending displacement was Delta x=3 µm and the arc radius was approximately 133 m. A 780 nm laser was coupled into the leftmost waveguide at z=0 using a 10×, NA=0.25 objective. The output facet at z=L was imaged with a matching objective onto a CCD camera to record the intensity over all 11 waveguides.",
+    "experiment_results": {
+      "output_localization_edge": {
+        "type": "categorical",
+        "description": "Edge of the array at which the measured output light intensity was localized after the z-dependent pumping protocol.",
+        "result": "right_edge",
+        "allowed_categorial_values": [
+          "left_edge",
+          "right_edge",
+          "bulk_or_delocalized"
+        ]
+      },
+      "output_peak_waveguide_index": {
+        "type": "integer",
+        "description": "Waveguide index of the observed pumped output peak after the z-dependent pumping protocol, with indices numbered from 1 at the left edge to 11 at the right edge.",
+        "result": 11
+      }
+    }
+  },
+  {
+    "experiment_description": "Robustness of end-to-end pumping was tested in 11-waveguide quasiperiodic Fibonacci-type photonic chains with controlled structural bond defects. The baseline chain used Fibonacci-type nearest-neighbor spacings dA=10 µm and dB=7 µm generated by chi_i=sgn[cos(2*pi*i/tau + pi/tau + phi)-cos(pi/tau)], where tau=(1+sqrt(5))/2, positive chi_i selects dB, and negative chi_i selects dA. The propagation length was L=40 mm. The pumping trajectory interpolated from configuration 1 at z=0 to configuration 2 at z=L by bending waveguides 2 and 10 using the same S-bend implementation as the defect-free pumping experiment, approximating d1,9(z)=dB-(dB-dA)cos(pi*z/(2L)) and d2,10(z)=dA+(dB-dA)cos(pi*z/(2L)). Structural-defect variants were fabricated by replacing selected nominal Fibonacci spacings with dD=8 µm: one dA spacing replaced by dD, two dA spacings replaced by dD, one dB spacing replaced by dD, and two spatially separated dB spacings replaced by dD. For each variant, 780 nm light was injected into the leftmost waveguide at z=0 using a 10×, NA=0.25 objective, and the output intensity distribution across all 11 waveguides at z=L was recorded on a CCD camera.",
+    "experiment_results": {
+      "one_dA_defect_output_localization_edge": {
+        "type": "categorical",
+        "description": "Observed output localization edge for the pumping experiment when one nominal dA spacing was replaced by dD=8 µm.",
+        "result": "right_edge",
+        "allowed_categorial_values": [
+          "left_edge",
+          "right_edge",
+          "bulk_or_delocalized"
+        ]
+      },
+      "two_dA_defects_output_localization_edge": {
+        "type": "categorical",
+        "description": "Observed output localization edge for the pumping experiment when two nominal dA spacings were replaced by dD=8 µm.",
+        "result": "right_edge",
+        "allowed_categorial_values": [
+          "left_edge",
+          "right_edge",
+          "bulk_or_delocalized"
+        ]
+      },
+      "one_dB_defect_output_localization_edge": {
+        "type": "categorical",
+        "description": "Observed output localization edge for the pumping experiment when one nominal dB spacing was replaced by dD=8 µm.",
+        "result": "right_edge",
+        "allowed_categorial_values": [
+          "left_edge",
+          "right_edge",
+          "bulk_or_delocalized"
+        ]
+      },
+      "two_dB_defects_output_localization_edge": {
+        "type": "categorical",
+        "description": "Observed output localization edge for the pumping experiment when two spatially separated nominal dB spacings were replaced by dD=8 µm.",
+        "result": "right_edge",
+        "allowed_categorial_values": [
+          "left_edge",
+          "right_edge",
+          "bulk_or_delocalized"
+        ]
+      }
+    }
+  },
+  {
+    "experiment_description": "An alternative end-to-end pumping implementation used an 11-waveguide quasiperiodic Fibonacci-type photonic chain with linear rather than cosine-like bending of the two controlled waveguides. The chain used nearest-neighbor spacings dA=10 µm and dB=7 µm selected by the Fibonacci-type Sturmian rule chi_i=sgn[cos(2*pi*i/tau + pi/tau + phi)-cos(pi/tau)], where tau=(1+sqrt(5))/2, positive chi_i selects dB, and negative chi_i selects dA. The propagation length was L=40 mm. Waveguides 2 and 10 were bent linearly along z so that the relevant end spacings changed linearly between the same input and output configurations used in the cosine/S-bend pumping protocol, while all other spacings retained their Fibonacci-type values. Optical characterization used 780 nm laser light injected into the leftmost waveguide at z=0 with a 10×, NA=0.25 objective, and the output facet at z=L was imaged with a matching objective onto a CCD camera to measure the intensity distribution over the 11 waveguides.",
+    "experiment_results": {
+      "output_localization_edge": {
+        "type": "categorical",
+        "description": "Edge of the array at which the measured output light intensity was localized after the linear-bending pumping protocol.",
+        "result": "right_edge",
+        "allowed_categorial_values": [
+          "left_edge",
+          "right_edge",
+          "bulk_or_delocalized"
+        ]
+      },
+      "output_peak_waveguide_index": {
+        "type": "integer",
+        "description": "Waveguide index of the observed pumped output peak after the linear-bending pumping protocol, with indices numbered from 1 at the left edge to 11 at the right edge.",
+        "result": 11
+      }
+    }
+  }
+]

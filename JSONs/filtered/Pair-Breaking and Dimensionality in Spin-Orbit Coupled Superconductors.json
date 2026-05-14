@@ -1,0 +1,52 @@
+[
+  {
+    "experiment_description": "For the same MBE-grown, Ge-capped LaBi2 thickness series on MgO (001), in-plane upper critical fields were measured by four-point lock-in transport in a dilution refrigerator with a two-axis vector magnet. The magnetic field was aligned parallel to the film plane, and H_parallel_c2(T) was extracted using the R = 0.5 R0 criterion from superconducting transitions measured as a function of temperature and parallel magnetic field. To quantify violation of the weak-coupling BCS Pauli limit, the authors extrapolated H_parallel_c2 to T approaching 0 and compared it with H_P^BCS = 1.86 × Tc, where Tc is the zero-field critical temperature in kelvin used for the Pauli-limit estimate. Thickness dependence of the dimensionless ratio H_parallel_c2/H_P^BCS was analyzed over the measured film series using a power-law form H_parallel_c2/H_P^BCS proportional to t^alpha, where t is the LaBi2 film thickness and alpha is the fitted scaling exponent.",
+    "experiment_results": {
+      "h_parallel_c2_over_bcs_pauli_limit_t_2p1nm_dimensionless": {
+        "type": "float",
+        "description": "Approximate zero-temperature in-plane upper critical field divided by the conventional BCS Pauli limit for the 2.1 nm LaBi2 film, using the experimentally measured zero-field Tc for the Pauli-limit estimate.",
+        "result": 10
+      },
+      "pauli_limit_violation_thickness_scaling_exponent_alpha": {
+        "type": "float",
+        "description": "Fitted exponent alpha for the measured thickness dependence H_parallel_c2/H_P^BCS proportional to t^alpha.",
+        "result": -1.37
+      }
+    }
+  },
+  {
+    "experiment_description": "Perpendicular-field superconducting upper critical fields were measured on the MBE-grown, Ge-capped LaBi2 films on MgO (001) using four-point electronic transport in the same dilution refrigerator and vector magnet setup. The applied magnetic field was oriented perpendicular to the film plane. For each film thickness in the series, H_perpendicular_c2(T) was extracted from the resistive superconducting transition as a function of temperature. The resulting H_perpendicular_c2(T) curves were fit to the single-gap Ginzburg-Landau form H_perpendicular_c2(T) = (Phi0/(2*pi*xi_ab^2))*(1 - (Tc/Tc,H=0)^2), where Phi0 is the superconducting flux quantum, xi_ab is the in-plane superconducting coherence length to be fitted, Tc is the temperature at which the critical field is evaluated, and Tc,H=0 is the zero-field critical temperature for that film.",
+    "experiment_results": {
+      "xi_ab_t_2p1nm_nm": {
+        "type": "float",
+        "description": "Approximate in-plane superconducting coherence length obtained from the perpendicular-field Ginzburg-Landau fit for the 2.1 nm LaBi2 film.",
+        "result": 29
+      },
+      "xi_ab_t_3p0nm_nm": {
+        "type": "float",
+        "description": "Approximate in-plane superconducting coherence length obtained from the perpendicular-field Ginzburg-Landau fit for the 3.0 nm LaBi2 film.",
+        "result": 31
+      },
+      "xi_ab_t_8p5nm_nm": {
+        "type": "float",
+        "description": "Approximate in-plane superconducting coherence length obtained from the perpendicular-field Ginzburg-Landau fit for the 8.5 nm LaBi2 film.",
+        "result": 110
+      },
+      "xi_ab_t_12nm_nm": {
+        "type": "float",
+        "description": "Approximate in-plane superconducting coherence length obtained from the perpendicular-field Ginzburg-Landau fit for the 12 nm LaBi2 film.",
+        "result": 110
+      },
+      "xi_ab_t_34nm_nm": {
+        "type": "float",
+        "description": "Approximate in-plane superconducting coherence length obtained from the perpendicular-field Ginzburg-Landau fit for the 34 nm LaBi2 film.",
+        "result": 175
+      },
+      "xi_ab_t_75nm_nm": {
+        "type": "float",
+        "description": "Approximate in-plane superconducting coherence length obtained from the perpendicular-field Ginzburg-Landau fit for the 75 nm LaBi2 film.",
+        "result": 220
+      }
+    }
+  }
+]

@@ -127,12 +127,31 @@ class LangfuseRunLogger:
                     tags=["foresight-phys", "benchmark", "file-eval"],
                 )
 
-                if metrics.get("mape") is not None:
+                prediction_quality = metrics.get("prediction_quality")
+                if prediction_quality is not None:
                     generation.score(
-                        name="mape",
-                        value=float(metrics["mape"]),
+                        name="prediction_quality",
+                        value=float(prediction_quality),
+                        data_type="NUMERIC",
+                        comment="Higher is better",
+                    )
+
+                smape = metrics.get("smape")
+                if smape is not None:
+                    generation.score(
+                        name="smape",
+                        value=float(smape),
                         data_type="NUMERIC",
                         comment="Lower is better",
+                    )
+
+                normalized_smape_score = metrics.get("normalized_smape_score")
+                if normalized_smape_score is not None:
+                    generation.score(
+                        name="normalized_smape_score",
+                        value=float(normalized_smape_score),
+                        data_type="NUMERIC",
+                        comment="Higher is better",
                     )
 
                 accuracy = metrics.get("bool_categorical_accuracy")

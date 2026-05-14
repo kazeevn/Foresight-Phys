@@ -16,6 +16,7 @@ dependencies = [
 	"tqdm>=4.66.0",
 	"chardet<6",
 	"pydantic>=2.13.4",
+	"isort>=8.0.1",
 ]
 
 [project.scripts]

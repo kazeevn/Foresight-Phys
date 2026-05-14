@@ -16,6 +16,13 @@ from .reporting import write_human_readable_report
 from .resources import resolve_system_prompt_path
 
 
+def average_metric(rows: list[dict[str, Any]], key: str) -> float | None:
+    values = [row[key] for row in rows if row[key] is not None]
+    if not values:
+        return None
+    return sum(values) / len(values)
+
+
 def run_benchmark(args: argparse.Namespace) -> dict[str, Any]:
     load_dotenv()
     langfuse_logger = LangfuseRunLogger.from_args(args)
@@ -48,40 +55,25 @@ def run_benchmark(args: argparse.Namespace) -> dict[str, Any]:
             }
         )
 
-    mape_values = [row['mape'] for row in rows if row['mape'] is not None]
-    accuracy_values = [
-        row['bool_categorical_accuracy']
-        for row in rows
-        if row['bool_categorical_accuracy'] is not None
-    ]
-    formula_accuracy_values = [
-        row['formula_accuracy']
-        for row in rows
-        if row['formula_accuracy'] is not None
-    ]
-
-    aggregate_mape = sum(mape_values) / len(mape_values) if mape_values else None
-    aggregate_bool_categorical_accuracy = (
-        sum(accuracy_values) / len(accuracy_values) if accuracy_values else None
+    aggregate_prediction_quality = average_metric(rows, 'prediction_quality')
+    aggregate_smape = average_metric(rows, 'smape')
+    aggregate_normalized_smape_score = average_metric(rows, 'normalized_smape_score')
+    aggregate_bool_categorical_accuracy = average_metric(
+        rows,
+        'bool_categorical_accuracy',
     )
-    aggregate_formula_accuracy = (
-        sum(formula_accuracy_values) / len(formula_accuracy_values)
-        if formula_accuracy_values
-        else None
-    )
-    total_excluded_numeric_values = sum(
-        row['excluded_numeric_for_mape'] for row in rows
-    )
+    aggregate_formula_accuracy = average_metric(rows, 'formula_accuracy')
 
     summary = {
         'run_name': args.run_name,
         'model': args.model,
         'max_workers': args.max_workers,
         'files_evaluated': len(rows),
-        'aggregate_mape': aggregate_mape,
+        'aggregate_prediction_quality': aggregate_prediction_quality,
+        'aggregate_smape': aggregate_smape,
+        'aggregate_normalized_smape_score': aggregate_normalized_smape_score,
         'aggregate_bool_categorical_accuracy': aggregate_bool_categorical_accuracy,
         'aggregate_formula_accuracy': aggregate_formula_accuracy,
-        'total_excluded_numeric_values_for_mape': total_excluded_numeric_values,
         'formula_judge_model': FORMULA_JUDGE_MODEL,
         'human_readable_report': args.html_output,
         'cache': prediction_cache.summary(),
@@ -91,16 +83,17 @@ def run_benchmark(args: argparse.Namespace) -> dict[str, Any]:
 
     if args.html_output:
         Path(args.html_output).parent.mkdir(parents=True, exist_ok=True)
-        report_kwargs: dict[str, Any] = {
-            'items': benchmark_items,
-            'output_path': Path(args.html_output),
-            'model': args.model,
-            'aggregate_mape': aggregate_mape,
-            'aggregate_bool_categorical_accuracy': aggregate_bool_categorical_accuracy,
-            'aggregate_formula_accuracy': aggregate_formula_accuracy,
-            'formula_judge': formula_judge,
-        }
-        write_human_readable_report(**report_kwargs)
+        write_human_readable_report(
+            items=benchmark_items,
+            output_path=Path(args.html_output),
+            model=args.model,
+            aggregate_prediction_quality=aggregate_prediction_quality,
+            aggregate_smape=aggregate_smape,
+            aggregate_normalized_smape_score=aggregate_normalized_smape_score,
+            aggregate_bool_categorical_accuracy=aggregate_bool_categorical_accuracy,
+            aggregate_formula_accuracy=aggregate_formula_accuracy,
+            formula_judge=formula_judge,
+        )
 
     langfuse_logger.log_run_summary(summary, args)
     langfuse_logger.flush()

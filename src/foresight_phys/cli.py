@@ -7,7 +7,6 @@ from pathlib import Path
 import secrets
 
 from .benchmark import run_benchmark
-from .constants import MAPE_MIN_ABS_TARGET
 from .resources import DEFAULT_SYSTEM_PROMPT_PATH
 
 
@@ -105,7 +104,7 @@ def parse_args() -> argparse.Namespace:
         default=str(DEFAULT_SYSTEM_PROMPT_PATH),
         help='Path to system prompt text file.',
     )
-    parser.add_argument('--model', default='gpt-5-nano', help='LLM model name.')
+    parser.add_argument('--model', default='gpt-5.4-nano', help='LLM model name.')
     parser.add_argument(
         '--max-workers',
         type=int,
@@ -161,15 +160,28 @@ def main() -> None:
     args = parse_args()
     summary = run_benchmark(args)
     print(json.dumps(summary, ensure_ascii=False, indent=2))
+    if summary['aggregate_prediction_quality'] is not None:
+        print(
+            f"Aggregate prediction quality: "
+            f"{summary['aggregate_prediction_quality']:.4f}"
+        )
+    if summary['aggregate_smape'] is not None:
+        print(f"Aggregate raw sMAPE: {summary['aggregate_smape']:.4f}")
+    if summary['aggregate_normalized_smape_score'] is not None:
+        print(
+            f"Aggregate normalized sMAPE score: "
+            f"{summary['aggregate_normalized_smape_score']:.4f}"
+        )
+    if summary['aggregate_bool_categorical_accuracy'] is not None:
+        print(
+            f"Aggregate bool/categorical accuracy: "
+            f"{summary['aggregate_bool_categorical_accuracy']:.4f}"
+        )
     if summary['aggregate_formula_accuracy'] is not None:
         print(
             f"Aggregate formula accuracy ({summary['formula_judge_model']} judge): "
             f"{summary['aggregate_formula_accuracy']:.4f}"
         )
-    print(
-        f'Total excluded numeric values for MAPE (abs(expected) < {MAPE_MIN_ABS_TARGET}): '
-        f"{summary['total_excluded_numeric_values_for_mape']}"
-    )
 
 
 if __name__ == '__main__':

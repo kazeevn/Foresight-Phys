@@ -81,6 +81,13 @@ class FilteringResult:
     response_id: str
 
 
+@dataclass(frozen=True)
+class RecordedExtractionOutputs:
+    raw_output_path: Path
+    filtered_output_path: Path
+    paper_title: str | None = None
+
+
 def to_benchmark_experiment(experiment: ExperimentRecord) -> dict[str, Any]:
     experiment_results: dict[str, Any] = {}
     for result_field in experiment.experiment_results:
@@ -285,6 +292,50 @@ def write_extraction_output(output_path: Path, experiments: list[dict[str, Any]]
     )
 
 
+def load_response_id_manifest(ids_path: Path) -> dict[str, Any]:
+    payload: dict[str, Any] = {"runs": []}
+    if not ids_path.exists():
+        return payload
+
+    try:
+        loaded = json.loads(ids_path.read_text(encoding="utf-8"))
+    except (OSError, TypeError, ValueError, json.JSONDecodeError):
+        return payload
+
+    if isinstance(loaded, dict) and isinstance(loaded.get("runs"), list):
+        return loaded
+    return payload
+
+
+def find_recorded_outputs_for_source_url(
+    ids_path: Path,
+    *,
+    source_url: str,
+) -> RecordedExtractionOutputs | None:
+    payload = load_response_id_manifest(ids_path)
+
+    for run in reversed(payload["runs"]):
+        if not isinstance(run, dict) or run.get("source_url") != source_url:
+            continue
+
+        raw_output_path = run.get("raw_output_path")
+        filtered_output_path = run.get("filtered_output_path") or run.get("output_path")
+        if not isinstance(raw_output_path, str) or not isinstance(filtered_output_path, str):
+            continue
+
+        paper_title = run.get("paper_title")
+        if not isinstance(paper_title, str) or not paper_title.strip():
+            paper_title = None
+
+        return RecordedExtractionOutputs(
+            raw_output_path=Path(raw_output_path),
+            filtered_output_path=Path(filtered_output_path),
+            paper_title=paper_title,
+        )
+
+    return None
+
+
 def record_response_id(
     ids_path: Path,
     *,
@@ -299,14 +350,7 @@ def record_response_id(
     validity_by_experiment: list[bool],
     system_prompt_path: Path,
 ) -> None:
-    payload: dict[str, Any] = {"runs": []}
-    if ids_path.exists():
-        try:
-            loaded = json.loads(ids_path.read_text(encoding="utf-8"))
-        except (OSError, TypeError, ValueError, json.JSONDecodeError):
-            loaded = None
-        if isinstance(loaded, dict) and isinstance(loaded.get("runs"), list):
-            payload = loaded
+    payload = load_response_id_manifest(ids_path)
 
     payload["runs"].append(
         {
