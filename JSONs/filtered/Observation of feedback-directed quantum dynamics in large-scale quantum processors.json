@@ -1,0 +1,97 @@
+[
+  {
+    "experiment_description": "IBM Quantum hardware experiment on the superconducting quantum processor marrakesh comparing four 1D random-circuit dynamics on a chain of L = 20 qubits. The initial computational-basis state contained six occupied/spin-up qubits localized near the center of the chain. Each circuit layer first applied a scrambling unitary Urand consisting of nearest-neighbor CZ gates in an even-odd brickwork pattern together with random single-qubit Rx rotations; the main-text simulations used rotation angles sampled from a uniform interval [0, 1.0]. Evolution was run for circuit-layer index i = 1 to 10 and averaged over 10 random circuit realizations. The measured local occupation was nx = |0x><0x| at site x, and the reported normalized center-of-mass observable was Nc(i) = sum_x x <nx(i)> / sum_x <nx(i)>, plotted in normalized site units. The four compared dynamics were: (1) purely unitary random circuit with only Urand layers; (2) random circuit with stochastic mid-circuit computational-basis measurements after each Urand layer, where qubit x was measured with probability f(x)=g(L-x) and g=0.01; (3) conditional-X feedback circuit, where after each Urand layer qubit x was measured with probability f(x)=g(L-x), g=0.01, and if the measurement outcome was 0 a Pauli-X gate was applied to that qubit; and (4) conditional-SWAP feedback circuit, where after each Urand layer a bond operation was applied with fixed probability pSWAP=0.3: qubit x was measured and, if the outcome was 0, a SWAP gate was applied between x and x+1. The dependent variable extracted was the plotted mean normalized center of mass at the final measured layer i=10.",
+    "experiment_results": {
+      "final_normalized_center_of_mass_i10_unitary": {
+        "type": "float",
+        "description": "Mean normalized center-of-mass occupation at circuit layer i=10 for the purely unitary random circuit, read from Fig. 2(a).",
+        "result": 0.475
+      },
+      "final_normalized_center_of_mass_i10_pure_measurement": {
+        "type": "float",
+        "description": "Mean normalized center-of-mass occupation at circuit layer i=10 for the random circuit with position-dependent mid-circuit measurements but no feedback, read from Fig. 2(a).",
+        "result": 0.478
+      },
+      "final_normalized_center_of_mass_i10_conditional_x_feedback": {
+        "type": "float",
+        "description": "Mean normalized center-of-mass occupation at circuit layer i=10 for the conditional-X feedback circuit, read from Fig. 2(b).",
+        "result": 0.6
+      },
+      "final_normalized_center_of_mass_i10_conditional_swap_feedback": {
+        "type": "float",
+        "description": "Mean normalized center-of-mass occupation at circuit layer i=10 for the conditional-SWAP feedback circuit, read from Fig. 2(b).",
+        "result": 0.555
+      }
+    }
+  },
+  {
+    "experiment_description": "Large-scale IBM Quantum marrakesh experiment measuring feedback-directed pumping in a 100-qubit chain. The circuit used the same random scrambling layer as in the main text: even-odd nearest-neighbor CZ gates and random single-qubit Rx rotations, followed by one of three post-scrambling operations: no measurement/feedback, position-dependent mid-circuit measurements only, or conditional-X feedback. For the measurement-containing circuits, the probability of measuring qubit x was f(x)=g(L-x), with L=100 and g=0.15/L. In the conditional-X protocol, when a measured qubit produced outcome 0, a Pauli-X operation was conditionally applied to that qubit. Two initial computational-basis configurations were tested separately: six occupied/spin-up qubits centered in the chain, and six occupied/spin-up qubits localized near the right edge. The measured local density was nx=|0x><0x|. The reported pumping observable was the net center-of-mass shift delta_Nc(i)=L[Nc(i)-Nc(1)], where Nc(i)=sum_x x<nx(i)>/sum_x<nx(i)> is the normalized occupation center of mass and i is the circuit-layer index. The dependent variable extracted was the plotted mean net center-of-mass shift at i=10 for each circuit and initial condition.",
+    "experiment_results": {
+      "center_initial_delta_center_of_mass_i10_unitary": {
+        "type": "float",
+        "description": "Net center-of-mass shift at layer i=10 for the 100-qubit purely unitary circuit initialized with six occupied qubits at the chain center, read from Fig. 4(a).",
+        "result": 4.8
+      },
+      "center_initial_delta_center_of_mass_i10_pure_measurement": {
+        "type": "float",
+        "description": "Net center-of-mass shift at layer i=10 for the 100-qubit measurement-only circuit initialized with six occupied qubits at the chain center, read from Fig. 4(a).",
+        "result": 5.5
+      },
+      "center_initial_delta_center_of_mass_i10_conditional_x_feedback": {
+        "type": "float",
+        "description": "Net center-of-mass shift at layer i=10 for the 100-qubit conditional-X feedback circuit initialized with six occupied qubits at the chain center, read from Fig. 4(a).",
+        "result": 19.0
+      },
+      "right_edge_initial_delta_center_of_mass_i10_unitary": {
+        "type": "float",
+        "description": "Net center-of-mass shift at layer i=10 for the 100-qubit purely unitary circuit initialized with six occupied qubits near the right edge, read from Fig. 4(b).",
+        "result": -16.5
+      },
+      "right_edge_initial_delta_center_of_mass_i10_pure_measurement": {
+        "type": "float",
+        "description": "Net center-of-mass shift at layer i=10 for the 100-qubit measurement-only circuit initialized with six occupied qubits near the right edge, read from Fig. 4(b).",
+        "result": -3.0
+      },
+      "right_edge_initial_delta_center_of_mass_i10_conditional_x_feedback": {
+        "type": "float",
+        "description": "Net center-of-mass shift at layer i=10 for the 100-qubit conditional-X feedback circuit initialized with six occupied qubits near the right edge, read from Fig. 4(b).",
+        "result": -2.4
+      }
+    }
+  },
+  {
+    "experiment_description": "IBM Quantum marrakesh experiment using an end-to-end polarization diagnostic to quantify directional transport in large chains. Chains of L = 50, 80, and 100 qubits were initialized with six occupied/spin-up qubits at the center. Each layer used the random scrambling block formed from nearest-neighbor CZ gates in an even-odd pattern and random single-qubit Rx rotations. Two circuit families were compared: a purely unitary circuit containing only the scrambling layers, and a conditional-X feedback circuit in which after each scrambling layer qubit x was measured in the computational basis with probability f(x)=g(L-x), with g=0.18/L, and a Pauli-X operation was applied when the measurement outcome was 0. The local occupation was nx=|0x><0x|. The measured polarization observable was Jc(i) = [<n_{L-1}(i)> - <n_0(i)>] / sum_x <nx(i)>, comparing the two chain ends and normalizing by the total measured occupation. Results were averaged over 10 random circuit realizations; the dependent variable extracted here is the plotted mean Jc at circuit layer i=10.",
+    "experiment_results": {
+      "end_to_end_polarization_i10_unitary_L50": {
+        "type": "float",
+        "description": "End-to-end polarization at i=10 for the 50-qubit purely unitary circuit, read from Fig. 5(a).",
+        "result": -0.05
+      },
+      "end_to_end_polarization_i10_unitary_L80": {
+        "type": "float",
+        "description": "End-to-end polarization at i=10 for the 80-qubit purely unitary circuit, read from Fig. 5(a).",
+        "result": 0.03
+      },
+      "end_to_end_polarization_i10_unitary_L100": {
+        "type": "float",
+        "description": "End-to-end polarization at i=10 for the 100-qubit purely unitary circuit, read from Fig. 5(a).",
+        "result": -0.02
+      },
+      "end_to_end_polarization_i10_conditional_x_feedback_L50": {
+        "type": "float",
+        "description": "End-to-end polarization at i=10 for the 50-qubit conditional-X feedback circuit, read from Fig. 5(b).",
+        "result": 0.28
+      },
+      "end_to_end_polarization_i10_conditional_x_feedback_L80": {
+        "type": "float",
+        "description": "End-to-end polarization at i=10 for the 80-qubit conditional-X feedback circuit, read from Fig. 5(b).",
+        "result": 0.4
+      },
+      "end_to_end_polarization_i10_conditional_x_feedback_L100": {
+        "type": "float",
+        "description": "End-to-end polarization at i=10 for the 100-qubit conditional-X feedback circuit, read from Fig. 5(b) and the accompanying text noting values as large as approximately 0.6.",
+        "result": 0.6
+      }
+    }
+  }
+]

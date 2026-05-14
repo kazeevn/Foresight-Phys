@@ -1,0 +1,22 @@
+[
+  {
+    "experiment_description": "Phase-shifting digital holography (PSDH) reconstruction in a nonlinear induced-coherence interferometer. A continuous-wave single-mode 532 nm pump laser illuminates two identical periodically poled lithium niobate (PPLN) nonlinear crystals Q1 and Q2, each with dimensions 1 mm × 1 mm × 2 mm, operated for type-0 non-degenerate SPDC producing signal photons at 810 nm and idler photons at 1550 nm. Signal and idler from Q1 are separated by a dichroic mirror. The idler from Q1 is relayed to Q2 with a 4f imaging system using lenses fI1 = fI2 = 75 mm; a vortex wave plate of topological charge m = 2 is placed in the idler far-field plane, and HWP3 is set either to 0 degrees for horizontal projection or 45 degrees for vertical projection before the idler is overlapped with the Q2 idler mode. The signal from Q1 is relayed with lenses fS1 = fS2 = 75 mm and recombined with the Q2 signal at a beam splitter; lens fk = 150 mm Fourier-transforms the visible signal field onto an sCMOS camera. Two spectral filters centered at 810 ± 10 nm reject background and idler light. The camera records one image per second. For PSDH, a piezoelectric actuator introduces interferometric phase steps of 0, π/2, π, and 3π/2 for each of the two HWP3 projection settings, giving eight interferograms total. Define r as a transverse position in the reconstructed idler far-field plane, γ as its azimuthal angle, |H> and |V> as horizontal and vertical polarization basis states, and ϕ0 as the fixed orientation of the vortex-wave-plate fast axis at γ = 0. The reconstructed Jones vector is reported up to an arbitrary global phase.",
+    "experiment_results": {
+      "psdh_reconstructed_local_jones_vector": {
+        "type": "formula",
+        "description": "Empirically reconstructed local polarization state of the undetected 1550 nm idler field, obtained from the four-step phase-shifting holographic interference measurements in the detected 810 nm signal arm.",
+        "result": "|ψ(r,γ)> = cos(2γ + 2ϕ0)|H> + sin(2γ + 2ϕ0)|V>, up to a global phase"
+      }
+    }
+  },
+  {
+    "experiment_description": "Off-axis holography (OAH) reconstruction in the same nonlinear induced-coherence interferometer. A continuous-wave single-mode 532 nm pump laser illuminates two identical PPLN crystals Q1 and Q2, each 1 mm × 1 mm × 2 mm, operated for type-0 non-degenerate SPDC producing signal photons at 810 nm and idler photons at 1550 nm. The idler emitted from Q1 is separated by a dichroic mirror, relayed to Q2 using a 4f system with fI1 = fI2 = 75 mm, and structured in its far-field plane by a vortex wave plate of topological charge m = 2. HWP3 is set to 0 degrees for the horizontal projection and 45 degrees for the vertical projection before idler-mode overlap at Q2. The corresponding signal fields from Q1 and Q2 are recombined at a beam splitter, spectrally filtered at 810 ± 10 nm, Fourier-transformed by a 150 mm lens onto an sCMOS camera, and recorded at one image per second. For OAH, a small relative angular offset is introduced between the interfering signal fields to generate spatial carrier fringes; one interferogram is acquired for each polarization projection, and the complex field is recovered by Fourier transforming the interferogram, isolating one displaced first-order term, shifting it to the origin, and inverse Fourier transforming. Define r as a transverse position in the reconstructed idler far-field plane, γ as its azimuthal angle, |H> and |V> as horizontal and vertical polarization basis states, and ϕ0 as the fixed orientation of the vortex-wave-plate fast axis at γ = 0. The reconstructed Jones vector is reported up to an arbitrary global phase.",
+    "experiment_results": {
+      "oah_reconstructed_local_jones_vector": {
+        "type": "formula",
+        "description": "Empirically reconstructed local polarization state of the undetected 1550 nm idler field, obtained from single-shot off-axis holographic retrieval using two detected 810 nm signal-arm interferograms, one for each polarization projection.",
+        "result": "|ψ(r,γ)> = cos(2γ + 2ϕ0)|H> + sin(2γ + 2ϕ0)|V>, up to a global phase"
+      }
+    }
+  }
+]

@@ -1,0 +1,57 @@
+[
+  {
+    "experiment_description": "A reduced continuous-variable quantum key distribution receiver was attacked with a controlled incoherent-noise source followed by a coherent detector-blinding source. The receiver local oscillator was an Aerodiode 1550 nm DFB Model 5 laser driven by a Wavelength Electronics PTC2.5K-CH temperature controller and MPL250 laser driver. The LO passed through an optical isolator and an Agiltron LightBend 1x1 PM optical switch into a polarization-diverse receiver. The incoming fiber signal passed through an Agiltron LightBend 1x1 optical switch and then into the same receiver. In the receiver, the LO was split by a PBS whose fast axis was shifted by 45 degrees relative to the LO polarization, sending half the LO power to each 50/50 polarization-maintaining beam splitter; the incoming signal was split into two polarization components by a second PBS and combined with the LO components in the two 50/50 beam splitters. The outputs were detected with two Wieserlabs WL-BPD1GA balanced optical receivers with 1.6 GHz bandwidth and AC cutoff below 300 kHz, and digitized with a Texas Instruments ADC12DJ3200EVM at 3.2 GHz. Digital processing downconverted the signal region around 400 MHz to baseband, applied a root-raised-cosine filter with roll-off factor 0.95 and symbol rate 153.6 MBaud, combined the two polarization components assuming equal distribution between receiver arms, and computed variances. Thermal, shot, and noisy variances were acquired using the optical switches; shot-noise units were computed as Var[shot] minus Var[thermal], the noisy variance was normalized by this value, and the receiver excess-noise estimate was obtained assuming receiver efficiency 0.90 and channel transmission 0.5. The incoherent-noise source was a Thorlabs EDFA100S operated without input signal to generate amplified spontaneous emission, followed by a Thorlabs V1550A variable optical attenuator driven by a UNI-T UDP3305S power supply and combined into the receiver path through a WBC-2x2-13/15-10/90 90/10 beam splitter. The noise-source optical powers injected toward the receiver, after correcting for the 90/10 splitter, were fixed in separate runs at -27.0 dBm, -28.3 dBm, -29.9 dBm, -30.8 dBm, and -31.8 dBm. The blinding source was a Sumitomo Electric Industries SLV5410 diode emitting at 1344 nm, driven by a Rigol DG1032 function generator and a Thorlabs TED200C temperature controller. The blinding laser was directly square-wave modulated at 10 MHz to pass the AC-coupled balanced receivers, attenuated with a Thorlabs V1550A VOA driven by a UNI-T UDP3305S supply, monitored through a Thorlabs TD1315R5F1 50/50 beam splitter and OZ Optics POM-600 power meter, combined with the signal path using a Thorlabs WD1350B WDM, and polarization-adjusted to give comparable blinding amplitudes in both balanced receiver arms. For each fixed noise-source power, the blinding optical power was swept from -15.64536 dBm to -12.53858 dBm. The reported hiding threshold for each noise condition was the lowest blinding power in the sweep for which the receiver-estimated excess noise fell below the positive-key-rate excess-noise criterion of 0.126 SNU for a probabilistically shaped 64-QAM CV-QKD link with Maxwell-Boltzmann distributed constellation points and channel transmission 0.5.",
+    "experiment_results": {
+      "unblinded_excess_noise_snu_at_noise_power_minus_31_8_dbm": {
+        "type": "float",
+        "description": "Receiver-estimated excess noise before effective blinding for the run with corrected injected noise-source power of -31.8 dBm.",
+        "result": 0.86
+      },
+      "minimum_blinding_power_to_hide_noise_dbm_at_noise_power_minus_31_8_dbm": {
+        "type": "float",
+        "description": "Lowest blinding optical power that reduced the receiver-estimated excess noise below the positive-key-rate threshold for the -31.8 dBm injected-noise run.",
+        "result": -13.33
+      },
+      "unblinded_excess_noise_snu_at_noise_power_minus_30_8_dbm": {
+        "type": "float",
+        "description": "Receiver-estimated excess noise before effective blinding for the run with corrected injected noise-source power of -30.8 dBm.",
+        "result": 1.05
+      },
+      "minimum_blinding_power_to_hide_noise_dbm_at_noise_power_minus_30_8_dbm": {
+        "type": "float",
+        "description": "Lowest blinding optical power that reduced the receiver-estimated excess noise below the positive-key-rate threshold for the -30.8 dBm injected-noise run.",
+        "result": -13.24
+      },
+      "unblinded_excess_noise_snu_at_noise_power_minus_29_9_dbm": {
+        "type": "float",
+        "description": "Receiver-estimated excess noise before effective blinding for the run with corrected injected noise-source power of -29.9 dBm.",
+        "result": 1.33
+      },
+      "minimum_blinding_power_to_hide_noise_dbm_at_noise_power_minus_29_9_dbm": {
+        "type": "float",
+        "description": "Lowest blinding optical power that reduced the receiver-estimated excess noise below the positive-key-rate threshold for the -29.9 dBm injected-noise run.",
+        "result": -12.86
+      },
+      "unblinded_excess_noise_snu_at_noise_power_minus_28_3_dbm": {
+        "type": "float",
+        "description": "Receiver-estimated excess noise before effective blinding for the run with corrected injected noise-source power of -28.3 dBm.",
+        "result": 1.84
+      },
+      "minimum_blinding_power_to_hide_noise_dbm_at_noise_power_minus_28_3_dbm": {
+        "type": "float",
+        "description": "Lowest blinding optical power that reduced the receiver-estimated excess noise below the positive-key-rate threshold for the -28.3 dBm injected-noise run.",
+        "result": -12.73
+      },
+      "unblinded_excess_noise_snu_at_noise_power_minus_27_0_dbm": {
+        "type": "float",
+        "description": "Receiver-estimated excess noise before effective blinding for the run with corrected injected noise-source power of -27.0 dBm.",
+        "result": 2.49
+      },
+      "minimum_blinding_power_to_hide_noise_dbm_at_noise_power_minus_27_0_dbm": {
+        "type": "float",
+        "description": "Lowest blinding optical power that reduced the receiver-estimated excess noise below the positive-key-rate threshold for the -27.0 dBm injected-noise run.",
+        "result": -12.69
+      }
+    }
+  }
+]
