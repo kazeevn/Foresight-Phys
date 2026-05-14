@@ -1,0 +1,77 @@
+[
+  {
+    "experiment_description": "A marginally aligned single-layer graphene (SLG) on hexagonal boron nitride (hBN) heterostructure was first pre-assembled using a conventional polycarbonate-based method on a SiO2/Si substrate. The SLG/hBN moire superlattice was characterized by peak-force atomic force microscopy (PFM) on the SiO2/Si substrate, using line profiles through the PFM images to determine the moire wavelength. The same SLG/hBN heterostructure was then picked up using a mica membrane stamp at a substrate temperature of 50 °C and re-characterized with the same AFM cantilever while supported by the mica membrane. The measured quantity was the spatial period of the moire modulation extracted from the PFM line profiles before and after mica pickup.",
+    "experiment_results": {
+      "moire_wavelength_on_sio2_nm": {
+        "type": "float",
+        "description": "Moire wavelength of the marginally aligned SLG/hBN heterostructure measured by PFM before mica pickup, while on SiO2/Si.",
+        "result": 11.6
+      },
+      "moire_wavelength_on_mica_nm": {
+        "type": "float",
+        "description": "Moire wavelength of the same marginally aligned SLG/hBN heterostructure measured by PFM after pickup onto the mica membrane.",
+        "result": 11.6
+      }
+    }
+  },
+  {
+    "experiment_description": "A marginal-angle twisted bilayer graphene (TBG) device was assembled using the mica-membrane transfer method and placed on top of a thick graphite flake. The two graphene layers were intentionally set to a small twist angle of approximately 0.8°. The exposed conductive TBG surface was characterized at room temperature in ambient air with relative humidity below 56% using high-resolution conductive atomic force microscopy (cAFM) on a Bruker Dimension Icon AFM with a Nanoscope VII controller and PFTUNA module. Contact-mode scans used a Pt-coated Si CONTV-PT tip with tip radius about 25 nm and spring constant about 0.2 N m^-1. For the scan corresponding to the approximately 0.8° TBG, the sample bias was 1 mV, the deflection setpoint was -0.1 V, the pixel resolution was 256 × 256, and the scan rate was 0.5–1 Hz. The measured quantity was the period of the hexagonal moire superlattice extracted from the cAFM current-contrast map.",
+    "experiment_results": {
+      "tbg_moire_period_at_0p8deg_nm": {
+        "type": "float",
+        "description": "Spatial period of the hexagonal moire superlattice in the approximately 0.8° twisted bilayer graphene sample measured by cAFM.",
+        "result": 17.1
+      }
+    }
+  },
+  {
+    "experiment_description": "A large-area hBN-encapsulated single-layer graphene Hall-bar device was fabricated on a SiO2/Si substrate using the mica-assisted assembly method. The patterned Hall bar had lateral dimensions of approximately 20 µm by 14 µm and was located in a bubble-free region of the heterostructure. Low-temperature magnetotransport was measured at T = 1.7 K in a multiterminal non-local bend-resistance geometry. Charge carrier density n was swept over the range shown in the paper, approximately from -1.5 × 10^12 cm^-2 to +1.0 × 10^12 cm^-2 for the non-local resistance map, while perpendicular magnetic field B was swept approximately from -0.3 T to +0.3 T. Electron mobility was extracted as a function of carrier density from the transport data at the same temperature, and the reported high-density value was taken from the mobility curve outside the shaded charge-neutrality-point region.",
+    "experiment_results": {
+      "high_density_electron_mobility_cm2_V_s": {
+        "type": "float",
+        "description": "High-carrier-density electron mobility of the hBN-encapsulated single-layer graphene Hall-bar device at T = 1.7 K.",
+        "result": 4000000.0
+      },
+      "negative_nonlocal_resistance_at_zero_magnetic_field": {
+        "type": "bool",
+        "description": "Whether the non-local bend-resistance measurement showed negative non-local resistance at B = 0 T, indicating ballistic transport across the Hall-bar width.",
+        "result": true
+      }
+    }
+  },
+  {
+    "experiment_description": "A seven-layer mica-assembled heterostructure consisting of hBN-encapsulated high-angle twisted trilayer graphene with graphite and hBN gate layers was patterned into a Hall-bar device on SiO2/Si. The stack architecture was hBN/twisted trilayer graphene/hBN/graphite/hBN, with each graphene layer intentionally misaligned by a large angle of about 20° so that the layers were effectively decoupled by momentum-space mismatch. Low-temperature magnetotransport was measured in a non-local bend geometry as a function of total carrier density n and perpendicular magnetic field B. In the non-local map, the displacement field condition was D = -0.5 V nm^-1, n was swept approximately from -1.0 × 10^12 cm^-2 to +0.5 × 10^12 cm^-2, and B was swept approximately from 0 to 0.4 T. A separate double-gate resistance map was measured at fixed B = 50 mT while sweeping n approximately from -0.2 × 10^12 cm^-2 to +0.2 × 10^12 cm^-2 and D approximately from -0.2 to +0.2 V nm^-1. The measured quantity reported here is the magnetic-field onset scale for Landau-level quantization extracted from the Landau-fan features.",
+    "experiment_results": {
+      "landau_quantization_onset_mT": {
+        "type": "float",
+        "description": "Central value of the reported low magnetic-field onset of Landau quantization in the high-angle twisted trilayer graphene Hall-bar device; the paper reports an uncertainty of about ±1 mT.",
+        "result": 5.0
+      }
+    }
+  },
+  {
+    "experiment_description": "A suspended single-layer graphene/hBN heterostructure membrane was fabricated by mica-assisted transfer over a circular cavity etched in a bottom hBN flake on a SiO2 substrate. The suspended membrane diameter was d = 3 µm. Static nanomechanical characterization was performed by an AFM force-deflection experiment on the suspended membrane. The applied force was swept over the plotted range from approximately 0 to 850 nN, and the central deflection was recorded over the plotted range from approximately 0 to 50 nm. The force-deflection curve was fitted to the standard continuum-mechanics membrane indentation model to extract the in-plane elastic modulus of the suspended heterostructure.",
+    "experiment_results": {
+      "youngs_modulus_GPa": {
+        "type": "float",
+        "description": "Young's modulus extracted from the static AFM force-deflection fit of the suspended single-layer graphene/hBN membrane.",
+        "result": 851.0
+      }
+    }
+  },
+  {
+    "experiment_description": "A monolayer MoS2 flake was transferred onto an hBN substrate using the mica-assisted van der Waals assembly procedure to make an uncapped MoS2-on-hBN heterostructure. The optical response of the exposed monolayer MoS2 was characterized by photoluminescence spectroscopy in air at room temperature. The plotted emission spectrum covered approximately 550–750 nm, corresponding to photon energies of approximately 2.254–1.653 eV. The photoluminescence peak position and spectral linewidth were obtained by analyzing the room-temperature emission spectrum; the excitation wavelength and laser power were not specified in the provided text.",
+    "experiment_results": {
+      "photoluminescence_peak_energy_eV": {
+        "type": "float",
+        "description": "Room-temperature photoluminescence peak energy of monolayer MoS2 on hBN in air.",
+        "result": 1.882
+      },
+      "photoluminescence_fwhm_meV": {
+        "type": "float",
+        "description": "Full width at half maximum of the room-temperature monolayer MoS2 photoluminescence peak on hBN in air.",
+        "result": 49.0
+      }
+    }
+  }
+]
