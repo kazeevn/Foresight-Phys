@@ -81,6 +81,7 @@ By default this:
 - writes `docs/<run-name>/benchmark_results.json`
 - writes `docs/<run-name>/benchmark_human_readable_report.html`
 - caches raw predictions in `.cache/llm_predictions.json`
+- merges cache updates safely across overlapping benchmark runs and persists each completed prediction immediately
 - enables Langfuse logging when Langfuse keys are present
 
 `<run-name>` is auto-generated from the model name plus a random readable suffix.
@@ -112,7 +113,7 @@ For each JSON file, the benchmark pipeline:
 3. Sends the system prompt from `src/foresight_phys/system_prompt.txt` and the
 	 masked JSON payload to the OpenAI Responses API.
 4. Runs requests in parallel with retry and exponential backoff.
-5. Reuses cached predictions when available.
+5. Reuses cached predictions when available and persists each new prediction to the shared cache as soon as it completes.
 6. Compares predicted results against the reference JSON.
 7. Writes a machine-readable JSON summary and an offline HTML report.
 

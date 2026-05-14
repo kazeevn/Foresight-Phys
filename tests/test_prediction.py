@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import argparse
+import json
 import tempfile
 from pathlib import Path
 import unittest
@@ -138,6 +140,62 @@ class PredictionCallTests(unittest.TestCase):
 
         self.assertEqual([item.file_name for item in items], ['paper.json'])
         call_openai.assert_called_once()
+
+
+class PredictionCachePersistenceTests(unittest.TestCase):
+    def test_set_persists_entries_without_explicit_flush(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            cache_path = Path(tmp_dir) / 'cache.json'
+            args = argparse.Namespace(cache_path=str(cache_path), disable_cache=False)
+            prediction_cache = PredictionCache.from_args(args)
+
+            prediction_cache.set(
+                'paper-a',
+                {
+                    'experiment_results': {
+                        'bandgap_eV': {
+                            'result': 1.23,
+                        }
+                    }
+                },
+            )
+
+            persisted_payload = json.loads(cache_path.read_text(encoding='utf-8'))
+            reloaded_cache = PredictionCache.from_args(args)
+
+        self.assertEqual(
+            persisted_payload,
+            {
+                'paper-a': {
+                    'experiment_results': {
+                        'bandgap_eV': {
+                            'result': 1.23,
+                        }
+                    }
+                }
+            },
+        )
+        self.assertEqual(reloaded_cache.get('paper-a'), persisted_payload['paper-a'])
+
+    def test_overlapping_cache_instances_merge_new_entries(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            cache_path = Path(tmp_dir) / 'cache.json'
+            args = argparse.Namespace(cache_path=str(cache_path), disable_cache=False)
+            first_cache = PredictionCache.from_args(args)
+            second_cache = PredictionCache.from_args(args)
+
+            first_cache.set('paper-a', {'prediction': 'first'})
+            second_cache.set('paper-b', {'prediction': 'second'})
+
+            persisted_payload = json.loads(cache_path.read_text(encoding='utf-8'))
+
+        self.assertEqual(
+            persisted_payload,
+            {
+                'paper-a': {'prediction': 'first'},
+                'paper-b': {'prediction': 'second'},
+            },
+        )
 
 
 if __name__ == '__main__':
