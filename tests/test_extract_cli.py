@@ -4,7 +4,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest.mock import patch
 
-from foresight_phys.extract_cli import extract_single_url
+from foresight_phys.extract_cli import extract_single_url, parse_args
 from foresight_phys.extraction import ExtractionResult, FilteringResult
 
 
@@ -37,6 +37,22 @@ def write_manifest(
 
 
 class ExtractCliPreflightTests(unittest.TestCase):
+    def test_parse_args_accepts_service_tier(self) -> None:
+        with patch(
+            'sys.argv',
+            [
+                'foresight-phys-extract',
+                '--paper-url',
+                'https://example.com/paper.pdf',
+                '--service-tier',
+                'priority',
+            ],
+        ):
+            args = parse_args()
+
+        self.assertEqual(args.paper_url, 'https://example.com/paper.pdf')
+        self.assertEqual(args.service_tier, 'priority')
+
     def test_skips_explicit_existing_outputs_before_openai(self) -> None:
         with TemporaryDirectory() as tmpdir:
             tmp_path = Path(tmpdir)
@@ -56,6 +72,7 @@ class ExtractCliPreflightTests(unittest.TestCase):
                 result = extract_single_url(
                     paper_url='https://example.com/paper.pdf',
                     model='gpt-5.5',
+                    service_tier='flex',
                     extraction_system_prompt='prompt',
                     extraction_system_prompt_path=tmp_path / 'prompt.txt',
                     raw_output_override=str(raw_output_path),
@@ -96,6 +113,7 @@ class ExtractCliPreflightTests(unittest.TestCase):
                 result = extract_single_url(
                     paper_url=paper_url,
                     model='gpt-5.5',
+                    service_tier='flex',
                     extraction_system_prompt='prompt',
                     extraction_system_prompt_path=tmp_path / 'prompt.txt',
                     raw_output_override=None,
@@ -127,6 +145,7 @@ class ExtractCliPreflightTests(unittest.TestCase):
                     extract_single_url(
                         paper_url='https://example.com/paper.pdf',
                         model='gpt-5.5',
+                        service_tier='flex',
                         extraction_system_prompt='prompt',
                         extraction_system_prompt_path=tmp_path / 'prompt.txt',
                         raw_output_override=str(raw_output_path),
@@ -180,6 +199,7 @@ class ExtractCliPreflightTests(unittest.TestCase):
                 result = extract_single_url(
                     paper_url='https://example.com/paper.pdf',
                     model='gpt-5.5',
+                    service_tier='priority',
                     extraction_system_prompt='prompt',
                     extraction_system_prompt_path=tmp_path / 'prompt.txt',
                     raw_output_override=str(raw_output_path),
@@ -191,6 +211,8 @@ class ExtractCliPreflightTests(unittest.TestCase):
             extract_mock.assert_called_once()
             filter_mock.assert_called_once()
             record_mock.assert_called_once()
+            self.assertEqual(extract_mock.call_args.kwargs['service_tier'], 'priority')
+            self.assertEqual(filter_mock.call_args.kwargs['service_tier'], 'priority')
             self.assertEqual(result['experiments_extracted'], 1)
             self.assertEqual(json.loads(raw_output_path.read_text(encoding='utf-8')), extraction_result.experiments)
             self.assertEqual(

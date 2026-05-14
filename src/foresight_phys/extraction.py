@@ -138,6 +138,7 @@ def extract_experiments_from_url(
     model: str,
     paper_url: str,
     extraction_system_prompt: str,
+    service_tier: str = 'flex',
 ) -> ExtractionResult:
     client = OpenAI()
 
@@ -156,7 +157,7 @@ def extract_experiments_from_url(
             },
         ],
         text_format=PaperExtractionPayload,
-        service_tier="flex",
+        service_tier=service_tier,
     )
 
     response_id = extract_response_id(response)
@@ -193,6 +194,7 @@ def filter_experiments_for_benchmark(
     paper_title: str,
     experiments: list[dict[str, Any]],
     model: str = DEFAULT_BENCHMARK_FILTER_MODEL,
+    service_tier: str = 'flex',
 ) -> FilteringResult:
     client = OpenAI()
 
@@ -223,7 +225,7 @@ def filter_experiments_for_benchmark(
             },
         ],
         text_format=ExperimentSuitabilityPayload,
-        service_tier='flex',
+        service_tier=service_tier,
     )
 
     response_id = extract_response_id(response)

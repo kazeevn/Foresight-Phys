@@ -61,6 +61,11 @@ def parse_args() -> argparse.Namespace:
         help='OpenAI model name.',
     )
     parser.add_argument(
+        '--service-tier',
+        default='flex',
+        help='OpenAI Responses API service tier passed to extraction and filtering calls.',
+    )
+    parser.add_argument(
         '--system-prompt',
         default=None,
         help='Optional path to extraction system prompt text file.',
@@ -214,6 +219,7 @@ def extract_single_url(
     *,
     paper_url: str,
     model: str,
+    service_tier: str,
     extraction_system_prompt: str,
     extraction_system_prompt_path: Path,
     raw_output_override: str | None,
@@ -235,11 +241,13 @@ def extract_single_url(
         model=model,
         paper_url=paper_url,
         extraction_system_prompt=extraction_system_prompt,
+        service_tier=service_tier,
     )
     filtering = filter_experiments_for_benchmark(
         paper_title=extraction.paper_title,
         experiments=extraction.experiments,
         model=DEFAULT_BENCHMARK_FILTER_MODEL,
+        service_tier=service_tier,
     )
     raw_output_path = resolve_raw_output_path(raw_output_override, title=extraction.paper_title)
     filtered_output_path = resolve_filtered_output_path(
@@ -321,6 +329,7 @@ def main() -> None:
             extract_single_url(
                 paper_url=paper_url,
                 model=args.model,
+                service_tier=args.service_tier,
                 extraction_system_prompt=extraction_system_prompt,
                 extraction_system_prompt_path=extraction_system_prompt_path,
                 raw_output_override=args.raw_output,

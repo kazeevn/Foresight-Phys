@@ -186,6 +186,7 @@ Useful examples:
 uv run --env-file .env foresight-phys-extract --paper-url https://arxiv.org/pdf/2511.14269 --output JSONs/filtered/my-paper.json
 uv run --env-file .env foresight-phys-extract --paper-url https://arxiv.org/pdf/2511.14269 --raw-output JSONs/raw/my-paper.json
 uv run --env-file .env foresight-phys-extract --paper-url https://arxiv.org/pdf/2511.14269 --model gpt-5.5
+uv run --env-file .env foresight-phys-extract --paper-url https://arxiv.org/pdf/2511.14269 --service-tier priority
 uv run --env-file .env foresight-phys-extract --paper-url https://arxiv.org/pdf/2511.14269 --ids-path .cache/extraction_ids.json
 uv run --env-file .env foresight-phys-extract --paper-url https://arxiv.org/pdf/2511.14269 --overwrite
 uv run --env-file .env foresight-phys-extract --paper-urls-file papers.txt
