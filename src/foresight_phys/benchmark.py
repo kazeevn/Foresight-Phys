@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 from .cache import PredictionCache
 from .formula_judging import FORMULA_JUDGE_MODEL, FormulaJudge
 from .langfuse_logging import LangfuseRunLogger
-from .metrics import compute_file_metrics
+from .metrics import build_file_report_data
 from .prediction import build_benchmark_items
 from .reporting import write_human_readable_report, write_runs_index
 from .resources import resolve_system_prompt_path
@@ -42,17 +42,24 @@ def run_benchmark(args: argparse.Namespace) -> dict[str, Any]:
 
     rows = []
     for item in benchmark_items:
-        metrics = compute_file_metrics(
+        report_data = build_file_report_data(
             item.expected_output,
             item.actual_output,
             formula_judge=formula_judge,
         )
+        metrics = {
+            key: report_data[key]
+            for key in report_data
+            if key != 'report_experiments'
+        }
         langfuse_logger.log_file_result(item, metrics)
         rows.append(
             {
                 'file': item.file_name,
                 'paper_title': item.paper_title,
-                **metrics,
+                'expected_output': item.expected_output,
+                'actual_output': item.actual_output,
+                **report_data,
             }
         )
 
@@ -68,6 +75,7 @@ def run_benchmark(args: argparse.Namespace) -> dict[str, Any]:
     aggregate_formula_accuracy = average_metric(rows, 'formula_accuracy')
 
     summary = {
+        'generated_at_utc': __import__('datetime').datetime.now(__import__('datetime').timezone.utc).isoformat(),
         'run_name': args.run_name,
         'model': args.model,
         'max_workers': args.max_workers,
@@ -84,29 +92,23 @@ def run_benchmark(args: argparse.Namespace) -> dict[str, Any]:
         'per_file': rows,
     }
 
-    if args.html_output:
-        Path(args.html_output).parent.mkdir(parents=True, exist_ok=True)
-        write_human_readable_report(
-            items=benchmark_items,
-            output_path=Path(args.html_output),
-            model=args.model,
-            aggregate_prediction_quality=aggregate_prediction_quality,
-            aggregate_log_accuracy=aggregate_log_accuracy,
-            aggregate_normalized_log_accuracy_score=aggregate_normalized_log_accuracy_score,
-            aggregate_bool_categorical_accuracy=aggregate_bool_categorical_accuracy,
-            aggregate_formula_accuracy=aggregate_formula_accuracy,
-            formula_judge=formula_judge,
-        )
-
-    langfuse_logger.log_run_summary(summary, args)
-    langfuse_logger.flush()
-    prediction_cache.flush()
-
     output_path = Path(args.output)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(
         json.dumps(summary, ensure_ascii=False, indent=2),
         encoding='utf-8',
     )
+
+    if args.html_output:
+        Path(args.html_output).parent.mkdir(parents=True, exist_ok=True)
+        saved_summary = json.loads(output_path.read_text(encoding='utf-8'))
+        write_human_readable_report(
+            summary=saved_summary,
+            output_path=Path(args.html_output),
+        )
+
+    langfuse_logger.log_run_summary(summary, args)
+    langfuse_logger.flush()
+    prediction_cache.flush()
     write_runs_index(docs_dir=Path('docs'), latest_run_name=args.run_name)
     return summary

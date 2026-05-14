@@ -6,18 +6,6 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from .formula_judging import FormulaJudge
-from .metrics import (
-    coerce_numeric,
-    compute_file_metrics,
-    compute_log_accuracy,
-    is_formula_result,
-    is_numeric_result,
-    judge_formula_values,
-    values_match,
-)
-from .models import BenchmarkItem
-
 
 def format_metric_value(value: float | None) -> str:
     if value is None:
@@ -323,24 +311,25 @@ def write_runs_index(*, docs_dir: Path, latest_run_name: str | None = None) -> N
 
 def write_human_readable_report(
     *,
-    items: list[BenchmarkItem],
+    summary: dict[str, Any],
     output_path: Path,
-    model: str,
-    aggregate_prediction_quality: float | None,
-    aggregate_log_accuracy: float | None,
-    aggregate_normalized_log_accuracy_score: float | None,
-    aggregate_bool_categorical_accuracy: float | None,
-    aggregate_formula_accuracy: float | None,
-    formula_judge: FormulaJudge | None = None,
 ) -> None:
-    generated_at_utc = datetime.now(timezone.utc).isoformat()
+    generated_at_utc = str(
+        summary.get('generated_at_utc') or datetime.now(timezone.utc).isoformat()
+    )
+    model = str(summary.get('model', 'n/a'))
+    items = summary.get('per_file', [])
+    if not isinstance(items, list):
+        items = []
 
-    def display_file_title(item: BenchmarkItem) -> str:
-        if isinstance(item.paper_title, str) and item.paper_title.strip():
-            return item.paper_title.strip()
-        if item.file_name.lower().endswith(".json"):
-            return item.file_name[:-5]
-        return item.file_name
+    def display_file_title(item_summary: dict[str, Any]) -> str:
+        paper_title = item_summary.get('paper_title')
+        if isinstance(paper_title, str) and paper_title.strip():
+            return paper_title.strip()
+        file_name = str(item_summary.get('file', ''))
+        if file_name.lower().endswith('.json'):
+            return file_name[:-5]
+        return file_name
 
     def display_file_name(file_name: str) -> str:
         if file_name.lower().endswith(".json"):
@@ -356,50 +345,44 @@ def write_human_readable_report(
             return value
         return json.dumps(value, ensure_ascii=False)
 
-    def collect_file_section(item: BenchmarkItem) -> str:
-        metrics = compute_file_metrics(
-            item.expected_output,
-            item.actual_output,
-            formula_judge=formula_judge,
-        )
-        expected_experiments = item.expected_output if isinstance(item.expected_output, list) else [item.expected_output]
-        actual_experiments = item.actual_output if isinstance(item.actual_output, list) else [item.actual_output]
-
+    def collect_file_section(item_summary: dict[str, Any]) -> str:
         section_parts: list[str] = []
         section_parts.append('<div class="paper-metrics">')
         section_parts.append(
-            f'<div class="metric-chip"><span class="metric-label">Prediction Quality</span><span class="metric-value">{html.escape(format_metric_value(metrics.get("prediction_quality")))}</span></div>'
+            f'<div class="metric-chip"><span class="metric-label">Prediction Quality</span><span class="metric-value">{html.escape(format_metric_value(item_summary.get("prediction_quality")))}</span></div>'
         )
         section_parts.append(
-            f'<div class="metric-chip"><span class="metric-label">Log-Accuracy</span><span class="metric-value">{html.escape(format_metric_value(metrics.get("log_accuracy")))}</span></div>'
+            f'<div class="metric-chip"><span class="metric-label">Log-Accuracy</span><span class="metric-value">{html.escape(format_metric_value(item_summary.get("log_accuracy")))}</span></div>'
         )
         section_parts.append(
-            f'<div class="metric-chip"><span class="metric-label">Normalized Log-Accuracy Score</span><span class="metric-value">{html.escape(format_metric_value(metrics.get("normalized_log_accuracy_score")))}</span></div>'
+            f'<div class="metric-chip"><span class="metric-label">Normalized Log-Accuracy Score</span><span class="metric-value">{html.escape(format_metric_value(item_summary.get("normalized_log_accuracy_score")))}</span></div>'
         )
         section_parts.append(
-            f'<div class="metric-chip"><span class="metric-label">Bool/Categorical Accuracy</span><span class="metric-value">{html.escape(format_metric_value(metrics.get("bool_categorical_accuracy")))}</span></div>'
+            f'<div class="metric-chip"><span class="metric-label">Bool/Categorical Accuracy</span><span class="metric-value">{html.escape(format_metric_value(item_summary.get("bool_categorical_accuracy")))}</span></div>'
         )
         section_parts.append(
-            f'<div class="metric-chip"><span class="metric-label">Formula Accuracy</span><span class="metric-value">{html.escape(format_metric_value(metrics.get("formula_accuracy")))}</span></div>'
+            f'<div class="metric-chip"><span class="metric-label">Formula Accuracy</span><span class="metric-value">{html.escape(format_metric_value(item_summary.get("formula_accuracy")))}</span></div>'
         )
         section_parts.append('</div>')
 
-        for experiment_index, expected_exp in enumerate(expected_experiments, start=1):
-            actual_exp = actual_experiments[experiment_index - 1] if experiment_index - 1 < len(actual_experiments) else {}
-            expected_desc = ""
-            if isinstance(expected_exp, dict):
-                expected_desc = str(expected_exp.get("experiment_description", ""))
+        report_experiments = item_summary.get('report_experiments', [])
+        if not isinstance(report_experiments, list):
+            report_experiments = []
 
-            expected_results = expected_exp.get("experiment_results", {}) if isinstance(expected_exp, dict) else {}
-            actual_results = actual_exp.get("experiment_results", {}) if isinstance(actual_exp, dict) else {}
-
+        for experiment_index, experiment_summary in enumerate(report_experiments, start=1):
+            if not isinstance(experiment_summary, dict):
+                continue
+            expected_desc = str(experiment_summary.get('experiment_description', ''))
+            result_rows = experiment_summary.get('result_rows', [])
+            if not isinstance(result_rows, list):
+                result_rows = []
             section_parts.append('<article class="experiment-card">')
             section_parts.append(f'<h3>Experiment {experiment_index}</h3>')
             section_parts.append(
                 f'<p class="experiment-description">{html.escape(expected_desc)}</p>'
             )
 
-            if not isinstance(expected_results, dict) or not expected_results:
+            if not result_rows:
                 section_parts.append('<p class="empty-results">No result fields found.</p>')
                 section_parts.append('</article>')
                 continue
@@ -409,58 +392,18 @@ def write_human_readable_report(
                 '<table><thead><tr><th>Result</th><th>Description</th><th>Ground Truth</th><th>Predicted</th><th>Status</th></tr></thead><tbody>'
             )
 
-            for field_name, expected_meta in expected_results.items():
-                expected_meta_dict = expected_meta if isinstance(expected_meta, dict) else {}
-                field_description = str(expected_meta_dict.get("description", ""))
-                field_type = str(expected_meta_dict.get("type", "")).strip().lower()
-                expected_value = expected_meta_dict.get("result")
-
-                actual_meta = actual_results.get(field_name, {}) if isinstance(actual_results, dict) else {}
-                actual_meta_dict = actual_meta if isinstance(actual_meta, dict) else {}
-                actual_value = actual_meta_dict.get("result")
-
-                is_numeric_expected = is_numeric_result(field_type, expected_value)
-                status_title = ""
-
-                if is_numeric_expected:
-                    expected_ok, expected_numeric = coerce_numeric(expected_value)
-                    actual_ok, actual_numeric = coerce_numeric(actual_value)
-
-                    if expected_ok and expected_numeric == 0.0:
-                        zero_match = actual_ok and actual_numeric == 0.0
-                        status_text = 'zero match' if zero_match else 'zero mismatch'
-                        status_class = 'status-match' if zero_match else 'status-mismatch'
-                    elif expected_ok:
-                        if actual_ok:
-                            log_acc = compute_log_accuracy(expected_numeric, actual_numeric)
-                            status_text = f'Log-Acc {log_acc:.4f}'
-                            status_class = 'status-numeric'
-                        else:
-                            status_text = 'Log-Acc n/a'
-                            status_class = 'status-mismatch'
-                    else:
-                        match = values_match(expected_value, actual_value)
-                        status_text = 'match' if match else 'mismatch'
-                        status_class = 'status-match' if match else 'status-mismatch'
-                elif is_formula_result(field_type):
-                    formula_judgment = judge_formula_values(
-                        expected_formula=expected_value,
-                        actual_formula=actual_value,
-                        experiment_description=expected_desc,
-                        result_key=str(field_name),
-                        result_description=field_description,
-                        formula_judge=formula_judge,
-                    )
-                    status_text = 'formula match' if formula_judgment.equivalent else 'formula mismatch'
-                    status_class = 'status-match' if formula_judgment.equivalent else 'status-mismatch'
-                    status_title = formula_judgment.explanation
-                else:
-                    match = values_match(expected_value, actual_value)
-                    status_text = 'match' if match else 'mismatch'
-                    status_class = 'status-match' if match else 'status-mismatch'
-
+            for row in result_rows:
+                if not isinstance(row, dict):
+                    continue
+                field_name = str(row.get('result_key', ''))
+                field_description = str(row.get('description', ''))
+                expected_value = row.get('ground_truth')
+                actual_value = row.get('predicted')
+                status_text = str(row.get('status_text', ''))
+                status_class = str(row.get('status_class', ''))
+                status_title = row.get('status_title')
                 status_title_attr = ''
-                if status_title:
+                if isinstance(status_title, str) and status_title:
                     status_title_attr = f' title="{html.escape(status_title, quote=True)}"'
 
                 section_parts.append(
@@ -483,9 +426,11 @@ def write_human_readable_report(
     sidebar_buttons: list[str] = []
     paper_panels: list[str] = []
     for index, item in enumerate(items):
+        if not isinstance(item, dict):
+            continue
         active_class = ' is-active' if index == 0 else ''
         button_escaped = html.escape(display_file_title(item))
-        file_name_escaped = html.escape(display_file_name(item.file_name))
+        file_name_escaped = html.escape(display_file_name(str(item.get('file', ''))))
         sidebar_buttons.append(
             f'<button class="paper-tab{active_class}" data-paper-id="paper-{index}" type="button">{button_escaped}</button>'
         )
@@ -631,11 +576,11 @@ def write_human_readable_report(
         <div class="meta">Model: {html.escape(model)}</div>
         <div class="meta">Generated: {html.escape(generated_at_utc)}</div>
         <div class="meta">Files: {len(items)}</div>
-        <div class="meta">Aggregate prediction quality: {format_metric_value(aggregate_prediction_quality)}</div>
-        <div class="meta">Aggregate log-accuracy: {format_metric_value(aggregate_log_accuracy)}</div>
-        <div class="meta">Aggregate normalized log-accuracy score: {format_metric_value(aggregate_normalized_log_accuracy_score)}</div>
-        <div class="meta">Aggregate bool/categorical accuracy: {format_metric_value(aggregate_bool_categorical_accuracy)}</div>
-        <div class="meta">Aggregate formula accuracy: {format_metric_value(aggregate_formula_accuracy)}</div>
+        <div class="meta">Aggregate prediction quality: {format_metric_value(summary.get('aggregate_prediction_quality'))}</div>
+        <div class="meta">Aggregate log-accuracy: {format_metric_value(summary.get('aggregate_log_accuracy'))}</div>
+        <div class="meta">Aggregate normalized log-accuracy score: {format_metric_value(summary.get('aggregate_normalized_log_accuracy_score'))}</div>
+        <div class="meta">Aggregate bool/categorical accuracy: {format_metric_value(summary.get('aggregate_bool_categorical_accuracy'))}</div>
+        <div class="meta">Aggregate formula accuracy: {format_metric_value(summary.get('aggregate_formula_accuracy'))}</div>
     </div>
     <div class="layout">
         <aside class="sidebar" aria-label="Papers">

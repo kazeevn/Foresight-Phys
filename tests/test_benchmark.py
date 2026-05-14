@@ -226,7 +226,58 @@ class RunBenchmarkTests(unittest.TestCase):
 
 class ReportingTests(unittest.TestCase):
     def test_write_human_readable_report_displays_paper_title(self) -> None:
-        item = BenchmarkItem(
+        summary = {
+            "generated_at_utc": "2026-01-01T00:00:00+00:00",
+            "model": "gpt-5.4-nano",
+            "aggregate_prediction_quality": 1.0,
+            "aggregate_log_accuracy": 0.0,
+            "aggregate_normalized_log_accuracy_score": 1.0,
+            "aggregate_bool_categorical_accuracy": None,
+            "aggregate_formula_accuracy": None,
+            "per_file": [
+                {
+                    "file": "paper-one.json",
+                    "paper_title": "Visible Paper Title",
+                    "prediction_quality": 1.0,
+                    "log_accuracy": 0.0,
+                    "normalized_log_accuracy_score": 1.0,
+                    "bool_categorical_accuracy": None,
+                    "formula_accuracy": None,
+                    "report_experiments": [
+                        {
+                            "experiment_index": 1,
+                            "experiment_description": "Paper one",
+                            "result_rows": [
+                                {
+                                    "result_key": "temperature",
+                                    "description": "Measured temperature",
+                                    "ground_truth": 10.0,
+                                    "predicted": 10.0,
+                                    "status_text": "Log-Acc 0.0000",
+                                    "status_class": "status-numeric",
+                                    "status_title": None,
+                                }
+                            ],
+                        }
+                    ],
+                }
+            ],
+        }
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            report_path = Path(tmp_dir) / "benchmark_human_readable_report.html"
+            write_human_readable_report(
+                summary=summary,
+                output_path=report_path,
+            )
+
+            report_html = report_path.read_text(encoding="utf-8")
+
+        self.assertIn("Visible Paper Title", report_html)
+        self.assertIn(">paper-one<", report_html)
+
+    def test_run_benchmark_writes_summary_before_rendering_report(self) -> None:
+        paper = BenchmarkItem(
             file_name="paper-one.json",
             masked_input={},
             expected_output={
@@ -253,22 +304,41 @@ class ReportingTests(unittest.TestCase):
         )
 
         with tempfile.TemporaryDirectory() as tmp_dir:
-            report_path = Path(tmp_dir) / "benchmark_human_readable_report.html"
-            write_human_readable_report(
-                items=[item],
-                output_path=report_path,
+            output_path = Path(tmp_dir) / "benchmark_results.json"
+            html_output_path = Path(tmp_dir) / "benchmark_human_readable_report.html"
+            args = argparse.Namespace(
+                run_name="unit-test-run",
                 model="gpt-5.4-nano",
-                aggregate_prediction_quality=1.0,
-                aggregate_log_accuracy=0.0,
-                aggregate_normalized_log_accuracy_score=1.0,
-                aggregate_bool_categorical_accuracy=None,
-                aggregate_formula_accuracy=None,
+                max_workers=2,
+                json_dir=Path("JSONs/filtered"),
+                system_prompt=Path(__file__).resolve().parents[1] / "src/foresight_phys/system_prompt.txt",
+                max_files=None,
+                output=str(output_path),
+                html_output=str(html_output_path),
             )
 
-            report_html = report_path.read_text(encoding="utf-8")
+            def assert_saved_summary(*, summary: dict[str, object], output_path: Path) -> None:
+                self.assertEqual(output_path, html_output_path)
+                saved_summary = json.loads(Path(args.output).read_text(encoding="utf-8"))
+                self.assertEqual(summary, saved_summary)
 
-        self.assertIn("Visible Paper Title", report_html)
-        self.assertIn(">paper-one<", report_html)
+            with patch("foresight_phys.benchmark.load_dotenv"), patch(
+                "foresight_phys.benchmark.LangfuseRunLogger.from_args",
+                return_value=DummyLogger(),
+            ), patch(
+                "foresight_phys.benchmark.PredictionCache.from_args",
+                return_value=DummyCache(),
+            ), patch(
+                "foresight_phys.benchmark.FormulaJudge",
+                DummyFormulaJudge,
+            ), patch(
+                "foresight_phys.benchmark.build_benchmark_items",
+                return_value=[paper],
+            ), patch(
+                "foresight_phys.benchmark.write_human_readable_report",
+                side_effect=assert_saved_summary,
+            ), patch("foresight_phys.benchmark.write_runs_index"):
+                run_benchmark(args)
 
     def test_write_runs_index_lists_available_runs(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:
