@@ -16,6 +16,10 @@ BENCHMARK_FILTER_SYSTEM_PROMPT = (
     "Are those experiment descriptions suitable for benchmarking the ability of AIs to predict the results of physical experiments?"
 )
 DEFAULT_BENCHMARK_FILTER_MODEL = "gpt-5.5"
+ARXIV_URL_PATTERN = re.compile(
+    r"https?://(?:www\.)?arxiv\.org/(?:pdf|abs)/(?P<id>\d{4}\.\d{4,5}(?:v\d+)?)(?:\.pdf)?/?(?:[?#].*)?$",
+    re.IGNORECASE,
+)
 
 
 class ExperimentResultField(BaseModel):
@@ -86,6 +90,15 @@ class RecordedExtractionOutputs:
     raw_output_path: Path
     filtered_output_path: Path
     paper_title: str | None = None
+
+
+def extract_arxiv_id_from_url(paper_url: str) -> str:
+    match = ARXIV_URL_PATTERN.fullmatch(paper_url.strip())
+    if match is None:
+        raise NotImplementedError(
+            f'Only arXiv paper URLs are currently supported: {paper_url}'
+        )
+    return match.group('id')
 
 
 def to_benchmark_experiment(experiment: ExperimentRecord) -> dict[str, Any]:
@@ -258,23 +271,16 @@ def filter_experiments_for_benchmark(
     )
 
 
-def sanitize_title_for_filename(title: str) -> str:
-    sanitized = re.sub(r"[\x00-\x1f]", "", title).strip()
-    sanitized = sanitized.replace("/", "-")
-    sanitized = re.sub(r"\s+", " ", sanitized)
-    return sanitized or "extracted-paper"
-
-
-def resolve_raw_output_path(output: str | None, *, title: str) -> Path:
+def resolve_raw_output_path(output: str | None, *, arxiv_id: str) -> Path:
     if output:
         return Path(output)
-    return Path('JSONs/raw') / f'{sanitize_title_for_filename(title)}.json'
+    return Path('JSONs/raw') / f'{arxiv_id}.json'
 
 
-def resolve_filtered_output_path(output: str | None, *, title: str) -> Path:
+def resolve_filtered_output_path(output: str | None, *, arxiv_id: str) -> Path:
     if output:
         return Path(output)
-    return Path('JSONs/filtered') / f'{sanitize_title_for_filename(title)}.json'
+    return Path('JSONs/filtered') / f'{arxiv_id}.json'
 
 
 def validate_output_path(output_path: Path, *, overwrite: bool) -> None:
@@ -341,6 +347,7 @@ def find_recorded_outputs_for_source_url(
 def record_response_id(
     ids_path: Path,
     *,
+    arxiv_id: str,
     source_url: str,
     raw_output_path: Path,
     filtered_output_path: Path,
@@ -357,6 +364,7 @@ def record_response_id(
     payload["runs"].append(
         {
             "created_at": datetime.now(timezone.utc).isoformat(),
+            'arxiv_id': arxiv_id,
             "source_url": source_url,
             "paper_title": paper_title,
             "output_path": str(filtered_output_path.resolve()),

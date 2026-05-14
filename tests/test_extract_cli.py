@@ -1,4 +1,5 @@
 import json
+import os
 import unittest
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -70,7 +71,7 @@ class ExtractCliPreflightTests(unittest.TestCase):
                 side_effect=AssertionError('filter_experiments_for_benchmark should not run'),
             ):
                 result = extract_single_url(
-                    paper_url='https://example.com/paper.pdf',
+                    paper_url='https://arxiv.org/pdf/2601.12345',
                     model='gpt-5.5',
                     service_tier='flex',
                     extraction_system_prompt='prompt',
@@ -85,17 +86,57 @@ class ExtractCliPreflightTests(unittest.TestCase):
             self.assertEqual(result['path_resolution'], 'explicit_paths')
             self.assertEqual(result['skipped_paths'], [str(raw_output_path), str(filtered_output_path)])
 
-    def test_skips_manifest_recorded_outputs_before_openai(self) -> None:
+    def test_skips_arxiv_derived_existing_outputs_before_openai(self) -> None:
         with TemporaryDirectory() as tmpdir:
             tmp_path = Path(tmpdir)
-            raw_output_path = tmp_path / 'JSONs' / 'raw' / 'paper.json'
-            filtered_output_path = tmp_path / 'JSONs' / 'filtered' / 'paper.json'
+            raw_output_path = tmp_path / 'JSONs' / 'raw' / '2601.12345.json'
+            filtered_output_path = tmp_path / 'JSONs' / 'filtered' / '2601.12345.json'
             raw_output_path.parent.mkdir(parents=True, exist_ok=True)
             filtered_output_path.parent.mkdir(parents=True, exist_ok=True)
             raw_output_path.write_text('[]', encoding='utf-8')
             filtered_output_path.write_text('[]', encoding='utf-8')
             ids_path = tmp_path / '.cache' / 'ids.json'
-            paper_url = 'https://example.com/paper.pdf'
+            paper_url = 'https://arxiv.org/pdf/2601.12345'
+
+            original_cwd = Path.cwd()
+            os.chdir(tmp_path)
+            try:
+                with patch(
+                    'foresight_phys.extract_cli.extract_experiments_from_url',
+                    side_effect=AssertionError('extract_experiments_from_url should not run'),
+                ), patch(
+                    'foresight_phys.extract_cli.filter_experiments_for_benchmark',
+                    side_effect=AssertionError('filter_experiments_for_benchmark should not run'),
+                ):
+                    result = extract_single_url(
+                        paper_url=paper_url,
+                        model='gpt-5.5',
+                        service_tier='flex',
+                        extraction_system_prompt='prompt',
+                        extraction_system_prompt_path=tmp_path / 'prompt.txt',
+                        raw_output_override=None,
+                        filtered_output_override=None,
+                        ids_path=ids_path,
+                        overwrite=False,
+                    )
+            finally:
+                os.chdir(original_cwd)
+
+            self.assertEqual(result['status'], 'skipped_existing_output')
+            self.assertEqual(result['path_resolution'], 'default_arxiv_id')
+            self.assertEqual(result['arxiv_id'], '2601.12345')
+
+    def test_skip_payload_keeps_manifest_paper_title(self) -> None:
+        with TemporaryDirectory() as tmpdir:
+            tmp_path = Path(tmpdir)
+            raw_output_path = tmp_path / 'JSONs' / 'raw' / '2601.12345.json'
+            filtered_output_path = tmp_path / 'JSONs' / 'filtered' / '2601.12345.json'
+            raw_output_path.parent.mkdir(parents=True, exist_ok=True)
+            filtered_output_path.parent.mkdir(parents=True, exist_ok=True)
+            raw_output_path.write_text('[]', encoding='utf-8')
+            filtered_output_path.write_text('[]', encoding='utf-8')
+            ids_path = tmp_path / '.cache' / 'ids.json'
+            paper_url = 'https://arxiv.org/pdf/2601.12345'
             write_manifest(
                 ids_path,
                 source_url=paper_url,
@@ -103,27 +144,30 @@ class ExtractCliPreflightTests(unittest.TestCase):
                 filtered_output_path=filtered_output_path,
             )
 
-            with patch(
-                'foresight_phys.extract_cli.extract_experiments_from_url',
-                side_effect=AssertionError('extract_experiments_from_url should not run'),
-            ), patch(
-                'foresight_phys.extract_cli.filter_experiments_for_benchmark',
-                side_effect=AssertionError('filter_experiments_for_benchmark should not run'),
-            ):
-                result = extract_single_url(
-                    paper_url=paper_url,
-                    model='gpt-5.5',
-                    service_tier='flex',
-                    extraction_system_prompt='prompt',
-                    extraction_system_prompt_path=tmp_path / 'prompt.txt',
-                    raw_output_override=None,
-                    filtered_output_override=None,
-                    ids_path=ids_path,
-                    overwrite=False,
-                )
+            original_cwd = Path.cwd()
+            os.chdir(tmp_path)
+            try:
+                with patch(
+                    'foresight_phys.extract_cli.extract_experiments_from_url',
+                    side_effect=AssertionError('extract_experiments_from_url should not run'),
+                ), patch(
+                    'foresight_phys.extract_cli.filter_experiments_for_benchmark',
+                    side_effect=AssertionError('filter_experiments_for_benchmark should not run'),
+                ):
+                    result = extract_single_url(
+                        paper_url=paper_url,
+                        model='gpt-5.5',
+                        service_tier='flex',
+                        extraction_system_prompt='prompt',
+                        extraction_system_prompt_path=tmp_path / 'prompt.txt',
+                        raw_output_override=None,
+                        filtered_output_override=None,
+                        ids_path=ids_path,
+                        overwrite=False,
+                    )
+            finally:
+                os.chdir(original_cwd)
 
-            self.assertEqual(result['status'], 'skipped_existing_output')
-            self.assertEqual(result['path_resolution'], 'ids_manifest')
             self.assertEqual(result['paper_title'], 'Recorded Paper')
 
     def test_partial_existing_outputs_fail_before_openai(self) -> None:
@@ -143,7 +187,7 @@ class ExtractCliPreflightTests(unittest.TestCase):
             ):
                 with self.assertRaises(FileExistsError) as error:
                     extract_single_url(
-                        paper_url='https://example.com/paper.pdf',
+                        paper_url='https://arxiv.org/pdf/2601.12345',
                         model='gpt-5.5',
                         service_tier='flex',
                         extraction_system_prompt='prompt',
@@ -197,7 +241,7 @@ class ExtractCliPreflightTests(unittest.TestCase):
                 'foresight_phys.extract_cli.record_response_id',
             ) as record_mock:
                 result = extract_single_url(
-                    paper_url='https://example.com/paper.pdf',
+                    paper_url='https://arxiv.org/pdf/2601.12345',
                     model='gpt-5.5',
                     service_tier='priority',
                     extraction_system_prompt='prompt',
@@ -214,11 +258,36 @@ class ExtractCliPreflightTests(unittest.TestCase):
             self.assertEqual(extract_mock.call_args.kwargs['service_tier'], 'priority')
             self.assertEqual(filter_mock.call_args.kwargs['service_tier'], 'priority')
             self.assertEqual(result['experiments_extracted'], 1)
+            self.assertEqual(result['arxiv_id'], '2601.12345')
             self.assertEqual(json.loads(raw_output_path.read_text(encoding='utf-8')), extraction_result.experiments)
             self.assertEqual(
                 json.loads(filtered_output_path.read_text(encoding='utf-8')),
                 filtering_result.filtered_experiments,
             )
+
+    def test_non_arxiv_url_raises_not_implemented_before_openai(self) -> None:
+        with TemporaryDirectory() as tmpdir:
+            tmp_path = Path(tmpdir)
+
+            with patch(
+                'foresight_phys.extract_cli.extract_experiments_from_url',
+                side_effect=AssertionError('extract_experiments_from_url should not run'),
+            ), patch(
+                'foresight_phys.extract_cli.filter_experiments_for_benchmark',
+                side_effect=AssertionError('filter_experiments_for_benchmark should not run'),
+            ):
+                with self.assertRaises(NotImplementedError):
+                    extract_single_url(
+                        paper_url='https://example.com/paper.pdf',
+                        model='gpt-5.5',
+                        service_tier='flex',
+                        extraction_system_prompt='prompt',
+                        extraction_system_prompt_path=tmp_path / 'prompt.txt',
+                        raw_output_override=None,
+                        filtered_output_override=None,
+                        ids_path=tmp_path / '.cache' / 'ids.json',
+                        overwrite=False,
+                    )
 
 
 if __name__ == '__main__':

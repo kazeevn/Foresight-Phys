@@ -11,6 +11,7 @@ from tqdm import tqdm
 
 from .extraction import (
     DEFAULT_BENCHMARK_FILTER_MODEL,
+    extract_arxiv_id_from_url,
     extract_experiments_from_url,
     find_recorded_outputs_for_source_url,
     filter_experiments_for_benchmark,
@@ -48,12 +49,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         '--output',
         default=None,
-        help='Filtered output JSON path. Defaults to JSONs/filtered/<extracted paper title>.json. Only valid for single-paper runs.',
+        help='Filtered output JSON path. Defaults to JSONs/filtered/<arXiv id>.json. Only valid for single-paper runs.',
     )
     parser.add_argument(
         '--raw-output',
         default=None,
-        help='Raw parsed JSON path. Defaults to JSONs/raw/<extracted paper title>.json. Only valid for single-paper runs.',
+        help='Raw parsed JSON path. Defaults to JSONs/raw/<arXiv id>.json. Only valid for single-paper runs.',
     )
     parser.add_argument(
         '--model',
@@ -101,6 +102,7 @@ def read_paper_urls(args: argparse.Namespace) -> list[str]:
 
 def resolve_preflight_output_paths(
     *,
+    arxiv_id: str,
     paper_url: str,
     raw_output_override: str | None,
     filtered_output_override: str | None,
@@ -109,58 +111,43 @@ def resolve_preflight_output_paths(
     raw_output_path = Path(raw_output_override) if raw_output_override else None
     filtered_output_path = Path(filtered_output_override) if filtered_output_override else None
     recorded_outputs = find_recorded_outputs_for_source_url(ids_path, source_url=paper_url)
+    paper_title = recorded_outputs.paper_title if recorded_outputs else None
 
     if raw_output_path is not None and filtered_output_path is not None:
         return PreflightOutputPaths(
             raw_output_path=raw_output_path,
             filtered_output_path=filtered_output_path,
-            paper_title=recorded_outputs.paper_title if recorded_outputs else None,
+            paper_title=paper_title,
             path_resolution='explicit_paths',
         )
 
     if raw_output_path is None and filtered_output_path is None:
-        if recorded_outputs is None:
-            return None
         return PreflightOutputPaths(
-            raw_output_path=recorded_outputs.raw_output_path,
-            filtered_output_path=recorded_outputs.filtered_output_path,
-            paper_title=recorded_outputs.paper_title,
-            path_resolution='ids_manifest',
+            raw_output_path=resolve_raw_output_path(None, arxiv_id=arxiv_id),
+            filtered_output_path=resolve_filtered_output_path(None, arxiv_id=arxiv_id),
+            paper_title=paper_title,
+            path_resolution='default_arxiv_id',
         )
 
-    if raw_output_path is not None:
-        if recorded_outputs and recorded_outputs.raw_output_path.resolve() == raw_output_path.resolve():
-            return PreflightOutputPaths(
-                raw_output_path=raw_output_path,
-                filtered_output_path=recorded_outputs.filtered_output_path,
-                paper_title=recorded_outputs.paper_title,
-                path_resolution='explicit_raw_plus_ids_manifest',
-            )
+    if raw_output_path is None:
         return PreflightOutputPaths(
-            raw_output_path=raw_output_path,
-            filtered_output_path=None,
-            paper_title=None,
-            path_resolution='explicit_raw_output',
-        )
-
-    if recorded_outputs and recorded_outputs.filtered_output_path.resolve() == filtered_output_path.resolve():
-        return PreflightOutputPaths(
-            raw_output_path=recorded_outputs.raw_output_path,
+            raw_output_path=resolve_raw_output_path(None, arxiv_id=arxiv_id),
             filtered_output_path=filtered_output_path,
-            paper_title=recorded_outputs.paper_title,
-            path_resolution='explicit_filtered_plus_ids_manifest',
+            paper_title=paper_title,
+            path_resolution='explicit_filtered_plus_arxiv_id',
         )
 
     return PreflightOutputPaths(
-        raw_output_path=None,
-        filtered_output_path=filtered_output_path,
-        paper_title=None,
-        path_resolution='explicit_filtered_output',
+        raw_output_path=raw_output_path,
+        filtered_output_path=resolve_filtered_output_path(None, arxiv_id=arxiv_id),
+        paper_title=paper_title,
+        path_resolution='explicit_raw_plus_arxiv_id',
     )
 
 
 def check_preflight_outputs(
     *,
+    arxiv_id: str,
     paper_url: str,
     raw_output_override: str | None,
     filtered_output_override: str | None,
@@ -171,6 +158,7 @@ def check_preflight_outputs(
         return None
 
     preflight_output_paths = resolve_preflight_output_paths(
+        arxiv_id=arxiv_id,
         paper_url=paper_url,
         raw_output_override=raw_output_override,
         filtered_output_override=filtered_output_override,
@@ -196,6 +184,7 @@ def check_preflight_outputs(
 
     if len(existing_outputs) == 2 and len(known_output_paths) == 2:
         payload: dict[str, Any] = {
+            'arxiv_id': arxiv_id,
             'source_url': paper_url,
             'raw_output_path': str(preflight_output_paths.raw_output_path),
             'filtered_output_path': str(preflight_output_paths.filtered_output_path),
@@ -227,7 +216,10 @@ def extract_single_url(
     ids_path: Path,
     overwrite: bool,
 ) -> dict[str, Any]:
+    arxiv_id = extract_arxiv_id_from_url(paper_url)
+
     preflight_result = check_preflight_outputs(
+        arxiv_id=arxiv_id,
         paper_url=paper_url,
         raw_output_override=raw_output_override,
         filtered_output_override=filtered_output_override,
@@ -249,10 +241,10 @@ def extract_single_url(
         model=DEFAULT_BENCHMARK_FILTER_MODEL,
         service_tier=service_tier,
     )
-    raw_output_path = resolve_raw_output_path(raw_output_override, title=extraction.paper_title)
+    raw_output_path = resolve_raw_output_path(raw_output_override, arxiv_id=arxiv_id)
     filtered_output_path = resolve_filtered_output_path(
         filtered_output_override,
-        title=extraction.paper_title,
+        arxiv_id=arxiv_id,
     )
 
     if raw_output_path.resolve() == filtered_output_path.resolve():
@@ -273,6 +265,7 @@ def extract_single_url(
     )
     record_response_id(
         ids_path,
+        arxiv_id=arxiv_id,
         source_url=paper_url,
         raw_output_path=raw_output_path,
         filtered_output_path=filtered_output_path,
@@ -286,6 +279,7 @@ def extract_single_url(
     )
 
     return {
+        'arxiv_id': arxiv_id,
         'paper_title': extraction.paper_title,
         'source_url': paper_url,
         'raw_output_path': str(raw_output_path),
@@ -307,24 +301,31 @@ def main() -> None:
     extraction_system_prompt_path = resolve_extraction_system_prompt_path(args.system_prompt)
     extraction_system_prompt = extraction_system_prompt_path.read_text(encoding='utf-8').strip()
     paper_urls = read_paper_urls(args)
+    paper_requests = [
+        (paper_url, extract_arxiv_id_from_url(paper_url)) for paper_url in paper_urls
+    ]
 
-    if len(paper_urls) > 1 and (args.output or args.raw_output):
+    if len(paper_requests) > 1 and (args.output or args.raw_output):
         raise ValueError(
             'The --output and --raw-output options are only supported for single-paper runs. '
-            'Use default title-derived filenames when extracting multiple URLs from a file.'
+            'Use default arXiv-ID-derived filenames when extracting multiple URLs from a file.'
         )
 
     ids_path = Path(args.ids_path)
     results: list[dict[str, Any]] = []
-    paper_url_iterator = paper_urls
-    if len(paper_urls) > 1:
-        paper_url_iterator = tqdm(
-            paper_urls,
+    paper_request_iterator = paper_requests
+    progress_bar = None
+    if len(paper_requests) > 1:
+        progress_bar = tqdm(
+            paper_requests,
             desc='Extracting papers',
             unit='paper',
         )
+        paper_request_iterator = progress_bar
 
-    for paper_url in paper_url_iterator:
+    for paper_url, arxiv_id in paper_request_iterator:
+        if progress_bar is not None:
+            progress_bar.set_postfix({'arXiv': arxiv_id}, refresh=False)
         results.append(
             extract_single_url(
                 paper_url=paper_url,
@@ -348,7 +349,7 @@ def main() -> None:
         )
         payload = {
             'papers_processed': len(results) - skipped_count,
-            'papers_requested': len(paper_urls),
+            'papers_requested': len(paper_requests),
             'papers_skipped': skipped_count,
             'ids_path': str(ids_path),
             'runs': results,

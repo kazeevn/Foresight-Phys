@@ -173,12 +173,13 @@ uv run --env-file .env foresight-phys-extract --paper-urls-file papers.txt
 By default the extraction pipeline:
 
 - uses model `gpt-5.5`
+- only supports arXiv `abs`/`pdf` URLs
 - sends the public PDF URL to OpenAI as an `input_file`
 - extracts a paper title plus a top-level list of experiments
 - runs a second suitability pass with `gpt-5.5` to keep only benchmark-ready experiments
-- writes raw output to `JSONs/raw/<paper title>.json`
-- writes filtered output to `JSONs/filtered/<paper title>.json`
-- records response IDs and output-path metadata in `.cache/extraction_response_ids.json`
+- writes raw output to `JSONs/raw/<arXiv id>.json`
+- writes filtered output to `JSONs/filtered/<arXiv id>.json`
+- records response IDs, arXiv IDs, and output-path metadata in `.cache/extraction_response_ids.json`
 
 Useful examples:
 
@@ -196,13 +197,14 @@ Notes:
 
 - `--output` and `--raw-output` are only valid for single-paper runs.
 - Blank lines and lines starting with `#` are ignored in `papers.txt`.
+- Non-arXiv URLs currently raise `NotImplementedError`.
 - Raw and filtered outputs must be different files.
 - If both resolved output files already exist and `--overwrite` is not set, the
 	command skips that paper before calling OpenAI.
 - If only one resolved output file already exists and `--overwrite` is not set,
 	the command fails fast.
-- For default title-derived paths, early skip detection relies on the latest
-	matching `source_url` entry in `.cache/extraction_response_ids.json`.
+- Default output paths are derived directly from the arXiv ID in the URL, so
+	early skip detection does not depend on a prior manifest entry.
 
 To benchmark newly filtered files directly:
 
