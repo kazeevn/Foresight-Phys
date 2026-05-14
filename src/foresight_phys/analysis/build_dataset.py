@@ -1,4 +1,4 @@
-"""Join parsed HTML predictions with ground-truth JSON metadata.
+"""Join parsed benchmark predictions with ground-truth JSON metadata.
 
 Produces a long dataframe with one row per (model, file, experiment, key). Adds:
 - ``result_type`` from the ground truth JSON
@@ -71,6 +71,8 @@ def _parse_numeric(value) -> float | None:
 def _compute_log_accuracy(a, b) -> float | None:
     if a is None or b is None:
         return None
+    if a == 0:
+        return None
     if b == 0:
         return float("inf")
     # We use abs() on both to handle potential negative physical quantities.
@@ -128,7 +130,7 @@ def build_scored_dataset(paths: AnalysisPaths | None = None) -> pd.DataFrame:
         ]],
         on=["file_id", "experiment", "key"],
         how="left",
-        suffixes=("_html", ""),
+        suffixes=("_parsed", ""),
     )
 
     df["numeric_gt"] = df["gt_value"].apply(_parse_numeric)

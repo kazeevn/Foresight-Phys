@@ -3,7 +3,7 @@
 Usage::
 
     foresight-phys-analysis all          # parse, build, analyze, plots
-    foresight-phys-analysis parse        # HTML reports → predictions.parquet
+    foresight-phys-analysis parse        # benchmark_results.json → predictions.parquet
     foresight-phys-analysis build        # predictions + GT → scored.parquet
     foresight-phys-analysis analyze      # scored → per_field.parquet + summary.json
     foresight-phys-analysis plots        # scored + per_field → PDFs

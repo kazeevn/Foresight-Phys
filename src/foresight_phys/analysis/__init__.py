@@ -5,7 +5,7 @@ This subpackage parses those run directories, joins them against ground truth,
 and produces summary statistics and plots.
 
 Public entry points:
-- :func:`parse_runs.parse_all_runs` — HTML reports → predictions parquet
+- :func:`parse_runs.parse_all_runs` — benchmark_results.json → predictions parquet
 - :func:`build_dataset.build_scored_dataset` — predictions + GT → scored parquet
 - :func:`analyze.write_summary` — scored parquet → per-field parquet + summary JSON
 - :func:`plots.write_all_plots` — scored / per-field → one PDF per figure

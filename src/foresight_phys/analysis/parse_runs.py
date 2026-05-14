@@ -1,72 +1,56 @@
-"""Parse benchmark HTML reports into a tidy predictions parquet.
+"""Parse benchmark result JSON files into a tidy predictions parquet.
 
 Each run directory under ``docs/<run-name>/`` is expected to contain a
-``benchmark_human_readable_report.html`` and ``benchmark_results.json`` from
-which the model name is read.
-
-We use the HTML report (not the JSON summary) because per-field predictions
-are not included in the summary JSON — only per-paper metrics.
+``benchmark_results.json`` file. The per-field rows come from the saved
+``per_file[].report_experiments[]`` payload written by the benchmark CLI.
 """
 from __future__ import annotations
 
 import json
-import re
-from html import unescape
 from pathlib import Path
+from typing import Any
 
 import pandas as pd
 
 from .paths import AnalysisPaths, default_paths
 
-PANEL_RE = re.compile(
-    r'<section class="paper-panel[^"]*" id="paper-\d+">(.*?)</section>', re.S
-)
-TITLE_RE = re.compile(r"<h2>(.*?)</h2>", re.S)
-FILE_RE = re.compile(r'<div class="paper-file-name">(.*?)</div>', re.S)
-EXP_RE = re.compile(
-    r"<h3>Experiment\s*(\d+)</h3>(.*?)<table>.*?<tbody>(.*?)</tbody>\s*</table>",
-    re.S,
-)
-EXP_DESC_RE = re.compile(r'<p class="experiment-description">(.*?)</p>', re.S)
-ROW_RE = re.compile(r"<tr>(.*?)</tr>", re.S)
-CELL_RE = re.compile(r"<td.*?>(.*?)</td>", re.S)
-STATUS_SPAN_RE = re.compile(r'<span class="(status-[^"]+)"[^>]*>(.*?)</span>', re.S)
+
+def _format_report_value(value: Any) -> str:
+    if value is None:
+        return "MISSING"
+    if isinstance(value, (int, float)) and not isinstance(value, bool):
+        return str(value)
+    if isinstance(value, str):
+        return value
+    return json.dumps(value, ensure_ascii=False)
 
 
-def _strip_tags(text: str) -> str:
-    return unescape(re.sub(r"<[^>]+>", "", text)).strip()
-
-
-def _parse_status(html_cell: str) -> tuple[str, str]:
-    m = STATUS_SPAN_RE.search(html_cell)
-    if m:
-        return m.group(1), unescape(_strip_tags(m.group(2)))
-    return "status-unknown", _strip_tags(html_cell)
-
-
-def parse_report(model: str, run_name: str, html_path: Path) -> list[dict]:
-    text = html_path.read_text()
+def parse_summary(model: str, run_name: str, summary: dict[str, Any]) -> list[dict]:
     rows: list[dict] = []
-    for panel in PANEL_RE.findall(text):
-        title_m = TITLE_RE.search(panel)
-        file_m = FILE_RE.search(panel)
-        if not title_m or not file_m:
+    per_file = summary.get("per_file", [])
+    if not isinstance(per_file, list):
+        return rows
+
+    for item in per_file:
+        if not isinstance(item, dict):
             continue
-        paper_title = _strip_tags(title_m.group(1))
-        file_id = _strip_tags(file_m.group(1))
-        for exp_m in EXP_RE.finditer(panel):
-            exp_idx = int(exp_m.group(1)) - 1
-            desc_m = EXP_DESC_RE.search(exp_m.group(2))
-            exp_desc = _strip_tags(desc_m.group(1)) if desc_m else ""
-            for tr in ROW_RE.findall(exp_m.group(3)):
-                cells = CELL_RE.findall(tr)
-                if len(cells) != 5:
+        paper_title = str(item.get("paper_title") or "")
+        file_id = str(item.get("file") or "")
+        report_experiments = item.get("report_experiments", [])
+        if not isinstance(report_experiments, list):
+            continue
+
+        for exp_idx, experiment_summary in enumerate(report_experiments):
+            if not isinstance(experiment_summary, dict):
+                continue
+            exp_desc = str(experiment_summary.get("experiment_description") or "")
+            result_rows = experiment_summary.get("result_rows", [])
+            if not isinstance(result_rows, list):
+                continue
+
+            for row in result_rows:
+                if not isinstance(row, dict):
                     continue
-                key = _strip_tags(cells[0])
-                desc = _strip_tags(cells[1])
-                gt = _strip_tags(cells[2])
-                pred = _strip_tags(cells[3])
-                status_cls, status_text = _parse_status(cells[4])
                 rows.append({
                     "run_name": run_name,
                     "model": model,
@@ -74,25 +58,23 @@ def parse_report(model: str, run_name: str, html_path: Path) -> list[dict]:
                     "paper_title": paper_title,
                     "experiment": exp_idx,
                     "experiment_description": exp_desc,
-                    "key": key,
-                    "description": desc,
-                    "gt": gt,
-                    "pred": pred,
-                    "status_class": status_cls,
-                    "status_text": status_text,
+                    "key": str(row.get("result_key") or ""),
+                    "description": str(row.get("description") or ""),
+                    "gt": _format_report_value(row.get("ground_truth")),
+                    "pred": _format_report_value(row.get("predicted")),
+                    "status_class": str(row.get("status_class") or "status-unknown"),
+                    "status_text": str(row.get("status_text") or ""),
                 })
     return rows
 
 
 def discover_run_dirs(docs_dir: Path) -> list[Path]:
-    """Find run directories: docs/<name>/ that contain both a results JSON and HTML."""
+    """Find run directories: docs/<name>/ that contain a results JSON."""
     run_dirs: list[Path] = []
     for child in sorted(docs_dir.iterdir()):
         if not child.is_dir():
             continue
-        if (child / "benchmark_results.json").exists() and (
-            child / "benchmark_human_readable_report.html"
-        ).exists():
+        if (child / "benchmark_results.json").exists():
             run_dirs.append(child)
     return run_dirs
 
@@ -109,17 +91,17 @@ def parse_all_runs(paths: AnalysisPaths | None = None) -> pd.DataFrame:
     if not run_dirs:
         raise FileNotFoundError(
             f"No benchmark run directories found under {paths.docs_dir}. "
-            "Expected docs/<run-name>/benchmark_human_readable_report.html."
+            "Expected docs/<run-name>/benchmark_results.json."
         )
 
     all_rows: list[dict] = []
     for run_dir in run_dirs:
-        summary = json.loads((run_dir / "benchmark_results.json").read_text())
+        summary = json.loads((run_dir / "benchmark_results.json").read_text(encoding="utf-8"))
         model = summary.get("model") or run_dir.name
-        all_rows.extend(parse_report(
+        all_rows.extend(parse_summary(
             model=model,
             run_name=run_dir.name,
-            html_path=run_dir / "benchmark_human_readable_report.html",
+            summary=summary,
         ))
 
     df = pd.DataFrame(all_rows)

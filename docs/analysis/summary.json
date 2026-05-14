@@ -1,0 +1,195 @@
+{
+  "n_models": 4,
+  "n_papers": 20,
+  "n_fields": 347,
+  "per_model": [
+    {
+      "model": "gpt-5.4",
+      "n": 347,
+      "mean_score": 0.6832815744194219,
+      "mean_correct": 0.7752161383285303,
+      "numeric_log_accuracy_mean": Infinity,
+      "bool_categorical_accuracy": 0.9459459459459459
+    },
+    {
+      "model": "gpt-5.4-mini",
+      "n": 347,
+      "mean_score": 0.606466552016577,
+      "mean_correct": 0.6628242074927954,
+      "numeric_log_accuracy_mean": Infinity,
+      "bool_categorical_accuracy": 0.8648648648648649
+    },
+    {
+      "model": "gpt-5.4-nano",
+      "n": 347,
+      "mean_score": 0.6298425878674113,
+      "mean_correct": 0.6974063400576369,
+      "numeric_log_accuracy_mean": Infinity,
+      "bool_categorical_accuracy": 0.8378378378378378
+    },
+    {
+      "model": "gpt-5.5",
+      "n": 347,
+      "mean_score": 0.7292982518725877,
+      "mean_correct": 0.8011527377521613,
+      "numeric_log_accuracy_mean": Infinity,
+      "bool_categorical_accuracy": 0.918918918918919
+    }
+  ],
+  "numeric_thresholds": [
+    {
+      "model": "gpt-5.4",
+      "n": 299,
+      "frac_within_0.1_log_acc": 0.26755852842809363,
+      "frac_within_factor_2": 0.5652173913043478,
+      "frac_within_decade": 0.9096989966555183,
+      "median_abs_log10_ratio": 0.2548295734158524
+    },
+    {
+      "model": "gpt-5.4-mini",
+      "n": 297,
+      "frac_within_0.1_log_acc": 0.2356902356902357,
+      "frac_within_factor_2": 0.5185185185185185,
+      "frac_within_decade": 0.8484848484848485,
+      "median_abs_log10_ratio": 0.28296073908838004
+    },
+    {
+      "model": "gpt-5.4-nano",
+      "n": 299,
+      "frac_within_0.1_log_acc": 0.25752508361204013,
+      "frac_within_factor_2": 0.5317725752508361,
+      "frac_within_decade": 0.8762541806020067,
+      "median_abs_log10_ratio": 0.26126286879249344
+    },
+    {
+      "model": "gpt-5.5",
+      "n": 298,
+      "frac_within_0.1_log_acc": 0.3724832214765101,
+      "frac_within_factor_2": 0.6510067114093959,
+      "frac_within_decade": 0.9362416107382551,
+      "median_abs_log10_ratio": 0.18286535306493173
+    },
+    {
+      "model": "_constant_baseline_",
+      "n": 300,
+      "constant_value": 1.2,
+      "frac_within_0.1_log_acc": 0.08666666666666667,
+      "frac_within_factor_2": 0.21333333333333335,
+      "frac_within_decade": 0.6633333333333333
+    }
+  ],
+  "difficulty_distribution_overall": {
+    "trivial (all correct)": 177,
+    "easy (1 wrong)": 72,
+    "intractable (none correct)": 38,
+    "discriminative": 35,
+    "hard (1 right)": 25
+  },
+  "difficulty_by_type": [
+    {
+      "type": "bool",
+      "discriminative": 3,
+      "easy (1 wrong)": 1,
+      "hard (1 right)": 1,
+      "intractable (none correct)": 0,
+      "trivial (all correct)": 14
+    },
+    {
+      "type": "categorical",
+      "discriminative": 2,
+      "easy (1 wrong)": 2,
+      "hard (1 right)": 0,
+      "intractable (none correct)": 0,
+      "trivial (all correct)": 14
+    },
+    {
+      "type": "float",
+      "discriminative": 27,
+      "easy (1 wrong)": 69,
+      "hard (1 right)": 22,
+      "intractable (none correct)": 36,
+      "trivial (all correct)": 142
+    },
+    {
+      "type": "formula",
+      "discriminative": 2,
+      "easy (1 wrong)": 0,
+      "hard (1 right)": 2,
+      "intractable (none correct)": 2,
+      "trivial (all correct)": 1
+    },
+    {
+      "type": "integer",
+      "discriminative": 1,
+      "easy (1 wrong)": 0,
+      "hard (1 right)": 0,
+      "intractable (none correct)": 0,
+      "trivial (all correct)": 6
+    }
+  ],
+  "leakage_impact": [
+    {
+      "model": "gpt-5.4",
+      "leak": false,
+      "n": 318,
+      "mean_score": 0.6844980580060436,
+      "accuracy": 0.779874213836478
+    },
+    {
+      "model": "gpt-5.4",
+      "leak": true,
+      "n": 29,
+      "mean_score": 0.6699422026764676,
+      "accuracy": 0.7241379310344828
+    },
+    {
+      "model": "gpt-5.4-mini",
+      "leak": false,
+      "n": 318,
+      "mean_score": 0.6082208866156138,
+      "accuracy": 0.660377358490566
+    },
+    {
+      "model": "gpt-5.4-mini",
+      "leak": true,
+      "n": 29,
+      "mean_score": 0.5872293657236904,
+      "accuracy": 0.6896551724137931
+    },
+    {
+      "model": "gpt-5.4-nano",
+      "leak": false,
+      "n": 318,
+      "mean_score": 0.6322106994430808,
+      "accuracy": 0.7012578616352201
+    },
+    {
+      "model": "gpt-5.4-nano",
+      "leak": true,
+      "n": 29,
+      "mean_score": 0.603875019554896,
+      "accuracy": 0.6551724137931034
+    },
+    {
+      "model": "gpt-5.5",
+      "leak": false,
+      "n": 318,
+      "mean_score": 0.7385598425134912,
+      "accuracy": 0.8113207547169812
+    },
+    {
+      "model": "gpt-5.5",
+      "leak": true,
+      "n": 29,
+      "mean_score": 0.6277401200171633,
+      "accuracy": 0.6896551724137931
+    }
+  ],
+  "categorical_random_baseline": 0.3111111111111111,
+  "categorical_k_distribution": {
+    "3": 6,
+    "5": 3,
+    "4": 6,
+    "2": 3
+  }
+}
