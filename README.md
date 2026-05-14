@@ -1,154 +1,238 @@
 # Foresight-Phys Benchmark
 
-A benchmark for AI ability to predict the results of physical experiments 
+Foresight-Phys benchmarks whether an LLM can predict the outcomes of physical
+experiments from rich experiment descriptions. The repository also includes a
+pipeline for extracting benchmark-format experiment JSON from public paper PDFs.
 
-## Data
-The descriptions were extracted from recent open-access papers by Kostya Novoselov. The extraction was done with Gemini 3.1 Pro.
+## Repository layout
+- `src/foresight_phys/`: benchmark, extraction, reporting, and prompt code
+- `JSONs/raw/`: raw extracted experiment JSONs
+- `JSONs/filtered/`: benchmark-ready JSONs after suitability filtering
+- `papers.txt`: batch input file with one public PDF URL per line
+- `docs/<run-name>/`: benchmark outputs
 
-## Technical workflow
+The current checked-in snapshot contains 36 JSON files in `JSONs/raw/` and 36
+JSON files in `JSONs/filtered/`.
 
-- Loads each JSON file in `JSONs/`.
-- Replaces every `experiment_results.*.result` value with `"TO_PREDICT"`.
-- Prompts the LLM with:
-	- system prompt from `src/foresight_phys/system_prompt.txt`
-	- masked JSON as user input
-- Runs OpenAI calls in parallel with retry/backoff using `tenacity`.
-- Shows a live progress bar while files are being predicted.
-- Parses the model JSON output and compares predicted `result` values to ground truth.
-- Caches raw model predictions on disk so report/formatting changes can be iterated without re-calling the LLM.
-- Computes per JSON file:
-	- `prediction_quality`, the average per-result score across the paper
-	- `smape` (raw symmetric mean absolute percentage error) for numeric predictions with nonzero references
-	- `normalized_smape_score`, the average of `1 - min(sMAPE, 1)` across numeric predictions with nonzero references
-	- `bool_categorical_accuracy` for boolean and categorical predictions
-	- `formula_accuracy` for formula predictions, judged by `gpt-5.4-nano`
-- Uses the average per-paper `prediction_quality` as the main model-comparison result and also reports aggregate averages across files for all supporting metrics.
-- Generates a static HTML report with a left paper switcher and per-experiment tables (instead of raw markdown text).
+`JSONs/filtered/` is the default input directory for the benchmark CLI.
 
-## Setup (uv)
+## Benchmark JSON format
+Each benchmark file is a top-level list of experiments. Each experiment contains
+an `experiment_description` string and an `experiment_results` object keyed by
+result name.
+
+```json
+[
+	{
+		"experiment_description": "Self-contained experiment description.",
+		"experiment_results": {
+			"bandgap_eV": {
+				"type": "float",
+				"description": "Measured optical bandgap.",
+				"result": 1.42
+			}
+		}
+	}
+]
+```
+
+Supported result types are `float`, `integer`, `bool`, `categorical`, and
+`formula`. Categorical results may also include `allowed_categorial_values`.
+Formula results must use `type: "formula"`, and the experiment description
+must define every symbol used in the formula.
+
+## Setup
+
+Install the project and dependencies with `uv`:
 
 ```bash
 uv sync
 ```
 
-This installs the project from the src layout and exposes the `foresight-phys` CLI.
+Put required credentials in `.env`:
 
-Ensure `.env` contains your provider API keys (for OpenAI-compatible use, set `OPENAI_API_KEY`).
+```bash
+OPENAI_API_KEY=...
+```
 
-To enable Langfuse tracing (optional), also set:
+Langfuse is optional. To enable tracing, also set:
 
 ```bash
 LANGFUSE_PUBLIC_KEY=...
 LANGFUSE_SECRET_KEY=...
-# Optional (defaults to cloud host)
 LANGFUSE_HOST=https://cloud.langfuse.com
 ```
 
-## Run benchmark
+The commands below use `uv run --env-file .env ...` so local `.env` settings
+are loaded consistently.
+
+## Run the benchmark
+
+Run the default benchmark:
 
 ```bash
-uv run foresight-phys
+uv run --env-file .env foresight-phys
 ```
 
-This writes:
+By default this:
 
-- JSON summary to `docs/<run-name>/benchmark_results.json`
-- Offline human-readable report to `docs/<run-name>/benchmark_human_readable_report.html`
+- reads benchmark inputs from `JSONs/filtered/`
+- uses model `gpt-5.4-nano`
+- writes `docs/<run-name>/benchmark_results.json`
+- writes `docs/<run-name>/benchmark_human_readable_report.html`
+- caches raw predictions in `.cache/llm_predictions.json`
+- enables Langfuse logging when Langfuse keys are present
 
-By default, `<run-name>` is generated as `<model>-<nice suffix>` and the same value is used for Langfuse grouping.
+`<run-name>` is auto-generated from the model name plus a random readable suffix.
+`--run-name` and `--langfuse-run-name` are aliases for the same value.
 
-### Useful options
+Useful examples:
 
 ```bash
-uv run foresight-phys --max-files 2
-uv run foresight-phys --max-workers 8
-uv run foresight-phys --run-name paper-benchmark-run-01
-uv run foresight-phys --langfuse-run-name paper-benchmark-run-01
-uv run foresight-phys --disable-langfuse
-uv run foresight-phys --cache-path .cache/llm_predictions.json
-uv run foresight-phys --disable-cache
-uv run foresight-phys --output docs/custom-run/benchmark_results.json
-uv run foresight-phys --html-output docs/custom-run/benchmark_human_readable_report.html
+uv run --env-file .env foresight-phys --max-files 2
+uv run --env-file .env foresight-phys --json-dir JSONs/filtered --max-workers 8
+uv run --env-file .env foresight-phys --model gpt-5.4-nano
+uv run --env-file .env foresight-phys --run-name paper-benchmark-run-01
+uv run --env-file .env foresight-phys --disable-langfuse
+uv run --env-file .env foresight-phys --cache-path .cache/custom_predictions.json
+uv run --env-file .env foresight-phys --disable-cache
+uv run --env-file .env foresight-phys --output docs/custom-run/benchmark_results.json
+uv run --env-file .env foresight-phys --html-output docs/custom-run/benchmark_human_readable_report.html
+uv run --env-file .env foresight-phys --html-output ""
 ```
 
-To disable HTML report generation:
+Setting `--html-output ""` disables HTML report generation.
+
+## Benchmark workflow
+
+For each JSON file, the benchmark pipeline:
+
+1. Loads the ground-truth experiment JSON.
+2. Replaces every `experiment_results.*.result` value with `"TO_PREDICT"`.
+3. Sends the system prompt from `src/foresight_phys/system_prompt.txt` and the
+	 masked JSON payload to the OpenAI Responses API.
+4. Runs requests in parallel with retry and exponential backoff.
+5. Reuses cached predictions when available.
+6. Compares predicted results against the reference JSON.
+7. Writes a machine-readable JSON summary and an offline HTML report.
+
+## Metrics
+
+Per file, the benchmark computes:
+
+- `prediction_quality`: average score across all result fields
+- `smape`: average raw symmetric mean absolute percentage error for numeric
+	predictions with nonzero reference values
+- `normalized_smape_score`: average of `1 - min(sMAPE, 1)` for numeric
+	predictions with nonzero reference values
+- `bool_categorical_accuracy`: accuracy over boolean and categorical fields
+- `formula_accuracy`: accuracy over formula fields, judged by `gpt-5.4-nano`
+
+Numeric results with zero-valued references still affect `prediction_quality`,
+but they are excluded from the aggregate sMAPE calculations.
+
+The summary JSON also includes counts such as total result fields,
+classification fields, numeric fields, formula fields, and missing predictions
+for each paper.
+
+## Reports and outputs
+
+`benchmark_results.json` contains:
+
+- run metadata (`run_name`, `model`, `max_workers`)
+- aggregate metrics across files
+- formula judge model name
+- cache metadata
+- Langfuse metadata
+- a `per_file` list with one metrics row per JSON file
+
+The HTML report is a static offline file with:
+
+- a left-hand paper switcher
+- per-paper metric chips
+- one table per experiment showing ground truth, prediction, and match status
+
+## Extract benchmark JSON from paper PDFs
+
+Use the extraction CLI to generate new benchmark-format JSON files from public
+PDF URLs:
 
 ```bash
-uv run foresight-phys --html-output ""
+uv run --env-file .env foresight-phys-extract --paper-url https://arxiv.org/pdf/2511.14269
 ```
 
-The run writes summary output under `docs/<run-name>/` unless `--output` or `--html-output` overrides it.
-
-## Extract benchmark JSON from arXiv PDFs
-
-Use the dedicated extraction CLI to generate new files in the same format as the benchmark JSONs.
-The command sends the PDF to OpenAI by public URL using `input_file`, asks the extraction
-model for rich standalone experiment descriptions, then sends the extracted JSON through a
-second `gpt-5.5` suitability pass that returns one validity boolean per experiment.
-Formula-valued results must use `type: "formula"`, not `type: "string"`, and the
-corresponding `experiment_description` must define every variable used in the formula.
+To process many papers from a text file:
 
 ```bash
-uv run foresight-phys-extract --paper-url https://arxiv.org/pdf/2511.14269
+uv run --env-file .env foresight-phys-extract --paper-urls-file papers.txt
 ```
 
-To process many papers from a text file with one PDF URL per line, use:
+By default the extraction pipeline:
+
+- uses model `gpt-5.5`
+- sends the public PDF URL to OpenAI as an `input_file`
+- extracts a paper title plus a top-level list of experiments
+- runs a second suitability pass with `gpt-5.5` to keep only benchmark-ready experiments
+- writes raw output to `JSONs/raw/<paper title>.json`
+- writes filtered output to `JSONs/filtered/<paper title>.json`
+- records response IDs and output-path metadata in `.cache/extraction_response_ids.json`
+
+Useful examples:
 
 ```bash
-uv run foresight-phys-extract --paper-urls-file papers.txt
+uv run --env-file .env foresight-phys-extract --paper-url https://arxiv.org/pdf/2511.14269 --output JSONs/filtered/my-paper.json
+uv run --env-file .env foresight-phys-extract --paper-url https://arxiv.org/pdf/2511.14269 --raw-output JSONs/raw/my-paper.json
+uv run --env-file .env foresight-phys-extract --paper-url https://arxiv.org/pdf/2511.14269 --model gpt-5.5
+uv run --env-file .env foresight-phys-extract --paper-url https://arxiv.org/pdf/2511.14269 --ids-path .cache/extraction_ids.json
+uv run --env-file .env foresight-phys-extract --paper-url https://arxiv.org/pdf/2511.14269 --overwrite
+uv run --env-file .env foresight-phys-extract --paper-urls-file papers.txt
 ```
 
-By default this will:
+Notes:
 
-- derive the output filename from the extracted paper title
-- write the raw parsed experiment list under `JSONs/raw/`
-- write only the benchmark-suitable experiments under `JSONs/filtered/`
-- append both OpenAI response IDs and run metadata to `.cache/extraction_response_ids.json`
-- preserve the benchmark-compatible JSON shape in both output files
-- check resolved output paths before calling OpenAI
+- `--output` and `--raw-output` are only valid for single-paper runs.
+- Blank lines and lines starting with `#` are ignored in `papers.txt`.
+- Raw and filtered outputs must be different files.
+- If both resolved output files already exist and `--overwrite` is not set, the
+	command skips that paper before calling OpenAI.
+- If only one resolved output file already exists and `--overwrite` is not set,
+	the command fails fast.
+- For default title-derived paths, early skip detection relies on the latest
+	matching `source_url` entry in `.cache/extraction_response_ids.json`.
 
-Useful options:
+To benchmark newly filtered files directly:
 
 ```bash
-uv run foresight-phys-extract --paper-url https://arxiv.org/pdf/2511.14269 --output JSONs/filtered/my-paper.json
-uv run foresight-phys-extract --paper-url https://arxiv.org/pdf/2511.14269 --raw-output JSONs/raw/my-paper.json
-uv run foresight-phys-extract --paper-urls-file papers.txt
-uv run foresight-phys-extract --paper-url https://arxiv.org/pdf/2511.14269 --model gpt-5.5
-uv run foresight-phys-extract --paper-url https://arxiv.org/pdf/2511.14269 --ids-path .cache/extraction_ids.json
-uv run foresight-phys-extract --paper-url https://arxiv.org/pdf/2511.14269 --overwrite
+uv run --env-file .env foresight-phys --json-dir JSONs/filtered
 ```
 
-For `--paper-urls-file`, blank lines and lines starting with `#` are ignored. In batch mode,
-the CLI writes each paper to its default title-derived path under `JSONs/raw/` and
-`JSONs/filtered/`; `--output` and `--raw-output` remain single-paper-only overrides. Before
-calling OpenAI, the CLI checks any output paths it can resolve up front. If both target JSONs
-already exist and `--overwrite` is not set, that paper is skipped. If only one resolved target
-already exists, the command fails fast without calling OpenAI. For default title-derived paths,
-this preflight check uses the latest matching `source_url` entry in
-`.cache/extraction_response_ids.json`, so a paper must have been processed once already before a
-later run can skip it by URL alone.
+## Cleanup empty filtered outputs
 
-This preflight behavior applies to both single-paper and batch runs.
-
-If you want to regenerate outputs regardless of existing files, pass `--overwrite`.
-
-
-The output JSON remains a top-level list of experiments so it can be consumed by the
-existing benchmark pipeline without any format conversion. To benchmark newly filtered
-files directly, point the benchmark CLI at `JSONs/filtered`, for example:
+The repository also includes a small cleanup utility:
 
 ```bash
-uv run foresight-phys --json-dir JSONs/filtered
+uv run --env-file .env foresight-phys-cleanup
 ```
 
-## Langfuse dashboard view
+This command mutates the dataset in place. It scans `JSONs/filtered/` for files
+whose content is empty or `[]`, deletes those filtered files, and also deletes
+the same-named file in `JSONs/raw/` when present. The cleanup utility currently
+has no command-line options.
 
-- If Langfuse keys are present, each file evaluation is logged as a trace.
-- Traces are grouped by a `session_id` per benchmark run and include:
-	- masked input JSON
-	- predicted JSON (`predicted`)
-	- reference JSON (`reference`)
-	- correction entry (`Corrected Output`) populated from the reference JSON
-	- per-file metrics (`prediction_quality`, `smape`, `normalized_smape_score`, `bool_categorical_accuracy`, etc.)
-- The same `session_id` is written to the output summary under `langfuse.session_id`.
-- In Langfuse UI, filter traces by that `session_id` to see the full run dashboard.
+## Langfuse tracing
+
+If Langfuse is enabled, the benchmark logs:
+
+- one file-level generation per evaluated JSON file
+- one run-summary trace for the benchmark run
+
+The file-level traces include:
+
+- the masked benchmark input
+- the predicted output
+- per-file metrics
+- the ground-truth output as a correction payload
+
+The summary JSON includes Langfuse metadata such as `enabled`, `run_name`,
+`session_id`, `host`, `trace_url`, and any warning message. Filtering Langfuse
+by `session_id` is the easiest way to inspect one complete benchmark run.
