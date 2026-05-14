@@ -1,0 +1,612 @@
+[
+  {
+    "experiment_description": "CMS/LHC proton-proton collision data at center-of-mass energy sqrt(s)=13 TeV were used to characterize the spin quantum state of top-quark--antiquark (t tbar) pairs in the lepton+jets decay channel. The input measurement was the doubly differential extraction of the t tbar spin density matrix in bins of invariant mass m(t tbar) and absolute top production angle |cos(theta)|, where theta is the top-quark production angle in the t tbar center-of-mass frame relative to the proton beam direction. The analyzed phase-space bins were m(t tbar) in [300,400], [400,600], [600,800], and [800,13000] GeV, crossed with |cos(theta)| in [0.0,0.4], [0.4,0.7], and [0.7,1.0]. In each bin, the top and antitop spin state was reconstructed as a two-qubit density matrix rho_t_tbar = (1/4)(I2 tensor I2 + sum_i P_i sigma_i tensor I2 + sum_j Pbar_j I2 tensor sigma_j + sum_ij C_ij sigma_i tensor sigma_j), where I2 is the 2 by 2 identity, sigma_i are Pauli matrices, P_i and Pbar_j are the top and antitop polarization components, and C_ij is the spin-correlation matrix. The spin analyzers were charged leptons and d-type quarks from top decays. This record uses the helicity basis, an event-dependent right-handed basis in the t tbar center-of-mass frame defined by unit vectors (khat, nhat, rhat), with khat along the top-quark flight direction, rhat=(phat - cos(theta) khat)/sin(theta), nhat=rhat cross khat, and the sign convention nhat -> sgn(cos(theta)) nhat and rhat -> sgn(cos(theta)) rhat. Because the helicity-basis orientation changes event by event, observables integrated over phase space characterize event-dependent, so-called fictitious, two-qubit spin states rather than a fixed-laboratory-axis spin state. From the fitted polarization and spin-correlation coefficients, the following dimensionless quantum-information observables were computed per bin. The top-quark quantum discord D_t is measured in bits using log base 2 and is D_t = S(rho_tbar) - S(rho_t_tbar) + min_uhat[p_{+uhat} S(rho_{t,+uhat}) + p_{-uhat} S(rho_{t,-uhat})], where S(rho)=-Tr(rho log2 rho), rho_t=Tr_tbar(rho_t_tbar), rho_tbar=Tr_t(rho_t_tbar), Pi_{±uhat} are projectors for a spin measurement of the antitop along unit vector uhat, p_{±uhat}=Tr[(I2 tensor Pi_{±uhat}) rho_t_tbar (I2 tensor Pi_{±uhat})], and rho_{t,±uhat}=Tr_tbar[(I2 tensor Pi_{±uhat}) rho_t_tbar (I2 tensor Pi_{±uhat})]/p_{±uhat}; the minimization over uhat was numerical. The entanglement marker Delta_E is the Peres-Horodecki-based marker used for the same reconstructed spin state, with the separability boundary Delta_E=1 and Delta_E>1 denoting entanglement. The steering marker T is T = integral d^2 uhat sqrt(uhat^T C^T C uhat), with the steering threshold T=2*pi for the unpolarized two-qubit criterion. The Bell-correlation marker B is B=m1+m2, where m1 and m2 are the two largest eigenvalues of C^T C; B>1 is the CHSH Bell-correlation threshold for the reconstructed state. The mixed-state magic observable M2_tilde is the second-stabilizer-Renyi-entropy-based quantity M2_tilde = -log2((1 + sum_i(P_i^4 + Pbar_i^4) + sum_ij C_ij^4)/(1 + sum_i(P_i^2 + Pbar_i^2) + sum_ij C_ij^2)). Central values were obtained by minimizing the negative log-likelihood -2 log L = sum_ij (o_i-x_i) U^{-1}_{ij} (o_j-x_j), where o_i are measured polarization/spin-correlation coefficients, U_ij is their covariance matrix, and x_i are fitted coefficients constrained to the physical interval [-1,1].",
+    "experiment_results": {
+      "mtt_300_400_gev_abs_costheta_0p0_0p4_top_discord_bits": {
+        "type": "float",
+        "description": "Central measured top-quark quantum discord D_t in the specified helicity-basis phase-space bin.",
+        "result": 0.147
+      },
+      "mtt_300_400_gev_abs_costheta_0p0_0p4_entanglement_marker_delta_e": {
+        "type": "float",
+        "description": "Central measured Peres-Horodecki entanglement marker Delta_E in the specified helicity-basis phase-space bin.",
+        "result": 0.71
+      },
+      "mtt_300_400_gev_abs_costheta_0p0_0p4_steering_marker_t": {
+        "type": "float",
+        "description": "Central measured steering marker T in the specified helicity-basis phase-space bin.",
+        "result": 4.35
+      },
+      "mtt_300_400_gev_abs_costheta_0p0_0p4_bell_correlation_marker_b": {
+        "type": "float",
+        "description": "Central measured Bell-correlation marker B in the specified helicity-basis phase-space bin.",
+        "result": 0.51
+      },
+      "mtt_300_400_gev_abs_costheta_0p0_0p4_magic_m2_tilde_bits": {
+        "type": "float",
+        "description": "Central measured quantum magic M2_tilde in the specified helicity-basis phase-space bin.",
+        "result": 0.47
+      },
+      "mtt_300_400_gev_abs_costheta_0p4_0p7_top_discord_bits": {
+        "type": "float",
+        "description": "Central measured top-quark quantum discord D_t in the specified helicity-basis phase-space bin.",
+        "result": 0.16
+      },
+      "mtt_300_400_gev_abs_costheta_0p4_0p7_entanglement_marker_delta_e": {
+        "type": "float",
+        "description": "Central measured Peres-Horodecki entanglement marker Delta_E in the specified helicity-basis phase-space bin.",
+        "result": 1.37
+      },
+      "mtt_300_400_gev_abs_costheta_0p4_0p7_steering_marker_t": {
+        "type": "float",
+        "description": "Central measured steering marker T in the specified helicity-basis phase-space bin.",
+        "result": 6.2
+      },
+      "mtt_300_400_gev_abs_costheta_0p4_0p7_bell_correlation_marker_b": {
+        "type": "float",
+        "description": "Central measured Bell-correlation marker B in the specified helicity-basis phase-space bin.",
+        "result": 0.85
+      },
+      "mtt_300_400_gev_abs_costheta_0p4_0p7_magic_m2_tilde_bits": {
+        "type": "float",
+        "description": "Central measured quantum magic M2_tilde in the specified helicity-basis phase-space bin.",
+        "result": 0.61
+      },
+      "mtt_300_400_gev_abs_costheta_0p7_1p0_top_discord_bits": {
+        "type": "float",
+        "description": "Central measured top-quark quantum discord D_t in the specified helicity-basis phase-space bin.",
+        "result": 0.18
+      },
+      "mtt_300_400_gev_abs_costheta_0p7_1p0_entanglement_marker_delta_e": {
+        "type": "float",
+        "description": "Central measured Peres-Horodecki entanglement marker Delta_E in the specified helicity-basis phase-space bin.",
+        "result": 1.43
+      },
+      "mtt_300_400_gev_abs_costheta_0p7_1p0_steering_marker_t": {
+        "type": "float",
+        "description": "Central measured steering marker T in the specified helicity-basis phase-space bin.",
+        "result": 6.38
+      },
+      "mtt_300_400_gev_abs_costheta_0p7_1p0_bell_correlation_marker_b": {
+        "type": "float",
+        "description": "Central measured Bell-correlation marker B in the specified helicity-basis phase-space bin.",
+        "result": 0.8
+      },
+      "mtt_300_400_gev_abs_costheta_0p7_1p0_magic_m2_tilde_bits": {
+        "type": "float",
+        "description": "Central measured quantum magic M2_tilde in the specified helicity-basis phase-space bin.",
+        "result": 0.58
+      },
+      "mtt_400_600_gev_abs_costheta_0p0_0p4_top_discord_bits": {
+        "type": "float",
+        "description": "Central measured top-quark quantum discord D_t in the specified helicity-basis phase-space bin.",
+        "result": 0.218
+      },
+      "mtt_400_600_gev_abs_costheta_0p0_0p4_entanglement_marker_delta_e": {
+        "type": "float",
+        "description": "Central measured Peres-Horodecki entanglement marker Delta_E in the specified helicity-basis phase-space bin.",
+        "result": 0.419
+      },
+      "mtt_400_600_gev_abs_costheta_0p0_0p4_steering_marker_t": {
+        "type": "float",
+        "description": "Central measured steering marker T in the specified helicity-basis phase-space bin.",
+        "result": 3.88
+      },
+      "mtt_400_600_gev_abs_costheta_0p0_0p4_bell_correlation_marker_b": {
+        "type": "float",
+        "description": "Central measured Bell-correlation marker B in the specified helicity-basis phase-space bin.",
+        "result": 0.24
+      },
+      "mtt_400_600_gev_abs_costheta_0p0_0p4_magic_m2_tilde_bits": {
+        "type": "float",
+        "description": "Central measured quantum magic M2_tilde in the specified helicity-basis phase-space bin.",
+        "result": 0.34
+      },
+      "mtt_400_600_gev_abs_costheta_0p4_0p7_top_discord_bits": {
+        "type": "float",
+        "description": "Central measured top-quark quantum discord D_t in the specified helicity-basis phase-space bin.",
+        "result": 0.111
+      },
+      "mtt_400_600_gev_abs_costheta_0p4_0p7_entanglement_marker_delta_e": {
+        "type": "float",
+        "description": "Central measured Peres-Horodecki entanglement marker Delta_E in the specified helicity-basis phase-space bin.",
+        "result": 0.34
+      },
+      "mtt_400_600_gev_abs_costheta_0p4_0p7_steering_marker_t": {
+        "type": "float",
+        "description": "Central measured steering marker T in the specified helicity-basis phase-space bin.",
+        "result": 3.12
+      },
+      "mtt_400_600_gev_abs_costheta_0p4_0p7_bell_correlation_marker_b": {
+        "type": "float",
+        "description": "Central measured Bell-correlation marker B in the specified helicity-basis phase-space bin.",
+        "result": 0.147
+      },
+      "mtt_400_600_gev_abs_costheta_0p4_0p7_magic_m2_tilde_bits": {
+        "type": "float",
+        "description": "Central measured quantum magic M2_tilde in the specified helicity-basis phase-space bin.",
+        "result": 0.236
+      },
+      "mtt_400_600_gev_abs_costheta_0p7_1p0_top_discord_bits": {
+        "type": "float",
+        "description": "Central measured top-quark quantum discord D_t in the specified helicity-basis phase-space bin.",
+        "result": 0.052
+      },
+      "mtt_400_600_gev_abs_costheta_0p7_1p0_entanglement_marker_delta_e": {
+        "type": "float",
+        "description": "Central measured Peres-Horodecki entanglement marker Delta_E in the specified helicity-basis phase-space bin.",
+        "result": 0.945
+      },
+      "mtt_400_600_gev_abs_costheta_0p7_1p0_steering_marker_t": {
+        "type": "float",
+        "description": "Central measured steering marker T in the specified helicity-basis phase-space bin.",
+        "result": 4.34
+      },
+      "mtt_400_600_gev_abs_costheta_0p7_1p0_bell_correlation_marker_b": {
+        "type": "float",
+        "description": "Central measured Bell-correlation marker B in the specified helicity-basis phase-space bin.",
+        "result": 0.386
+      },
+      "mtt_400_600_gev_abs_costheta_0p7_1p0_magic_m2_tilde_bits": {
+        "type": "float",
+        "description": "Central measured quantum magic M2_tilde in the specified helicity-basis phase-space bin.",
+        "result": 0.394
+      },
+      "mtt_600_800_gev_abs_costheta_0p0_0p4_top_discord_bits": {
+        "type": "float",
+        "description": "Central measured top-quark quantum discord D_t in the specified helicity-basis phase-space bin.",
+        "result": 0.107
+      },
+      "mtt_600_800_gev_abs_costheta_0p0_0p4_entanglement_marker_delta_e": {
+        "type": "float",
+        "description": "Central measured Peres-Horodecki entanglement marker Delta_E in the specified helicity-basis phase-space bin.",
+        "result": 1.029
+      },
+      "mtt_600_800_gev_abs_costheta_0p0_0p4_steering_marker_t": {
+        "type": "float",
+        "description": "Central measured steering marker T in the specified helicity-basis phase-space bin.",
+        "result": 4.85
+      },
+      "mtt_600_800_gev_abs_costheta_0p0_0p4_bell_correlation_marker_b": {
+        "type": "float",
+        "description": "Central measured Bell-correlation marker B in the specified helicity-basis phase-space bin.",
+        "result": 0.49
+      },
+      "mtt_600_800_gev_abs_costheta_0p0_0p4_magic_m2_tilde_bits": {
+        "type": "float",
+        "description": "Central measured quantum magic M2_tilde in the specified helicity-basis phase-space bin.",
+        "result": 0.431
+      },
+      "mtt_600_800_gev_abs_costheta_0p4_0p7_top_discord_bits": {
+        "type": "float",
+        "description": "Central measured top-quark quantum discord D_t in the specified helicity-basis phase-space bin.",
+        "result": 0.091
+      },
+      "mtt_600_800_gev_abs_costheta_0p4_0p7_entanglement_marker_delta_e": {
+        "type": "float",
+        "description": "Central measured Peres-Horodecki entanglement marker Delta_E in the specified helicity-basis phase-space bin.",
+        "result": 0.58
+      },
+      "mtt_600_800_gev_abs_costheta_0p4_0p7_steering_marker_t": {
+        "type": "float",
+        "description": "Central measured steering marker T in the specified helicity-basis phase-space bin.",
+        "result": 3.19
+      },
+      "mtt_600_800_gev_abs_costheta_0p4_0p7_bell_correlation_marker_b": {
+        "type": "float",
+        "description": "Central measured Bell-correlation marker B in the specified helicity-basis phase-space bin.",
+        "result": 0.21
+      },
+      "mtt_600_800_gev_abs_costheta_0p4_0p7_magic_m2_tilde_bits": {
+        "type": "float",
+        "description": "Central measured quantum magic M2_tilde in the specified helicity-basis phase-space bin.",
+        "result": 0.26
+      },
+      "mtt_600_800_gev_abs_costheta_0p7_1p0_top_discord_bits": {
+        "type": "float",
+        "description": "Central measured top-quark quantum discord D_t in the specified helicity-basis phase-space bin.",
+        "result": 0.033
+      },
+      "mtt_600_800_gev_abs_costheta_0p7_1p0_entanglement_marker_delta_e": {
+        "type": "float",
+        "description": "Central measured Peres-Horodecki entanglement marker Delta_E in the specified helicity-basis phase-space bin.",
+        "result": 0.475
+      },
+      "mtt_600_800_gev_abs_costheta_0p7_1p0_steering_marker_t": {
+        "type": "float",
+        "description": "Central measured steering marker T in the specified helicity-basis phase-space bin.",
+        "result": 2.21
+      },
+      "mtt_600_800_gev_abs_costheta_0p7_1p0_bell_correlation_marker_b": {
+        "type": "float",
+        "description": "Central measured Bell-correlation marker B in the specified helicity-basis phase-space bin.",
+        "result": 0.121
+      },
+      "mtt_600_800_gev_abs_costheta_0p7_1p0_magic_m2_tilde_bits": {
+        "type": "float",
+        "description": "Central measured quantum magic M2_tilde in the specified helicity-basis phase-space bin.",
+        "result": 0.163
+      },
+      "mtt_800_13000_gev_abs_costheta_0p0_0p4_top_discord_bits": {
+        "type": "float",
+        "description": "Central measured top-quark quantum discord D_t in the specified helicity-basis phase-space bin.",
+        "result": 0.424
+      },
+      "mtt_800_13000_gev_abs_costheta_0p0_0p4_entanglement_marker_delta_e": {
+        "type": "float",
+        "description": "Central measured Peres-Horodecki entanglement marker Delta_E in the specified helicity-basis phase-space bin.",
+        "result": 2.03
+      },
+      "mtt_800_13000_gev_abs_costheta_0p0_0p4_steering_marker_t": {
+        "type": "float",
+        "description": "Central measured steering marker T in the specified helicity-basis phase-space bin.",
+        "result": 8.55
+      },
+      "mtt_800_13000_gev_abs_costheta_0p0_0p4_bell_correlation_marker_b": {
+        "type": "float",
+        "description": "Central measured Bell-correlation marker B in the specified helicity-basis phase-space bin.",
+        "result": 0.99
+      },
+      "mtt_800_13000_gev_abs_costheta_0p0_0p4_magic_m2_tilde_bits": {
+        "type": "float",
+        "description": "Central measured quantum magic M2_tilde in the specified helicity-basis phase-space bin.",
+        "result": 0.561
+      },
+      "mtt_800_13000_gev_abs_costheta_0p4_0p7_top_discord_bits": {
+        "type": "float",
+        "description": "Central measured top-quark quantum discord D_t in the specified helicity-basis phase-space bin.",
+        "result": 0.158
+      },
+      "mtt_800_13000_gev_abs_costheta_0p4_0p7_entanglement_marker_delta_e": {
+        "type": "float",
+        "description": "Central measured Peres-Horodecki entanglement marker Delta_E in the specified helicity-basis phase-space bin.",
+        "result": 1.15
+      },
+      "mtt_800_13000_gev_abs_costheta_0p4_0p7_steering_marker_t": {
+        "type": "float",
+        "description": "Central measured steering marker T in the specified helicity-basis phase-space bin.",
+        "result": 5.27
+      },
+      "mtt_800_13000_gev_abs_costheta_0p4_0p7_bell_correlation_marker_b": {
+        "type": "float",
+        "description": "Central measured Bell-correlation marker B in the specified helicity-basis phase-space bin.",
+        "result": 0.617
+      },
+      "mtt_800_13000_gev_abs_costheta_0p4_0p7_magic_m2_tilde_bits": {
+        "type": "float",
+        "description": "Central measured quantum magic M2_tilde in the specified helicity-basis phase-space bin.",
+        "result": 0.567
+      },
+      "mtt_800_13000_gev_abs_costheta_0p7_1p0_top_discord_bits": {
+        "type": "float",
+        "description": "Central measured top-quark quantum discord D_t in the specified helicity-basis phase-space bin.",
+        "result": 0.033
+      },
+      "mtt_800_13000_gev_abs_costheta_0p7_1p0_entanglement_marker_delta_e": {
+        "type": "float",
+        "description": "Central measured Peres-Horodecki entanglement marker Delta_E in the specified helicity-basis phase-space bin.",
+        "result": 0.169
+      },
+      "mtt_800_13000_gev_abs_costheta_0p7_1p0_steering_marker_t": {
+        "type": "float",
+        "description": "Central measured steering marker T in the specified helicity-basis phase-space bin.",
+        "result": 2.01
+      },
+      "mtt_800_13000_gev_abs_costheta_0p7_1p0_bell_correlation_marker_b": {
+        "type": "float",
+        "description": "Central measured Bell-correlation marker B in the specified helicity-basis phase-space bin.",
+        "result": 0.071
+      },
+      "mtt_800_13000_gev_abs_costheta_0p7_1p0_magic_m2_tilde_bits": {
+        "type": "float",
+        "description": "Central measured quantum magic M2_tilde in the specified helicity-basis phase-space bin.",
+        "result": 0.113
+      }
+    }
+  },
+  {
+    "experiment_description": "CMS/LHC proton-proton collision data at center-of-mass energy sqrt(s)=13 TeV were used to characterize the spin quantum state of top-quark--antiquark (t tbar) pairs in the lepton+jets decay channel. The input measurement was the doubly differential extraction of the t tbar spin density matrix in bins of invariant mass m(t tbar) and absolute top production angle |cos(theta)|, where theta is the top-quark production angle in the t tbar center-of-mass frame relative to the proton beam direction. The analyzed phase-space bins were m(t tbar) in [300,400], [400,600], [600,800], and [800,13000] GeV, crossed with |cos(theta)| in [0.0,0.4], [0.4,0.7], and [0.7,1.0]. In each bin, the top and antitop spin state was reconstructed as a two-qubit density matrix rho_t_tbar = (1/4)(I2 tensor I2 + sum_i P_i sigma_i tensor I2 + sum_j Pbar_j I2 tensor sigma_j + sum_ij C_ij sigma_i tensor sigma_j), where I2 is the 2 by 2 identity, sigma_i are Pauli matrices, P_i and Pbar_j are the top and antitop polarization components, and C_ij is the spin-correlation matrix. The spin analyzers were charged leptons and d-type quarks from top decays. This record uses the fixed beam basis, a right-handed coordinate system in the t tbar center-of-mass frame with axes (xhat,yhat,zhat), where xhat points toward the center of the LHC ring, yhat points vertically upward, and zhat is aligned with the proton beam direction phat. Because this basis has fixed spatial orientation rather than changing event by event, the reconstructed spin states are bona fide two-qubit spin quantum states for the chosen phase-space bins. From the fitted polarization and spin-correlation coefficients, the following dimensionless quantum-information observables were computed per bin. The top-quark quantum discord D_t is measured in bits using log base 2 and is D_t = S(rho_tbar) - S(rho_t_tbar) + min_uhat[p_{+uhat} S(rho_{t,+uhat}) + p_{-uhat} S(rho_{t,-uhat})], where S(rho)=-Tr(rho log2 rho), rho_t=Tr_tbar(rho_t_tbar), rho_tbar=Tr_t(rho_t_tbar), Pi_{±uhat} are projectors for a spin measurement of the antitop along unit vector uhat, p_{±uhat}=Tr[(I2 tensor Pi_{±uhat}) rho_t_tbar (I2 tensor Pi_{±uhat})], and rho_{t,±uhat}=Tr_tbar[(I2 tensor Pi_{±uhat}) rho_t_tbar (I2 tensor Pi_{±uhat})]/p_{±uhat}; the minimization over uhat was numerical. The entanglement marker Delta_E is the Peres-Horodecki-based marker used for the same reconstructed spin state, with the separability boundary Delta_E=1 and Delta_E>1 denoting entanglement. The steering marker T is T = integral d^2 uhat sqrt(uhat^T C^T C uhat), with the steering threshold T=2*pi for the unpolarized two-qubit criterion. The Bell-correlation marker B is B=m1+m2, where m1 and m2 are the two largest eigenvalues of C^T C; B>1 is the CHSH Bell-correlation threshold for the reconstructed state. The mixed-state magic observable M2_tilde is the second-stabilizer-Renyi-entropy-based quantity M2_tilde = -log2((1 + sum_i(P_i^4 + Pbar_i^4) + sum_ij C_ij^4)/(1 + sum_i(P_i^2 + Pbar_i^2) + sum_ij C_ij^2)). Central values were obtained by minimizing the negative log-likelihood -2 log L = sum_ij (o_i-x_i) U^{-1}_{ij} (o_j-x_j), where o_i are measured polarization/spin-correlation coefficients, U_ij is their covariance matrix, and x_i are fitted coefficients constrained to the physical interval [-1,1].",
+    "experiment_results": {
+      "mtt_300_400_gev_abs_costheta_0p0_0p4_top_discord_bits": {
+        "type": "float",
+        "description": "Central measured top-quark quantum discord D_t in the specified beam-basis phase-space bin.",
+        "result": 0.187
+      },
+      "mtt_300_400_gev_abs_costheta_0p0_0p4_entanglement_marker_delta_e": {
+        "type": "float",
+        "description": "Central measured Peres-Horodecki entanglement marker Delta_E in the specified beam-basis phase-space bin.",
+        "result": 0.96
+      },
+      "mtt_300_400_gev_abs_costheta_0p0_0p4_steering_marker_t": {
+        "type": "float",
+        "description": "Central measured steering marker T in the specified beam-basis phase-space bin.",
+        "result": 4.51
+      },
+      "mtt_300_400_gev_abs_costheta_0p0_0p4_bell_correlation_marker_b": {
+        "type": "float",
+        "description": "Central measured Bell-correlation marker B in the specified beam-basis phase-space bin.",
+        "result": 0.41
+      },
+      "mtt_300_400_gev_abs_costheta_0p0_0p4_magic_m2_tilde_bits": {
+        "type": "float",
+        "description": "Central measured quantum magic M2_tilde in the specified beam-basis phase-space bin.",
+        "result": 0.383
+      },
+      "mtt_300_400_gev_abs_costheta_0p4_0p7_top_discord_bits": {
+        "type": "float",
+        "description": "Central measured top-quark quantum discord D_t in the specified beam-basis phase-space bin.",
+        "result": 0.177
+      },
+      "mtt_300_400_gev_abs_costheta_0p4_0p7_entanglement_marker_delta_e": {
+        "type": "float",
+        "description": "Central measured Peres-Horodecki entanglement marker Delta_E in the specified beam-basis phase-space bin.",
+        "result": 1.26
+      },
+      "mtt_300_400_gev_abs_costheta_0p4_0p7_steering_marker_t": {
+        "type": "float",
+        "description": "Central measured steering marker T in the specified beam-basis phase-space bin.",
+        "result": 5.3
+      },
+      "mtt_300_400_gev_abs_costheta_0p4_0p7_bell_correlation_marker_b": {
+        "type": "float",
+        "description": "Central measured Bell-correlation marker B in the specified beam-basis phase-space bin.",
+        "result": 0.44
+      },
+      "mtt_300_400_gev_abs_costheta_0p4_0p7_magic_m2_tilde_bits": {
+        "type": "float",
+        "description": "Central measured quantum magic M2_tilde in the specified beam-basis phase-space bin.",
+        "result": 0.48
+      },
+      "mtt_300_400_gev_abs_costheta_0p7_1p0_top_discord_bits": {
+        "type": "float",
+        "description": "Central measured top-quark quantum discord D_t in the specified beam-basis phase-space bin.",
+        "result": 0.376
+      },
+      "mtt_300_400_gev_abs_costheta_0p7_1p0_entanglement_marker_delta_e": {
+        "type": "float",
+        "description": "Central measured Peres-Horodecki entanglement marker Delta_E in the specified beam-basis phase-space bin.",
+        "result": 1.88
+      },
+      "mtt_300_400_gev_abs_costheta_0p7_1p0_steering_marker_t": {
+        "type": "float",
+        "description": "Central measured steering marker T in the specified beam-basis phase-space bin.",
+        "result": 7.9
+      },
+      "mtt_300_400_gev_abs_costheta_0p7_1p0_bell_correlation_marker_b": {
+        "type": "float",
+        "description": "Central measured Bell-correlation marker B in the specified beam-basis phase-space bin.",
+        "result": 0.94
+      },
+      "mtt_300_400_gev_abs_costheta_0p7_1p0_magic_m2_tilde_bits": {
+        "type": "float",
+        "description": "Central measured quantum magic M2_tilde in the specified beam-basis phase-space bin.",
+        "result": 0.543
+      },
+      "mtt_400_600_gev_abs_costheta_0p0_0p4_top_discord_bits": {
+        "type": "float",
+        "description": "Central measured top-quark quantum discord D_t in the specified beam-basis phase-space bin.",
+        "result": 0.209
+      },
+      "mtt_400_600_gev_abs_costheta_0p0_0p4_entanglement_marker_delta_e": {
+        "type": "float",
+        "description": "Central measured Peres-Horodecki entanglement marker Delta_E in the specified beam-basis phase-space bin.",
+        "result": 0.36
+      },
+      "mtt_400_600_gev_abs_costheta_0p0_0p4_steering_marker_t": {
+        "type": "float",
+        "description": "Central measured steering marker T in the specified beam-basis phase-space bin.",
+        "result": 3.93
+      },
+      "mtt_400_600_gev_abs_costheta_0p0_0p4_bell_correlation_marker_b": {
+        "type": "float",
+        "description": "Central measured Bell-correlation marker B in the specified beam-basis phase-space bin.",
+        "result": 0.211
+      },
+      "mtt_400_600_gev_abs_costheta_0p0_0p4_magic_m2_tilde_bits": {
+        "type": "float",
+        "description": "Central measured quantum magic M2_tilde in the specified beam-basis phase-space bin.",
+        "result": 0.329
+      },
+      "mtt_400_600_gev_abs_costheta_0p4_0p7_top_discord_bits": {
+        "type": "float",
+        "description": "Central measured top-quark quantum discord D_t in the specified beam-basis phase-space bin.",
+        "result": 0.127
+      },
+      "mtt_400_600_gev_abs_costheta_0p4_0p7_entanglement_marker_delta_e": {
+        "type": "float",
+        "description": "Central measured Peres-Horodecki entanglement marker Delta_E in the specified beam-basis phase-space bin.",
+        "result": 0.452
+      },
+      "mtt_400_600_gev_abs_costheta_0p4_0p7_steering_marker_t": {
+        "type": "float",
+        "description": "Central measured steering marker T in the specified beam-basis phase-space bin.",
+        "result": 3.3
+      },
+      "mtt_400_600_gev_abs_costheta_0p4_0p7_bell_correlation_marker_b": {
+        "type": "float",
+        "description": "Central measured Bell-correlation marker B in the specified beam-basis phase-space bin.",
+        "result": 0.186
+      },
+      "mtt_400_600_gev_abs_costheta_0p4_0p7_magic_m2_tilde_bits": {
+        "type": "float",
+        "description": "Central measured quantum magic M2_tilde in the specified beam-basis phase-space bin.",
+        "result": 0.251
+      },
+      "mtt_400_600_gev_abs_costheta_0p7_1p0_top_discord_bits": {
+        "type": "float",
+        "description": "Central measured top-quark quantum discord D_t in the specified beam-basis phase-space bin.",
+        "result": 0.1101
+      },
+      "mtt_400_600_gev_abs_costheta_0p7_1p0_entanglement_marker_delta_e": {
+        "type": "float",
+        "description": "Central measured Peres-Horodecki entanglement marker Delta_E in the specified beam-basis phase-space bin.",
+        "result": 1.004
+      },
+      "mtt_400_600_gev_abs_costheta_0p7_1p0_steering_marker_t": {
+        "type": "float",
+        "description": "Central measured steering marker T in the specified beam-basis phase-space bin.",
+        "result": 4.21
+      },
+      "mtt_400_600_gev_abs_costheta_0p7_1p0_bell_correlation_marker_b": {
+        "type": "float",
+        "description": "Central measured Bell-correlation marker B in the specified beam-basis phase-space bin.",
+        "result": 0.237
+      },
+      "mtt_400_600_gev_abs_costheta_0p7_1p0_magic_m2_tilde_bits": {
+        "type": "float",
+        "description": "Central measured quantum magic M2_tilde in the specified beam-basis phase-space bin.",
+        "result": 0.365
+      },
+      "mtt_600_800_gev_abs_costheta_0p0_0p4_top_discord_bits": {
+        "type": "float",
+        "description": "Central measured top-quark quantum discord D_t in the specified beam-basis phase-space bin.",
+        "result": 0.017
+      },
+      "mtt_600_800_gev_abs_costheta_0p0_0p4_entanglement_marker_delta_e": {
+        "type": "float",
+        "description": "Central measured Peres-Horodecki entanglement marker Delta_E in the specified beam-basis phase-space bin.",
+        "result": 0.545
+      },
+      "mtt_600_800_gev_abs_costheta_0p0_0p4_steering_marker_t": {
+        "type": "float",
+        "description": "Central measured steering marker T in the specified beam-basis phase-space bin.",
+        "result": 3.58
+      },
+      "mtt_600_800_gev_abs_costheta_0p0_0p4_bell_correlation_marker_b": {
+        "type": "float",
+        "description": "Central measured Bell-correlation marker B in the specified beam-basis phase-space bin.",
+        "result": 0.301
+      },
+      "mtt_600_800_gev_abs_costheta_0p0_0p4_magic_m2_tilde_bits": {
+        "type": "float",
+        "description": "Central measured quantum magic M2_tilde in the specified beam-basis phase-space bin.",
+        "result": 0.264
+      },
+      "mtt_600_800_gev_abs_costheta_0p4_0p7_top_discord_bits": {
+        "type": "float",
+        "description": "Central measured top-quark quantum discord D_t in the specified beam-basis phase-space bin.",
+        "result": 0.0132
+      },
+      "mtt_600_800_gev_abs_costheta_0p4_0p7_entanglement_marker_delta_e": {
+        "type": "float",
+        "description": "Central measured Peres-Horodecki entanglement marker Delta_E in the specified beam-basis phase-space bin.",
+        "result": 0.351
+      },
+      "mtt_600_800_gev_abs_costheta_0p4_0p7_steering_marker_t": {
+        "type": "float",
+        "description": "Central measured steering marker T in the specified beam-basis phase-space bin.",
+        "result": 2.45
+      },
+      "mtt_600_800_gev_abs_costheta_0p4_0p7_bell_correlation_marker_b": {
+        "type": "float",
+        "description": "Central measured Bell-correlation marker B in the specified beam-basis phase-space bin.",
+        "result": 0.131
+      },
+      "mtt_600_800_gev_abs_costheta_0p4_0p7_magic_m2_tilde_bits": {
+        "type": "float",
+        "description": "Central measured quantum magic M2_tilde in the specified beam-basis phase-space bin.",
+        "result": 0.162
+      },
+      "mtt_600_800_gev_abs_costheta_0p7_1p0_top_discord_bits": {
+        "type": "float",
+        "description": "Central measured top-quark quantum discord D_t in the specified beam-basis phase-space bin.",
+        "result": 0.034
+      },
+      "mtt_600_800_gev_abs_costheta_0p7_1p0_entanglement_marker_delta_e": {
+        "type": "float",
+        "description": "Central measured Peres-Horodecki entanglement marker Delta_E in the specified beam-basis phase-space bin.",
+        "result": 0.503
+      },
+      "mtt_600_800_gev_abs_costheta_0p7_1p0_steering_marker_t": {
+        "type": "float",
+        "description": "Central measured steering marker T in the specified beam-basis phase-space bin.",
+        "result": 2.12
+      },
+      "mtt_600_800_gev_abs_costheta_0p7_1p0_bell_correlation_marker_b": {
+        "type": "float",
+        "description": "Central measured Bell-correlation marker B in the specified beam-basis phase-space bin.",
+        "result": 0.064
+      },
+      "mtt_600_800_gev_abs_costheta_0p7_1p0_magic_m2_tilde_bits": {
+        "type": "float",
+        "description": "Central measured quantum magic M2_tilde in the specified beam-basis phase-space bin.",
+        "result": 0.114
+      },
+      "mtt_800_13000_gev_abs_costheta_0p0_0p4_top_discord_bits": {
+        "type": "float",
+        "description": "Central measured top-quark quantum discord D_t in the specified beam-basis phase-space bin.",
+        "result": 0.003
+      },
+      "mtt_800_13000_gev_abs_costheta_0p0_0p4_entanglement_marker_delta_e": {
+        "type": "float",
+        "description": "Central measured Peres-Horodecki entanglement marker Delta_E in the specified beam-basis phase-space bin.",
+        "result": 0.721
+      },
+      "mtt_800_13000_gev_abs_costheta_0p0_0p4_steering_marker_t": {
+        "type": "float",
+        "description": "Central measured steering marker T in the specified beam-basis phase-space bin.",
+        "result": 4.56
+      },
+      "mtt_800_13000_gev_abs_costheta_0p0_0p4_bell_correlation_marker_b": {
+        "type": "float",
+        "description": "Central measured Bell-correlation marker B in the specified beam-basis phase-space bin.",
+        "result": 0.52
+      },
+      "mtt_800_13000_gev_abs_costheta_0p0_0p4_magic_m2_tilde_bits": {
+        "type": "float",
+        "description": "Central measured quantum magic M2_tilde in the specified beam-basis phase-space bin.",
+        "result": 0.26
+      },
+      "mtt_800_13000_gev_abs_costheta_0p4_0p7_top_discord_bits": {
+        "type": "float",
+        "description": "Central measured top-quark quantum discord D_t in the specified beam-basis phase-space bin.",
+        "result": 0.0004
+      },
+      "mtt_800_13000_gev_abs_costheta_0p4_0p7_entanglement_marker_delta_e": {
+        "type": "float",
+        "description": "Central measured Peres-Horodecki entanglement marker Delta_E in the specified beam-basis phase-space bin.",
+        "result": 0.609
+      },
+      "mtt_800_13000_gev_abs_costheta_0p4_0p7_steering_marker_t": {
+        "type": "float",
+        "description": "Central measured steering marker T in the specified beam-basis phase-space bin.",
+        "result": 3.82
+      },
+      "mtt_800_13000_gev_abs_costheta_0p4_0p7_bell_correlation_marker_b": {
+        "type": "float",
+        "description": "Central measured Bell-correlation marker B in the specified beam-basis phase-space bin.",
+        "result": 0.37
+      },
+      "mtt_800_13000_gev_abs_costheta_0p4_0p7_magic_m2_tilde_bits": {
+        "type": "float",
+        "description": "Central measured quantum magic M2_tilde in the specified beam-basis phase-space bin.",
+        "result": 0.2686
+      },
+      "mtt_800_13000_gev_abs_costheta_0p7_1p0_top_discord_bits": {
+        "type": "float",
+        "description": "Central measured top-quark quantum discord D_t in the specified beam-basis phase-space bin.",
+        "result": 0.0013
+      },
+      "mtt_800_13000_gev_abs_costheta_0p7_1p0_entanglement_marker_delta_e": {
+        "type": "float",
+        "description": "Central measured Peres-Horodecki entanglement marker Delta_E in the specified beam-basis phase-space bin.",
+        "result": 0.181
+      },
+      "mtt_800_13000_gev_abs_costheta_0p7_1p0_steering_marker_t": {
+        "type": "float",
+        "description": "Central measured steering marker T in the specified beam-basis phase-space bin.",
+        "result": 0.86
+      },
+      "mtt_800_13000_gev_abs_costheta_0p7_1p0_bell_correlation_marker_b": {
+        "type": "float",
+        "description": "Central measured Bell-correlation marker B in the specified beam-basis phase-space bin.",
+        "result": 0.0153
+      },
+      "mtt_800_13000_gev_abs_costheta_0p7_1p0_magic_m2_tilde_bits": {
+        "type": "float",
+        "description": "Central measured quantum magic M2_tilde in the specified beam-basis phase-space bin.",
+        "result": 0.023
+      }
+    }
+  }
+]

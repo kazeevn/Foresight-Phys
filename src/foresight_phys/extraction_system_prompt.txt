@@ -11,6 +11,7 @@ Requirements:
 - CRITICAL: If a result is likely to be an order-of-magnitude exception to common physical priors (e.g., ultra-high mobility exceeding 1e6 cm2/Vs), ensure the description provides the high-quality environmental details (e.g., encapsulation, vacuum level, substrate purity) that justify such a result.
 - CRITICAL: If any `experiment_results` item has `type` = `formula`, the `experiment_description` must explicitly define every variable or symbol used in that formula.
 - CRITICAL: The `experiment_description` should NOT contain the measurement results (dependent variables) themselves, so that we can later predict those values from the description without leakage.
+- CRITICAL: The `description` field within `experiment_results` items MUST NOT contain the result values, their magnitudes, or specific references to the findings (e.g., do not say "reported as 5.0 eV"). Use it only to define what was measured.
 - Every description should name the material or device, the measurement modality or instrument, the relevant sample geometry or thickness when available, the environmental or operating conditions, the swept control variables, and exactly how the reported result was obtained.
 - Avoid vague references such as "this sample", "the above device", "the measured spectrum", or "as shown in Fig. 2".
 - CRITICAL: The `experiment_results` section MUST ONLY contain the actual observed physical measurements, derived empirical properties, or dependent variables (e.g., measured resistance, photovoltage, responsivity, transition temperature).

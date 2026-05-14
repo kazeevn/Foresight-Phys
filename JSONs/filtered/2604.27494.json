@@ -1,0 +1,127 @@
+[
+  {
+    "experiment_description": "Temporal photon-number-projected Hanbury Brown–Twiss measurement on pseudothermal light. A single-mode continuous-wave laser with central wavelength 780 nm and frequency bandwidth 200 kHz was incident on a rotating groundglass to generate pseudothermal light. A variable attenuator set the light intensity, and a lens controlled the laser spot size on the groundglass. The scattered light was divided by a 1:1 non-polarizing beamsplitter into two arms. Each arm was coupled into a single-mode fiber with 4.0 µm core diameter using fiber couplers FC1 and FC2 and detected by single-photon detectors D1 and D2. Photon arrival times from both detectors were recorded with a HydraHarp 400 photon time-series module using a common clock. The two detector collection positions were set to symmetrical positions. Photon-number projection was performed offline by binning the time tags into time bins of width T = 1 µs and counting the number of detections in each bin; in this configuration the single-photon detectors were treated as photon-number-resolving detectors via time-bin photon counts. The D1 and D2 single-photon counting rates were 734.57 kHz and 583.82 kHz, corresponding to average detected photon numbers of 0.73 and 0.58 per 1 µs bin; the mean value used for the correlation analysis was nbar = 0.66 photons per bin, where nbar is the average of the D1 and D2 photon counts per bin. The measured temporal correlation was g_m0^(2)(tau) = P_m0(tau)/(P_m P_0), where P_m0(tau) is the joint probability that D1 records exactly m photons in one time bin and D2 records exactly zero photons in a time bin delayed by tau, P_m is the marginal probability for m photons at D1, and P_0 is the marginal probability for zero photons at D2. The reported zero-delay values were read from the plotted normalized temporal correlation curves.",
+    "experiment_results": {
+      "temporal_g00_zero_delay": {
+        "type": "float",
+        "description": "Measured normalized zero-delay temporal photon-number-projected correlation g_00^(2)(0) for pseudothermal light with 1 µs time bins and nbar = 0.66 photons per bin.",
+        "result": 1.2
+      },
+      "temporal_g10_zero_delay": {
+        "type": "float",
+        "description": "Measured normalized zero-delay temporal photon-number-projected correlation g_10^(2)(0) for pseudothermal light with 1 µs time bins and nbar = 0.66 photons per bin.",
+        "result": 0.9
+      },
+      "temporal_g20_zero_delay": {
+        "type": "float",
+        "description": "Measured normalized zero-delay temporal photon-number-projected correlation g_20^(2)(0) for pseudothermal light with 1 µs time bins and nbar = 0.66 photons per bin.",
+        "result": 0.68
+      },
+      "temporal_g30_zero_delay": {
+        "type": "float",
+        "description": "Measured normalized zero-delay temporal photon-number-projected correlation g_30^(2)(0) for pseudothermal light with 1 µs time bins and nbar = 0.66 photons per bin.",
+        "result": 0.5
+      },
+      "temporal_g40_zero_delay": {
+        "type": "float",
+        "description": "Measured normalized zero-delay temporal photon-number-projected correlation g_40^(2)(0) for pseudothermal light with 1 µs time bins and nbar = 0.66 photons per bin.",
+        "result": 0.32
+      }
+    }
+  },
+  {
+    "experiment_description": "Intensity-dependent zero-delay photon-number-projected correlation measurement comparing coherent laser light and pseudothermal light in the same modified Hanbury Brown–Twiss interferometer. The optical system used a single-mode continuous-wave 780 nm laser with 200 kHz frequency bandwidth, a variable light attenuator to sweep input intensity, a 1:1 non-polarizing beamsplitter, two fiber couplers feeding 4.0 µm-core single-mode fibers, two single-photon detectors, and a HydraHarp 400 time-tagging module. For pseudothermal-light measurements, the laser illuminated a rotating groundglass before the beamsplitter; for laser-light measurements, the rotating groundglass was removed. The two detector positions were the symmetric HBT positions. Photon arrival times were binned into T = 1 µs bins. The swept independent variable was nbar, the average number of detected photons per 1 µs bin obtained by averaging the D1 and D2 photon counts, over the plotted range from near 0 to about 0.66 photons per bin. The evaluated observable was g_m0^(2)(0) = P_m0(0)/(P_m P_0), where P_m0(0) is the joint probability that D1 records exactly m photons and D2 records exactly zero photons in the same time bin, P_m is the marginal probability for m photons at D1, and P_0 is the marginal probability for zero photons at D2. The laser-light comparison reported only g_10^(2)(0).",
+    "experiment_results": {
+      "laser_g10_zero_delay_over_intensity_sweep": {
+        "type": "formula",
+        "description": "Measured zero-delay photon-number-projected correlation g_10^(2)(0) for coherent laser light over the swept detected-photon-number range.",
+        "result": "g_10^(2)(0; nbar) = 1"
+      },
+      "thermal_g00_zero_delay_at_nbar_0p66": {
+        "type": "float",
+        "description": "Measured zero-delay photon-number-projected correlation g_00^(2)(0) for pseudothermal light at nbar = 0.66 photons per 1 µs bin.",
+        "result": 1.2
+      },
+      "thermal_g10_zero_delay_at_nbar_0p66": {
+        "type": "float",
+        "description": "Measured zero-delay photon-number-projected correlation g_10^(2)(0) for pseudothermal light at nbar = 0.66 photons per 1 µs bin.",
+        "result": 0.88
+      },
+      "thermal_g20_zero_delay_at_nbar_0p66": {
+        "type": "float",
+        "description": "Measured zero-delay photon-number-projected correlation g_20^(2)(0) for pseudothermal light at nbar = 0.66 photons per 1 µs bin.",
+        "result": 0.68
+      },
+      "thermal_g30_zero_delay_at_nbar_0p66": {
+        "type": "float",
+        "description": "Measured zero-delay photon-number-projected correlation g_30^(2)(0) for pseudothermal light at nbar = 0.66 photons per 1 µs bin.",
+        "result": 0.47
+      },
+      "thermal_g40_zero_delay_at_nbar_0p66": {
+        "type": "float",
+        "description": "Measured zero-delay photon-number-projected correlation g_40^(2)(0) for pseudothermal light at nbar = 0.66 photons per 1 µs bin.",
+        "result": 0.34
+      }
+    }
+  },
+  {
+    "experiment_description": "Spatial photon-number-projected correlation measurement of pseudothermal light at low detected photon number in a modified Hanbury Brown–Twiss interferometer. A 780 nm, 200 kHz-bandwidth single-mode continuous-wave laser was scattered from a rotating groundglass to produce pseudothermal light. The scattered beam was split by a 1:1 non-polarizing beamsplitter and collected by two 4.0 µm-core single-mode fiber couplers feeding single-photon detectors D1 and D2. Photon arrival times were recorded by a HydraHarp 400 module. Detector D2 was fixed, while detector D1 was scanned horizontally in the x direction using a motorized translation stage; the independent spatial coordinate was Delta_x, the horizontal displacement between the D1 scan position and the symmetric reference position relative to D2. Time tags were binned into T = 1 µs bins, giving nbar = 0.66 photons per bin, where nbar is the average number of detected photons per bin averaged over D1 and D2. For each Delta_x, g_m0^(2)(Delta_x) was calculated as the normalized joint probability P_m0(Delta_x)/(P_m P_0), equivalently plotted as the peak or dip value divided by the background, where P_m0 is the probability that D1 records exactly m photons and D2 records exactly zero photons in corresponding time bins, P_m is the marginal probability for m photons at D1, and P_0 is the marginal probability for zero photons at D2. The reported values are the central spatial-correlation values at Delta_x = 0 read from the plotted curves.",
+    "experiment_results": {
+      "spatial_g00_at_delta_x_0_nbar_0p66": {
+        "type": "float",
+        "description": "Measured central spatial photon-number-projected correlation g_00^(2)(Delta_x = 0) for pseudothermal light with 1 µs bins and nbar = 0.66 photons per bin.",
+        "result": 1.2
+      },
+      "spatial_g10_at_delta_x_0_nbar_0p66": {
+        "type": "float",
+        "description": "Measured central spatial photon-number-projected correlation g_10^(2)(Delta_x = 0) for pseudothermal light with 1 µs bins and nbar = 0.66 photons per bin.",
+        "result": 0.91
+      },
+      "spatial_g20_at_delta_x_0_nbar_0p66": {
+        "type": "float",
+        "description": "Measured central spatial photon-number-projected correlation g_20^(2)(Delta_x = 0) for pseudothermal light with 1 µs bins and nbar = 0.66 photons per bin.",
+        "result": 0.73
+      },
+      "spatial_g30_at_delta_x_0_nbar_0p66": {
+        "type": "float",
+        "description": "Measured central spatial photon-number-projected correlation g_30^(2)(Delta_x = 0) for pseudothermal light with 1 µs bins and nbar = 0.66 photons per bin.",
+        "result": 0.55
+      },
+      "spatial_g40_at_delta_x_0_nbar_0p66": {
+        "type": "float",
+        "description": "Measured central spatial photon-number-projected correlation g_40^(2)(Delta_x = 0) for pseudothermal light with 1 µs bins and nbar = 0.66 photons per bin.",
+        "result": 0.38
+      }
+    }
+  },
+  {
+    "experiment_description": "Spatial photon-number-projected correlation measurement of pseudothermal light at higher detected photon number in the same modified Hanbury Brown–Twiss interferometer. A 780 nm, 200 kHz-bandwidth single-mode continuous-wave laser was scattered from a rotating groundglass to form pseudothermal light, split by a 1:1 non-polarizing beamsplitter, coupled through two 4.0 µm-core single-mode fibers, and detected by two single-photon detectors whose time tags were recorded by a HydraHarp 400 module. Detector D2 was fixed, and detector D1 was scanned horizontally on a motorized translation stage. The independent spatial coordinate Delta_x was the horizontal displacement of D1 relative to the symmetric position. Photon arrival times were binned into T = 3 µs bins, giving nbar = 1.98 photons per bin, where nbar is the average number of detected photons per bin averaged over D1 and D2. For each Delta_x, g_m0^(2)(Delta_x) was obtained by dividing the central peak or dip in the joint m-photon/zero-photon event correlation by the background. Here g_m0^(2)(Delta_x) = P_m0(Delta_x)/(P_m P_0), where P_m0 is the joint probability that D1 records exactly m photons while D2 records exactly zero photons in corresponding bins, P_m is the marginal probability for m photons at D1, and P_0 is the marginal probability for zero photons at D2. The reported values are the central spatial-correlation values at Delta_x = 0 read from the plotted curves.",
+    "experiment_results": {
+      "spatial_g00_at_delta_x_0_nbar_1p98": {
+        "type": "float",
+        "description": "Measured central spatial photon-number-projected correlation g_00^(2)(Delta_x = 0) for pseudothermal light with 3 µs bins and nbar = 1.98 photons per bin.",
+        "result": 1.7
+      },
+      "spatial_g10_at_delta_x_0_nbar_1p98": {
+        "type": "float",
+        "description": "Measured central spatial photon-number-projected correlation g_10^(2)(Delta_x = 0) for pseudothermal light with 3 µs bins and nbar = 1.98 photons per bin.",
+        "result": 1.23
+      },
+      "spatial_g20_at_delta_x_0_nbar_1p98": {
+        "type": "float",
+        "description": "Measured central spatial photon-number-projected correlation g_20^(2)(Delta_x = 0) for pseudothermal light with 3 µs bins and nbar = 1.98 photons per bin.",
+        "result": 1.0
+      },
+      "spatial_g30_at_delta_x_0_nbar_1p98": {
+        "type": "float",
+        "description": "Measured central spatial photon-number-projected correlation g_30^(2)(Delta_x = 0) for pseudothermal light with 3 µs bins and nbar = 1.98 photons per bin.",
+        "result": 0.63
+      },
+      "spatial_g40_at_delta_x_0_nbar_1p98": {
+        "type": "float",
+        "description": "Measured central spatial photon-number-projected correlation g_40^(2)(Delta_x = 0) for pseudothermal light with 3 µs bins and nbar = 1.98 photons per bin.",
+        "result": 0.4
+      }
+    }
+  }
+]
