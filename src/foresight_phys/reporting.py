@@ -19,6 +19,306 @@ from .metrics import (
 from .models import BenchmarkItem
 
 
+def format_metric_value(value: float | None) -> str:
+    if value is None:
+        return 'n/a'
+    return f'{value:.4f}'
+
+
+def format_timestamp(timestamp: float | None) -> str:
+    if timestamp is None:
+        return 'n/a'
+    return datetime.fromtimestamp(timestamp, tz=timezone.utc).isoformat()
+
+
+def write_runs_index(*, docs_dir: Path, latest_run_name: str | None = None) -> None:
+    docs_dir.mkdir(parents=True, exist_ok=True)
+
+    runs: list[dict[str, Any]] = []
+    for run_dir in docs_dir.iterdir():
+        if not run_dir.is_dir():
+            continue
+
+        summary_path = run_dir / 'benchmark_results.json'
+        report_path = run_dir / 'benchmark_human_readable_report.html'
+        if not summary_path.exists() and not report_path.exists():
+            continue
+
+        summary: dict[str, Any] = {}
+        if summary_path.exists():
+            try:
+                loaded_summary = json.loads(summary_path.read_text(encoding='utf-8'))
+                if isinstance(loaded_summary, dict):
+                    summary = loaded_summary
+            except json.JSONDecodeError:
+                summary = {}
+
+        timestamps = []
+        if summary_path.exists():
+            timestamps.append(summary_path.stat().st_mtime)
+        if report_path.exists():
+            timestamps.append(report_path.stat().st_mtime)
+        if not timestamps:
+            timestamps.append(run_dir.stat().st_mtime)
+
+        runs.append(
+            {
+                'run_name': run_dir.name,
+                'model': summary.get('model'),
+                'files_evaluated': summary.get('files_evaluated'),
+                'aggregate_prediction_quality': summary.get('aggregate_prediction_quality'),
+                'aggregate_smape': summary.get('aggregate_smape'),
+                'aggregate_normalized_smape_score': summary.get('aggregate_normalized_smape_score'),
+                'summary_href': f'{run_dir.name}/benchmark_results.json' if summary_path.exists() else None,
+                'report_href': f'{run_dir.name}/benchmark_human_readable_report.html' if report_path.exists() else None,
+                'updated_at': max(timestamps),
+            }
+        )
+
+    runs.sort(
+        key=lambda run: (run['updated_at'], run['run_name']),
+        reverse=True,
+    )
+
+    generated_at_utc = datetime.now(timezone.utc).isoformat()
+    cards: list[str] = []
+    for run in runs:
+        badge_html = ''
+        if latest_run_name and run['run_name'] == latest_run_name:
+            badge_html = '<span class="badge">Current run</span>'
+
+        report_link = '<span class="link-disabled">Report unavailable</span>'
+        if run['report_href']:
+            report_link = (
+                f'<a href="{html.escape(str(run["report_href"]))}">Open report</a>'
+            )
+
+        summary_link = '<span class="link-disabled">Summary unavailable</span>'
+        if run['summary_href']:
+            summary_link = (
+                f'<a href="{html.escape(str(run["summary_href"]))}">Open JSON</a>'
+            )
+
+        files_evaluated = run['files_evaluated']
+        files_text = 'n/a' if files_evaluated is None else str(files_evaluated)
+
+        cards.append(
+            '\n'.join(
+                [
+                    '<article class="run-card">',
+                    '<div class="run-card-header">',
+                    f'<h2>{html.escape(str(run["run_name"]))}</h2>',
+                    badge_html,
+                    '</div>',
+                    '<dl class="metrics-grid">',
+                    '<div><dt>Model</dt>'
+                    f'<dd>{html.escape(str(run["model"] or "n/a"))}</dd></div>',
+                    '<div><dt>Files</dt>'
+                    f'<dd>{html.escape(files_text)}</dd></div>',
+                    '<div><dt>Prediction Quality</dt>'
+                    f'<dd>{html.escape(format_metric_value(run["aggregate_prediction_quality"]))}</dd></div>',
+                    '<div><dt>Raw sMAPE</dt>'
+                    f'<dd>{html.escape(format_metric_value(run["aggregate_smape"]))}</dd></div>',
+                    '<div><dt>Normalized sMAPE</dt>'
+                    f'<dd>{html.escape(format_metric_value(run["aggregate_normalized_smape_score"]))}</dd></div>',
+                    '<div><dt>Updated</dt>'
+                    f'<dd>{html.escape(format_timestamp(run["updated_at"]))}</dd></div>',
+                    '</dl>',
+                    '<div class="run-links">',
+                    report_link,
+                    summary_link,
+                    '</div>',
+                    '</article>',
+                ]
+            )
+        )
+
+    if not cards:
+        cards_html = '<section class="empty-state"><p>No benchmark runs available yet.</p></section>'
+    else:
+        cards_html = '\n'.join(cards)
+
+    index_html = f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Foresight-Phys Runs</title>
+    <style>
+        :root {{
+            color-scheme: light;
+            --bg: #f4f1e8;
+            --surface: rgba(255, 252, 245, 0.96);
+            --surface-strong: #fffdf8;
+            --text: #1f1d1a;
+            --muted: #5f5647;
+            --border: #d8cfbf;
+            --accent: #0f766e;
+            --accent-soft: #d8f0ec;
+            --shadow: rgba(77, 63, 36, 0.12);
+        }}
+        * {{ box-sizing: border-box; }}
+        body {{
+            margin: 0;
+            font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at top left, rgba(15, 118, 110, 0.14), transparent 28%),
+                linear-gradient(180deg, #f7f4ec 0%, var(--bg) 100%);
+        }}
+        main {{
+            width: min(1100px, calc(100vw - 32px));
+            margin: 0 auto;
+            padding: 40px 0 64px;
+        }}
+        .hero {{
+            padding: 28px;
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            background: var(--surface);
+            box-shadow: 0 18px 48px var(--shadow);
+            backdrop-filter: blur(12px);
+        }}
+        .eyebrow {{
+            margin: 0 0 10px;
+            color: var(--accent);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }}
+        h1 {{
+            margin: 0;
+            font-size: clamp(32px, 4vw, 56px);
+            line-height: 0.98;
+        }}
+        .hero p {{
+            margin: 14px 0 0;
+            max-width: 720px;
+            color: var(--muted);
+            font-size: 16px;
+            line-height: 1.6;
+        }}
+        .hero-meta {{
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 18px;
+        }}
+        .hero-chip {{
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            background: var(--surface-strong);
+            font-size: 13px;
+            color: var(--muted);
+        }}
+        .runs-grid {{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 18px;
+            margin-top: 24px;
+        }}
+        .run-card, .empty-state {{
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            background: var(--surface);
+            padding: 22px;
+            box-shadow: 0 18px 36px var(--shadow);
+        }}
+        .run-card-header {{
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+        }}
+        .run-card h2 {{
+            margin: 0;
+            font-size: 21px;
+            line-height: 1.2;
+            word-break: break-word;
+        }}
+        .badge {{
+            flex-shrink: 0;
+            padding: 7px 10px;
+            border-radius: 999px;
+            background: var(--accent-soft);
+            color: var(--accent);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }}
+        .metrics-grid {{
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px 12px;
+            margin: 18px 0 0;
+        }}
+        dt {{
+            margin: 0;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }}
+        dd {{
+            margin: 6px 0 0;
+            font-size: 16px;
+            font-weight: 600;
+        }}
+        .run-links {{
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 18px;
+        }}
+        a {{
+            color: var(--accent);
+            font-weight: 700;
+            text-decoration: none;
+        }}
+        a:hover {{ text-decoration: underline; }}
+        .link-disabled {{
+            color: var(--muted);
+            font-size: 14px;
+        }}
+        .empty-state p {{
+            margin: 0;
+            color: var(--muted);
+            font-size: 15px;
+        }}
+        @media (max-width: 640px) {{
+            main {{ width: min(100vw - 20px, 1100px); padding: 20px 0 40px; }}
+            .hero {{ padding: 20px; border-radius: 18px; }}
+            .run-card {{ padding: 18px; border-radius: 18px; }}
+            .metrics-grid {{ grid-template-columns: 1fr; }}
+        }}
+    </style>
+</head>
+<body>
+    <main>
+        <section class="hero">
+            <p class="eyebrow">Foresight-Phys</p>
+            <h1>Benchmark Run Index</h1>
+            <p>Available benchmark runs discovered under the local docs directory. Each card links to the machine-readable summary and the offline human-readable report when present.</p>
+            <div class="hero-meta">
+                <div class="hero-chip">Generated: {html.escape(generated_at_utc)}</div>
+                <div class="hero-chip">Runs indexed: {len(runs)}</div>
+            </div>
+        </section>
+        <section class="runs-grid">
+            {cards_html}
+        </section>
+    </main>
+</body>
+</html>
+'''
+
+    (docs_dir / 'index.html').write_text(index_html, encoding='utf-8')
+
+
 def write_human_readable_report(
     *,
     items: list[BenchmarkItem],
@@ -32,11 +332,6 @@ def write_human_readable_report(
     formula_judge: FormulaJudge | None = None,
 ) -> None:
     generated_at_utc = datetime.now(timezone.utc).isoformat()
-
-    def format_metric(value: float | None) -> str:
-        if value is None:
-            return "n/a"
-        return f"{value:.4f}"
 
     def display_file_title(file_name: str) -> str:
         if file_name.lower().endswith(".json"):
@@ -64,19 +359,19 @@ def write_human_readable_report(
         section_parts: list[str] = []
         section_parts.append('<div class="paper-metrics">')
         section_parts.append(
-            f'<div class="metric-chip"><span class="metric-label">Prediction Quality</span><span class="metric-value">{html.escape(format_metric(metrics.get("prediction_quality")))}</span></div>'
+            f'<div class="metric-chip"><span class="metric-label">Prediction Quality</span><span class="metric-value">{html.escape(format_metric_value(metrics.get("prediction_quality")))}</span></div>'
         )
         section_parts.append(
-            f'<div class="metric-chip"><span class="metric-label">Raw sMAPE</span><span class="metric-value">{html.escape(format_metric(metrics.get("smape")))}</span></div>'
+            f'<div class="metric-chip"><span class="metric-label">Raw sMAPE</span><span class="metric-value">{html.escape(format_metric_value(metrics.get("smape")))}</span></div>'
         )
         section_parts.append(
-            f'<div class="metric-chip"><span class="metric-label">Normalized sMAPE Score</span><span class="metric-value">{html.escape(format_metric(metrics.get("normalized_smape_score")))}</span></div>'
+            f'<div class="metric-chip"><span class="metric-label">Normalized sMAPE Score</span><span class="metric-value">{html.escape(format_metric_value(metrics.get("normalized_smape_score")))}</span></div>'
         )
         section_parts.append(
-            f'<div class="metric-chip"><span class="metric-label">Bool/Categorical Accuracy</span><span class="metric-value">{html.escape(format_metric(metrics.get("bool_categorical_accuracy")))}</span></div>'
+            f'<div class="metric-chip"><span class="metric-label">Bool/Categorical Accuracy</span><span class="metric-value">{html.escape(format_metric_value(metrics.get("bool_categorical_accuracy")))}</span></div>'
         )
         section_parts.append(
-            f'<div class="metric-chip"><span class="metric-label">Formula Accuracy</span><span class="metric-value">{html.escape(format_metric(metrics.get("formula_accuracy")))}</span></div>'
+            f'<div class="metric-chip"><span class="metric-label">Formula Accuracy</span><span class="metric-value">{html.escape(format_metric_value(metrics.get("formula_accuracy")))}</span></div>'
         )
         section_parts.append('</div>')
 
@@ -324,11 +619,11 @@ def write_human_readable_report(
         <div class="meta">Model: {html.escape(model)}</div>
         <div class="meta">Generated: {html.escape(generated_at_utc)}</div>
         <div class="meta">Files: {len(items)}</div>
-        <div class="meta">Aggregate prediction quality: {format_metric(aggregate_prediction_quality)}</div>
-        <div class="meta">Aggregate raw sMAPE: {format_metric(aggregate_smape)}</div>
-        <div class="meta">Aggregate normalized sMAPE score: {format_metric(aggregate_normalized_smape_score)}</div>
-        <div class="meta">Aggregate bool/categorical accuracy: {format_metric(aggregate_bool_categorical_accuracy)}</div>
-        <div class="meta">Aggregate formula accuracy: {format_metric(aggregate_formula_accuracy)}</div>
+        <div class="meta">Aggregate prediction quality: {format_metric_value(aggregate_prediction_quality)}</div>
+        <div class="meta">Aggregate raw sMAPE: {format_metric_value(aggregate_smape)}</div>
+        <div class="meta">Aggregate normalized sMAPE score: {format_metric_value(aggregate_normalized_smape_score)}</div>
+        <div class="meta">Aggregate bool/categorical accuracy: {format_metric_value(aggregate_bool_categorical_accuracy)}</div>
+        <div class="meta">Aggregate formula accuracy: {format_metric_value(aggregate_formula_accuracy)}</div>
     </div>
     <div class="layout">
         <aside class="sidebar" aria-label="Papers">

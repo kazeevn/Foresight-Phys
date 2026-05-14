@@ -77,6 +77,7 @@ uv run --env-file .env foresight-phys
 By default this:
 
 - reads benchmark inputs from `JSONs/filtered/`
+- writes `docs/index.html`
 - uses model `gpt-5.4-nano`
 - writes `docs/<run-name>/benchmark_results.json`
 - writes `docs/<run-name>/benchmark_human_readable_report.html`

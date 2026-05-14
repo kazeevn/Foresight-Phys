@@ -12,7 +12,7 @@ from .formula_judging import FORMULA_JUDGE_MODEL, FormulaJudge
 from .langfuse_logging import LangfuseRunLogger
 from .metrics import compute_file_metrics
 from .prediction import build_benchmark_items
-from .reporting import write_human_readable_report
+from .reporting import write_human_readable_report, write_runs_index
 from .resources import resolve_system_prompt_path
 
 
@@ -105,4 +105,5 @@ def run_benchmark(args: argparse.Namespace) -> dict[str, Any]:
         json.dumps(summary, ensure_ascii=False, indent=2),
         encoding='utf-8',
     )
+    write_runs_index(docs_dir=Path('docs'), latest_run_name=args.run_name)
     return summary
