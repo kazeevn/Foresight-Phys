@@ -13,7 +13,7 @@ from tenacity import retry, retry_if_exception_type, stop_after_attempt, wait_ra
 
 
 BENCHMARK_FILTER_SYSTEM_PROMPT = (
-    "Is it suitable for benchmarking the ability of AIs to predict the results of physical experiments?"
+    "Are those experiment descriptions suitable for benchmarking the ability of AIs to predict the results of physical experiments?"
 )
 DEFAULT_BENCHMARK_FILTER_MODEL = "gpt-5.5"
 

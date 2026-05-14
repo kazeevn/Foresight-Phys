@@ -84,6 +84,12 @@ second `gpt-5.5` suitability pass that returns one validity boolean per experime
 uv run foresight-phys-extract --paper-url https://arxiv.org/pdf/2511.14269
 ```
 
+To process many papers from a text file with one PDF URL per line, use:
+
+```bash
+uv run foresight-phys-extract --paper-urls-file papers.txt
+```
+
 By default this will:
 
 - derive the output filename from the extracted paper title
@@ -97,10 +103,15 @@ Useful options:
 ```bash
 uv run foresight-phys-extract --paper-url https://arxiv.org/pdf/2511.14269 --output JSONs/filtered/my-paper.json
 uv run foresight-phys-extract --paper-url https://arxiv.org/pdf/2511.14269 --raw-output JSONs/raw/my-paper.json
+uv run foresight-phys-extract --paper-urls-file papers.txt
 uv run foresight-phys-extract --paper-url https://arxiv.org/pdf/2511.14269 --model gpt-5.5
 uv run foresight-phys-extract --paper-url https://arxiv.org/pdf/2511.14269 --ids-path .cache/extraction_ids.json
 uv run foresight-phys-extract --paper-url https://arxiv.org/pdf/2511.14269 --overwrite
 ```
+
+For `--paper-urls-file`, blank lines and lines starting with `#` are ignored. In batch mode,
+the CLI writes each paper to its default title-derived path under `JSONs/raw/` and
+`JSONs/filtered/`; `--output` and `--raw-output` remain single-paper-only overrides.
 
 The output JSON remains a top-level list of experiments so it can be consumed by the
 existing benchmark pipeline without any format conversion. To benchmark newly filtered
