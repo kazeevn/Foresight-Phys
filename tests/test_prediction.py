@@ -1,11 +1,14 @@
 from __future__ import annotations
 
+import tempfile
+from pathlib import Path
 import unittest
 from types import SimpleNamespace
 from unittest.mock import patch
 
+from foresight_phys.cache import PredictionCache
 from foresight_phys.json_payloads import build_prediction_format_signature, build_prediction_text_format
-from foresight_phys.prediction import call_openai_with_retry
+from foresight_phys.prediction import build_benchmark_items, call_openai_with_retry
 
 
 class PredictionCallTests(unittest.TestCase):
@@ -80,6 +83,61 @@ class PredictionCallTests(unittest.TestCase):
                 }
             ],
         )
+
+    def test_build_benchmark_items_skips_top_level_empty_lists(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            json_dir = Path(tmp_dir)
+            (json_dir / 'empty.json').write_text('[]', encoding='utf-8')
+            (json_dir / 'paper.json').write_text(
+                """
+[
+  {
+    "experiment_description": "Example experiment",
+    "experiment_results": {
+      "bandgap_eV": {
+        "type": "float",
+        "description": "Measured bandgap",
+        "result": 1.23
+      }
+    }
+  }
+]
+""".strip(),
+                encoding='utf-8',
+            )
+
+            prediction_cache = PredictionCache(
+                enabled=False,
+                path=json_dir / 'cache.json',
+                entries={},
+            )
+
+            with patch(
+                'foresight_phys.prediction.call_openai_with_retry',
+                return_value=[
+                    {
+                        'experiment_description': 'Example experiment',
+                        'experiment_results': {
+                            'bandgap_eV': {
+                                'type': 'float',
+                                'description': 'Measured bandgap',
+                                'result': 1.5,
+                            }
+                        },
+                    }
+                ],
+            ) as call_openai:
+                items = build_benchmark_items(
+                    json_dir=json_dir,
+                    system_prompt='Predict outcomes.',
+                    model='gpt-5.4-nano',
+                    max_files=None,
+                    max_workers=1,
+                    prediction_cache=prediction_cache,
+                )
+
+        self.assertEqual([item.file_name for item in items], ['paper.json'])
+        call_openai.assert_called_once()
 
 
 if __name__ == '__main__':

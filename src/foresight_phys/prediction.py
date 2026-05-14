@@ -57,6 +57,10 @@ def normalize_prediction_payload(parsed: BenchmarkPredictionEnvelope) -> list[di
     return payload
 
 
+def should_skip_benchmark_payload(payload: Any) -> bool:
+    return isinstance(payload, list) and len(payload) == 0
+
+
 @retry(
     wait=wait_random_exponential(multiplier=1, min=1, max=60),
     stop=stop_after_attempt(6),
@@ -112,16 +116,21 @@ def build_benchmark_items(
     max_workers: int,
     prediction_cache: PredictionCache,
 ) -> list[BenchmarkItem]:
-    json_paths = sorted(json_dir.glob("*.json"))
+    benchmark_sources: list[tuple[Path, Any]] = []
+    for json_path in sorted(json_dir.glob("*.json")):
+        ground_truth = json.loads(json_path.read_text(encoding='utf-8'))
+        if should_skip_benchmark_payload(ground_truth):
+            continue
+        benchmark_sources.append((json_path, ground_truth))
+
     if max_files is not None:
-        json_paths = json_paths[:max_files]
+        benchmark_sources = benchmark_sources[:max_files]
 
     text_format = build_prediction_text_format()
     format_signature = build_prediction_format_signature()
     items_by_file: dict[str, BenchmarkItem] = {}
     tasks: list[tuple[str, Any, Any, str]] = []
-    for json_path in json_paths:
-        ground_truth = json.loads(json_path.read_text(encoding='utf-8'))
+    for json_path, ground_truth in benchmark_sources:
         masked_payload = build_masked_payload(ground_truth)
         cache_key = build_prediction_cache_key(
             model=model,
@@ -143,7 +152,7 @@ def build_benchmark_items(
         tasks.append((json_path.name, masked_payload, ground_truth, cache_key))
 
     if not tasks:
-        return [items_by_file[path.name] for path in json_paths]
+        return [items_by_file[path.name] for path, _ in benchmark_sources]
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
         futures = {
@@ -170,4 +179,4 @@ def build_benchmark_items(
                 prediction_cache.set(cache_key, predicted_json)
                 progress.update(1)
 
-    return [items_by_file[path.name] for path in json_paths]
+    return [items_by_file[path.name] for path, _ in benchmark_sources]
