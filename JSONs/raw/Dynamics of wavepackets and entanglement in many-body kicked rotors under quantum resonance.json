@@ -1,0 +1,212 @@
+[
+  {
+    "experiment_description": "Numerical time-evolution simulation of a two-body quantum kicked rotor in dimensionless units with one-period Floquet operator U = exp[-i(τ1 p1^2/2 + τ2 p2^2/2)] exp[-i V(θ1,θ2)]. The kicking potential was V(θ1,θ2)=k1 cos(θ1)+k2 cos(θ2)+ξ cos(θ1−θ2), with k1=0.1, k2=0.2, and ξ=1. Rotor 1 was set at the principal quantum resonance, τ1=4π, and rotor 2 at the secondary quantum resonance, τ2=2π. The initial state was the separable momentum eigenstate |p1=0⟩⊗|p2=0⟩. The simulation propagated the state for integer kick number t; wavepacket observables ⟨p1^2(t)⟩ and ⟨p2^2(t)⟩ were shown over t from 1 to 1000 for rotor 1 and over t from 0 to 100 for rotor 2, while bipartite linear entropy Slin(t)=1−Tr(ρ1^2) between the two rotors was shown over t from 0 to 100. The reported coefficients and amplitudes were obtained by comparing the simulated time traces with the predicted quadratic-plus-period-2 decomposition of the momentum variances and with the odd-step plateau of the period-2 linear entropy oscillation.",
+    "experiment_results": {
+      "p1_quadratic_variance_coefficient_dimensionless": {
+        "type": "float",
+        "description": "Coefficient of the ballistic t^2 contribution to the rotor-1 momentum variance ⟨p1^2(t)⟩ in the hybrid wavepacket dynamics.",
+        "result": 0.005
+      },
+      "p1_period2_variance_oscillation_amplitude_dimensionless": {
+        "type": "float",
+        "description": "Amplitude of the period-2 oscillatory component superimposed on the rotor-1 momentum variance ⟨p1^2(t)⟩.",
+        "result": 0.5
+      },
+      "p2_period2_variance_oscillation_amplitude_dimensionless": {
+        "type": "float",
+        "description": "Odd-step amplitude of the rotor-2 momentum variance oscillation ⟨p2^2(t)⟩, with even steps returning to zero.",
+        "result": 0.52
+      },
+      "odd_step_linear_entropy_dimensionless": {
+        "type": "float",
+        "description": "Odd-step value of the bipartite linear entropy Slin(t) in the period-2 entanglement oscillation, with even steps returning to zero.",
+        "result": 0.58
+      }
+    }
+  },
+  {
+    "experiment_description": "Numerical time-evolution simulation of the same two-body quantum kicked-rotor Floquet model U = exp[-i(τ1 p1^2/2 + τ2 p2^2/2)] exp[-i V(θ1,θ2)], using V(θ1,θ2)=k1 cos(θ1)+k2 cos(θ2)+ξ cos(θ1−θ2), with k1=2, k2=3, and ξ=0.1. Both rotors were tuned to the secondary quantum resonance, τ1=τ2=2π. The initial state was |p1=0⟩⊗|p2=0⟩. The state was propagated for integer kick number t from 1 to 1000. Momentum variances ⟨p1^2(t)⟩ and ⟨p2^2(t)⟩ were analyzed for ballistic t^2 components and period-2 offsets. The bipartite linear entropy Slin(t)=1−Tr(ρ1^2) was analyzed for initial power-law growth and crossover to saturation.",
+    "experiment_results": {
+      "p1_quadratic_variance_coefficient_dimensionless": {
+        "type": "float",
+        "description": "Coefficient of the ballistic t^2 contribution to the rotor-1 momentum variance ⟨p1^2(t)⟩.",
+        "result": 0.005
+      },
+      "p2_quadratic_variance_coefficient_dimensionless": {
+        "type": "float",
+        "description": "Coefficient of the ballistic t^2 contribution to the rotor-2 momentum variance ⟨p2^2(t)⟩.",
+        "result": 0.005
+      },
+      "p1_period2_variance_oscillation_amplitude_dimensionless": {
+        "type": "float",
+        "description": "Amplitude of the period-2 oscillatory component in ⟨p1^2(t)⟩.",
+        "result": 2.0
+      },
+      "p2_period2_variance_oscillation_amplitude_dimensionless": {
+        "type": "float",
+        "description": "Amplitude of the period-2 oscillatory component in ⟨p2^2(t)⟩.",
+        "result": 4.5
+      },
+      "linear_entropy_initial_quadratic_coefficient_dimensionless": {
+        "type": "float",
+        "description": "Coefficient multiplying t^2 in the early-time quadratic growth of Slin(t).",
+        "result": 0.01
+      },
+      "linear_entropy_crossover_time_steps": {
+        "type": "float",
+        "description": "Characteristic kick number at which Slin(t) crosses over from the initial quadratic growth regime toward saturation.",
+        "result": 7.1
+      },
+      "linear_entropy_saturation_value_approx_dimensionless": {
+        "type": "float",
+        "description": "Approximate long-time saturated value of the bipartite linear entropy.",
+        "result": 1.0
+      }
+    }
+  },
+  {
+    "experiment_description": "Numerical time-evolution simulation of a variant of the two-body kicked-rotor model in which the base potential V(θ1,θ2)=k1 cos(θ1)+k2 cos(θ2)+ξ cos(θ1−θ2) was supplemented by an additional interaction term cos(2θ1−θ2). The parameters of the base potential were k1=2, k2=3, and ξ=0.1. Both rotors were at the secondary resonance, τ1=τ2=2π, and the initial state was |p1=0⟩⊗|p2=0⟩. The state was propagated over integer kick number t from 1 to 1000, and the bipartite linear entropy Slin(t)=1−Tr(ρ1^2) between the two rotors was extracted to identify the symmetry-induced dynamical regime.",
+    "experiment_results": {
+      "linear_entropy_dynamical_regime": {
+        "type": "categorical",
+        "description": "Observed qualitative dynamical regime of Slin(t) after adding the symmetry-breaking interaction term.",
+        "result": "hybrid_quadratic_growth_with_period2_oscillation",
+        "allowed_categorial_values": [
+          "quadratic_growth_to_saturation",
+          "period2_oscillation",
+          "hybrid_quadratic_growth_with_period2_oscillation"
+        ]
+      },
+      "linear_entropy_saturation_value_approx_dimensionless": {
+        "type": "float",
+        "description": "Approximate long-time saturated value approached by Slin(t).",
+        "result": 1.0
+      }
+    }
+  },
+  {
+    "experiment_description": "Numerical time-evolution simulation of an extended two-body quantum kicked rotor with higher angular harmonics. The Floquet operator was U = exp[-i(τ1 p1^2/2 + τ2 p2^2/2)] exp[-i V(θ1,θ2)] with V(θ1,θ2)=k1 cos(2θ1)+k2 cos(2θ2)+ξ cos(2θ1−θ2). The parameters were k1=0.1, k2=0.1, and ξ=1. Both rotors were at the secondary quantum resonance, τ1=τ2=2π. The initial state was |p1=0⟩⊗|p2=0⟩. The simulation propagated integer kick number t, with momentum variances ⟨p1^2(t)⟩ and ⟨p2^2(t)⟩ shown from t=1 to 100 and bipartite linear entropy Slin(t)=1−Tr(ρ1^2) shown from t=0 to 100. Momentum traces were analyzed for ballistic t^2 components and period-2 offsets, while Slin(t) was analyzed for the odd-step plateau of the period-2 entanglement oscillation.",
+    "experiment_results": {
+      "p1_quadratic_variance_coefficient_dimensionless": {
+        "type": "float",
+        "description": "Coefficient of the ballistic t^2 contribution to the rotor-1 momentum variance ⟨p1^2(t)⟩.",
+        "result": 0.02
+      },
+      "p2_quadratic_variance_coefficient_dimensionless": {
+        "type": "float",
+        "description": "Coefficient of the ballistic t^2 contribution to the rotor-2 momentum variance ⟨p2^2(t)⟩.",
+        "result": 0.02
+      },
+      "p1_period2_variance_oscillation_amplitude_dimensionless": {
+        "type": "float",
+        "description": "Amplitude of the period-2 oscillatory component in ⟨p1^2(t)⟩.",
+        "result": 2.0
+      },
+      "p2_period2_variance_oscillation_amplitude_dimensionless": {
+        "type": "float",
+        "description": "Amplitude of the period-2 oscillatory component in ⟨p2^2(t)⟩.",
+        "result": 0.5
+      },
+      "odd_step_linear_entropy_dimensionless": {
+        "type": "float",
+        "description": "Odd-step value of Slin(t) in the period-2 entanglement oscillation, with even steps returning to zero.",
+        "result": 0.58
+      }
+    }
+  },
+  {
+    "experiment_description": "Numerical simulations of higher-order-resonance two-body kicked rotors using the potential V(θ1,θ2)=k1 cos(θ1)+k2 cos(θ2)+ξ cos(θ1−θ2), with k1=9, k2=10, and ξ=0.1. The initial state was |p1=0⟩⊗|p2=0⟩. Three higher-order resonance pairs were simulated: τ1=4π/3 with τ2=4π/5, τ1=4π/13 with τ2=4π/15, and τ1=4π/19 with τ2=4π/21. For each pair, the state was propagated for integer kick number t from 1 to 1000. The observables were the momentum variances ⟨p1^2(t)⟩ and ⟨p2^2(t)⟩ and the bipartite linear entropy Slin(t)=1−Tr(ρ1^2). Growth exponents were determined by comparison with guide lines on log-log plots before saturation of Slin(t).",
+    "experiment_results": {
+      "p1_variance_growth_exponent": {
+        "type": "float",
+        "description": "Power-law exponent of the rotor-1 momentum variance growth with kick number in the simulated higher-order-resonance cases.",
+        "result": 2.0
+      },
+      "p2_variance_growth_exponent": {
+        "type": "float",
+        "description": "Power-law exponent of the rotor-2 momentum variance growth with kick number in the simulated higher-order-resonance cases.",
+        "result": 2.0
+      },
+      "linear_entropy_presaturation_growth_exponent": {
+        "type": "float",
+        "description": "Power-law exponent of the bipartite linear entropy growth before saturation in the simulated higher-order-resonance cases.",
+        "result": 1.0
+      },
+      "linear_entropy_saturation_value_approx_dimensionless": {
+        "type": "float",
+        "description": "Approximate saturated value approached by the bipartite linear entropy at long times.",
+        "result": 1.0
+      }
+    }
+  },
+  {
+    "experiment_description": "Robustness simulation for a detuned two-body kicked rotor with V(θ1,θ2)=k1 cos(θ1)+k2 cos(θ2)+ξ cos(θ1−θ2), using k1=2, k2=3, and ξ=0.1. The reference resonance values were τ1^0=4π for rotor 1 and τ2^0=2π for rotor 2, and the actual detuned parameters were τ1=τ1^0+δτ1 and τ2=τ2^0+δτ2. The initial state was |p1=0⟩⊗|p2=0⟩. In the direct comparison run, δτ1=δτ2=10^−3 and the observables ⟨p1^2(t)⟩, ⟨p2^2(t)⟩, and Slin(t)=1−Tr(ρ1^2) were compared with their exactly resonant counterparts over t from 1 to 100. In the scaling study, equal detunings δτ1=δτ2=δτ were swept over δτ=10^−3, 5×10^−4, 10^−4, 5×10^−5, and 10^−5, and t was followed up to 1000. The relative deviation for rotor 1 was defined as Δ1=|⟨p1^2⟩0−⟨p1^2⟩|/⟨p1^2⟩0, where ⟨p1^2⟩0 denotes the exactly resonant value. The agreement time tD was defined as the kick number at which Δ1 reached the 1% threshold.",
+    "experiment_results": {
+      "relative_deviation_time_growth_exponent": {
+        "type": "float",
+        "description": "Observed power-law exponent for the early-time growth of the relative deviation Δ1 with kick number.",
+        "result": 4.0
+      },
+      "agreement_time_detuning_power_law_exponent": {
+        "type": "float",
+        "description": "Observed exponent in the scaling of the 1%-threshold agreement time tD with equal detuning strength δτ.",
+        "result": -0.5
+      },
+      "agreement_time_at_equal_detuning_1e_minus_3_steps_approx": {
+        "type": "float",
+        "description": "Approximate time up to which the detuned and exactly resonant dynamics were visually almost indistinguishable for δτ1=δτ2=10^−3.",
+        "result": 20.0
+      },
+      "undisturbed_odd_step_linear_entropy_dimensionless": {
+        "type": "float",
+        "description": "Odd-step value of Slin(t) for the corresponding exactly resonant period-2 entanglement oscillation used as the undetuned reference.",
+        "result": 0.0099
+      }
+    }
+  },
+  {
+    "experiment_description": "Numerical simulation of a two-body quantum kicked-top model. Each top had total angular-momentum quantum number jtot=50. The one-step evolution used a nonlinear kick operator Uk=exp[-i(β1 J1z^2/(2jtot)+β2 J2z^2/(2jtot))] and an inter-kick Hamiltonian Hf=α1 J1x+α2 J2x+(α12/jtot)J1xJ2x+(α122/jtot^2)J1x J2x^2. The parameters were α1=0.0001, α2=0.02, α12=0.005, and α122=0.0005. Top 1 was set to the principal resonance with β1=4πjtot, and top 2 to the secondary resonance with β2=2πjtot. The initial state was the separable angular-momentum state |J1z=0⟩⊗|J2z=0⟩. The simulation propagated integer kick number t from 1 to 10000 and recorded ⟨J1z^2(t)⟩, ⟨J2z^2(t)⟩, and the bipartite linear entropy Slin(t)=1−Tr(ρ1^2).",
+    "experiment_results": {
+      "j1z_squared_initial_growth_exponent": {
+        "type": "float",
+        "description": "Initial power-law exponent of ⟨J1z^2(t)⟩ before finite phase-space saturation effects become important.",
+        "result": 2.0
+      },
+      "j2z_squared_initial_growth_exponent": {
+        "type": "float",
+        "description": "Initial power-law exponent of ⟨J2z^2(t)⟩ before finite phase-space saturation effects become important.",
+        "result": 2.0
+      },
+      "linear_entropy_initial_growth_exponent": {
+        "type": "float",
+        "description": "Initial power-law exponent of the bipartite linear entropy Slin(t).",
+        "result": 2.0
+      },
+      "wavepacket_dynamical_regime": {
+        "type": "categorical",
+        "description": "Observed symmetry-classified regime of the kicked-top wavepacket dynamics in both tops.",
+        "result": "hybrid_quadratic_growth_with_period2_oscillation",
+        "allowed_categorial_values": [
+          "quadratic_growth",
+          "period2_oscillation",
+          "hybrid_quadratic_growth_with_period2_oscillation"
+        ]
+      },
+      "linear_entropy_dynamical_regime": {
+        "type": "categorical",
+        "description": "Observed symmetry-classified regime of the kicked-top entanglement dynamics.",
+        "result": "hybrid_quadratic_growth_with_period2_oscillation",
+        "allowed_categorial_values": [
+          "quadratic_growth_to_saturation",
+          "period2_oscillation",
+          "hybrid_quadratic_growth_with_period2_oscillation"
+        ]
+      },
+      "linear_entropy_saturation_value_approx_dimensionless": {
+        "type": "float",
+        "description": "Approximate saturated value approached by Slin(t) at long times.",
+        "result": 1.0
+      }
+    }
+  }
+]

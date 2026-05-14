@@ -1,0 +1,22 @@
+[
+  {
+    "experiment_description": "An ultra-compact weak-focusing electron storage-ring demonstration beamline was operated to test three-dimensional spiral injection with and without a pulsed vertical kicker. A thermionic electron gun and chopper generated an electron bunch with momentum p = 297 keV/c, kinetic energy 80 keV, and pulse width 100 ns. The beam was transported through three rotatable quadrupole magnets, one bending magnet, and a pair of steering magnets, then injected into a solenoidal storage magnet at a pitch angle of 0.7 rad relative to the horizontal X-Y plane. The storage magnet consisted of main and auxiliary solenoidal coils adjusted with opposite polarities to provide a solenoidal field Bz = 8.77 mT on the storage midplane Z = 0 cm and a weak-focusing field with field index of order 10^-2 in the storage region. The storage-ring diameter was 22 cm and the electron revolution period was 4.7 ns. For the kicker-on condition, a 45 A, 140 ns pulsed current was applied to kicker coils of inductance 1.3 microhenry located at Z = ±15 cm, producing a radial magnetic field component Br < 0 along the injected trajectory to maintain downward steering into the weak-focusing region. For the kicker-off condition, the same beamline and magnet settings were used but no kicker pulse was applied. Beam storage was measured destructively with a vertically inserted plastic scintillating-fiber probe consisting of a 1 mm diameter, 20 cm long scintillating fiber read out by a photomultiplier tube. In the reported example, the probe tip was inserted to the storage midplane so that the fiber covered Z = 0 cm to Z = 20 cm. Waveforms from the scintillating-fiber probe, a bottom-mounted plastic scintillator beam-loss monitor, and the kicker current were averaged over 1000 shots. The noise level sigma_noise was defined as the rms voltage fluctuation in a pre-injection time window, and the operational storage criterion was a scintillating-fiber signal exceeding 5 sigma_noise for at least 1 microsecond after injection.",
+    "experiment_results": {
+      "beam_storage_observed_with_kicker": {
+        "type": "bool",
+        "description": "Whether the scintillating-fiber probe signal satisfied the operational storage criterion when the 45 A, 140 ns kicker pulse was applied.",
+        "result": true
+      },
+      "beam_storage_observed_without_kicker": {
+        "type": "bool",
+        "description": "Whether the scintillating-fiber probe signal satisfied the operational storage criterion when no kicker pulse was applied.",
+        "result": false
+      },
+      "minimum_observed_storage_signal_duration_us_with_kicker": {
+        "type": "float",
+        "description": "Lower bound on the duration for which the scintillating-fiber probe signal remained above the 5 sigma_noise threshold in the kicker-on measurement.",
+        "result": 1.0
+      }
+    }
+  }
+]

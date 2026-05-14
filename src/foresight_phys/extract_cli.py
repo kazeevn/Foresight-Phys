@@ -94,6 +94,7 @@ def extract_single_url(
     filtered_output_override: str | None,
     ids_path: Path,
     overwrite: bool,
+    skip_existing: bool = False,
 ) -> dict[str, Any]:
     extraction = extract_experiments_from_url(
         model=model,
@@ -113,6 +114,23 @@ def extract_single_url(
 
     if raw_output_path.resolve() == filtered_output_path.resolve():
         raise ValueError('Raw and filtered outputs must be different files.')
+
+    if skip_existing and not overwrite:
+        existing_outputs = [
+            str(path)
+            for path in (raw_output_path, filtered_output_path)
+            if path.exists()
+        ]
+        if existing_outputs:
+            return {
+                'paper_title': extraction.paper_title,
+                'source_url': paper_url,
+                'raw_output_path': str(raw_output_path),
+                'filtered_output_path': str(filtered_output_path),
+                'status': 'skipped_existing_output',
+                'skipped_paths': existing_outputs,
+                'ids_path': str(ids_path),
+            }
 
     validate_output_path(raw_output_path, overwrite=overwrite)
     validate_output_path(filtered_output_path, overwrite=overwrite)
@@ -163,6 +181,7 @@ def main() -> None:
     extraction_system_prompt_path = resolve_extraction_system_prompt_path(args.system_prompt)
     extraction_system_prompt = extraction_system_prompt_path.read_text(encoding='utf-8').strip()
     paper_urls = read_paper_urls(args)
+    is_paper_urls_file_run = args.paper_urls_file is not None
 
     if len(paper_urls) > 1 and (args.output or args.raw_output):
         raise ValueError(
@@ -191,6 +210,7 @@ def main() -> None:
                 filtered_output_override=args.output,
                 ids_path=ids_path,
                 overwrite=args.overwrite,
+                skip_existing=is_paper_urls_file_run,
             )
         )
 
@@ -198,9 +218,13 @@ def main() -> None:
     if len(results) == 1:
         payload = results[0]
     else:
+        skipped_count = sum(
+            1 for result in results if result.get('status') == 'skipped_existing_output'
+        )
         payload = {
-            'papers_processed': len(results),
+            'papers_processed': len(results) - skipped_count,
             'papers_requested': len(paper_urls),
+            'papers_skipped': skipped_count,
             'ids_path': str(ids_path),
             'runs': results,
         }

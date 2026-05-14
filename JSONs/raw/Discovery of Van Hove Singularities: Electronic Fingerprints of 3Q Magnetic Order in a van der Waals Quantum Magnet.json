@@ -1,0 +1,161 @@
+[
+  {
+    "experiment_description": "Single-crystal 2H-TaS2 and Co0.32TaS2 were cleaved and measured by low-temperature angle-resolved photoemission spectroscopy (ARPES) at the Advanced Light Source MAESTRO beamline using a hemispherical electron analyzer. The pristine 2H-TaS2 sample was measured at T = 7 K with photon energy hν = 93 eV and linearly horizontal polarization. The Co0.32TaS2 sample was measured at T = 7 K with photon energy hν = 79 eV and linearly horizontal polarization on the TaS2-terminated surface. Fermi-surface maps and energy–momentum cuts were acquired along the M0–Γ0–K0 high-symmetry direction of the 2H-TaS2 Brillouin zone. Band dispersions were extracted by fitting Lorentzian peaks in momentum distribution curves and energy distribution curves. The comparison was used to quantify how Co intercalation modifies the TaS2-derived α and β bands and the spin-orbit-split momentum separation at the Fermi level.",
+    "experiment_results": {
+      "alpha_band_minimum_shift_along_gamma0_k0_meV": {
+        "type": "float",
+        "description": "Measured binding-energy shift of the α-band minimum in Co0.32TaS2 relative to pristine 2H-TaS2 along the Γ0–K0 direction.",
+        "result": 260
+      },
+      "tas2_derived_band_bottom_shift_along_gamma0_m0_meV": {
+        "type": "float",
+        "description": "Measured binding-energy shift of the TaS2-derived band bottom in Co0.32TaS2 relative to pristine 2H-TaS2 along the Γ0–M0 direction.",
+        "result": 340
+      },
+      "tas2_derived_band_shift_at_m0_meV": {
+        "type": "float",
+        "description": "Measured binding-energy shift of the TaS2-derived band feature at M0 in Co0.32TaS2 relative to pristine 2H-TaS2.",
+        "result": 360
+      },
+      "spin_orbit_momentum_splitting_2h_tas2_inv_angstrom": {
+        "type": "float",
+        "description": "Momentum splitting between the spin-orbit-split α and β bands at the Fermi level in pristine 2H-TaS2.",
+        "result": 0.06
+      },
+      "spin_orbit_momentum_splitting_co0_32tas2_inv_angstrom": {
+        "type": "float",
+        "description": "Momentum splitting between the spin-orbit-split α and β bands at the Fermi level in Co0.32TaS2.",
+        "result": 0.18
+      },
+      "gamma_k_band_bottom_binding_energy_meV": {
+        "type": "float",
+        "description": "Approximate binding energy of the shallow Co-derived γK electron-like band bottom near K in Co0.32TaS2.",
+        "result": 40
+      },
+      "gamma_m_band_top_binding_energy_meV": {
+        "type": "float",
+        "description": "Approximate binding energy scale of the Co-derived γM hole-like feature near M in Co0.32TaS2.",
+        "result": 30
+      }
+    }
+  },
+  {
+    "experiment_description": "A Co-composition series of CoxTaS2 single crystals with x = 0.29, 0.31, 0.33, 0.34, and 0.36 was measured by ARPES at T = 7 K using photon energy hν = 79 eV and linearly horizontal polarization. Measurements were performed on TaS2-terminated surfaces. Energy–momentum spectra were acquired along the M0–Γ0–K0 high-symmetry direction, and energy distribution curves were taken at the M point. The α, β, γM, and γK band extrema were obtained from peak positions in fitted energy distribution curves, with γK extracted from spectra at the K point.",
+    "experiment_results": {
+      "alpha_beta_band_downshift_x0_29_to_x0_36_meV": {
+        "type": "float",
+        "description": "Overall measured downward binding-energy shift of the TaS2-derived α and β bands when Co composition is increased from x = 0.29 to x = 0.36.",
+        "result": 50
+      },
+      "gamma_m_band_upturn_at_x0_36_meV": {
+        "type": "float",
+        "description": "Small measured upward energy shift of the Co-derived γM band feature at x = 0.36 relative to its lower-composition trend.",
+        "result": 3
+      },
+      "gamma_k_band_upturn_at_x0_36_meV": {
+        "type": "float",
+        "description": "Small measured upward energy shift of the Co-derived γK band feature at x = 0.36 relative to its lower-composition trend.",
+        "result": 8
+      }
+    }
+  },
+  {
+    "experiment_description": "A Co0.29TaS2 single crystal was measured by ARPES at T = 7 K using photon energy hν = 79 eV on a TaS2-terminated surface. The same cleaved surface was measured before and after successive in situ potassium depositions, with spectra acquired along the Γ0–K0 direction. Energy distribution curves at the M point were used to track the α, β, and γM band extrema as a function of potassium dosing.",
+    "experiment_results": {
+      "gamma_m_band_shift_resolved_after_potassium_dosing": {
+        "type": "bool",
+        "description": "Whether a resolvable shift of the Co-derived γM band was observed after potassium electron dosing of Co0.29TaS2.",
+        "result": false
+      },
+      "alpha_beta_downshift_after_potassium_dosing_meV": {
+        "type": "float",
+        "description": "Approximate downward shift of the TaS2-derived α and β bands after potassium dosing, described as comparable to the shift obtained by changing Co composition from x = 0.29 to x = 0.36.",
+        "result": 50
+      }
+    }
+  },
+  {
+    "experiment_description": "CoxTaS2 samples with Co compositions spanning x = 0.29 to 0.36 were measured by low-temperature ARPES at T = 7 K with photon energy hν = 79 eV. Fermi-surface maps were acquired around the Co-derived γ pockets in the Brillouin zone of the Co triangular superlattice. The triangular γ Fermi pockets were extracted from the raw Fermi-surface intensity maps and from momentum distribution curves along the K–M direction, allowing the Fermi-pocket topology to be compared across Co composition.",
+    "experiment_results": {
+      "gamma_fermi_pocket_size_trend_with_co_composition": {
+        "type": "categorical",
+        "description": "Observed evolution of the Co-derived triangular γ Fermi pockets over the measured Co-composition series.",
+        "result": "enlarges_with_increasing_co_composition",
+        "allowed_categorial_values": [
+          "shrinks_with_increasing_co_composition",
+          "approximately_constant_with_increasing_co_composition",
+          "enlarges_with_increasing_co_composition"
+        ]
+      },
+      "fermi_surface_topology_change_across_xc": {
+        "type": "categorical",
+        "description": "Observed qualitative change in the γ-pocket Fermi-surface topology across the composition range near the reported critical composition.",
+        "result": "transition_between_x0_33_and_x0_34",
+        "allowed_categorial_values": [
+          "no_observed_transition",
+          "transition_between_x0_29_and_x0_31",
+          "transition_between_x0_31_and_x0_33",
+          "transition_between_x0_33_and_x0_34",
+          "transition_between_x0_34_and_x0_36"
+        ]
+      }
+    }
+  },
+  {
+    "experiment_description": "CoxTaS2 samples with Co compositions x = 0.29, 0.32, 0.33, 0.34, and 0.36 were measured by ARPES at T = 7 K with photon energy hν = 79 eV. Energy–momentum spectra were acquired along the K–M–K′ direction of the Co triangular-superlattice Brillouin zone. Second-derivative images with respect to energy and energy distribution curve stacks were used to determine the near-Fermi γ-band dispersion near the M point. Detailed raw spectra and EDCs were analyzed for x = 0.29 and x = 0.36 to compare the dispersion curvature and van Hove singularity structure.",
+    "experiment_results": {
+      "gamma_band_dispersion_shape_x0_29": {
+        "type": "categorical",
+        "description": "Measured near-Fermi γ-band dispersion shape along K–M–K′ for Co0.29TaS2.",
+        "result": "inverse_mexican_hat",
+        "allowed_categorial_values": [
+          "inverse_mexican_hat",
+          "hole_like",
+          "electron_like",
+          "flat"
+        ]
+      },
+      "gamma_band_vhs_count_x0_29": {
+        "type": "integer",
+        "description": "Number of van Hove singularity features inferred from the measured γ-band dispersion near M along K–M–K′ for Co0.29TaS2.",
+        "result": 2
+      },
+      "gamma_band_vhs_location_x0_29": {
+        "type": "categorical",
+        "description": "Measured location of van Hove singularity features in the γ band near M for Co0.29TaS2.",
+        "result": "on_either_side_of_m",
+        "allowed_categorial_values": [
+          "at_m",
+          "on_either_side_of_m",
+          "not_resolved"
+        ]
+      },
+      "gamma_band_dispersion_shape_x0_36": {
+        "type": "categorical",
+        "description": "Measured near-Fermi γ-band dispersion shape along K–M–K′ for Co0.36TaS2.",
+        "result": "hole_like",
+        "allowed_categorial_values": [
+          "inverse_mexican_hat",
+          "hole_like",
+          "electron_like",
+          "flat"
+        ]
+      },
+      "gamma_band_vhs_count_x0_36": {
+        "type": "integer",
+        "description": "Number of van Hove singularity features inferred from the measured γ-band dispersion near M along K–M–K′ for Co0.36TaS2.",
+        "result": 1
+      },
+      "gamma_band_vhs_location_x0_36": {
+        "type": "categorical",
+        "description": "Measured location of the van Hove singularity feature in the γ band near M for Co0.36TaS2.",
+        "result": "at_m",
+        "allowed_categorial_values": [
+          "at_m",
+          "on_either_side_of_m",
+          "not_resolved"
+        ]
+      }
+    }
+  }
+]

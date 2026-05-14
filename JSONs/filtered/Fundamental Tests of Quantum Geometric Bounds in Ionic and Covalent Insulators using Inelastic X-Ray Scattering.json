@@ -1,0 +1,62 @@
+[
+  {
+    "experiment_description": "Room-temperature inelastic x-ray scattering (IXS) was performed on covalently bonded diamond at Sector 9-ID of the Advanced Photon Source. The instrument used a liquid-nitrogen-cooled Si(111) primary monochromator and a Si(333) secondary channel-cut monochromator. Diamond spectra were collected with incident photon energy 8981.8 eV using a Ge(733) backscattering analyzer, giving 0.3 eV energy resolution. Momentum transfer was along q ∥ (1, -1, 0), with momentum resolution Δq ≈ 0.15 Å^-1; spectra were measured over approximately q = 0.32–4.55 Å^-1 and energy loss 0–100 eV by scanning incident energy. The quasi-elastic scattering contribution below about 3 eV was removed, and the electronic response was treated as vanishing below the diamond electronic gap used for the analysis. The measured photon-count spectra were converted to the density response χ''(q,ω) using the partial f-sum rule with cutoff Ω = 100 eV, including the four valence electrons per carbon atom, i.e. eight effective electrons per primitive unit cell, primitive lattice constant a = 2.52 Å, and negligible high-energy background screening ε∞ ≈ 1. For momenta where spectral weight persisted above 100 eV, the spectrum was extrapolated as I(q,ℏω>Ω)=c(q)Ω^3/(ℏω)^3, where c(q) is the average intensity between 94 and 100 eV. The four lowest-q points were excluded from the f-sum scaling fit. From the scaled χ''(q,ω), the Bures metric and quantum Fisher information density were obtained by frequency integration, and the dimensionless longitudinal quantum weight aK(q) was computed from the resulting density-response quantum geometry. The static electronic dielectric function ε(q) was obtained by Kramers-Kronig evaluation of χ'(q,ω) at a small nonzero frequency inside the gap, and its large-q decay was fit over q ≥ 2.5 Å^-1 to ε(q)=1+exp(-α q), where α is the fitted electronic-response decay length.",
+    "experiment_results": {
+      "static_dielectric_decay_length_alpha_A": {
+        "type": "float",
+        "description": "Electronic-response decay length α obtained by fitting the experimentally extracted large-q static electronic dielectric function of diamond to ε(q)=1+exp(-α q).",
+        "result": 0.72
+      },
+      "dimensionless_quantum_weight_aK_at_q_1_58_A_inv": {
+        "type": "float",
+        "description": "Approximate dimensionless longitudinal quantum weight aK(q) for diamond read from the plotted IXS-derived values at q ≈ 1.58 Å^-1.",
+        "result": 1.03
+      },
+      "dimensionless_quantum_weight_aK_at_q_2_51_A_inv": {
+        "type": "float",
+        "description": "Approximate dimensionless longitudinal quantum weight aK(q) for diamond read from the plotted IXS-derived values at q ≈ 2.51 Å^-1.",
+        "result": 0.66
+      },
+      "dimensionless_quantum_weight_aK_at_q_3_70_A_inv": {
+        "type": "float",
+        "description": "Approximate dimensionless longitudinal quantum weight aK(q) for diamond read from the plotted IXS-derived values at q ≈ 3.70 Å^-1.",
+        "result": 0.5
+      },
+      "dimensionless_quantum_weight_aK_at_q_4_55_A_inv": {
+        "type": "float",
+        "description": "Approximate dimensionless longitudinal quantum weight aK(q) for diamond read from the plotted IXS-derived values at q ≈ 4.55 Å^-1.",
+        "result": 0.33
+      }
+    }
+  },
+  {
+    "experiment_description": "Room-temperature inelastic x-ray scattering (IXS) was performed on ionically bonded LiF at Sector 9-ID of the Advanced Photon Source. The instrument used a liquid-nitrogen-cooled Si(111) primary monochromator and a Si(333) secondary channel-cut monochromator. LiF spectra were collected with incident photon energy 6482.5 eV using a Ge(531) analyzer, giving 140 meV energy resolution. Momentum transfer was along q ∥ (1, 0, 0), with momentum resolution Δq ≈ 0.15 Å^-1; spectra were measured over approximately q = 0.32–3.70 Å^-1 and energy loss 0–100 eV by scanning incident energy. The quasi-elastic scattering contribution below about 3 eV was removed, and the electronic response was treated as vanishing below the LiF electronic gap used for the analysis. The measured photon-count spectra were converted to the density response χ''(q,ω) using the partial f-sum rule with cutoff Ω = 100 eV, including seven fluorine valence electrons plus two lithium valence electrons and one shallow lithium core electron, i.e. ten effective electrons per primitive unit cell, primitive lattice constant a = 2.84 Å, and negligible high-energy background screening ε∞ ≈ 1. For momenta where spectral weight persisted above 100 eV, the spectrum was extrapolated as I(q,ℏω>Ω)=c(q)Ω^3/(ℏω)^3, where c(q) is the average intensity between 94 and 100 eV. The three lowest-q points were excluded from the f-sum scaling fit. From the scaled χ''(q,ω), the Bures metric and quantum Fisher information density were obtained by frequency integration, and the dimensionless longitudinal quantum weight aK(q) was computed from the resulting density-response quantum geometry. The static electronic dielectric function ε(q) was obtained by Kramers-Kronig evaluation of χ'(q,ω) at a small nonzero frequency inside the gap, and its large-q decay was fit over q ≥ 2.5 Å^-1 to ε(q)=1+exp(-α q), where α is the fitted electronic-response decay length.",
+    "experiment_results": {
+      "static_dielectric_decay_length_alpha_A": {
+        "type": "float",
+        "description": "Electronic-response decay length α obtained by fitting the experimentally extracted large-q static electronic dielectric function of LiF to ε(q)=1+exp(-α q).",
+        "result": 0.65
+      },
+      "dimensionless_quantum_weight_aK_at_q_1_27_A_inv": {
+        "type": "float",
+        "description": "Approximate dimensionless longitudinal quantum weight aK(q) for LiF read from the plotted IXS-derived values at q ≈ 1.27 Å^-1.",
+        "result": 0.62
+      },
+      "dimensionless_quantum_weight_aK_at_q_2_20_A_inv": {
+        "type": "float",
+        "description": "Approximate dimensionless longitudinal quantum weight aK(q) for LiF read from the plotted IXS-derived values at q ≈ 2.20 Å^-1.",
+        "result": 0.53
+      },
+      "dimensionless_quantum_weight_aK_at_q_3_11_A_inv": {
+        "type": "float",
+        "description": "Approximate dimensionless longitudinal quantum weight aK(q) for LiF read from the plotted IXS-derived values at q ≈ 3.11 Å^-1.",
+        "result": 0.39
+      },
+      "dimensionless_quantum_weight_aK_at_q_3_70_A_inv": {
+        "type": "float",
+        "description": "Approximate dimensionless longitudinal quantum weight aK(q) for LiF read from the plotted IXS-derived values at q ≈ 3.70 Å^-1.",
+        "result": 0.34
+      }
+    }
+  }
+]

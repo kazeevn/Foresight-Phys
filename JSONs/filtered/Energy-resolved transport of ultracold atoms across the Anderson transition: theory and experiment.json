@@ -1,0 +1,42 @@
+[
+  {
+    "experiment_description": "An ultracold gas of 87Rb atoms was prepared as a Bose–Einstein-condensed cloud in the hyperfine state |1⟩ = |F = 2, mF = 1⟩ in a nearly isotropic optical trap with trap frequencies approximately 2π × (35, 25, 11) Hz. The cloud contained about 2 × 10^5 atoms, had temperature T ≃ 7 nK, condensate fraction fc ≃ 0.75, chemical potential μin/h ≃ 350 Hz, and Thomas–Fermi radii approximately (8, 12, 26) μm. A state-dependent three-dimensional blue-detuned optical speckle disorder was applied for atoms transferred into |2⟩ = |F = 1, mF = −1⟩. The speckle disorder had amplitude VR/h = 416 Hz, longitudinal correlation length σx = 1.45 μm, transverse correlation length σ⊥ = 0.30 μm, and geometric-mean correlation length σ = 0.50 μm, corresponding to correlation energy Eσ/h = 441 Hz. A radio-frequency pulse of duration trf ≃ 40 ms transferred approximately 5% of the atoms from |1⟩ to |2⟩, with the RF detuning setting the target energy Ef = ℏδrf. The resulting energy filter had rms width ΔE/h ≃ 14 Hz. Immediately after transfer, the optical trap was switched off and atoms remaining in |1⟩ were removed. The atoms in |2⟩ then evolved in the disordered potential while magnetically levitated against gravity; weak residual harmonic confinement remained in the horizontal x–y plane, so the analyzed expansion was along the vertical z direction. In-situ fluorescence imaging along x measured the column density ncol(y,z,t), which was integrated over y to obtain the one-dimensional density profile n1d(z,t). Density profiles were recorded for target energies spanning the Anderson transition, including Ef/h = 166, 246, and 366 Hz, at evolution times up to 5 s. The Anderson mobility edge was determined from the energy-resolved transport response of these density profiles across the disorder-induced transition.",
+    "experiment_results": {
+      "mobility_edge_frequency_hz": {
+        "type": "float",
+        "description": "Experimentally determined Anderson mobility edge Ec expressed as Ec/h for 87Rb atoms propagating in the specified three-dimensional blue-detuned speckle disorder.",
+        "result": 237
+      },
+      "transport_regime_at_Ef_over_h_166Hz": {
+        "type": "categorical",
+        "description": "Observed long-time transport regime for atoms transferred with target energy Ef/h = 166 Hz in the specified disorder, inferred from the measured one-dimensional density profile dynamics.",
+        "result": "localized",
+        "allowed_categorial_values": [
+          "localized",
+          "critical",
+          "diffusive"
+        ]
+      },
+      "transport_regime_at_Ef_over_h_246Hz": {
+        "type": "categorical",
+        "description": "Observed long-time transport regime for atoms transferred with target energy Ef/h = 246 Hz in the specified disorder, inferred from the measured one-dimensional density profile dynamics.",
+        "result": "critical",
+        "allowed_categorial_values": [
+          "localized",
+          "critical",
+          "diffusive"
+        ]
+      },
+      "transport_regime_at_Ef_over_h_366Hz": {
+        "type": "categorical",
+        "description": "Observed long-time transport regime for atoms transferred with target energy Ef/h = 366 Hz in the specified disorder, inferred from the measured one-dimensional density profile dynamics.",
+        "result": "diffusive",
+        "allowed_categorial_values": [
+          "localized",
+          "critical",
+          "diffusive"
+        ]
+      }
+    }
+  }
+]

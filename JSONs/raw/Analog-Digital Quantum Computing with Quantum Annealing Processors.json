@@ -1,0 +1,67 @@
+[
+  {
+    "experiment_description": "Single-qubit analog-digital control and readout were performed on a D-Wave 1178-qubit superconducting quantum annealing processor using 124 independent three-qubit source-target-detector systems. Each system consisted of one target flux qubit, one source qubit inductively coupled to the target for initialization, and one detector qubit inductively coupled to the target for readout. The processor used six independently controlled, 30 MHz low-pass-filtered annealing lines; the source, target, and detector qubits were placed on independently controlled lines. The programmable longitudinal fields were set to hi = 0. All qubits were initialized at anneal parameter s = 0. The source qubit was forward-annealed to s = 1 in a polarizing flux bias, the target qubit was brought to a fixed anneal point s* corresponding to target splitting Delta/h = 1.0 GHz, and the source qubit was rapidly quenched back to s = 0 to prepare the target. The target then evolved freely under H0 = -(Delta/2) sigma_z for an evolution time t. The detector qubit was rapidly quenched to s = 1 to measure the target magnetization in a basis set by detector flux bias. With zero source and detector flux bias, the protocol prepared the target approximately in |+> and measured in the sigma_x basis. For detector-basis calibration, the source flux bias was held at 0 microPhi0 and the detector flux bias was swept from -200 to +200 microPhi0. For source-basis calibration, the detector flux bias was held at -200 microPhi0 and the source flux bias was swept from -200 to +200 microPhi0. Magnetization was measured versus evolution time over approximately 0-30 ns, with fits performed over the post-transient time window reported in the supplement. The data were fit to a single-qubit Lindblad model with relaxation time T1, pure dephasing time Tphi, total dephasing time T2 = (1/(2 T1) + 1/Tphi)^(-1), source Bloch angles theta_s and phi_s, detector Bloch angles theta_d and phi_d, and precession angular frequency Delta/hbar.",
+    "experiment_results": {
+      "single_qubit_median_relaxation_time_ns": {
+        "type": "float",
+        "description": "Median single-qubit relaxation time extracted from large-detector-flux-bias Larmor-precession measurements across the 124 source-target-detector systems.",
+        "result": 32
+      },
+      "single_qubit_median_pure_dephasing_time_ns": {
+        "type": "float",
+        "description": "Median single-qubit pure dephasing time extracted from zero-detector-flux-bias Larmor-precession measurements across the 124 source-target-detector systems.",
+        "result": 12
+      }
+    }
+  },
+  {
+    "experiment_description": "Two-qubit spin-exchange dynamics were measured on pairs of coupled target flux qubits on the same D-Wave superconducting quantum annealing processor. Each target qubit had a dedicated source qubit for state preparation and a dedicated detector qubit for readout. The two target qubits were held at a fixed anneal point corresponding to Delta/h = 1.0 GHz with detunings deltaDelta_i = 0 and programmable longitudinal fields hi = 0. The effective weak-coupling Hamiltonian during target evolution was H_2Q = (J/4)(sigma_x1 sigma_x2 + sigma_y1 sigma_y2). Experiments included cases with programmed exchange couplings J/h = 0, 0.15 GHz, and 0.30 GHz, and the decoherence parameters were extracted from the J/h = 0.30 GHz data using the initial product state |10>. The source qubits applied a pi pulse to prepare one target in |1> while leaving the other in |0>; both targets were then evolved for variable time t and read out in the sigma_z basis using detector qubits. Magnetizations were averaged over 2000 shots per time point. The relaxation of <sigma_z1 sigma_z2> and the dephasing of oscillations in <sigma_z1> - <sigma_z2> were fit to an open-quantum-system model with independent relaxation and pure dephasing on the two target qubits. The reported statistics are medians over 62 different target-qubit pairs.",
+    "experiment_results": {
+      "two_qubit_median_relaxation_time_ns": {
+        "type": "float",
+        "description": "Median relaxation time extracted from two-qubit sigma_z-basis spin-exchange measurements.",
+        "result": 30
+      },
+      "two_qubit_median_pure_dephasing_time_ns": {
+        "type": "float",
+        "description": "Median pure dephasing time extracted from decay of two-qubit spin-exchange oscillations.",
+        "result": 37
+      },
+      "two_qubit_single_qubit_coherence_time_T2_ns": {
+        "type": "float",
+        "description": "Single-qubit coherence time within the two-qubit open-system fit, derived from the extracted relaxation and pure-dephasing times.",
+        "result": 23
+      }
+    }
+  },
+  {
+    "experiment_description": "Single-excitation propagation in the transverse component of a clean periodic one-dimensional target-qubit chain was measured on the D-Wave superconducting quantum annealing processor. The embedded chain contained L = 56 target flux qubits with periodic boundary conditions, each target qubit coupled to its own source and detector qubits. All target qubits were held at a fixed anneal point with transverse splitting Delta/h = 2.0 GHz, nearest-neighbor exchange coupling J/h = -0.60 GHz, detunings deltaDelta_i = 0, and longitudinal fields hi = 0. One target qubit was initialized in the |+> state using a pi/2 source pulse while the other targets remained in the ground state. The target chain evolved under the fixed many-body Hamiltonian equivalent in the weak-coupling regime to an XY chain. The evolved state was measured in the sigma_x basis as a function of target-qubit position and evolution time, and the resulting space-time magnetization map was averaged over all possible initial-excitation positions and chain-reflection symmetry. A two-dimensional Fourier transform over position and time was used to determine the experimentally observed positive-frequency single-paramagnon dispersion peak. In the formula result, k denotes quasimomentum in the first Brillouin zone [-pi, pi], Delta is the target transverse-field energy, J is the nearest-neighbor coupling energy, h is Planck's constant, and f(k) is the positive-frequency Fourier peak.",
+    "experiment_results": {
+      "single_paramagnon_dispersion_frequency_GHz": {
+        "type": "formula",
+        "description": "Observed positive-frequency dispersion peak of the sigma_x magnetization Fourier spectrum for the clean periodic chain.",
+        "result": "f(k) = sqrt((Delta + J*cos(k))^2 + J^2*sin(k)^2)/h"
+      }
+    }
+  },
+  {
+    "experiment_description": "Energy-excitation propagation in a clean periodic one-dimensional target-qubit chain was measured on the D-Wave superconducting quantum annealing processor. The embedded chain contained L = 124 target flux qubits with periodic boundary conditions, each target qubit coupled to its own source and detector qubits. All target qubits were held at a fixed anneal point with transverse splitting Delta/h = 2.0 GHz, nearest-neighbor exchange coupling J/h = -0.60 GHz, detunings deltaDelta_i = 0, and longitudinal fields hi = 0. One target qubit was initialized in the |1> state using a pi source pulse while the other targets remained in the ground state. The target chain evolved under the fixed many-body Hamiltonian equivalent in the weak-coupling regime to an XY chain. The evolved state was measured in the sigma_z basis as a function of target-qubit position and evolution time, and the excitation probability was computed as (1 - <sigma_z>)/2. A two-dimensional Fourier transform over position and time was used to determine the experimental continuum peak. In the formula result, k denotes quasimomentum in the first Brillouin zone [-pi, pi], J is the nearest-neighbor coupling energy, h is Planck's constant, and f(k) is the Fourier peak frequency branch.",
+    "experiment_results": {
+      "sigma_z_excitation_density_fourier_peak_frequency_GHz": {
+        "type": "formula",
+        "description": "Observed Fourier-spectrum peak of the sigma_z-basis excitation-density propagation signal in the clean periodic chain.",
+        "result": "f(k) = ±2*J*sin(k/2)/h"
+      }
+    }
+  },
+  {
+    "experiment_description": "Anderson localization was probed in a disordered periodic one-dimensional target-qubit chain on the D-Wave superconducting quantum annealing processor. The embedded chain contained L = 124 target flux qubits with periodic boundary conditions, each target qubit coupled to its own source and detector qubits. All target qubits were held near a fixed anneal point with quantizing transverse field Delta/h = 2.0 GHz, nearest-neighbor coupling J/h = 0.20 GHz, and longitudinal fields hi = 0. Odd-indexed target qubits were initialized in |1> using pi source pulses while even-indexed qubits were left in |0>, giving an initial staggered configuration |1010...>. Disorder was introduced through per-qubit detunings deltaDelta_i drawn uniformly from [-J W/2, J W/2], where W is the dimensionless disorder strength; programmed couplings were compensated for the unwanted coupling shifts caused by anneal-offset detunings. The chain was evolved for variable time and read out in the sigma_z basis. The imbalance was computed as I(t) = (p_odd(t) - p_even(t))/(p_odd(t) + p_even(t)), where p_odd = (1/L) sum_{i=1}^{L/2} [1 - <sigma_z_{2i-1}>] and p_even = (1/L) sum_{i=1}^{L/2} [1 - <sigma_z_{2i}>]. Experimental curves were averaged over 20 disorder realizations. The time-averaged imbalance I_tilde was defined as the average of I(t) over normalized times J t/hbar from 6*pi to 8*pi, where hbar is the reduced Planck constant.",
+    "experiment_results": {
+      "small_disorder_time_averaged_imbalance_scaling": {
+        "type": "formula",
+        "description": "Empirical small-disorder scaling of the time-averaged imbalance in the Anderson-localized chain.",
+        "result": "I_tilde = 0.017*W^2"
+      }
+    }
+  }
+]

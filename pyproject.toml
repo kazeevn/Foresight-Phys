@@ -21,6 +21,7 @@ dependencies = [
 [project.scripts]
 foresight-phys = "foresight_phys.cli:main"
 foresight-phys-extract = "foresight_phys.extract_cli:main"
+foresight-phys-cleanup = "foresight_phys.cleanup_jsons:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/foresight_phys"]

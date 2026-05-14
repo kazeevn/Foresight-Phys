@@ -6,6 +6,7 @@ Requirements:
 - STRICTLY EXCLUDE extrinsic, contingent, or random properties. Do not extract random artifact measurements (like the arbitrary thickness of a mechanically exfoliated flake), raw magnitudes highly dependent on unreported variables, or subjective qualitative assessments (e.g., "excellent agreement with theory").
 - Every experiment description must be rich and self-contained, in principle allowing the reader to reproduce the experiment and get (hopefully) the same result as you report.
 - CRITICAL: The `experiment_description` must contain ALL experimental settings, equipment parameters, fixed conditions, and sweep limits (independent variables).
+- CRITICAL: If any `experiment_results` item has `type` = `formula`, the `experiment_description` must explicitly define every variable or symbol used in that formula.
 - CRITICAL: The `experiment_description` should NOT contain the measurement results (dependent variables) themselves, so that we can later predict those values from the description without leakage.
 - Every description should name the material or device, the measurement modality or instrument, the relevant sample geometry or thickness when available, the environmental or operating conditions, the swept control variables, and exactly how the reported result was obtained.
 - Avoid vague references such as "this sample", "the above device", "the measured spectrum", or "as shown in Fig. 2".
@@ -16,5 +17,6 @@ Requirements:
 - Use snake_case values for each experiment_results item key.
 - Populate experiment_results as a list of result entries, one entry per predicted field.
 - Encode units or key conditions in result keys when they help disambiguate the target (e.g., `voltage_responsivity_kV_W`).
+- Use `type` = `formula` for algebraic or functional expressions in `result`. Do NOT use `string` as a result type.
 - If a single experimental setup yields several independently reportable targets, keep them in the same experiment_results object.
 - Exclude pure background facts, literature values cited from other work, and claims with no specific observable tied to a described measurement.

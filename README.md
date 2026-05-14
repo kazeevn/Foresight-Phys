@@ -19,7 +19,8 @@ The descriptions were extracted from recent open-access papers by Kostya Novosel
 - Computes per JSON file:
 	- `mape` (Mean Absolute Percentage Error) for numeric predictions
 	- `bool_categorical_accuracy` for boolean and categorical predictions
-- Computes aggregate averages across files for both metrics.
+	- `formula_accuracy` for formula predictions, judged by `gpt-5.4-nano`
+- Computes aggregate averages across files for all reported metrics.
 - Generates a static HTML report with a left paper switcher and per-experiment tables (instead of raw markdown text).
 
 ## Setup (uv)
@@ -49,20 +50,23 @@ uv run foresight-phys
 
 This writes:
 
-- JSON summary to `docs/benchmark_results.json`
-- Offline human-readable report to `docs/benchmark_human_readable_report.html`
+- JSON summary to `docs/<run-name>/benchmark_results.json`
+- Offline human-readable report to `docs/<run-name>/benchmark_human_readable_report.html`
+
+By default, `<run-name>` is generated as `<model>-<nice suffix>` and the same value is used for Langfuse grouping.
 
 ### Useful options
 
 ```bash
 uv run foresight-phys --max-files 2
 uv run foresight-phys --max-workers 8
+uv run foresight-phys --run-name paper-benchmark-run-01
 uv run foresight-phys --langfuse-run-name paper-benchmark-run-01
 uv run foresight-phys --disable-langfuse
 uv run foresight-phys --cache-path .cache/llm_predictions.json
 uv run foresight-phys --disable-cache
-uv run foresight-phys --output docs/benchmark_results.json
-uv run foresight-phys --html-output docs/benchmark_human_readable_report.html
+uv run foresight-phys --output docs/custom-run/benchmark_results.json
+uv run foresight-phys --html-output docs/custom-run/benchmark_human_readable_report.html
 ```
 
 To disable HTML report generation:
@@ -71,7 +75,7 @@ To disable HTML report generation:
 uv run foresight-phys --html-output ""
 ```
 
-The run writes summary output to `docs/benchmark_results.json`.
+The run writes summary output under `docs/<run-name>/` unless `--output` or `--html-output` overrides it.
 
 ## Extract benchmark JSON from arXiv PDFs
 
@@ -79,6 +83,8 @@ Use the dedicated extraction CLI to generate new files in the same format as the
 The command sends the PDF to OpenAI by public URL using `input_file`, asks the extraction
 model for rich standalone experiment descriptions, then sends the extracted JSON through a
 second `gpt-5.5` suitability pass that returns one validity boolean per experiment.
+Formula-valued results must use `type: "formula"`, not `type: "string"`, and the
+corresponding `experiment_description` must define every variable used in the formula.
 
 ```bash
 uv run foresight-phys-extract --paper-url https://arxiv.org/pdf/2511.14269
@@ -111,7 +117,9 @@ uv run foresight-phys-extract --paper-url https://arxiv.org/pdf/2511.14269 --ove
 
 For `--paper-urls-file`, blank lines and lines starting with `#` are ignored. In batch mode,
 the CLI writes each paper to its default title-derived path under `JSONs/raw/` and
-`JSONs/filtered/`; `--output` and `--raw-output` remain single-paper-only overrides.
+`JSONs/filtered/`; `--output` and `--raw-output` remain single-paper-only overrides. If a
+batch item resolves to an existing raw or filtered output path and `--overwrite` is not set,
+that paper is skipped instead of aborting the whole batch.
 
 The output JSON remains a top-level list of experiments so it can be consumed by the
 existing benchmark pipeline without any format conversion. To benchmark newly filtered

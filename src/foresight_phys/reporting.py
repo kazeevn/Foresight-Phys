@@ -7,7 +7,8 @@ from pathlib import Path
 from typing import Any
 
 from .constants import MAPE_MIN_ABS_TARGET
-from .metrics import compute_file_metrics
+from .formula_judging import FormulaJudge
+from .metrics import compute_file_metrics, is_formula_result, is_numeric_result, judge_formula_values
 from .models import BenchmarkItem
 
 
@@ -18,6 +19,8 @@ def write_human_readable_report(
     model: str,
     aggregate_mape: float | None,
     aggregate_bool_categorical_accuracy: float | None,
+    aggregate_formula_accuracy: float | None,
+    formula_judge: FormulaJudge | None = None,
 ) -> None:
     generated_at_utc = datetime.now(timezone.utc).isoformat()
 
@@ -51,7 +54,11 @@ def write_human_readable_report(
         return normalize_for_comparison(expected_value) == normalize_for_comparison(actual_value)
 
     def collect_file_section(item: BenchmarkItem) -> str:
-        metrics = compute_file_metrics(item.expected_output, item.actual_output)
+        metrics = compute_file_metrics(
+            item.expected_output,
+            item.actual_output,
+            formula_judge=formula_judge,
+        )
         expected_experiments = item.expected_output if isinstance(item.expected_output, list) else [item.expected_output]
         actual_experiments = item.actual_output if isinstance(item.actual_output, list) else [item.actual_output]
 
@@ -62,6 +69,9 @@ def write_human_readable_report(
         )
         section_parts.append(
             f'<div class="metric-chip"><span class="metric-label">Bool/Categorical Accuracy</span><span class="metric-value">{html.escape(format_metric(metrics.get("bool_categorical_accuracy")))}</span></div>'
+        )
+        section_parts.append(
+            f'<div class="metric-chip"><span class="metric-label">Formula Accuracy</span><span class="metric-value">{html.escape(format_metric(metrics.get("formula_accuracy")))}</span></div>'
         )
         section_parts.append('</div>')
 
@@ -100,12 +110,12 @@ def write_human_readable_report(
                 actual_meta_dict = actual_meta if isinstance(actual_meta, dict) else {}
                 actual_value = actual_meta_dict.get("result")
 
-                is_numeric_expected = isinstance(expected_value, (int, float)) and not isinstance(expected_value, bool)
+                is_numeric_expected = is_numeric_result(field_type, expected_value)
                 is_numeric_actual = isinstance(actual_value, (int, float)) and not isinstance(actual_value, bool)
+                status_title = ""
 
                 if (
-                    field_type == "float"
-                    and is_numeric_expected
+                    is_numeric_expected
                     and abs(float(expected_value)) > MAPE_MIN_ABS_TARGET
                 ):
                     status_class = "status-relative-error"
@@ -117,10 +127,26 @@ def write_human_readable_report(
                         status_text = f'rel err {relative_error:.2f}%'
                     else:
                         status_text = 'rel err n/a'
+                elif is_formula_result(field_type):
+                    formula_judgment = judge_formula_values(
+                        expected_formula=expected_value,
+                        actual_formula=actual_value,
+                        experiment_description=expected_desc,
+                        result_key=str(field_name),
+                        result_description=field_description,
+                        formula_judge=formula_judge,
+                    )
+                    status_text = 'formula match' if formula_judgment.equivalent else 'formula mismatch'
+                    status_class = 'status-match' if formula_judgment.equivalent else 'status-mismatch'
+                    status_title = formula_judgment.explanation
                 else:
                     match = values_match(expected_value, actual_value)
                     status_text = 'match' if match else 'mismatch'
                     status_class = 'status-match' if match else 'status-mismatch'
+
+                status_title_attr = ''
+                if status_title:
+                    status_title_attr = f' title="{html.escape(status_title, quote=True)}"'
 
                 section_parts.append(
                     '<tr>'
@@ -128,7 +154,7 @@ def write_human_readable_report(
                     f'<td>{html.escape(field_description)}</td>'
                     f'<td>{html.escape(format_value(expected_value))}</td>'
                     f'<td>{html.escape(format_value(actual_value))}</td>'
-                    f'<td><span class="{status_class}">{status_text}</span></td>'
+                    f'<td><span class="{status_class}"{status_title_attr}>{status_text}</span></td>'
                     '</tr>'
                 )
 
@@ -289,6 +315,7 @@ def write_human_readable_report(
         <div class="meta">Files: {len(items)}</div>
         <div class="meta">Aggregate MAPE: {format_metric(aggregate_mape)}</div>
         <div class="meta">Aggregate bool/categorical accuracy: {format_metric(aggregate_bool_categorical_accuracy)}</div>
+        <div class="meta">Aggregate formula accuracy: {format_metric(aggregate_formula_accuracy)}</div>
     </div>
     <div class="layout">
         <aside class="sidebar" aria-label="Papers">
@@ -313,4 +340,5 @@ def write_human_readable_report(
 </html>
 '''
 
+    output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(report_html, encoding='utf-8')

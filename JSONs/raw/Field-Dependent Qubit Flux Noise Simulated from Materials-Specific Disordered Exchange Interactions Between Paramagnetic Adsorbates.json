@@ -1,0 +1,227 @@
+[
+  {
+    "experiment_description": "First-principles calculation of isolated O2 adsorption and spin anisotropy on an Al-terminated (0001) Al2O3 surface. Calculations used VASP with PAW pseudopotentials, a 500 eV plane-wave cutoff, the vdW-DF-cx exchange-correlation functional, and a single Gamma-point k-point. The surface model was a 3-layer Al2O3 slab, H-passivated on the opposite side, with a 6 surface-unit-cell by 6 surface-unit-cell in-plane supercell of 28.70 Å × 24.86 Å, 14.5 Å vacuum spacing, and geometry relaxation until forces were below 0.005 eV/Å. An isolated O2 molecule was adsorbed on a terminating Al atom in each of the six stable in-plane binding orientations, labeled 0 through 5; orientations 0, 2, and 4 form one threefold-degenerate set and orientations 1, 3, and 5 form the other. Spin anisotropy was obtained by constraining the two unpaired spins on the adsorbed O2 molecule to directions parallel and perpendicular to the O2 bond axis in the equilibrium binding geometry. For the anisotropy formula, O_i denotes the unit vector along the bond axis of O2 molecule i, s_i denotes the spin-direction vector for the unpaired O2 spins on molecule i, and E_anisotropy(O_i,s_i) is the anisotropy contribution to the spin Hamiltonian for molecule i.",
+    "experiment_results": {
+      "binding_energy_orientations_0_2_4_meV": {
+        "type": "float",
+        "description": "DFT binding energy of an isolated O2 molecule in the lower-energy threefold-degenerate orientation set on Al-terminated (0001) Al2O3.",
+        "result": -319.9
+      },
+      "binding_energy_orientations_1_3_5_meV": {
+        "type": "float",
+        "description": "DFT binding energy of an isolated O2 molecule in the higher-energy threefold-degenerate orientation set on Al-terminated (0001) Al2O3.",
+        "result": -303.4
+      },
+      "orientation_set_energy_splitting_meV": {
+        "type": "float",
+        "description": "Energy separation between the two threefold-degenerate O2 binding-orientation sets on Al-terminated (0001) Al2O3.",
+        "result": 16.5
+      },
+      "spin_anisotropy_energy_formula_meV": {
+        "type": "formula",
+        "description": "Orientation-dependent anisotropy energy favoring O2 unpaired spins perpendicular to the O2 bond axis.",
+        "result": "E_anisotropy(O_i,s_i)=0.037 meV * |O_i · s_i|"
+      }
+    }
+  },
+  {
+    "experiment_description": "First-principles calculation of nearest-neighbor exchange interactions for pairs of O2 molecules adsorbed on an Al-terminated (0001) Al2O3 surface. Calculations used VASP with PAW pseudopotentials, a 500 eV plane-wave cutoff, vdW-DF-cx, a single Gamma-point k-point, and relaxation to forces below 0.005 eV/Å. The slab was a H-passivated 3-layer (0001) Al2O3 surface supercell of 28.70 Å × 24.86 Å with 14.5 Å vacuum. Each O2 molecule was placed on a terminating Al adsorption site; the six stable molecular orientations are labeled 0 through 5. A relative orientation [a,b] denotes a nearest-neighbor O2 pair where the first molecule has orientation a and the second molecule has orientation b, including the symmetry-distinct nearest-neighbor separation direction on the sapphire surface. For each symmetry-distinct pair, two spin configurations were initialized with VASP MAGMOM and relaxed: UUUU, where the two unpaired spins on both O2 molecules are aligned ferromagnetically, and UUDD, where the two unpaired spins on one molecule are opposite to those on the other molecule. The exchange energy is defined as EUUUU − EUUDD; negative values correspond to ferromagnetic coupling and positive values to antiferromagnetic coupling.",
+    "experiment_results": {
+      "exchange_energy_orientation_0_0_meV": {
+        "type": "float",
+        "description": "DFT nearest-neighbor O2-O2 exchange energy EUUUU − EUUDD for relative orientation [0,0].",
+        "result": -0.11
+      },
+      "exchange_energy_orientation_0_1_meV": {
+        "type": "float",
+        "description": "DFT nearest-neighbor O2-O2 exchange energy EUUUU − EUUDD for relative orientation [0,1].",
+        "result": -0.283
+      },
+      "exchange_energy_orientation_0_2_meV": {
+        "type": "float",
+        "description": "DFT nearest-neighbor O2-O2 exchange energy EUUUU − EUUDD for relative orientation [0,2].",
+        "result": -0.101
+      },
+      "exchange_energy_orientation_0_3_meV": {
+        "type": "float",
+        "description": "DFT nearest-neighbor O2-O2 exchange energy EUUUU − EUUDD for relative orientation [0,3].",
+        "result": -0.436
+      },
+      "exchange_energy_orientation_0_4_meV": {
+        "type": "float",
+        "description": "DFT nearest-neighbor O2-O2 exchange energy EUUUU − EUUDD for relative orientation [0,4].",
+        "result": 4.063
+      },
+      "exchange_energy_orientation_0_5_meV": {
+        "type": "float",
+        "description": "DFT nearest-neighbor O2-O2 exchange energy EUUUU − EUUDD for relative orientation [0,5].",
+        "result": 1.249
+      },
+      "exchange_energy_orientation_1_0_meV": {
+        "type": "float",
+        "description": "DFT nearest-neighbor O2-O2 exchange energy EUUUU − EUUDD for relative orientation [1,0].",
+        "result": 0.207
+      },
+      "exchange_energy_orientation_1_1_meV": {
+        "type": "float",
+        "description": "DFT nearest-neighbor O2-O2 exchange energy EUUUU − EUUDD for relative orientation [1,1].",
+        "result": -0.727
+      },
+      "exchange_energy_orientation_1_3_meV": {
+        "type": "float",
+        "description": "DFT nearest-neighbor O2-O2 exchange energy EUUUU − EUUDD for relative orientation [1,3].",
+        "result": -0.238
+      },
+      "exchange_energy_orientation_1_4_meV": {
+        "type": "float",
+        "description": "DFT nearest-neighbor O2-O2 exchange energy EUUUU − EUUDD for relative orientation [1,4].",
+        "result": -2.706
+      },
+      "exchange_energy_orientation_3_0_meV": {
+        "type": "float",
+        "description": "DFT nearest-neighbor O2-O2 exchange energy EUUUU − EUUDD for relative orientation [3,0].",
+        "result": -0.242
+      },
+      "exchange_energy_orientation_3_1_meV": {
+        "type": "float",
+        "description": "DFT nearest-neighbor O2-O2 exchange energy EUUUU − EUUDD for relative orientation [3,1].",
+        "result": -0.324
+      },
+      "exchange_energy_orientation_3_2_meV": {
+        "type": "float",
+        "description": "DFT nearest-neighbor O2-O2 exchange energy EUUUU − EUUDD for relative orientation [3,2].",
+        "result": 0.098
+      },
+      "exchange_energy_orientation_3_3_meV": {
+        "type": "float",
+        "description": "DFT nearest-neighbor O2-O2 exchange energy EUUUU − EUUDD for relative orientation [3,3].",
+        "result": -0.286
+      },
+      "exchange_energy_orientation_3_4_meV": {
+        "type": "float",
+        "description": "DFT nearest-neighbor O2-O2 exchange energy EUUUU − EUUDD for relative orientation [3,4].",
+        "result": -2.066
+      },
+      "exchange_energy_orientation_3_5_meV": {
+        "type": "float",
+        "description": "DFT nearest-neighbor O2-O2 exchange energy EUUUU − EUUDD for relative orientation [3,5].",
+        "result": 0.016
+      },
+      "exchange_energy_orientation_4_0_meV": {
+        "type": "float",
+        "description": "DFT nearest-neighbor O2-O2 exchange energy EUUUU − EUUDD for relative orientation [4,0].",
+        "result": -0.023
+      },
+      "exchange_energy_orientation_4_1_meV": {
+        "type": "float",
+        "description": "DFT nearest-neighbor O2-O2 exchange energy EUUUU − EUUDD for relative orientation [4,1].",
+        "result": -0.377
+      },
+      "exchange_energy_orientation_4_3_meV": {
+        "type": "float",
+        "description": "DFT nearest-neighbor O2-O2 exchange energy EUUUU − EUUDD for relative orientation [4,3].",
+        "result": -0.175
+      },
+      "exchange_energy_orientation_4_4_meV": {
+        "type": "float",
+        "description": "DFT nearest-neighbor O2-O2 exchange energy EUUUU − EUUDD for relative orientation [4,4].",
+        "result": -0.154
+      }
+    }
+  },
+  {
+    "experiment_description": "First-principles calculation of spin-state-dependent electric dipole moment differences for nearest-neighbor O2 pairs on Al-terminated (0001) Al2O3. The same VASP, PAW, 500 eV cutoff, vdW-DF-cx, Gamma-point, relaxed 3-layer H-passivated slab, six O2 orientation labels, and UUUU versus UUDD spin configurations were used as in the nearest-neighbor exchange calculations. For each of the twenty symmetry-distinct nearest-neighbor O2 relative orientations, the electronic charge distribution was calculated for ferromagnetic-like UUUU and antiferromagnetic-like UUDD spin configurations. The in-plane spin-dependent electric dipole difference vector was defined as the difference between the electric dipole moment of the UUUU configuration and that of the UUDD configuration, projected onto the x-y plane of the Al2O3 surface; its magnitude is reported in eÅ.",
+    "experiment_results": {
+      "maximum_in_plane_spin_dependent_dipole_difference_eangstrom": {
+        "type": "float",
+        "description": "Largest magnitude among the in-plane electric dipole moment differences between UUUU and UUDD spin configurations over all calculated nearest-neighbor O2 relative orientations.",
+        "result": 0.23
+      },
+      "average_in_plane_spin_dependent_dipole_difference_eangstrom": {
+        "type": "float",
+        "description": "Average magnitude of the in-plane electric dipole moment difference between UUUU and UUDD spin configurations over the calculated nearest-neighbor O2 relative orientations.",
+        "result": 0.07
+      }
+    }
+  },
+  {
+    "experiment_description": "Classical Monte Carlo simulation of Berezinskii-Kosterlitz-Thouless behavior for a 100%-covered monolayer of paramagnetic O2 molecules adsorbed on Al-terminated (0001) Al2O3. The simulated lattice was a 20 × 20 periodic array of O2 adsorption sites with sapphire-surface lattice spacing l = 4.8 Å; at full coverage this gives 400 O2 spins and 1200 nearest-neighbor spin interactions. O2 molecular orientations were generated by Metropolis Monte Carlo using an orientation Hamiltonian containing the DFT isolated-O2 binding energies and the DFT nearest-neighbor O2 pair configurational energies; simulations started at 10^5 times the target temperature, were cooled smoothly over 10^6 steps to the target temperature, and then run for another 10^6 steps. The quenched O2 orientation ensemble was generated at 0.01 K. Spin configurations on the resulting disordered exchange network were generated with a spin Hamiltonian containing the DFT orientation-dependent exchange couplings, the O2 anisotropy term, and zero external magnetic field; the spin-update algorithm used Metropolis moves plus one Wolff cluster update for every nine Metropolis steps. For each set of parameters, 8 spin Monte Carlo simulations were performed for each of 12 O2 orientation configurations, for 96 spin simulations. Spin-spin correlation functions were calculated over temperatures spanning the plotted low-temperature range from about 0.04 K to 0.7 K and fitted to C(r) = (|r-r'|/l)^(-eta), where r and r' are spin positions, l is the 4.8 Å lattice spacing, and eta is the algebraic decay exponent. The transition point was identified by eta = 1/4, and an effective exchange scale was extracted from eta = kT/(2π|J|), where k is the Boltzmann constant, T is temperature, and J is the effective exchange energy.",
+    "experiment_results": {
+      "bkt_transition_temperature_zero_field_K": {
+        "type": "float",
+        "description": "BKT transition temperature obtained from the eta = 1/4 crossing of the fitted spin-spin correlation decay exponent for the zero-external-field O2/Al2O3 spin lattice.",
+        "result": 0.121
+      },
+      "effective_exchange_energy_from_correlation_meV": {
+        "type": "float",
+        "description": "Effective exchange energy scale extracted by fitting the zero-field simulated spin-spin correlation functions to the BKT algebraic form.",
+        "result": -0.0066
+      }
+    }
+  },
+  {
+    "experiment_description": "Landau-Lifshitz-Gilbert spin-dynamics simulation of magnetic flux noise from O2 spins on Al-terminated (0001) Al2O3 at zero external magnetic and electric fields. Initial spin states were the 96 Monte Carlo spin configurations generated from the disordered O2 orientation ensembles and the DFT-parametrized spin Hamiltonian. LLG trajectories were integrated with the Runge-Kutta-Fehlberg RKF45 method using a 4 fs initial adaptive timestep, damping constant α = 1×10^-8, and 100 ns trajectory length. The simulated temperature was 0.01 K. O2 coverages of 100%, 75%, and 50% were considered on the 20 × 20 periodic lattice. The magnetic noise spectrum was obtained from the Fourier transform of the total spin trajectory. To convert simulated spin-fluctuation power spectral density to SQUID flux noise, the calculation used a typical superconducting loop geometry with loop radius 12 µm and line width 0.5 µm and evaluated the flux noise at 10 MHz.",
+    "experiment_results": {
+      "flux_noise_10mhz_100_percent_coverage_phi0_per_sqrt_hz": {
+        "type": "float",
+        "description": "Calculated magnetic flux noise amplitude at 10 MHz for 100% O2 coverage in the specified SQUID loop geometry at 0.01 K and zero external fields.",
+        "result": 6.6e-09
+      },
+      "flux_noise_10mhz_75_percent_coverage_phi0_per_sqrt_hz": {
+        "type": "float",
+        "description": "Calculated magnetic flux noise amplitude at 10 MHz for 75% O2 coverage in the specified SQUID loop geometry at 0.01 K and zero external fields.",
+        "result": 9e-09
+      },
+      "flux_noise_10mhz_50_percent_coverage_phi0_per_sqrt_hz": {
+        "type": "float",
+        "description": "Calculated magnetic flux noise amplitude at 10 MHz for 50% O2 coverage in the specified SQUID loop geometry at 0.01 K and zero external fields.",
+        "result": 5.27e-09
+      },
+      "magnetic_noise_resonance_lower_bound_GHz": {
+        "type": "float",
+        "description": "Lower bound of the simulated magnetic-resonance feature observed in the zero-field flux-noise spectrum.",
+        "result": 1.0
+      },
+      "magnetic_noise_resonance_upper_bound_GHz": {
+        "type": "float",
+        "description": "Upper bound of the simulated magnetic-resonance feature observed in the zero-field flux-noise spectrum.",
+        "result": 2.0
+      }
+    }
+  },
+  {
+    "experiment_description": "Landau-Lifshitz-Gilbert simulation of magnetic-field suppression of flux noise for the DFT-parametrized O2 spin lattice on Al-terminated (0001) Al2O3. The spin system used 100% O2 coverage on the 20 × 20 periodic lattice with DFT-derived disordered orientation-dependent exchange couplings and O2 spin anisotropy. Initial conditions were generated by the Monte Carlo spin procedure, and LLG trajectories were integrated with RKF45 using a 4 fs initial adaptive timestep, α = 1×10^-8, and 100 ns trajectory length. The simulation temperature was 0.1 K. A static external magnetic field was applied and swept over the plotted range from 0 T to 0.3 T. The magnetic flux-noise power was evaluated at 100 MHz and compared to the otherwise identical zero-field case.",
+    "experiment_results": {
+      "flux_noise_reduction_factor_at_0p01_T_100mhz": {
+        "type": "float",
+        "description": "Factor by which the 100 MHz magnetic flux noise decreases at an applied magnetic field of 0.01 T relative to zero applied magnetic field.",
+        "result": 2.6
+      },
+      "flux_noise_reduction_factor_at_0p1_T_100mhz": {
+        "type": "float",
+        "description": "Factor by which the 100 MHz magnetic flux noise decreases at an applied magnetic field of 0.1 T relative to zero applied magnetic field.",
+        "result": 58.7
+      }
+    }
+  },
+  {
+    "experiment_description": "Electric-field-modified spin and flux-noise simulation for a 100%-covered monolayer of O2 molecules on Al-terminated (0001) Al2O3. The same DFT-derived O2 orientation disorder, nearest-neighbor exchange couplings, spin anisotropy, and 20 × 20 periodic lattice were used. A static external electric field of 1×10^7 V/cm was included through the spin-state-dependent electric dipole contribution E · p to the energy splitting EUUUU − EUUDD of each nearest-neighbor O2 pair, where E is the applied electric field vector and p is the electric dipole moment difference between ferromagnetic-like UUUU and antiferromagnetic-like UUDD spin configurations for that O2 pair. Spin-spin correlation functions were computed over temperatures from 0.01 K to 5.0 K and fitted to C(r) = (|r-r'|/l)^(-eta), with transition identified by eta = 1/4. Flux-noise spectra were then obtained from LLG trajectories initialized from Monte Carlo spin configurations, with RKF45 integration, 4 fs initial adaptive timestep, α = 1×10^-8, and 100 ns trajectory length. The flux conversion used a SQUID loop radius of 12 µm and line width of 0.5 µm, and the reported flux-noise amplitude was evaluated at 10 MHz.",
+    "experiment_results": {
+      "bkt_transition_temperature_with_1e7_v_per_cm_electric_field_K": {
+        "type": "float",
+        "description": "BKT transition temperature of the O2/Al2O3 spin lattice when the electric-field-induced dipolar contribution is included.",
+        "result": 0.276
+      },
+      "flux_noise_10mhz_100_percent_coverage_with_1e7_v_per_cm_electric_field_phi0_per_sqrt_hz": {
+        "type": "float",
+        "description": "Calculated magnetic flux noise amplitude at 10 MHz for 100% O2 coverage with the applied electric field in the specified SQUID loop geometry.",
+        "result": 4.3e-09
+      },
+      "low_frequency_flux_noise_power_law_exponent_with_electric_field": {
+        "type": "float",
+        "description": "Exponent a in the simulated low-frequency magnetic-flux-noise scaling proportional to 1/f^a below 100 MHz under the applied electric field.",
+        "result": 0.25
+      }
+    }
+  }
+]

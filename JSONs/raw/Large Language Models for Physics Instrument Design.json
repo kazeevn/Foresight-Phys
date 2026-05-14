@@ -1,0 +1,432 @@
+[
+  {
+    "experiment_description": "Calorimeter longitudinal-segmentation benchmark evaluated with the same fast sampling-calorimeter simulator, calibration procedure, reconstruction, and scalar reward definition as the RL baseline of Qasim, Owen, and Serra (2024). A candidate calorimeter consists of active sensor layers along longitudinal coordinate z inside a fixed absorber volume. Layer positions z are in mm and must satisfy 1 <= z[i] and z[i] + t[i] <= 1500.00; layer effective thickness t[i] is chosen from the discrete set {0.12, 0.15, 0.20} mm; sorted layers must not overlap, z[i] + t[i] <= z[i+1]; and total active thickness sum(t) <= 6.00 mm, with prompts encouraging use of nearly the full budget. Detector performance is evaluated by resampling pre-simulated energy-deposit data according to the proposed active-layer placement, applying a fixed calibration step, and evaluating electromagnetic and hadronic showers at incident energies of 50 GeV and 100 GeV. The reported resolution is the mean-corrected energy resolution Sigma = sigma(E_pred/E_true) / mu(E_pred/E_true), expressed in percent, where E_pred is reconstructed energy, E_true is the true incident particle energy, sigma is the standard deviation of the response distribution, and mu is its mean. The scalar score used during optimization is defined from the four percent resolutions by S*10 = -max(0, Sigma_em50 - 8) - max(0, Sigma_em100 - 5) - max(0, Sigma_had50 - 25) - max(0, Sigma_had100 - 18), with larger S better. Compared designs include an equidistant-sensor baseline design, an RL-optimized design, and LLM-generated designs from GPT-OSS-20B, GPT-OSS-120B, GPT-5, and Gemini 2.5 Pro. Standalone LLM searches use a proposal-projection-evaluation loop for 350 proposal iterations: the LLM is prompted to return JSON arrays {z,t}, outputs are sorted, snapped to allowed thicknesses, cleaned for overlaps and range violations, truncated to the thickness budget, and evaluated by the simulator. Hybrid LLM+TR variants start from projected LLM proposals and apply NLOpt BOBYQA trust-region refinement for 100 consecutive objective evaluations, optimizing only z coordinates while keeping all discrete layer thicknesses fixed and re-projecting candidates to enforce bounds and non-overlap constraints. The table reports the best-performing final design for each method; values are central values of the simulated percent energy resolutions, with statistical uncertainties quoted in the paper but not used as target results here.",
+    "experiment_results": {
+      "baseline_design_em_50gev_energy_resolution_percent": {
+        "type": "float",
+        "description": "Mean-corrected electromagnetic-shower energy resolution at 50 GeV for the equidistant-sensor baseline calorimeter design.",
+        "result": 8.15
+      },
+      "baseline_design_em_100gev_energy_resolution_percent": {
+        "type": "float",
+        "description": "Mean-corrected electromagnetic-shower energy resolution at 100 GeV for the equidistant-sensor baseline calorimeter design.",
+        "result": 5.96
+      },
+      "baseline_design_hadronic_50gev_energy_resolution_percent": {
+        "type": "float",
+        "description": "Mean-corrected hadronic-shower energy resolution at 50 GeV for the equidistant-sensor baseline calorimeter design.",
+        "result": 32.13
+      },
+      "baseline_design_hadronic_100gev_energy_resolution_percent": {
+        "type": "float",
+        "description": "Mean-corrected hadronic-shower energy resolution at 100 GeV for the equidistant-sensor baseline calorimeter design.",
+        "result": 25.19
+      },
+      "rl_design_em_50gev_energy_resolution_percent": {
+        "type": "float",
+        "description": "Mean-corrected electromagnetic-shower energy resolution at 50 GeV for the RL-optimized calorimeter design.",
+        "result": 7.91
+      },
+      "rl_design_em_100gev_energy_resolution_percent": {
+        "type": "float",
+        "description": "Mean-corrected electromagnetic-shower energy resolution at 100 GeV for the RL-optimized calorimeter design.",
+        "result": 5.65
+      },
+      "rl_design_hadronic_50gev_energy_resolution_percent": {
+        "type": "float",
+        "description": "Mean-corrected hadronic-shower energy resolution at 50 GeV for the RL-optimized calorimeter design.",
+        "result": 24.29
+      },
+      "rl_design_hadronic_100gev_energy_resolution_percent": {
+        "type": "float",
+        "description": "Mean-corrected hadronic-shower energy resolution at 100 GeV for the RL-optimized calorimeter design.",
+        "result": 18.07
+      },
+      "gpt_oss_20b_design_em_50gev_energy_resolution_percent": {
+        "type": "float",
+        "description": "Mean-corrected electromagnetic-shower energy resolution at 50 GeV for the best standalone GPT-OSS-20B-generated calorimeter design.",
+        "result": 8.51
+      },
+      "gpt_oss_20b_design_em_100gev_energy_resolution_percent": {
+        "type": "float",
+        "description": "Mean-corrected electromagnetic-shower energy resolution at 100 GeV for the best standalone GPT-OSS-20B-generated calorimeter design.",
+        "result": 6.15
+      },
+      "gpt_oss_20b_design_hadronic_50gev_energy_resolution_percent": {
+        "type": "float",
+        "description": "Mean-corrected hadronic-shower energy resolution at 50 GeV for the best standalone GPT-OSS-20B-generated calorimeter design.",
+        "result": 27.6
+      },
+      "gpt_oss_20b_design_hadronic_100gev_energy_resolution_percent": {
+        "type": "float",
+        "description": "Mean-corrected hadronic-shower energy resolution at 100 GeV for the best standalone GPT-OSS-20B-generated calorimeter design.",
+        "result": 20.22
+      },
+      "gpt_oss_20b_tr_design_em_50gev_energy_resolution_percent": {
+        "type": "float",
+        "description": "Mean-corrected electromagnetic-shower energy resolution at 50 GeV for the best GPT-OSS-20B calorimeter design after z-only trust-region refinement.",
+        "result": 8.38
+      },
+      "gpt_oss_20b_tr_design_em_100gev_energy_resolution_percent": {
+        "type": "float",
+        "description": "Mean-corrected electromagnetic-shower energy resolution at 100 GeV for the best GPT-OSS-20B calorimeter design after z-only trust-region refinement.",
+        "result": 6.2
+      },
+      "gpt_oss_20b_tr_design_hadronic_50gev_energy_resolution_percent": {
+        "type": "float",
+        "description": "Mean-corrected hadronic-shower energy resolution at 50 GeV for the best GPT-OSS-20B calorimeter design after z-only trust-region refinement.",
+        "result": 26.39
+      },
+      "gpt_oss_20b_tr_design_hadronic_100gev_energy_resolution_percent": {
+        "type": "float",
+        "description": "Mean-corrected hadronic-shower energy resolution at 100 GeV for the best GPT-OSS-20B calorimeter design after z-only trust-region refinement.",
+        "result": 19.21
+      },
+      "gpt_oss_120b_design_em_50gev_energy_resolution_percent": {
+        "type": "float",
+        "description": "Mean-corrected electromagnetic-shower energy resolution at 50 GeV for the best standalone GPT-OSS-120B-generated calorimeter design.",
+        "result": 9.39
+      },
+      "gpt_oss_120b_design_em_100gev_energy_resolution_percent": {
+        "type": "float",
+        "description": "Mean-corrected electromagnetic-shower energy resolution at 100 GeV for the best standalone GPT-OSS-120B-generated calorimeter design.",
+        "result": 6.69
+      },
+      "gpt_oss_120b_design_hadronic_50gev_energy_resolution_percent": {
+        "type": "float",
+        "description": "Mean-corrected hadronic-shower energy resolution at 50 GeV for the best standalone GPT-OSS-120B-generated calorimeter design.",
+        "result": 27.69
+      },
+      "gpt_oss_120b_design_hadronic_100gev_energy_resolution_percent": {
+        "type": "float",
+        "description": "Mean-corrected hadronic-shower energy resolution at 100 GeV for the best standalone GPT-OSS-120B-generated calorimeter design.",
+        "result": 19.76
+      },
+      "gpt_oss_120b_tr_design_em_50gev_energy_resolution_percent": {
+        "type": "float",
+        "description": "Mean-corrected electromagnetic-shower energy resolution at 50 GeV for the best GPT-OSS-120B calorimeter design after z-only trust-region refinement.",
+        "result": 6.29
+      },
+      "gpt_oss_120b_tr_design_em_100gev_energy_resolution_percent": {
+        "type": "float",
+        "description": "Mean-corrected electromagnetic-shower energy resolution at 100 GeV for the best GPT-OSS-120B calorimeter design after z-only trust-region refinement.",
+        "result": 4.54
+      },
+      "gpt_oss_120b_tr_design_hadronic_50gev_energy_resolution_percent": {
+        "type": "float",
+        "description": "Mean-corrected hadronic-shower energy resolution at 50 GeV for the best GPT-OSS-120B calorimeter design after z-only trust-region refinement.",
+        "result": 48.45
+      },
+      "gpt_oss_120b_tr_design_hadronic_100gev_energy_resolution_percent": {
+        "type": "float",
+        "description": "Mean-corrected hadronic-shower energy resolution at 100 GeV for the best GPT-OSS-120B calorimeter design after z-only trust-region refinement.",
+        "result": 51.58
+      },
+      "gpt_5_design_em_50gev_energy_resolution_percent": {
+        "type": "float",
+        "description": "Mean-corrected electromagnetic-shower energy resolution at 50 GeV for the best standalone GPT-5-generated calorimeter design.",
+        "result": 8.51
+      },
+      "gpt_5_design_em_100gev_energy_resolution_percent": {
+        "type": "float",
+        "description": "Mean-corrected electromagnetic-shower energy resolution at 100 GeV for the best standalone GPT-5-generated calorimeter design.",
+        "result": 6.28
+      },
+      "gpt_5_design_hadronic_50gev_energy_resolution_percent": {
+        "type": "float",
+        "description": "Mean-corrected hadronic-shower energy resolution at 50 GeV for the best standalone GPT-5-generated calorimeter design.",
+        "result": 28.98
+      },
+      "gpt_5_design_hadronic_100gev_energy_resolution_percent": {
+        "type": "float",
+        "description": "Mean-corrected hadronic-shower energy resolution at 100 GeV for the best standalone GPT-5-generated calorimeter design.",
+        "result": 21.11
+      },
+      "gpt_5_tr_design_em_50gev_energy_resolution_percent": {
+        "type": "float",
+        "description": "Mean-corrected electromagnetic-shower energy resolution at 50 GeV for the best GPT-5 calorimeter design after z-only trust-region refinement.",
+        "result": 8.3
+      },
+      "gpt_5_tr_design_em_100gev_energy_resolution_percent": {
+        "type": "float",
+        "description": "Mean-corrected electromagnetic-shower energy resolution at 100 GeV for the best GPT-5 calorimeter design after z-only trust-region refinement.",
+        "result": 6.14
+      },
+      "gpt_5_tr_design_hadronic_50gev_energy_resolution_percent": {
+        "type": "float",
+        "description": "Mean-corrected hadronic-shower energy resolution at 50 GeV for the best GPT-5 calorimeter design after z-only trust-region refinement.",
+        "result": 25.49
+      },
+      "gpt_5_tr_design_hadronic_100gev_energy_resolution_percent": {
+        "type": "float",
+        "description": "Mean-corrected hadronic-shower energy resolution at 100 GeV for the best GPT-5 calorimeter design after z-only trust-region refinement.",
+        "result": 19.18
+      },
+      "gemini_2_5_pro_design_em_50gev_energy_resolution_percent": {
+        "type": "float",
+        "description": "Mean-corrected electromagnetic-shower energy resolution at 50 GeV for the best standalone Gemini 2.5 Pro-generated calorimeter design.",
+        "result": 7.98
+      },
+      "gemini_2_5_pro_design_em_100gev_energy_resolution_percent": {
+        "type": "float",
+        "description": "Mean-corrected electromagnetic-shower energy resolution at 100 GeV for the best standalone Gemini 2.5 Pro-generated calorimeter design.",
+        "result": 5.86
+      },
+      "gemini_2_5_pro_design_hadronic_50gev_energy_resolution_percent": {
+        "type": "float",
+        "description": "Mean-corrected hadronic-shower energy resolution at 50 GeV for the best standalone Gemini 2.5 Pro-generated calorimeter design.",
+        "result": 26.57
+      },
+      "gemini_2_5_pro_design_hadronic_100gev_energy_resolution_percent": {
+        "type": "float",
+        "description": "Mean-corrected hadronic-shower energy resolution at 100 GeV for the best standalone Gemini 2.5 Pro-generated calorimeter design.",
+        "result": 20.09
+      },
+      "gemini_2_5_pro_tr_design_em_50gev_energy_resolution_percent": {
+        "type": "float",
+        "description": "Mean-corrected electromagnetic-shower energy resolution at 50 GeV for the best Gemini 2.5 Pro calorimeter design after z-only trust-region refinement.",
+        "result": 8.04
+      },
+      "gemini_2_5_pro_tr_design_em_100gev_energy_resolution_percent": {
+        "type": "float",
+        "description": "Mean-corrected electromagnetic-shower energy resolution at 100 GeV for the best Gemini 2.5 Pro calorimeter design after z-only trust-region refinement.",
+        "result": 5.68
+      },
+      "gemini_2_5_pro_tr_design_hadronic_50gev_energy_resolution_percent": {
+        "type": "float",
+        "description": "Mean-corrected hadronic-shower energy resolution at 50 GeV for the best Gemini 2.5 Pro calorimeter design after z-only trust-region refinement.",
+        "result": 25.09
+      },
+      "gemini_2_5_pro_tr_design_hadronic_100gev_energy_resolution_percent": {
+        "type": "float",
+        "description": "Mean-corrected hadronic-shower energy resolution at 100 GeV for the best Gemini 2.5 Pro calorimeter design after z-only trust-region refinement.",
+        "result": 18.06
+      }
+    }
+  },
+  {
+    "experiment_description": "Magnetic-spectrometer layout and granularity benchmark evaluated with the same simplified spectrometer simulator, pattern-recognition, Kalman-filter reconstruction, and scalar reward definition as the RL baseline of Qasim, Owen, and Serra (2024). The apparatus spans z = 0 to 20 m along the beamline, with a fixed magnetic region centered at z = 10 m. Region A is upstream of the magnet and Region C is downstream. A candidate design specifies tracking-station longitudinal positions z[i] in meters and per-station transverse granularity g[i], where 0 <= z[i] <= 20.0, at least 3 stations must be before z = 10 and at least 3 after z = 10 for reconstructability, g[i] must be an integer from 500 to 1000 inclusive in steps of 50, and the total pixel budget sum(g[i]^2) must not exceed 6,000,000. Charged-particle trajectories are generated with magnetic deflection and material scattering. Momentum reconstruction fits straight-line track segments independently in the upstream and downstream regions using pattern recognition plus a Kalman-filter line fit; candidate segments are seeded and propagated across successive stations by selecting compatible hits, accounting for measurement uncertainty from finite sensor granularity and stochastic deviations from material scattering, and the upstream/downstream deflection is used to estimate momentum. Performance is evaluated at true particle energies of 10 GeV and 100 GeV. Tracking efficiency is the percent of particles satisfying 0.5 < p_measured / p_true < 2.0, where p_measured is reconstructed momentum and p_true is true momentum. Momentum resolution is reported in percent. The scalar score is S = S10 + S100, with S10 = -3*(95 - min(eff10,95) + max(res10,3) - 3) and S100 = -3*(95 - min(eff100,95) + max(res100,8) - 8), where eff10 and eff100 are tracking efficiencies in percent at 10 and 100 GeV, and res10 and res100 are momentum resolutions in percent at 10 and 100 GeV; designs without enough upstream/downstream stations receive an additional penalty. Compared designs include two baselines with respectively 3 and 4 equidistant tracking stations in both Region A and Region C, an RL-optimized design, and LLM-generated designs from GPT-OSS-20B, GPT-OSS-120B, GPT-5, and Gemini 2.5 Pro. Standalone LLM searches use a proposal-projection-evaluation loop for 350 proposal iterations: the LLM is prompted to return JSON arrays {z,g}, outputs are sorted, granularities are snapped to the allowed discrete set, longitudinal bounds and the global pixel budget are enforced, and required upstream/downstream coverage is ensured before simulator evaluation. Hybrid LLM+TR variants start from projected LLM proposals and apply NLOpt BOBYQA trust-region refinement for 100 consecutive objective evaluations, optimizing only station z positions while keeping all discrete granularities fixed and re-projecting candidates to enforce hard bounds, budget, and region-coverage requirements. The table reports the best-performing final design for each method; values are central values of simulated percent tracking efficiency and percent momentum resolution, with statistical uncertainties quoted in the paper but not used as target results here.",
+    "experiment_results": {
+      "baseline_design_1_10gev_tracking_efficiency_percent": {
+        "type": "float",
+        "description": "Tracking efficiency at 10 GeV for baseline spectrometer design 1 with equidistant tracking stations.",
+        "result": 88.86
+      },
+      "baseline_design_1_10gev_momentum_resolution_percent": {
+        "type": "float",
+        "description": "Momentum resolution at 10 GeV for baseline spectrometer design 1 with equidistant tracking stations.",
+        "result": 6.32
+      },
+      "baseline_design_1_100gev_tracking_efficiency_percent": {
+        "type": "float",
+        "description": "Tracking efficiency at 100 GeV for baseline spectrometer design 1 with equidistant tracking stations.",
+        "result": 98.03
+      },
+      "baseline_design_1_100gev_momentum_resolution_percent": {
+        "type": "float",
+        "description": "Momentum resolution at 100 GeV for baseline spectrometer design 1 with equidistant tracking stations.",
+        "result": 13.86
+      },
+      "baseline_design_2_10gev_tracking_efficiency_percent": {
+        "type": "float",
+        "description": "Tracking efficiency at 10 GeV for baseline spectrometer design 2 with equidistant tracking stations.",
+        "result": 93.6
+      },
+      "baseline_design_2_10gev_momentum_resolution_percent": {
+        "type": "float",
+        "description": "Momentum resolution at 10 GeV for baseline spectrometer design 2 with equidistant tracking stations.",
+        "result": 5.76
+      },
+      "baseline_design_2_100gev_tracking_efficiency_percent": {
+        "type": "float",
+        "description": "Tracking efficiency at 100 GeV for baseline spectrometer design 2 with equidistant tracking stations.",
+        "result": 99.17
+      },
+      "baseline_design_2_100gev_momentum_resolution_percent": {
+        "type": "float",
+        "description": "Momentum resolution at 100 GeV for baseline spectrometer design 2 with equidistant tracking stations.",
+        "result": 13.27
+      },
+      "rl_design_10gev_tracking_efficiency_percent": {
+        "type": "float",
+        "description": "Tracking efficiency at 10 GeV for the RL-optimized spectrometer design.",
+        "result": 100.0
+      },
+      "rl_design_10gev_momentum_resolution_percent": {
+        "type": "float",
+        "description": "Momentum resolution at 10 GeV for the RL-optimized spectrometer design.",
+        "result": 3.49
+      },
+      "rl_design_100gev_tracking_efficiency_percent": {
+        "type": "float",
+        "description": "Tracking efficiency at 100 GeV for the RL-optimized spectrometer design.",
+        "result": 99.9
+      },
+      "rl_design_100gev_momentum_resolution_percent": {
+        "type": "float",
+        "description": "Momentum resolution at 100 GeV for the RL-optimized spectrometer design.",
+        "result": 7.95
+      },
+      "gpt_oss_20b_design_10gev_tracking_efficiency_percent": {
+        "type": "float",
+        "description": "Tracking efficiency at 10 GeV for the best standalone GPT-OSS-20B-generated spectrometer design.",
+        "result": 99.91
+      },
+      "gpt_oss_20b_design_10gev_momentum_resolution_percent": {
+        "type": "float",
+        "description": "Momentum resolution at 10 GeV for the best standalone GPT-OSS-20B-generated spectrometer design.",
+        "result": 4.01
+      },
+      "gpt_oss_20b_design_100gev_tracking_efficiency_percent": {
+        "type": "float",
+        "description": "Tracking efficiency at 100 GeV for the best standalone GPT-OSS-20B-generated spectrometer design.",
+        "result": 99.81
+      },
+      "gpt_oss_20b_design_100gev_momentum_resolution_percent": {
+        "type": "float",
+        "description": "Momentum resolution at 100 GeV for the best standalone GPT-OSS-20B-generated spectrometer design.",
+        "result": 9.32
+      },
+      "gpt_oss_20b_tr_design_10gev_tracking_efficiency_percent": {
+        "type": "float",
+        "description": "Tracking efficiency at 10 GeV for the best GPT-OSS-20B spectrometer design after z-only trust-region refinement.",
+        "result": 99.94
+      },
+      "gpt_oss_20b_tr_design_10gev_momentum_resolution_percent": {
+        "type": "float",
+        "description": "Momentum resolution at 10 GeV for the best GPT-OSS-20B spectrometer design after z-only trust-region refinement.",
+        "result": 3.95
+      },
+      "gpt_oss_20b_tr_design_100gev_tracking_efficiency_percent": {
+        "type": "float",
+        "description": "Tracking efficiency at 100 GeV for the best GPT-OSS-20B spectrometer design after z-only trust-region refinement.",
+        "result": 99.91
+      },
+      "gpt_oss_20b_tr_design_100gev_momentum_resolution_percent": {
+        "type": "float",
+        "description": "Momentum resolution at 100 GeV for the best GPT-OSS-20B spectrometer design after z-only trust-region refinement.",
+        "result": 7.97
+      },
+      "gpt_oss_120b_design_10gev_tracking_efficiency_percent": {
+        "type": "float",
+        "description": "Tracking efficiency at 10 GeV for the best standalone GPT-OSS-120B-generated spectrometer design.",
+        "result": 99.58
+      },
+      "gpt_oss_120b_design_10gev_momentum_resolution_percent": {
+        "type": "float",
+        "description": "Momentum resolution at 10 GeV for the best standalone GPT-OSS-120B-generated spectrometer design.",
+        "result": 4.05
+      },
+      "gpt_oss_120b_design_100gev_tracking_efficiency_percent": {
+        "type": "float",
+        "description": "Tracking efficiency at 100 GeV for the best standalone GPT-OSS-120B-generated spectrometer design.",
+        "result": 99.76
+      },
+      "gpt_oss_120b_design_100gev_momentum_resolution_percent": {
+        "type": "float",
+        "description": "Momentum resolution at 100 GeV for the best standalone GPT-OSS-120B-generated spectrometer design.",
+        "result": 9.23
+      },
+      "gpt_oss_120b_tr_design_10gev_tracking_efficiency_percent": {
+        "type": "float",
+        "description": "Tracking efficiency at 10 GeV for the best GPT-OSS-120B spectrometer design after z-only trust-region refinement.",
+        "result": 99.95
+      },
+      "gpt_oss_120b_tr_design_10gev_momentum_resolution_percent": {
+        "type": "float",
+        "description": "Momentum resolution at 10 GeV for the best GPT-OSS-120B spectrometer design after z-only trust-region refinement.",
+        "result": 3.74
+      },
+      "gpt_oss_120b_tr_design_100gev_tracking_efficiency_percent": {
+        "type": "float",
+        "description": "Tracking efficiency at 100 GeV for the best GPT-OSS-120B spectrometer design after z-only trust-region refinement.",
+        "result": 99.87
+      },
+      "gpt_oss_120b_tr_design_100gev_momentum_resolution_percent": {
+        "type": "float",
+        "description": "Momentum resolution at 100 GeV for the best GPT-OSS-120B spectrometer design after z-only trust-region refinement.",
+        "result": 7.98
+      },
+      "gpt_5_design_10gev_tracking_efficiency_percent": {
+        "type": "float",
+        "description": "Tracking efficiency at 10 GeV for the best standalone GPT-5-generated spectrometer design.",
+        "result": 99.02
+      },
+      "gpt_5_design_10gev_momentum_resolution_percent": {
+        "type": "float",
+        "description": "Momentum resolution at 10 GeV for the best standalone GPT-5-generated spectrometer design.",
+        "result": 4.28
+      },
+      "gpt_5_design_100gev_tracking_efficiency_percent": {
+        "type": "float",
+        "description": "Tracking efficiency at 100 GeV for the best standalone GPT-5-generated spectrometer design.",
+        "result": 99.77
+      },
+      "gpt_5_design_100gev_momentum_resolution_percent": {
+        "type": "float",
+        "description": "Momentum resolution at 100 GeV for the best standalone GPT-5-generated spectrometer design.",
+        "result": 10.72
+      },
+      "gpt_5_tr_design_10gev_tracking_efficiency_percent": {
+        "type": "float",
+        "description": "Tracking efficiency at 10 GeV for the best GPT-5 spectrometer design after z-only trust-region refinement.",
+        "result": 99.11
+      },
+      "gpt_5_tr_design_10gev_momentum_resolution_percent": {
+        "type": "float",
+        "description": "Momentum resolution at 10 GeV for the best GPT-5 spectrometer design after z-only trust-region refinement.",
+        "result": 4.71
+      },
+      "gpt_5_tr_design_100gev_tracking_efficiency_percent": {
+        "type": "float",
+        "description": "Tracking efficiency at 100 GeV for the best GPT-5 spectrometer design after z-only trust-region refinement.",
+        "result": 99.78
+      },
+      "gpt_5_tr_design_100gev_momentum_resolution_percent": {
+        "type": "float",
+        "description": "Momentum resolution at 100 GeV for the best GPT-5 spectrometer design after z-only trust-region refinement.",
+        "result": 10.84
+      },
+      "gemini_2_5_pro_design_10gev_tracking_efficiency_percent": {
+        "type": "float",
+        "description": "Tracking efficiency at 10 GeV for the best standalone Gemini 2.5 Pro-generated spectrometer design.",
+        "result": 99.35
+      },
+      "gemini_2_5_pro_design_10gev_momentum_resolution_percent": {
+        "type": "float",
+        "description": "Momentum resolution at 10 GeV for the best standalone Gemini 2.5 Pro-generated spectrometer design.",
+        "result": 4.18
+      },
+      "gemini_2_5_pro_design_100gev_tracking_efficiency_percent": {
+        "type": "float",
+        "description": "Tracking efficiency at 100 GeV for the best standalone Gemini 2.5 Pro-generated spectrometer design.",
+        "result": 99.71
+      },
+      "gemini_2_5_pro_design_100gev_momentum_resolution_percent": {
+        "type": "float",
+        "description": "Momentum resolution at 100 GeV for the best standalone Gemini 2.5 Pro-generated spectrometer design.",
+        "result": 9.85
+      },
+      "gemini_2_5_pro_tr_design_10gev_tracking_efficiency_percent": {
+        "type": "float",
+        "description": "Tracking efficiency at 10 GeV for the best Gemini 2.5 Pro spectrometer design after z-only trust-region refinement.",
+        "result": 99.5
+      },
+      "gemini_2_5_pro_tr_design_10gev_momentum_resolution_percent": {
+        "type": "float",
+        "description": "Momentum resolution at 10 GeV for the best Gemini 2.5 Pro spectrometer design after z-only trust-region refinement.",
+        "result": 4.08
+      },
+      "gemini_2_5_pro_tr_design_100gev_tracking_efficiency_percent": {
+        "type": "float",
+        "description": "Tracking efficiency at 100 GeV for the best Gemini 2.5 Pro spectrometer design after z-only trust-region refinement.",
+        "result": 99.84
+      },
+      "gemini_2_5_pro_tr_design_100gev_momentum_resolution_percent": {
+        "type": "float",
+        "description": "Momentum resolution at 100 GeV for the best Gemini 2.5 Pro spectrometer design after z-only trust-region refinement.",
+        "result": 9.19
+      }
+    }
+  }
+]

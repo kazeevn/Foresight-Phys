@@ -144,6 +144,15 @@ class LangfuseRunLogger:
                         comment="Higher is better",
                     )
 
+                formula_accuracy = metrics.get("formula_accuracy")
+                if formula_accuracy is not None:
+                    generation.score(
+                        name="formula_accuracy",
+                        value=float(formula_accuracy),
+                        data_type="NUMERIC",
+                        comment="Higher is better",
+                    )
+
                 correction_payload = json.dumps(
                     item.expected_output,
                     ensure_ascii=False,
