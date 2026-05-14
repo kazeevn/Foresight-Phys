@@ -81,8 +81,8 @@ class LangfuseRunLoggerTests(unittest.TestCase):
             item,
             {
                 "prediction_quality": 0.9,
-                "smape": 0.1,
-                "normalized_smape_score": 0.9,
+                "log_accuracy": 0.1,
+                "normalized_log_accuracy_score": 0.9,
                 "bool_categorical_accuracy": 1.0,
                 "formula_accuracy": 1.0,
             },

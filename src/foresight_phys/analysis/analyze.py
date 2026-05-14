@@ -29,11 +29,17 @@ def _build_wide(scored: pd.DataFrame) -> pd.DataFrame:
     models = sorted(scored["model"].unique())
     wide = scored.pivot_table(
         index=[
-            "file_id", "experiment", "key", "type", "gt_value",
-            "result_description", "experiment_description", "leak",
+            "file_id",
+            "experiment",
+            "key",
+            "type",
+            "gt_value",
+            "result_description",
+            "experiment_description",
+            "leak",
         ],
         columns="model",
-        values=["correct", "score", "smape", "numeric_pred"],
+        values=["correct", "score", "log_accuracy", "numeric_pred"],
         aggfunc="first",
     ).reset_index()
     wide.columns = [f"{a}__{b}" if b else a for a, b in wide.columns]
@@ -55,7 +61,7 @@ def _per_model_summary(scored: pd.DataFrame) -> list[dict]:
             "n": int(len(sub)),
             "mean_score": float(sub["score"].mean()),
             "mean_correct": float(sub["correct"].mean()),
-            "numeric_smape_mean": float(sub["smape"].mean()),
+            "numeric_log_accuracy_mean": float(sub["log_accuracy"].mean()),
             "bool_categorical_accuracy": float(
                 sub.loc[sub["type"].isin(DISC_TYPES), "correct"].mean()
             ) if sub["type"].isin(DISC_TYPES).any() else None,
@@ -73,11 +79,11 @@ def _numeric_thresholds(scored: pd.DataFrame) -> list[dict]:
     ]
     out: list[dict] = []
     for m, sub in num.groupby("model"):
-        ratio = np.abs(np.log10(np.abs(sub["numeric_pred"] / sub["numeric_gt"])))
+        ratio = sub["log_accuracy"]
         out.append({
             "model": m,
             "n": int(len(sub)),
-            "frac_within_30pct": float((sub["smape"] < 0.3).mean()),
+            "frac_within_0.1_log_acc": float((ratio < 0.1).mean()),
             "frac_within_factor_2": float((ratio < np.log10(2)).mean()),
             "frac_within_decade": float((ratio < 1).mean()),
             "median_abs_log10_ratio": float(ratio.median()),
@@ -86,13 +92,12 @@ def _numeric_thresholds(scored: pd.DataFrame) -> list[dict]:
     gt = num.drop_duplicates(["file_id", "experiment", "key"])["numeric_gt"].to_numpy()
     if len(gt):
         baseline = float(np.exp(np.median(np.log(np.abs(gt)))))
-        smapes = 2 * np.abs(baseline - gt) / (np.abs(baseline) + np.abs(gt))
         ratio = np.abs(np.log10(np.abs(baseline / gt)))
         out.append({
             "model": "_constant_baseline_",
             "n": int(len(gt)),
             "constant_value": baseline,
-            "frac_within_30pct": float((smapes < 0.3).mean()),
+            "frac_within_0.1_log_acc": float((ratio < 0.1).mean()),
             "frac_within_factor_2": float((ratio < np.log10(2)).mean()),
             "frac_within_decade": float((ratio < 1).mean()),
         })

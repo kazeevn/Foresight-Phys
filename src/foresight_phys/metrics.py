@@ -48,11 +48,12 @@ def values_match(expected_value: Any, actual_value: Any) -> bool:
     return normalize_comparison_value(expected_value) == normalize_comparison_value(actual_value)
 
 
-def compute_smape(expected_numeric: float, actual_numeric: float) -> float:
-    denominator = abs(expected_numeric) + abs(actual_numeric)
-    if denominator == 0.0:
-        return 0.0
-    return 2.0 * abs(actual_numeric - expected_numeric) / denominator
+def compute_log_accuracy(expected_numeric: float, actual_numeric: float) -> float:
+    if actual_numeric == 0.0:
+        return float("inf")
+    # We use abs() on both to handle potential negative physical quantities,
+    # though they are typically positive in this benchmark.
+    return abs(math.log10(abs(actual_numeric) / abs(expected_numeric)))
 
 
 def normalize_formula_text(value: str) -> str:
@@ -196,8 +197,8 @@ def has_bool_or_categorical_targets(payload: Any) -> bool:
 
 METRIC_KEYS = (
     "prediction_quality",
-    "smape",
-    "normalized_smape_score",
+    "log_accuracy",
+    "normalized_log_accuracy_score",
     "bool_categorical_accuracy",
     "formula_accuracy",
 )
@@ -207,8 +208,8 @@ COUNT_KEYS = (
     "numeric_count",
     "nonzero_numeric_count",
     "zero_reference_numeric_count",
-    "smape_count",
-    "normalized_smape_count",
+    "log_accuracy_count",
+    "normalized_log_accuracy_count",
     "bool_categorical_count",
     "formula_count",
     "missing_predictions",
@@ -234,8 +235,8 @@ def compute_experiment_metrics(
     formula_judge: FormulaJudge | None = None,
 ) -> dict[str, Any]:
     """Compute metrics for a single experiment (one element of the payload list)."""
-    raw_smape_values: list[float] = []
-    normalized_smape_scores: list[float] = []
+    raw_log_accuracy_values: list[float] = []
+    normalized_log_accuracy_scores: list[float] = []
     classification_total = 0
     classification_correct = 0
     formula_total = 0
@@ -274,13 +275,13 @@ def compute_experiment_metrics(
 
             nonzero_numeric_count += 1
             if not actual_ok:
-                normalized_smape_scores.append(0.0)
+                normalized_log_accuracy_scores.append(0.0)
                 continue
 
-            smape = compute_smape(expected_numeric, actual_numeric)
-            normalized_score = 1.0 - min(smape, 1.0)
-            raw_smape_values.append(smape)
-            normalized_smape_scores.append(normalized_score)
+            log_acc = compute_log_accuracy(expected_numeric, actual_numeric)
+            normalized_score = 1.0 - min(log_acc, 1.0)
+            raw_log_accuracy_values.append(log_acc)
+            normalized_log_accuracy_scores.append(normalized_score)
             total_prediction_quality += normalized_score
             continue
 
@@ -308,10 +309,14 @@ def compute_experiment_metrics(
     prediction_quality = (
         total_prediction_quality / total_results if total_results else None
     )
-    smape = sum(raw_smape_values) / len(raw_smape_values) if raw_smape_values else None
-    normalized_smape_score = (
-        sum(normalized_smape_scores) / len(normalized_smape_scores)
-        if normalized_smape_scores
+    log_accuracy = (
+        sum(raw_log_accuracy_values) / len(raw_log_accuracy_values)
+        if raw_log_accuracy_values
+        else None
+    )
+    normalized_log_accuracy_score = (
+        sum(normalized_log_accuracy_scores) / len(normalized_log_accuracy_scores)
+        if normalized_log_accuracy_scores
         else None
     )
     accuracy = (
@@ -320,16 +325,16 @@ def compute_experiment_metrics(
     formula_accuracy = formula_correct / formula_total if formula_total else None
     return {
         "prediction_quality": prediction_quality,
-        "smape": smape,
-        "normalized_smape_score": normalized_smape_score,
+        "log_accuracy": log_accuracy,
+        "normalized_log_accuracy_score": normalized_log_accuracy_score,
         "bool_categorical_accuracy": accuracy,
         "formula_accuracy": formula_accuracy,
         "result_count": total_results,
         "numeric_count": numeric_count,
         "nonzero_numeric_count": nonzero_numeric_count,
         "zero_reference_numeric_count": zero_reference_numeric_count,
-        "smape_count": len(raw_smape_values),
-        "normalized_smape_count": len(normalized_smape_scores),
+        "log_accuracy_count": len(raw_log_accuracy_values),
+        "normalized_log_accuracy_count": len(normalized_log_accuracy_scores),
         "bool_categorical_count": classification_total,
         "formula_count": formula_total,
         "missing_predictions": missing,

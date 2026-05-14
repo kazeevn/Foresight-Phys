@@ -37,5 +37,6 @@ dev = [
     "matplotlib>=3.10.9",
     "pandas>=2.3.3",
     "pyarrow>=24.0.0",
+    "pytest>=9.0.3",
     "seaborn>=0.13.2",
 ]

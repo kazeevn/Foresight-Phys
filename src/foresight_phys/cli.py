@@ -165,12 +165,12 @@ def main() -> None:
             f"Aggregate prediction quality: "
             f"{summary['aggregate_prediction_quality']:.4f}"
         )
-    if summary['aggregate_smape'] is not None:
-        print(f"Aggregate raw sMAPE: {summary['aggregate_smape']:.4f}")
-    if summary['aggregate_normalized_smape_score'] is not None:
+    if summary['aggregate_log_accuracy'] is not None:
+        print(f"Aggregate log-accuracy: {summary['aggregate_log_accuracy']:.4f}")
+    if summary['aggregate_normalized_log_accuracy_score'] is not None:
         print(
-            f"Aggregate normalized sMAPE score: "
-            f"{summary['aggregate_normalized_smape_score']:.4f}"
+            f"Aggregate normalized log-accuracy score: "
+            f"{summary['aggregate_normalized_log_accuracy_score']:.4f}"
         )
     if summary['aggregate_bool_categorical_accuracy'] is not None:
         print(

@@ -3,7 +3,7 @@
 Produces a long dataframe with one row per (model, file, experiment, key). Adds:
 - ``result_type`` from the ground truth JSON
 - ``numeric_gt`` / ``numeric_pred`` (when parseable as floats)
-- ``smape`` / ``normalized_smape_score`` / ``score`` (correctness in [0, 1])
+- ``log_accuracy`` / ``normalized_log_accuracy_score`` / ``score`` (correctness in [0, 1])
 - ``correct`` (binary at the same 0.5 threshold the analysis uses)
 - ``leak`` (literal ground-truth value appears in description text)
 - ``likely_unit_off`` (factor 1e3/1e6 ratio between pred and gt)
@@ -68,28 +68,26 @@ def _parse_numeric(value) -> float | None:
             return None
 
 
-def _compute_smape(a, b) -> float | None:
+def _compute_log_accuracy(a, b) -> float | None:
     if a is None or b is None:
         return None
-    d = abs(a) + abs(b)
-    if d == 0:
-        return 0.0
-    return 2.0 * abs(a - b) / d
+    if b == 0:
+        return float("inf")
+    # We use abs() on both to handle potential negative physical quantities.
+    return abs(math.log10(abs(b) / abs(a)))
 
 
 def _score_row(row) -> float | None:
     """Replicate the per-field scoring logic in :func:`metrics.compute_experiment_metrics`."""
     t = row["type"]
-    if t in NUMERIC_TYPES or (
-        t is None and isinstance(row["gt_value"], (int, float))
-    ):
+    if t in NUMERIC_TYPES or (t is None and isinstance(row["gt_value"], (int, float))):
         if row["numeric_gt"] is None:
             return None
         if row["numeric_gt"] == 0.0:
             return 1.0 if row["numeric_pred"] == 0.0 else 0.0
         if row["numeric_pred"] is None:
             return 0.0
-        return 1.0 - min(row["smape"], 1.0)
+        return 1.0 - min(row["log_accuracy"], 1.0)
     return 1.0 if row["status_class"] == "status-match" else 0.0
 
 
@@ -135,8 +133,10 @@ def build_scored_dataset(paths: AnalysisPaths | None = None) -> pd.DataFrame:
 
     df["numeric_gt"] = df["gt_value"].apply(_parse_numeric)
     df["numeric_pred"] = df["pred"].apply(_parse_numeric)
-    df["smape"] = [_compute_smape(a, b) for a, b in zip(df.numeric_gt, df.numeric_pred)]
-    df["normalized_smape_score"] = df.smape.apply(
+    df["log_accuracy"] = [
+        _compute_log_accuracy(a, b) for a, b in zip(df.numeric_gt, df.numeric_pred)
+    ]
+    df["normalized_log_accuracy_score"] = df.log_accuracy.apply(
         lambda x: None if x is None else 1.0 - min(x, 1.0)
     )
     df["score"] = df.apply(_score_row, axis=1)

@@ -10,7 +10,7 @@ from .formula_judging import FormulaJudge
 from .metrics import (
     coerce_numeric,
     compute_file_metrics,
-    compute_smape,
+    compute_log_accuracy,
     is_formula_result,
     is_numeric_result,
     judge_formula_values,
@@ -67,8 +67,10 @@ def write_runs_index(*, docs_dir: Path, latest_run_name: str | None = None) -> N
                 'model': summary.get('model'),
                 'files_evaluated': summary.get('files_evaluated'),
                 'aggregate_prediction_quality': summary.get('aggregate_prediction_quality'),
-                'aggregate_smape': summary.get('aggregate_smape'),
-                'aggregate_normalized_smape_score': summary.get('aggregate_normalized_smape_score'),
+                'aggregate_log_accuracy': summary.get('aggregate_log_accuracy'),
+                'aggregate_normalized_log_accuracy_score': summary.get(
+                    'aggregate_normalized_log_accuracy_score'
+                ),
                 'summary_href': f'{run_dir.name}/benchmark_results.json' if summary_path.exists() else None,
                 'report_href': f'{run_dir.name}/benchmark_human_readable_report.html' if report_path.exists() else None,
                 'updated_at': max(timestamps),
@@ -117,10 +119,10 @@ def write_runs_index(*, docs_dir: Path, latest_run_name: str | None = None) -> N
                     f'<dd>{html.escape(files_text)}</dd></div>',
                     '<div><dt>Prediction Quality</dt>'
                     f'<dd>{html.escape(format_metric_value(run["aggregate_prediction_quality"]))}</dd></div>',
-                    '<div><dt>Raw sMAPE</dt>'
-                    f'<dd>{html.escape(format_metric_value(run["aggregate_smape"]))}</dd></div>',
-                    '<div><dt>Normalized sMAPE</dt>'
-                    f'<dd>{html.escape(format_metric_value(run["aggregate_normalized_smape_score"]))}</dd></div>',
+                    '<div><dt>Log-Accuracy</dt>'
+                    f'<dd>{html.escape(format_metric_value(run["aggregate_log_accuracy"]))}</dd></div>',
+                    '<div><dt>Normalized Log-Accuracy</dt>'
+                    f'<dd>{html.escape(format_metric_value(run["aggregate_normalized_log_accuracy_score"]))}</dd></div>',
                     '<div><dt>Updated</dt>'
                     f'<dd>{html.escape(format_timestamp(run["updated_at"]))}</dd></div>',
                     '</dl>',
@@ -325,8 +327,8 @@ def write_human_readable_report(
     output_path: Path,
     model: str,
     aggregate_prediction_quality: float | None,
-    aggregate_smape: float | None,
-    aggregate_normalized_smape_score: float | None,
+    aggregate_log_accuracy: float | None,
+    aggregate_normalized_log_accuracy_score: float | None,
     aggregate_bool_categorical_accuracy: float | None,
     aggregate_formula_accuracy: float | None,
     formula_judge: FormulaJudge | None = None,
@@ -369,10 +371,10 @@ def write_human_readable_report(
             f'<div class="metric-chip"><span class="metric-label">Prediction Quality</span><span class="metric-value">{html.escape(format_metric_value(metrics.get("prediction_quality")))}</span></div>'
         )
         section_parts.append(
-            f'<div class="metric-chip"><span class="metric-label">Raw sMAPE</span><span class="metric-value">{html.escape(format_metric_value(metrics.get("smape")))}</span></div>'
+            f'<div class="metric-chip"><span class="metric-label">Log-Accuracy</span><span class="metric-value">{html.escape(format_metric_value(metrics.get("log_accuracy")))}</span></div>'
         )
         section_parts.append(
-            f'<div class="metric-chip"><span class="metric-label">Normalized sMAPE Score</span><span class="metric-value">{html.escape(format_metric_value(metrics.get("normalized_smape_score")))}</span></div>'
+            f'<div class="metric-chip"><span class="metric-label">Normalized Log-Accuracy Score</span><span class="metric-value">{html.escape(format_metric_value(metrics.get("normalized_log_accuracy_score")))}</span></div>'
         )
         section_parts.append(
             f'<div class="metric-chip"><span class="metric-label">Bool/Categorical Accuracy</span><span class="metric-value">{html.escape(format_metric_value(metrics.get("bool_categorical_accuracy")))}</span></div>'
@@ -430,11 +432,11 @@ def write_human_readable_report(
                         status_class = 'status-match' if zero_match else 'status-mismatch'
                     elif expected_ok:
                         if actual_ok:
-                            smape = compute_smape(expected_numeric, actual_numeric)
-                            status_text = f'sMAPE {smape:.4f}'
+                            log_acc = compute_log_accuracy(expected_numeric, actual_numeric)
+                            status_text = f'Log-Acc {log_acc:.4f}'
                             status_class = 'status-numeric'
                         else:
-                            status_text = 'sMAPE n/a'
+                            status_text = 'Log-Acc n/a'
                             status_class = 'status-mismatch'
                     else:
                         match = values_match(expected_value, actual_value)
@@ -630,8 +632,8 @@ def write_human_readable_report(
         <div class="meta">Generated: {html.escape(generated_at_utc)}</div>
         <div class="meta">Files: {len(items)}</div>
         <div class="meta">Aggregate prediction quality: {format_metric_value(aggregate_prediction_quality)}</div>
-        <div class="meta">Aggregate raw sMAPE: {format_metric_value(aggregate_smape)}</div>
-        <div class="meta">Aggregate normalized sMAPE score: {format_metric_value(aggregate_normalized_smape_score)}</div>
+        <div class="meta">Aggregate log-accuracy: {format_metric_value(aggregate_log_accuracy)}</div>
+        <div class="meta">Aggregate normalized log-accuracy score: {format_metric_value(aggregate_normalized_log_accuracy_score)}</div>
         <div class="meta">Aggregate bool/categorical accuracy: {format_metric_value(aggregate_bool_categorical_accuracy)}</div>
         <div class="meta">Aggregate formula accuracy: {format_metric_value(aggregate_formula_accuracy)}</div>
     </div>

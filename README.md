@@ -124,15 +124,15 @@ For each JSON file, the benchmark pipeline:
 Per file, the benchmark computes:
 
 - `prediction_quality`: average score across all result fields
-- `smape`: average raw symmetric mean absolute percentage error for numeric
+- `log_accuracy`: average `abs(log10(predicted/ground_truth))` for numeric
 	predictions with nonzero reference values
-- `normalized_smape_score`: average of `1 - min(sMAPE, 1)` for numeric
+- `normalized_log_accuracy_score`: average of `1 - min(log_accuracy, 1)` for numeric
 	predictions with nonzero reference values
 - `bool_categorical_accuracy`: accuracy over boolean and categorical fields
 - `formula_accuracy`: accuracy over formula fields, judged by `gpt-5.4-nano`
 
 Numeric results with zero-valued references still affect `prediction_quality`,
-but they are excluded from the aggregate sMAPE calculations.
+but they are excluded from the aggregate log-accuracy calculations.
 
 The summary JSON also includes counts such as total result fields,
 classification fields, numeric fields, formula fields, and missing predictions

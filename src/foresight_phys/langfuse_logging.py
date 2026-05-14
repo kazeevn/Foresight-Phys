@@ -166,20 +166,22 @@ class LangfuseRunLogger:
                             comment="Higher is better",
                         )
 
-                    smape = metrics.get("smape")
-                    if smape is not None:
+                    log_accuracy = metrics.get("log_accuracy")
+                    if log_accuracy is not None:
                         generation.score(
-                            name="smape",
-                            value=float(smape),
+                            name="log_accuracy",
+                            value=float(log_accuracy),
                             data_type="NUMERIC",
                             comment="Lower is better",
                         )
 
-                    normalized_smape_score = metrics.get("normalized_smape_score")
-                    if normalized_smape_score is not None:
+                    normalized_log_accuracy_score = metrics.get(
+                        "normalized_log_accuracy_score"
+                    )
+                    if normalized_log_accuracy_score is not None:
                         generation.score(
-                            name="normalized_smape_score",
-                            value=float(normalized_smape_score),
+                            name="normalized_log_accuracy_score",
+                            value=float(normalized_log_accuracy_score),
                             data_type="NUMERIC",
                             comment="Higher is better",
                         )

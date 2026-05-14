@@ -57,8 +57,10 @@ def run_benchmark(args: argparse.Namespace) -> dict[str, Any]:
         )
 
     aggregate_prediction_quality = average_metric(rows, 'prediction_quality')
-    aggregate_smape = average_metric(rows, 'smape')
-    aggregate_normalized_smape_score = average_metric(rows, 'normalized_smape_score')
+    aggregate_log_accuracy = average_metric(rows, 'log_accuracy')
+    aggregate_normalized_log_accuracy_score = average_metric(
+        rows, 'normalized_log_accuracy_score'
+    )
     aggregate_bool_categorical_accuracy = average_metric(
         rows,
         'bool_categorical_accuracy',
@@ -71,8 +73,8 @@ def run_benchmark(args: argparse.Namespace) -> dict[str, Any]:
         'max_workers': args.max_workers,
         'files_evaluated': len(rows),
         'aggregate_prediction_quality': aggregate_prediction_quality,
-        'aggregate_smape': aggregate_smape,
-        'aggregate_normalized_smape_score': aggregate_normalized_smape_score,
+        'aggregate_log_accuracy': aggregate_log_accuracy,
+        'aggregate_normalized_log_accuracy_score': aggregate_normalized_log_accuracy_score,
         'aggregate_bool_categorical_accuracy': aggregate_bool_categorical_accuracy,
         'aggregate_formula_accuracy': aggregate_formula_accuracy,
         'formula_judge_model': FORMULA_JUDGE_MODEL,
@@ -89,8 +91,8 @@ def run_benchmark(args: argparse.Namespace) -> dict[str, Any]:
             output_path=Path(args.html_output),
             model=args.model,
             aggregate_prediction_quality=aggregate_prediction_quality,
-            aggregate_smape=aggregate_smape,
-            aggregate_normalized_smape_score=aggregate_normalized_smape_score,
+            aggregate_log_accuracy=aggregate_log_accuracy,
+            aggregate_normalized_log_accuracy_score=aggregate_normalized_log_accuracy_score,
             aggregate_bool_categorical_accuracy=aggregate_bool_categorical_accuracy,
             aggregate_formula_accuracy=aggregate_formula_accuracy,
             formula_judge=formula_judge,

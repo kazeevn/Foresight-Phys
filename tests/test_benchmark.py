@@ -151,13 +151,18 @@ class RunBenchmarkTests(unittest.TestCase):
 
         self.assertEqual(summary["files_evaluated"], 2)
         self.assertAlmostEqual(summary["aggregate_prediction_quality"], 0.5)
-        self.assertAlmostEqual(summary["aggregate_smape"], 1.0)
-        self.assertAlmostEqual(summary["aggregate_normalized_smape_score"], 0.5)
+        self.assertEqual(summary["aggregate_log_accuracy"], float("inf"))
+        self.assertAlmostEqual(summary["aggregate_normalized_log_accuracy_score"], 0.5)
         self.assertAlmostEqual(summary["aggregate_bool_categorical_accuracy"], 0.5)
         self.assertAlmostEqual(summary["aggregate_formula_accuracy"], 1.0)
 
-        self.assertEqual(written_summary["aggregate_prediction_quality"], summary["aggregate_prediction_quality"])
-        self.assertEqual(written_summary["aggregate_smape"], summary["aggregate_smape"])
+        self.assertEqual(
+            written_summary["aggregate_prediction_quality"],
+            summary["aggregate_prediction_quality"],
+        )
+        self.assertEqual(
+            written_summary["aggregate_log_accuracy"], summary["aggregate_log_accuracy"]
+        )
 
     def test_run_benchmark_updates_docs_index(self) -> None:
         paper = BenchmarkItem(
@@ -254,8 +259,8 @@ class ReportingTests(unittest.TestCase):
                 output_path=report_path,
                 model="gpt-5.4-nano",
                 aggregate_prediction_quality=1.0,
-                aggregate_smape=0.0,
-                aggregate_normalized_smape_score=1.0,
+                aggregate_log_accuracy=0.0,
+                aggregate_normalized_log_accuracy_score=1.0,
                 aggregate_bool_categorical_accuracy=None,
                 aggregate_formula_accuracy=None,
             )
@@ -277,8 +282,8 @@ class ReportingTests(unittest.TestCase):
                         "model": "gpt-5.4-nano",
                         "files_evaluated": 3,
                         "aggregate_prediction_quality": 0.625,
-                        "aggregate_smape": 0.75,
-                        "aggregate_normalized_smape_score": 0.25,
+                        "aggregate_log_accuracy": 0.75,
+                        "aggregate_normalized_log_accuracy_score": 0.25,
                     }
                 ),
                 encoding="utf-8",
@@ -297,8 +302,8 @@ class ReportingTests(unittest.TestCase):
                         "model": "gpt-5.4-mini",
                         "files_evaluated": 5,
                         "aggregate_prediction_quality": 0.875,
-                        "aggregate_smape": 0.125,
-                        "aggregate_normalized_smape_score": 0.875,
+                        "aggregate_log_accuracy": 0.125,
+                        "aggregate_normalized_log_accuracy_score": 0.875,
                     }
                 ),
                 encoding="utf-8",

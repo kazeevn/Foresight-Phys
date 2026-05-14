@@ -79,10 +79,10 @@ def fig_aggregate(scored: pd.DataFrame) -> plt.Figure:
         "Overall score\n(prediction_quality)": [
             scored.loc[scored.model == m, "score"].mean() for m in models
         ],
-        "Numeric normalized\nsMAPE score": [
+        "Numeric normalized\nlog-accuracy score": [
             scored.loc[
                 (scored.model == m) & scored["type"].isin(NUMERIC_TYPES),
-                "normalized_smape_score",
+                "normalized_log_accuracy_score",
             ].mean()
             for m in models
         ],
@@ -165,20 +165,19 @@ def fig_thresholds(scored: pd.DataFrame) -> plt.Figure:
     gt = num.drop_duplicates(["file_id", "experiment", "key"])["numeric_gt"].to_numpy()
     baseline = float(np.exp(np.median(np.log(np.abs(gt))))) if len(gt) else 1.0
 
-    metric_labels = ["within ±30%", "within ×2", "within decade"]
+    metric_labels = ["within 0.1 dex", "within ×2", "within decade"]
     bars = {}
     for m in models:
         sub = num[num.model == m]
-        lr = np.abs(np.log10(np.abs(sub.numeric_pred / sub.numeric_gt)))
+        lr = sub.log_accuracy
         bars[m] = [
-            float((sub.smape < 0.3).mean()),
+            float((lr < 0.1).mean()),
             float((lr < np.log10(2)).mean()),
             float((lr < 1).mean()),
         ]
     lr = np.abs(np.log10(np.abs(baseline / gt)))
-    smapes = 2 * np.abs(baseline - gt) / (np.abs(baseline) + np.abs(gt))
     bars["const baseline"] = [
-        float((smapes < 0.3).mean()),
+        float((lr < 0.1).mean()),
         float((lr < np.log10(2)).mean()),
         float((lr < 1).mean()),
     ]
@@ -216,7 +215,7 @@ def fig_log_ratio_cdf(scored: pd.DataFrame) -> plt.Figure:
     fig, ax = plt.subplots(figsize=(7, 5))
     for m in models:
         sub = num[num.model == m]
-        r = np.sort(np.abs(np.log10(np.abs(sub.numeric_pred / sub.numeric_gt))).to_numpy())
+        r = np.sort(sub.log_accuracy.to_numpy())
         cdf = np.arange(1, len(r) + 1) / len(r)
         ax.plot(r, cdf, label=_nice_label(m), color=palette[m], lw=2)
     r = np.sort(np.abs(np.log10(np.abs(baseline / gt))))
