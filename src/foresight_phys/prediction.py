@@ -6,16 +6,55 @@ from pathlib import Path
 from typing import Any
 
 from openai import APIConnectionError, APITimeoutError, InternalServerError, OpenAI, RateLimitError
+from pydantic import BaseModel
 from tenacity import retry, retry_if_exception_type, stop_after_attempt, wait_random_exponential
 from tqdm import tqdm
 
 from .cache import PredictionCache
 from .json_payloads import (
+    build_prediction_format_signature,
     build_masked_payload,
     build_prediction_cache_key,
-    build_prediction_response_format,
+    build_prediction_text_format,
 )
-from .models import BenchmarkItem
+from .models import BenchmarkItem, BenchmarkPredictionEnvelope
+
+
+def extract_refusal_text(response: Any) -> str | None:
+    try:
+        for item in response.output:
+            for part in item.content:
+                refusal = getattr(part, 'refusal', None)
+                if getattr(part, 'type', None) == 'refusal' and isinstance(refusal, str):
+                    return refusal
+    except (AttributeError, TypeError):
+        return None
+    return None
+
+
+def normalize_prediction_payload(parsed: BenchmarkPredictionEnvelope) -> list[dict[str, Any]]:
+    payload: list[dict[str, Any]] = []
+    for experiment in parsed.payload:
+        experiment_results: dict[str, Any] = {}
+        for result_field in experiment.experiment_results:
+            if result_field.key in experiment_results:
+                raise ValueError(
+                    f"Structured prediction output repeated result key: {result_field.key}"
+                )
+            experiment_results[result_field.key] = result_field.model_dump(
+                mode='json',
+                exclude_none=True,
+                exclude={'key'},
+            )
+
+        payload.append(
+            {
+                'experiment_description': experiment.experiment_description,
+                'experiment_results': experiment_results,
+            }
+        )
+
+    return payload
 
 
 @retry(
@@ -30,44 +69,38 @@ def call_openai_with_retry(
     model: str,
     system_prompt: str,
     masked_payload: Any,
-    response_format: dict[str, Any],
+    text_format: type[BaseModel],
 ) -> Any:
     client = OpenAI()
     user_prompt = (
         "Fill all TO_PREDICT values with your best predictions. "
-        "Return the completed JSON in exactly the required schema under the key 'payload'.\n\n"
+        "Return the completed JSON in exactly the required schema under the key 'payload'. "
+        "For each experiment, return experiment_results as a list of result objects with "
+        "the fields key, type, description, result, and allowed_categorial_values. "
+        "Use null for allowed_categorial_values when it does not apply.\n\n"
         f"{json.dumps(masked_payload, ensure_ascii=False, indent=2)}"
     )
 
-    response = client.responses.create(
+    response = client.responses.parse(
         model=model,
         input=[
             {"role": "system", "content": [{"type": "input_text", "text": system_prompt}]},
             {"role": "user", "content": [{"type": "input_text", "text": user_prompt}]},
         ],
-        text={"format": response_format},
+        text_format=text_format,
     )
 
-    content = getattr(response, "output_text", "")
-    if not content:
-        try:
-            for item in response.output:
-                for part in item.content:
-                    if getattr(part, "type", None) == "output_text" and getattr(part, "text", None):
-                        content = part.text
-                        break
-                if content:
-                    break
-        except (AttributeError, TypeError):
-            pass
+    parsed = getattr(response, 'output_parsed', None)
+    if not isinstance(parsed, text_format):
+        refusal = extract_refusal_text(response)
+        if refusal:
+            raise ValueError(f'OpenAI refused prediction request: {refusal}')
+        raise ValueError('OpenAI structured output parsing did not return the prediction payload.')
 
-    if not content:
-        raise ValueError("Model returned an empty structured output.")
+    if not isinstance(parsed, BenchmarkPredictionEnvelope):
+        raise ValueError('Prediction parser returned an unexpected payload model.')
 
-    parsed = json.loads(content)
-    if not isinstance(parsed, dict) or "payload" not in parsed:
-        raise ValueError("Structured output did not contain required 'payload' key.")
-    return parsed["payload"]
+    return normalize_prediction_payload(parsed)
 
 
 def build_benchmark_items(
@@ -83,17 +116,18 @@ def build_benchmark_items(
     if max_files is not None:
         json_paths = json_paths[:max_files]
 
+    text_format = build_prediction_text_format()
+    format_signature = build_prediction_format_signature()
     items_by_file: dict[str, BenchmarkItem] = {}
-    tasks: list[tuple[str, Any, Any, dict[str, Any], str]] = []
+    tasks: list[tuple[str, Any, Any, str]] = []
     for json_path in json_paths:
-        ground_truth = json.loads(json_path.read_text(encoding="utf-8"))
+        ground_truth = json.loads(json_path.read_text(encoding='utf-8'))
         masked_payload = build_masked_payload(ground_truth)
-        response_format = build_prediction_response_format(ground_truth)
         cache_key = build_prediction_cache_key(
             model=model,
             system_prompt=system_prompt,
             masked_payload=masked_payload,
-            response_format=response_format,
+            response_format=format_signature,
         )
 
         cached_prediction = prediction_cache.get(cache_key)
@@ -106,7 +140,7 @@ def build_benchmark_items(
             )
             continue
 
-        tasks.append((json_path.name, masked_payload, ground_truth, response_format, cache_key))
+        tasks.append((json_path.name, masked_payload, ground_truth, cache_key))
 
     if not tasks:
         return [items_by_file[path.name] for path in json_paths]
@@ -118,9 +152,9 @@ def build_benchmark_items(
                 model=model,
                 system_prompt=system_prompt,
                 masked_payload=masked_payload,
-                response_format=response_format,
+                text_format=text_format,
             ): (file_name, masked_payload, ground_truth, cache_key)
-            for file_name, masked_payload, ground_truth, response_format, cache_key in tasks
+            for file_name, masked_payload, ground_truth, cache_key in tasks
         }
 
         with tqdm(total=len(futures), desc="Predicting", unit="file") as progress:

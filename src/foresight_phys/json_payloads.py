@@ -6,6 +6,7 @@ import json
 from typing import Any
 
 from .constants import TO_PREDICT_TOKEN
+from .models import BenchmarkPredictionEnvelope
 
 
 def iter_result_paths(node: Any, path: tuple[Any, ...] = ()):
@@ -49,69 +50,12 @@ def build_masked_payload(ground_truth: Any) -> Any:
     return masked
 
 
-def scalar_schema(value: Any) -> dict[str, Any]:
-    if isinstance(value, bool):
-        return {"type": "boolean"}
-    if isinstance(value, int) and not isinstance(value, bool):
-        return {"type": "integer"}
-    if isinstance(value, float):
-        return {"type": "number"}
-    if isinstance(value, str):
-        return {"type": "string"}
-    if value is None:
-        return {"type": "null"}
-    return {}
+def build_prediction_text_format() -> type[BenchmarkPredictionEnvelope]:
+    return BenchmarkPredictionEnvelope
 
 
-def build_json_schema_from_example(example: Any) -> dict[str, Any]:
-    if isinstance(example, dict):
-        properties: dict[str, Any] = {}
-        required: list[str] = []
-        for key, value in example.items():
-            properties[key] = build_json_schema_from_example(value)
-            required.append(key)
-        return {
-            "type": "object",
-            "properties": properties,
-            "required": required,
-            "additionalProperties": False,
-        }
-
-    if isinstance(example, list):
-        if not example:
-            return {"type": "array", "items": {}}
-
-        item_schemas = [build_json_schema_from_example(item) for item in example]
-        unique_item_schemas = list(
-            {json.dumps(schema, sort_keys=True): schema for schema in item_schemas}.values()
-        )
-        items_schema = (
-            unique_item_schemas[0]
-            if len(unique_item_schemas) == 1
-            else {"anyOf": unique_item_schemas}
-        )
-        return {
-            "type": "array",
-            "items": items_schema,
-        }
-
-    return scalar_schema(example)
-
-
-def build_prediction_response_format(ground_truth: Any) -> dict[str, Any]:
-    payload_schema = build_json_schema_from_example(ground_truth)
-    schema = {
-        "type": "object",
-        "properties": {"payload": payload_schema},
-        "required": ["payload"],
-        "additionalProperties": False,
-    }
-    return {
-        "type": "json_schema",
-        "name": "experiment_predictions",
-        "strict": True,
-        "schema": schema,
-    }
+def build_prediction_format_signature() -> dict[str, Any]:
+    return BenchmarkPredictionEnvelope.model_json_schema()
 
 
 def build_prediction_cache_key(
