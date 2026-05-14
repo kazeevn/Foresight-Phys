@@ -325,7 +325,7 @@ def main() -> None:
 
     for paper_url, arxiv_id in paper_request_iterator:
         if progress_bar is not None:
-            progress_bar.set_postfix({'arXiv': arxiv_id}, refresh=False)
+            progress_bar.set_postfix({'arXiv': arxiv_id})
         results.append(
             extract_single_url(
                 paper_url=paper_url,
