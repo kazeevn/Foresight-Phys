@@ -57,6 +57,20 @@ def normalize_prediction_payload(parsed: BenchmarkPredictionEnvelope) -> list[di
     return payload
 
 
+def ensure_experiment_list(payload: Any) -> list[Any]:
+    if isinstance(payload, list):
+        return payload
+    return [payload]
+
+
+def restore_payload_shape(*, experiments: list[Any], original_payload: Any) -> Any:
+    if isinstance(original_payload, list):
+        return experiments
+    if not experiments:
+        return {}
+    return experiments[0]
+
+
 def should_skip_benchmark_payload(payload: Any) -> bool:
     return isinstance(payload, list) and len(payload) == 0
 
@@ -79,7 +93,8 @@ def call_openai_with_retry(
     user_prompt = (
         "Fill all TO_PREDICT values with your best predictions. "
         "Return the completed JSON in exactly the required schema under the key 'payload'. "
-        "For each experiment, return experiment_results as a list of result objects with "
+        "Return exactly one experiment in payload. "
+        "For that experiment, return experiment_results as a list of result objects with "
         "the fields key, type, description, result, and allowed_categorial_values. "
         "Use null for allowed_categorial_values when it does not apply.\n\n"
         f"{json.dumps(masked_payload, ensure_ascii=False, indent=2)}"
@@ -116,67 +131,99 @@ def build_benchmark_items(
     max_workers: int,
     prediction_cache: PredictionCache,
 ) -> list[BenchmarkItem]:
-    benchmark_sources: list[tuple[Path, Any]] = []
+    benchmark_sources: list[tuple[Path, Any, Any]] = []
     for json_path in sorted(json_dir.glob("*.json")):
         ground_truth = json.loads(json_path.read_text(encoding='utf-8'))
         if should_skip_benchmark_payload(ground_truth):
             continue
-        benchmark_sources.append((json_path, ground_truth))
+        benchmark_sources.append((json_path, ground_truth, build_masked_payload(ground_truth)))
 
     if max_files is not None:
         benchmark_sources = benchmark_sources[:max_files]
 
     text_format = build_prediction_text_format()
     format_signature = build_prediction_format_signature()
-    items_by_file: dict[str, BenchmarkItem] = {}
-    tasks: list[tuple[str, Any, Any, str]] = []
-    for json_path, ground_truth in benchmark_sources:
-        masked_payload = build_masked_payload(ground_truth)
-        cache_key = build_prediction_cache_key(
-            model=model,
-            system_prompt=system_prompt,
-            masked_payload=masked_payload,
-            response_format=format_signature,
-        )
+    predicted_experiments_by_file: dict[str, list[Any]] = {}
+    tasks: list[tuple[str, int, Any, str]] = []
+    for json_path, ground_truth, masked_payload in benchmark_sources:
+        expected_experiments = ensure_experiment_list(ground_truth)
+        masked_experiments = ensure_experiment_list(masked_payload)
+        if len(masked_experiments) != len(expected_experiments):
+            raise ValueError(
+                f'Benchmark payload shape mismatch for {json_path.name}: '
+                f'{len(masked_experiments)} masked experiments vs '
+                f'{len(expected_experiments)} expected experiments.'
+            )
 
-        cached_prediction = prediction_cache.get(cache_key)
-        if cached_prediction is not None:
-            items_by_file[json_path.name] = BenchmarkItem(
+        predicted_experiments = [None] * len(expected_experiments)
+        predicted_experiments_by_file[json_path.name] = predicted_experiments
+
+        for experiment_index, masked_experiment in enumerate(masked_experiments):
+            cache_key = build_prediction_cache_key(
+                model=model,
+                system_prompt=system_prompt,
+                masked_payload=[masked_experiment],
+                response_format=format_signature,
+            )
+
+            cached_prediction = prediction_cache.get(cache_key)
+            if cached_prediction is not None:
+                predicted_experiments[experiment_index] = cached_prediction
+                continue
+
+            tasks.append((json_path.name, experiment_index, masked_experiment, cache_key))
+
+    if tasks:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
+            futures = {
+                executor.submit(
+                    call_openai_with_retry,
+                    model=model,
+                    system_prompt=system_prompt,
+                    masked_payload=[masked_experiment],
+                    text_format=text_format,
+                ): (file_name, experiment_index, cache_key)
+                for file_name, experiment_index, masked_experiment, cache_key in tasks
+            }
+
+            with tqdm(total=len(futures), desc="Predicting", unit="experiment") as progress:
+                for future in concurrent.futures.as_completed(futures):
+                    file_name, experiment_index, cache_key = futures[future]
+                    predicted_json = future.result()
+                    if len(predicted_json) != 1:
+                        raise ValueError(
+                            f'Expected exactly one experiment prediction for {file_name} '
+                            f'experiment {experiment_index}, got {len(predicted_json)}.'
+                        )
+
+                    predicted_experiment = predicted_json[0]
+                    predicted_experiments_by_file[file_name][experiment_index] = predicted_experiment
+                    prediction_cache.set(cache_key, predicted_experiment)
+                    progress.update(1)
+
+    items: list[BenchmarkItem] = []
+    for json_path, ground_truth, masked_payload in benchmark_sources:
+        predicted_experiments = predicted_experiments_by_file[json_path.name]
+        missing_experiments = [
+            experiment_index
+            for experiment_index, prediction in enumerate(predicted_experiments)
+            if prediction is None
+        ]
+        if missing_experiments:
+            raise ValueError(
+                f'Missing predictions for {json_path.name} experiments {missing_experiments}.'
+            )
+
+        items.append(
+            BenchmarkItem(
                 file_name=json_path.name,
                 masked_input=masked_payload,
                 expected_output=ground_truth,
-                actual_output=cached_prediction,
+                actual_output=restore_payload_shape(
+                    experiments=predicted_experiments,
+                    original_payload=ground_truth,
+                ),
             )
-            continue
+        )
 
-        tasks.append((json_path.name, masked_payload, ground_truth, cache_key))
-
-    if not tasks:
-        return [items_by_file[path.name] for path, _ in benchmark_sources]
-
-    with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
-        futures = {
-            executor.submit(
-                call_openai_with_retry,
-                model=model,
-                system_prompt=system_prompt,
-                masked_payload=masked_payload,
-                text_format=text_format,
-            ): (file_name, masked_payload, ground_truth, cache_key)
-            for file_name, masked_payload, ground_truth, cache_key in tasks
-        }
-
-        with tqdm(total=len(futures), desc="Predicting", unit="file") as progress:
-            for future in concurrent.futures.as_completed(futures):
-                file_name, masked_payload, ground_truth, cache_key = futures[future]
-                predicted_json = future.result()
-                items_by_file[file_name] = BenchmarkItem(
-                    file_name=file_name,
-                    masked_input=masked_payload,
-                    expected_output=ground_truth,
-                    actual_output=predicted_json,
-                )
-                prediction_cache.set(cache_key, predicted_json)
-                progress.update(1)
-
-    return [items_by_file[path.name] for path, _ in benchmark_sources]
+    return items

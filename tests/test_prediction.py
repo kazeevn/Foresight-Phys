@@ -141,6 +141,144 @@ class PredictionCallTests(unittest.TestCase):
         self.assertEqual([item.file_name for item in items], ['paper.json'])
         call_openai.assert_called_once()
 
+    def test_build_benchmark_items_calls_model_once_per_experiment(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            json_dir = Path(tmp_dir)
+            (json_dir / 'paper.json').write_text(
+                json.dumps(
+                    [
+                        {
+                            'experiment_description': 'Experiment one',
+                            'experiment_results': {
+                                'bandgap_eV': {
+                                    'type': 'float',
+                                    'description': 'Measured bandgap',
+                                    'result': 1.23,
+                                }
+                            },
+                        },
+                        {
+                            'experiment_description': 'Experiment two',
+                            'experiment_results': {
+                                'phase': {
+                                    'type': 'categorical',
+                                    'description': 'Observed phase',
+                                    'result': 'solid',
+                                    'allowed_categorial_values': ['solid', 'liquid'],
+                                }
+                            },
+                        },
+                    ]
+                ),
+                encoding='utf-8',
+            )
+
+            prediction_cache = PredictionCache(
+                enabled=False,
+                path=json_dir / 'cache.json',
+                entries={},
+            )
+
+            with patch(
+                'foresight_phys.prediction.call_openai_with_retry',
+                side_effect=[
+                    [
+                        {
+                            'experiment_description': 'Experiment one',
+                            'experiment_results': {
+                                'bandgap_eV': {
+                                    'type': 'float',
+                                    'description': 'Measured bandgap',
+                                    'result': 1.5,
+                                }
+                            },
+                        }
+                    ],
+                    [
+                        {
+                            'experiment_description': 'Experiment two',
+                            'experiment_results': {
+                                'phase': {
+                                    'type': 'categorical',
+                                    'description': 'Observed phase',
+                                    'result': 'liquid',
+                                    'allowed_categorial_values': ['solid', 'liquid'],
+                                }
+                            },
+                        }
+                    ],
+                ],
+            ) as call_openai:
+                items = build_benchmark_items(
+                    json_dir=json_dir,
+                    system_prompt='Predict outcomes.',
+                    model='gpt-5.4-nano',
+                    max_files=None,
+                    max_workers=1,
+                    prediction_cache=prediction_cache,
+                )
+
+        self.assertEqual(call_openai.call_count, 2)
+        self.assertEqual(len(items), 1)
+        self.assertEqual(items[0].file_name, 'paper.json')
+        self.assertEqual(
+            call_openai.call_args_list[0].kwargs['masked_payload'],
+            [
+                {
+                    'experiment_description': 'Experiment one',
+                    'experiment_results': {
+                        'bandgap_eV': {
+                            'type': 'float',
+                            'description': 'Measured bandgap',
+                            'result': 'TO_PREDICT',
+                        }
+                    },
+                }
+            ],
+        )
+        self.assertEqual(
+            call_openai.call_args_list[1].kwargs['masked_payload'],
+            [
+                {
+                    'experiment_description': 'Experiment two',
+                    'experiment_results': {
+                        'phase': {
+                            'type': 'categorical',
+                            'description': 'Observed phase',
+                            'result': 'TO_PREDICT',
+                            'allowed_categorial_values': ['solid', 'liquid'],
+                        }
+                    },
+                }
+            ],
+        )
+        self.assertEqual(
+            items[0].actual_output,
+            [
+                {
+                    'experiment_description': 'Experiment one',
+                    'experiment_results': {
+                        'bandgap_eV': {
+                            'type': 'float',
+                            'description': 'Measured bandgap',
+                            'result': 1.5,
+                        }
+                    },
+                },
+                {
+                    'experiment_description': 'Experiment two',
+                    'experiment_results': {
+                        'phase': {
+                            'type': 'categorical',
+                            'description': 'Observed phase',
+                            'result': 'liquid',
+                            'allowed_categorial_values': ['solid', 'liquid'],
+                        }
+                    },
+                },
+            ],
+        )
+
 
 class PredictionCachePersistenceTests(unittest.TestCase):
     def test_set_persists_entries_without_explicit_flush(self) -> None:

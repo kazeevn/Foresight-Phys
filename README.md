@@ -111,10 +111,11 @@ For each JSON file, the benchmark pipeline:
 
 1. Loads the ground-truth experiment JSON.
 2. Replaces every `experiment_results.*.result` value with `"TO_PREDICT"`.
-3. Sends the system prompt from `src/foresight_phys/system_prompt.txt` and the
-	 masked JSON payload to the OpenAI Responses API.
+3. Splits the masked payload into one LLM request per experiment and sends each
+	 experiment with the system prompt from `src/foresight_phys/system_prompt.txt`
+	 to the OpenAI Responses API.
 4. Runs requests in parallel with retry and exponential backoff.
-5. Reuses cached predictions when available and persists each new prediction to the shared cache as soon as it completes.
+5. Reuses cached experiment predictions when available and persists each new prediction to the shared cache as soon as it completes.
 6. Compares predicted results against the reference JSON.
 7. Writes a machine-readable JSON summary and an offline HTML report.
 
