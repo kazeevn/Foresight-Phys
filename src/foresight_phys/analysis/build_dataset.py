@@ -5,7 +5,6 @@ Produces a long dataframe with one row per (model, file, experiment, key). Adds:
 - ``numeric_gt`` / ``numeric_pred`` (when parseable as floats)
 - ``log_accuracy`` / ``normalized_log_accuracy_score`` / ``score`` (correctness in [0, 1])
 - ``correct`` (binary at the same 0.5 threshold the analysis uses)
-- ``leak`` (literal ground-truth value appears in description text)
 - ``likely_unit_off`` (factor 1e3/1e6 ratio between pred and gt)
 """
 from __future__ import annotations
@@ -93,17 +92,6 @@ def _score_row(row) -> float | None:
     return 1.0 if row["status_class"] == "status-match" else 0.0
 
 
-def _leak(row) -> bool:
-    t = row["type"]
-    if t not in NUMERIC_TYPES or row["numeric_gt"] is None:
-        return False
-    gt = row["gt_value"]
-    s = str(gt)
-    if isinstance(gt, float) and gt.is_integer():
-        s = str(int(gt))
-    return s in (row["experiment_description"] or "") or s in (row["result_description"] or "")
-
-
 def _unit_off(row) -> bool:
     gt = row["numeric_gt"]
     pr = row["numeric_pred"]
@@ -142,7 +130,6 @@ def build_scored_dataset(paths: AnalysisPaths | None = None) -> pd.DataFrame:
         lambda x: None if x is None else 1.0 - min(x, 1.0)
     )
     df["score"] = df.apply(_score_row, axis=1)
-    df["leak"] = df.apply(_leak, axis=1)
     df["likely_unit_off"] = df.apply(_unit_off, axis=1)
     df["correct"] = df.apply(
         lambda r: (r["score"] is not None and r["score"] >= CORRECT_THRESHOLD),
