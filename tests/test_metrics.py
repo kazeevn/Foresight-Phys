@@ -4,6 +4,7 @@ import math
 import unittest
 
 from foresight_phys.metrics import (
+    CRPS_SCALED_CAP,
     compute_experiment_metrics,
     compute_file_metrics,
     score_bool,
@@ -119,6 +120,63 @@ class ScoreNumericTests(unittest.TestCase):
         )
         self.assertEqual(score["crps"], 30.0)
         self.assertEqual(score["quality"], 0.0)
+
+    def test_normal_scaled_crps_divides_by_abs_ground_truth(self) -> None:
+        score = score_numeric(
+            expected_value=10.0,
+            actual_meta=_quantile_meta_normal(p50=9.0, sigma=0.5),
+        )
+        raw = expected_crps(z=2.0, sigma=0.5)
+        self.assertAlmostEqual(score["crps_scaled"], raw / 10.0)
+
+    def test_normal_scaled_crps_uses_absolute_value_for_negative_truth(self) -> None:
+        score = score_numeric(
+            expected_value=-10.0,
+            actual_meta=_quantile_meta_normal(p50=-9.0, sigma=0.5),
+        )
+        raw = expected_crps(z=-2.0, sigma=0.5)
+        self.assertAlmostEqual(score["crps_scaled"], raw / 10.0)
+
+    def test_normal_scaled_crps_capped(self) -> None:
+        # Tiny |y| with modest raw CRPS produces an enormous ratio: must cap.
+        score = score_numeric(
+            expected_value=1e-6,
+            actual_meta=_quantile_meta_normal(p50=0.0, sigma=1.0),
+        )
+        self.assertEqual(score["crps_scaled"], CRPS_SCALED_CAP)
+
+    def test_normal_scaled_crps_is_none_when_ground_truth_is_zero(self) -> None:
+        score = score_numeric(
+            expected_value=0.0,
+            actual_meta=_quantile_meta_normal(p50=0.0, sigma=0.5),
+        )
+        self.assertIsNone(score["crps_scaled"])
+
+    def test_log_normal_scaled_crps_equals_raw_dex_crps(self) -> None:
+        score = score_numeric(
+            expected_value=1.0,
+            actual_meta=_quantile_meta_log_normal(p50=1.0, sigma_dex=0.3),
+        )
+        # Already in dex (unitless); scaled equals raw, capped at CRPS_SCALED_CAP.
+        self.assertAlmostEqual(score["crps_scaled"], score["crps"])
+
+    def test_log_normal_scaled_crps_capped(self) -> None:
+        # 6 decades off with a moderately tight log-normal: raw dex-CRPS
+        # exceeds the scaled-CRPS cap.
+        score = score_numeric(
+            expected_value=1e6,
+            actual_meta=_quantile_meta_log_normal(p50=1.0, sigma_dex=0.5),
+        )
+        self.assertGreater(score["crps"], CRPS_SCALED_CAP)
+        self.assertEqual(score["crps_scaled"], CRPS_SCALED_CAP)
+
+    def test_missing_prediction_uses_max_scaled_penalty_when_y_nonzero(self) -> None:
+        score = score_numeric(expected_value=5.0, actual_meta=None)
+        self.assertEqual(score["crps_scaled"], CRPS_SCALED_CAP)
+
+    def test_missing_prediction_scaled_is_none_when_y_zero(self) -> None:
+        score = score_numeric(expected_value=0.0, actual_meta=None)
+        self.assertIsNone(score["crps_scaled"])
 
 
 class ScoreBoolTests(unittest.TestCase):
@@ -271,6 +329,10 @@ class ComputeFileMetricsTests(unittest.TestCase):
         metrics = compute_file_metrics(expected_json, actual_json)
 
         self.assertAlmostEqual(metrics["numeric_quality"], 1.0)
+        self.assertAlmostEqual(metrics["numeric_crps"], expected_crps(z=0.0, sigma=0.3))
+        self.assertAlmostEqual(
+            metrics["numeric_crps_scaled"], expected_crps(z=0.0, sigma=0.3)
+        )
         self.assertAlmostEqual(metrics["coverage_1sigma"], 1.0)
         self.assertAlmostEqual(metrics["coverage_2sigma"], 1.0)
         self.assertAlmostEqual(metrics["bool_brier"], (0.9 - 1.0) ** 2)

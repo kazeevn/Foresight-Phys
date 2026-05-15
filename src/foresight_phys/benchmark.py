@@ -69,6 +69,7 @@ def run_benchmark(args: argparse.Namespace) -> dict[str, Any]:
         'prediction_quality',
         'numeric_quality',
         'numeric_crps',
+        'numeric_crps_scaled',
         'coverage_1sigma',
         'coverage_2sigma',
         'bool_brier',

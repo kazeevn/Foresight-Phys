@@ -95,6 +95,11 @@ def _per_model_summary(scored: pd.DataFrame) -> list[dict]:
     for col, cutoff in COVERAGE_BUCKETS:
         numeric_df[col] = (numeric_df["abs_z"] < cutoff).astype(float)
     crps_macro = _paper_macro(numeric_df, "crps")
+    crps_scaled_macro = (
+        _paper_macro(numeric_df, "crps_scaled")
+        if "crps_scaled" in numeric_df.columns
+        else pd.Series(dtype=float)
+    )
     numeric_quality_macro = _paper_macro(numeric_df, "quality")
     coverage_macros = {col: _paper_macro(numeric_df, col) for col, _ in COVERAGE_BUCKETS}
 
@@ -119,6 +124,11 @@ def _per_model_summary(scored: pd.DataFrame) -> list[dict]:
                 else None
             ),
             "numeric_crps": float(crps_macro.get(m, float("nan"))) if m in crps_macro.index else None,
+            "numeric_crps_scaled": (
+                float(crps_scaled_macro.get(m, float("nan")))
+                if m in crps_scaled_macro.index
+                else None
+            ),
             "bool_categorical_accuracy": (
                 float(disc_macro.get(m, float("nan"))) if m in disc_macro.index else None
             ),
@@ -144,6 +154,11 @@ def _numeric_calibration(scored: pd.DataFrame) -> list[dict]:
     for col, cutoff in COVERAGE_BUCKETS:
         num[col] = (num["abs_z"] < cutoff).astype(float)
     crps_macro = _paper_macro(num, "crps")
+    crps_scaled_macro = (
+        _paper_macro(num, "crps_scaled")
+        if "crps_scaled" in num.columns
+        else pd.Series(dtype=float)
+    )
     quality_macro = _paper_macro(num, "quality")
     coverage = {col: _paper_macro(num, col) for col, _ in COVERAGE_BUCKETS}
 
@@ -154,6 +169,11 @@ def _numeric_calibration(scored: pd.DataFrame) -> list[dict]:
             "n_fields": int(len(sub)),
             "n_papers": int(sub["file_id"].nunique()),
             "numeric_crps": float(crps_macro.get(m, float("nan"))) if m in crps_macro.index else None,
+            "numeric_crps_scaled": (
+                float(crps_scaled_macro.get(m, float("nan")))
+                if m in crps_scaled_macro.index
+                else None
+            ),
             "numeric_quality": (
                 float(quality_macro.get(m, float("nan")))
                 if m in quality_macro.index

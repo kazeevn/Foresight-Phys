@@ -308,13 +308,15 @@ def fig_crps_bars(scored: pd.DataFrame) -> plt.Figure:
             for m in models
         }
 
-    crps = macro(scored["type"].isin(NUMERIC_TYPES), "crps")
+    crps_col = "crps_scaled" if "crps_scaled" in scored.columns else "crps"
+    crps_label = "Numeric\nrel. CRPS" if crps_col == "crps_scaled" else "Numeric\nCRPS"
+    crps = macro(scored["type"].isin(NUMERIC_TYPES), crps_col)
     bool_br = macro(scored["type"] == "bool", "brier")
     cat_br = macro(scored["type"] == "categorical", "brier")
     form_br = macro(scored["type"] == "formula", "brier")
 
     metrics = {
-        "Numeric\nCRPS": [crps[m] for m in models],
+        crps_label: [crps[m] for m in models],
         "Bool\nBrier": [bool_br[m] for m in models],
         "Categorical\nBrier": [cat_br[m] for m in models],
         "Formula\nBrier": [form_br[m] for m in models],

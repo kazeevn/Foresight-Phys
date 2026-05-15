@@ -80,6 +80,7 @@ def parse_summary(model: str, run_name: str, summary: dict[str, Any]) -> list[di
                     "sigma": row.get("sigma"),
                     "z": row.get("z"),
                     "crps": row.get("crps", row.get("nll")),
+                    "crps_scaled": row.get("crps_scaled"),
                     "quality": row.get("quality"),
                     "prob_true": row.get("prob_true"),
                     "probabilities_json": _serialize_optional_mapping(row.get("probabilities")),

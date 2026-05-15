@@ -7,9 +7,14 @@ from .formula_judging import FormulaJudge, FormulaJudgment
 from .json_payloads import get_at_path, iter_result_paths
 
 
-# Cap CRPS so individual catastrophic numeric predictions don't swamp the run
-# aggregates and malformed values stay finite.
+# Cap raw CRPS so individual catastrophic numeric predictions don't swamp the
+# run aggregates and malformed values stay finite.
 CRPS_CAP = 30.0
+# Cap on relative/scaled CRPS. Raw CRPS carries the units of the predicted
+# variable, so it cannot be averaged across experiments with different scales.
+# Scaled CRPS = raw / |y| for normal targets (or raw, in dex, for log_normal)
+# is unitless; we cap it so a single catastrophic field doesn't dominate.
+CRPS_SCALED_CAP = 3.0
 # Floor for sigma to keep division stable.
 SIGMA_FLOOR = 1e-9
 LN10 = math.log(10.0)
@@ -140,6 +145,12 @@ def _clip_crps(value: float) -> float:
     return min(max(value, 0.0), CRPS_CAP)
 
 
+def _clip_crps_scaled(value: float) -> float:
+    if not math.isfinite(value):
+        return CRPS_SCALED_CAP
+    return min(max(value, 0.0), CRPS_SCALED_CAP)
+
+
 def _standard_normal_pdf(z: float) -> float:
     return math.exp(-0.5 * z * z) / SQRT_2PI
 
@@ -169,8 +180,18 @@ def score_numeric(
     expected_value: Any,
     actual_meta: dict[str, Any] | None,
 ) -> dict[str, Any]:
-    """Score a numeric prediction with CRPS by fitting a Gaussian to (p10, p50, p90)."""
+    """Score a numeric prediction with CRPS by fitting a Gaussian to (p10, p50, p90).
+
+    ``crps`` is the raw CRPS in the units of the predicted variable (linear for
+    ``normal``, dex for ``log_normal``). ``crps_scaled`` is unitless: for
+    ``normal`` it's ``crps / |y|`` (only defined when y != 0); for
+    ``log_normal`` it equals the raw dex-CRPS (already unitless). Both are
+    capped — raw at ``CRPS_CAP``, scaled at ``CRPS_SCALED_CAP`` — so cross-
+    experiment aggregation stays meaningful.
+    """
     expected_ok, expected_value_f = coerce_numeric(expected_value)
+    can_scale = expected_ok and expected_value_f != 0.0
+    max_penalty_scaled = CRPS_SCALED_CAP if can_scale else None
     result: dict[str, Any] = {
         "expected_ok": expected_ok,
         "expected_value": expected_value_f if expected_ok else None,
@@ -182,6 +203,7 @@ def score_numeric(
         "sigma": None,
         "z": None,
         "crps": CRPS_CAP,
+        "crps_scaled": max_penalty_scaled,
         "quality": 0.0,
         "within_1sigma": None,
         "within_2sigma": None,
@@ -229,7 +251,16 @@ def score_numeric(
     crps = _normal_crps(z=z, sigma=sigma)
     quality = math.exp(-0.5 * z * z)
     result["z"] = z
-    result["crps"] = _clip_crps(crps)
+    crps_clipped = _clip_crps(crps)
+    result["crps"] = crps_clipped
+    if distribution == "log_normal":
+        # log_normal CRPS is already in dex (unitless across experiments).
+        result["crps_scaled"] = _clip_crps_scaled(crps_clipped)
+    elif can_scale:
+        result["crps_scaled"] = _clip_crps_scaled(crps_clipped / abs(expected_value_f))
+    else:
+        # Normal target with y == 0: relative CRPS is undefined.
+        result["crps_scaled"] = None
     result["quality"] = quality
     result["within_1sigma"] = bool(abs(z) < 1.0)
     result["within_2sigma"] = bool(abs(z) < 2.0)
@@ -479,6 +510,7 @@ METRIC_KEYS = (
     "prediction_quality",
     "numeric_quality",
     "numeric_crps",
+    "numeric_crps_scaled",
     "coverage_1sigma",
     "coverage_2sigma",
     "bool_brier",
@@ -513,12 +545,14 @@ def _format_numeric_status(score: dict[str, Any]) -> tuple[str, str, str]:
         return "no uncertainty", "status-mismatch", ""
     if score["z"] is None:
         return "incomparable", "status-mismatch", "Reference or prediction undefined under log_normal."
+    scaled = score["crps_scaled"]
+    scaled_part = f"; rel CRPS = {scaled:.3f}" if scaled is not None else ""
     return (
         f"z = {score['z']:+.2f} (σ = {score['sigma']:.3g} {score['distribution']})",
         "status-numeric",
         (
             f"p10/p50/p90 = {score['p10']:.3g} / {score['p50']:.3g} / {score['p90']:.3g}; "
-            f"CRPS = {score['crps']:.3f}; quality = {score['quality']:.3f}"
+            f"CRPS = {score['crps']:.3f}{scaled_part}; quality = {score['quality']:.3f}"
         ),
     )
 
@@ -594,6 +628,7 @@ def build_experiment_report(
     quality_values: list[float] = []
     numeric_quality_values: list[float] = []
     numeric_crps_values: list[float] = []
+    numeric_crps_scaled_values: list[float] = []
     coverage_1sigma_hits: list[float] = []
     coverage_2sigma_hits: list[float] = []
     bool_brier_values: list[float] = []
@@ -643,6 +678,8 @@ def build_experiment_report(
             quality_values.append(score["quality"])
             numeric_quality_values.append(score["quality"])
             numeric_crps_values.append(score["crps"])
+            if score["crps_scaled"] is not None:
+                numeric_crps_scaled_values.append(score["crps_scaled"])
             if score["within_1sigma"] is not None:
                 coverage_1sigma_hits.append(1.0 if score["within_1sigma"] else 0.0)
             if score["within_2sigma"] is not None:
@@ -657,6 +694,7 @@ def build_experiment_report(
                     "sigma": score["sigma"],
                     "z": score["z"],
                     "crps": score["crps"],
+                    "crps_scaled": score["crps_scaled"],
                     "quality": score["quality"],
                 }
             )
@@ -754,6 +792,11 @@ def build_experiment_report(
         "numeric_crps": (
             sum(numeric_crps_values) / len(numeric_crps_values)
             if numeric_crps_values
+            else None
+        ),
+        "numeric_crps_scaled": (
+            sum(numeric_crps_scaled_values) / len(numeric_crps_scaled_values)
+            if numeric_crps_scaled_values
             else None
         ),
         "coverage_1sigma": (

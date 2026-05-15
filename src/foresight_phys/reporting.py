@@ -25,6 +25,10 @@ def _numeric_metric_label_and_key(
     aggregate: bool,
 ) -> tuple[str, str]:
     prefix = 'aggregate_' if aggregate else ''
+    scaled_key = f'{prefix}numeric_crps_scaled'
+    if scaled_key in values:
+        return 'Numeric rel. CRPS', scaled_key
+
     crps_key = f'{prefix}numeric_crps'
     if crps_key in values:
         return 'Numeric CRPS', crps_key
