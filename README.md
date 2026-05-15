@@ -2,16 +2,20 @@
 
 Foresight-Phys benchmarks whether an LLM can predict the outcomes of physical
 experiments from rich experiment descriptions. The repository also includes a
-pipeline for extracting benchmark-format experiment JSON from public paper PDFs.
+pipeline for extracting benchmark-format experiment JSON from public paper PDFs
+and a post-hoc analysis pipeline for comparing benchmark runs.
 
 ## Repository layout
-- `src/foresight_phys/`: benchmark, extraction, reporting, and prompt code
+- `src/foresight_phys/`: benchmark, extraction, cleanup, analysis, reporting, and prompt code
 - `JSONs/raw/`: raw extracted experiment JSONs
 - `JSONs/filtered/`: benchmark-ready JSONs after suitability filtering
 - `papers.txt`: batch input file with one public PDF URL per line
 - `docs/<run-name>/`: benchmark outputs
+- `docs/analysis/`: committed cross-run analysis summaries and plots
+- `.cache/analysis/`: local intermediate parquet files for the analysis pipeline
+- `papers/`: local paper PDFs and markdown conversions used during development
 
-The current checked-in snapshot contains 36 JSON files in `JSONs/raw/` and 36
+The current checked-in snapshot contains 38 JSON files in `JSONs/raw/` and 38
 JSON files in `JSONs/filtered/`.
 
 `JSONs/filtered/` is the default input directory for the benchmark CLI.
@@ -79,10 +83,13 @@ By default this:
 - reads benchmark inputs from `JSONs/filtered/`
 - writes `docs/index.html`
 - uses model `gpt-5.4-nano`
+- uses OpenAI service tier `flex`
+- sends up to 5 prediction requests in parallel
 - writes `docs/<run-name>/benchmark_results.json`
 - writes `docs/<run-name>/benchmark_human_readable_report.html`
 - caches raw predictions in `.cache/llm_predictions.json`
 - merges cache updates safely across overlapping benchmark runs and persists each completed prediction immediately
+- skips benchmark files whose top-level JSON payload is `[]`
 - enables Langfuse logging when Langfuse keys are present
 
 `<run-name>` is auto-generated from the model name plus a random readable suffix.
@@ -94,6 +101,7 @@ Useful examples:
 uv run --env-file .env foresight-phys --max-files 2
 uv run --env-file .env foresight-phys --json-dir JSONs/filtered --max-workers 8
 uv run --env-file .env foresight-phys --model gpt-5.4-nano
+uv run --env-file .env foresight-phys --service-tier priority
 uv run --env-file .env foresight-phys --run-name paper-benchmark-run-01
 uv run --env-file .env foresight-phys --disable-langfuse
 uv run --env-file .env foresight-phys --cache-path .cache/custom_predictions.json
@@ -109,32 +117,33 @@ Setting `--html-output ""` disables HTML report generation.
 
 For each JSON file, the benchmark pipeline:
 
-1. Loads the ground-truth experiment JSON.
+1. Loads the ground-truth experiment JSON and skips files whose top-level payload is `[]`.
 2. Replaces every `experiment_results.*.result` value with `"TO_PREDICT"`.
 3. Splits the masked payload into one LLM request per experiment and sends each
 	 experiment with the system prompt from `src/foresight_phys/system_prompt.txt`
-	 to the OpenAI Responses API.
+	 to the OpenAI Responses API using a Pydantic structured-output schema.
 4. Runs requests in parallel with retry and exponential backoff.
 5. Reuses cached experiment predictions when available and persists each new prediction to the shared cache as soon as it completes.
-6. Compares predicted results against the reference JSON.
-7. Writes a machine-readable JSON summary and an offline HTML report.
+6. Compares predicted results against the reference JSON, using an LLM judge for formula equivalence when needed.
+7. Writes a machine-readable JSON summary, an offline HTML report, and refreshes `docs/index.html` as a run index.
 
 ## Forecasts with uncertainty
 
-Predictions must include calibrated uncertainty per field. The model returns,
-on top of the point value `result`:
+Predictions must include calibrated uncertainty per field. The structured
+prediction schema is not identical to the benchmark input schema:
 
-- `float` / `integer`: `distribution` (`normal` or `log_normal`) plus `sigma`
-  (1σ width — in dex for log-normal, in linear units for normal). `result` is
-  the median for log-normal and the mean for normal.
-- `bool`: `prob_true ∈ [0, 1]`.
+- `float` / `integer`: `distribution` (`normal` or `log_normal`) plus `p10`, `p50`, and `p90`.
+	For `log_normal`, these quantiles must stay strictly positive. The benchmark
+	derives `sigma` from the `p10`/`p90` span during scoring and stores `result = p50`
+	in normalized outputs for downstream display.
+- `bool`: `result` plus `prob_true ∈ [0, 1]`.
 - `categorical`: `probabilities` — a list of `{value, probability}` covering
-  every entry in `allowed_categorial_values`, summing to ≈1.
-- `formula`: `confidence ∈ [0, 1]`.
+	every entry in `allowed_categorial_values`, summing to ≈1, plus a best-guess `result`.
+- `formula`: `result` plus `confidence ∈ [0, 1]`.
 
-The prediction cache key includes the schema, so changing this schema
-invalidates `.cache/llm_predictions.json` and the cache will be repopulated on
-the next run.
+The prediction cache key includes the model, system prompt, masked payload, and
+response schema, so changing any of those invalidates `.cache/llm_predictions.json`
+and the cache will be repopulated on the next run.
 
 ## Metrics
 
@@ -144,9 +153,11 @@ computes:
 - `prediction_quality`: mean of per-field quality across all result fields.
   Quality is bounded in [0, 1] (`exp(-z²/2)` for numeric, `1 - brier` for
   bool / formula, `1 - ½·brier` for categorical).
+- `numeric_quality`: mean numeric-field quality only.
 - `numeric_crps`: mean CRPS of numeric predictions under the chosen
-	distribution. The benchmark evaluates the Gaussian forecast in the space
-	where `sigma` lives: linear units for `normal`, dex for `log_normal`.
+	distribution, after fitting a Gaussian from `p10`/`p50`/`p90`. The benchmark
+	evaluates the forecast in the space where `sigma` lives: linear units for
+	`normal`, dex for `log_normal`.
 	`CRPS = sigma * [z * (2 Phi(z) - 1) + 2 phi(z) - 1 / sqrt(pi)]`
 	(capped at 30).
 - `coverage_1sigma`, `coverage_2sigma`: fraction of numeric predictions with
@@ -160,25 +171,61 @@ computes:
   fields (sanity check; not a proper score).
 - `formula_accuracy`: fraction of formula fields judged equivalent.
 
-The summary JSON also includes counts such as total result fields, bool,
-categorical, numeric, formula fields, and missing predictions.
+Each per-file row in the summary JSON also includes counts such as
+`result_count`, `numeric_count`, `bool_count`, `categorical_count`,
+`formula_count`, and `missing_predictions`.
 
 ## Reports and outputs
 
 `benchmark_results.json` contains:
 
-- run metadata (`run_name`, `model`, `max_workers`)
+- run metadata (`run_name`, `model`, `service_tier`, `max_workers`)
 - aggregate metrics across files
 - formula judge model name
 - cache metadata
 - Langfuse metadata
 - a `per_file` list with one metrics row per JSON file
+- per-file `expected_output`, `actual_output`, and `report_experiments` payloads used by the HTML report and analysis pipeline
 
 The HTML report is a static offline file with:
 
 - a left-hand paper switcher
 - per-paper metric chips
 - one table per experiment showing ground truth, prediction, and match status
+
+`docs/index.html` is also regenerated on each benchmark run and serves as a
+local index of discovered runs under `docs/`.
+
+## Analyze benchmark runs
+
+Use the analysis CLI to parse all saved benchmark runs under `docs/`, build a
+cross-run dataset, compute model-level summaries, and render plots:
+
+```bash
+uv run --env-file .env foresight-phys-analysis all
+```
+
+Individual steps are also available:
+
+```bash
+uv run --env-file .env foresight-phys-analysis parse
+uv run --env-file .env foresight-phys-analysis build
+uv run --env-file .env foresight-phys-analysis analyze
+uv run --env-file .env foresight-phys-analysis plots
+```
+
+The analysis pipeline reads `docs/<run-name>/benchmark_results.json` files and
+writes:
+
+- `.cache/analysis/predictions.parquet`
+- `.cache/analysis/scored.parquet`
+- `.cache/analysis/per_field.parquet`
+- `docs/analysis/summary.json`
+- `docs/analysis/plots/*.pdf`
+
+The current checked-in `docs/analysis/plots/` directory contains figures such
+as aggregate quality bars, numeric calibration plots, reliability diagrams, and
+difficulty distributions.
 
 ## Extract benchmark JSON from paper PDFs
 
@@ -198,6 +245,7 @@ uv run --env-file .env foresight-phys-extract --paper-urls-file papers.txt
 By default the extraction pipeline:
 
 - uses model `gpt-5.5`
+- uses OpenAI service tier `flex`
 - only supports arXiv `abs`/`pdf` URLs
 - sends the public PDF URL to OpenAI as an `input_file`
 - extracts a paper title plus a top-level list of experiments
