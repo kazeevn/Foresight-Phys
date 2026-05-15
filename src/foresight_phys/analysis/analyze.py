@@ -7,8 +7,9 @@ by ``benchmark.run_benchmark`` so the cross-model summary is not dominated by
 papers that contribute many redundant fields.
 
 Numeric fields are summarised through proper-scoring-rule quantities: mean
-CRPS, mean quality (``exp(-z²/2)``), and coverage at 1σ / 2σ as calibration
-diagnostics.
+normalized CRPS (the primary metric, lower is better), the derived quality
+``1 - crps_scaled / CRPS_SCALED_CAP`` mapped onto [0, 1], and coverage at
+1σ / 2σ as calibration diagnostics.
 """
 from __future__ import annotations
 

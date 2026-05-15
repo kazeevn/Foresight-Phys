@@ -151,6 +151,19 @@ def _clip_crps_scaled(value: float) -> float:
     return min(max(value, 0.0), CRPS_SCALED_CAP)
 
 
+def _quality_from_crps_scaled(crps_scaled: float | None) -> float | None:
+    """Map capped normalized CRPS into a [0, 1] quality score.
+
+    ``1 - crps_scaled / CRPS_SCALED_CAP`` is linear in CRPS, so ranking by
+    mean quality preserves ranking by mean CRPS (CRPS is the proper score).
+    Returns ``None`` when normalized CRPS is undefined (e.g. normal target
+    with ground truth zero).
+    """
+    if crps_scaled is None:
+        return None
+    return 1.0 - crps_scaled / CRPS_SCALED_CAP
+
+
 def _standard_normal_pdf(z: float) -> float:
     return math.exp(-0.5 * z * z) / SQRT_2PI
 
@@ -204,7 +217,7 @@ def score_numeric(
         "z": None,
         "crps": CRPS_CAP,
         "crps_scaled": max_penalty_scaled,
-        "quality": 0.0,
+        "quality": _quality_from_crps_scaled(max_penalty_scaled),
         "within_1sigma": None,
         "within_2sigma": None,
         "missing": actual_meta is None,
@@ -249,7 +262,6 @@ def score_numeric(
 
     result["sigma"] = sigma
     crps = _normal_crps(z=z, sigma=sigma)
-    quality = math.exp(-0.5 * z * z)
     result["z"] = z
     crps_clipped = _clip_crps(crps)
     result["crps"] = crps_clipped
@@ -261,7 +273,7 @@ def score_numeric(
     else:
         # Normal target with y == 0: relative CRPS is undefined.
         result["crps_scaled"] = None
-    result["quality"] = quality
+    result["quality"] = _quality_from_crps_scaled(result["crps_scaled"])
     result["within_1sigma"] = bool(abs(z) < 1.0)
     result["within_2sigma"] = bool(abs(z) < 2.0)
     return result
@@ -547,12 +559,14 @@ def _format_numeric_status(score: dict[str, Any]) -> tuple[str, str, str]:
         return "incomparable", "status-mismatch", "Reference or prediction undefined under log_normal."
     scaled = score["crps_scaled"]
     scaled_part = f"; rel CRPS = {scaled:.3f}" if scaled is not None else ""
+    quality = score["quality"]
+    quality_part = f"; quality = {quality:.3f}" if quality is not None else ""
     return (
         f"z = {score['z']:+.2f} (σ = {score['sigma']:.3g} {score['distribution']})",
         "status-numeric",
         (
             f"p10/p50/p90 = {score['p10']:.3g} / {score['p50']:.3g} / {score['p90']:.3g}; "
-            f"CRPS = {score['crps']:.3f}{scaled_part}; quality = {score['quality']:.3f}"
+            f"CRPS = {score['crps']:.3f}{scaled_part}{quality_part}"
         ),
     )
 
@@ -675,8 +689,9 @@ def build_experiment_report(
                 expected_value=expected_value,
                 actual_meta=actual_meta_dict,
             )
-            quality_values.append(score["quality"])
-            numeric_quality_values.append(score["quality"])
+            if score["quality"] is not None:
+                quality_values.append(score["quality"])
+                numeric_quality_values.append(score["quality"])
             numeric_crps_values.append(score["crps"])
             if score["crps_scaled"] is not None:
                 numeric_crps_scaled_values.append(score["crps_scaled"])

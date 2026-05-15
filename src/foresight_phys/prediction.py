@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import concurrent.futures
+import copy
 import json
 from pathlib import Path
 from typing import Any
@@ -157,6 +158,59 @@ def load_paper_titles_for_sources(
     return titles_by_file
 
 
+def prime_prediction_cache_from_benchmark_summaries(
+    *,
+    prediction_cache: PredictionCache,
+    docs_dir: Path,
+    model: str,
+    response_format: dict[str, Any],
+) -> None:
+    if not prediction_cache.enabled or not prediction_cache.ignore_system_prompt or not docs_dir.exists():
+        return
+
+    primed_entries: dict[str, Any] = {}
+    summary_paths = sorted(docs_dir.glob('*/benchmark_results.json'), reverse=True)
+    for summary_path in summary_paths:
+        try:
+            summary = json.loads(summary_path.read_text(encoding='utf-8'))
+        except (OSError, TypeError, ValueError, json.JSONDecodeError):
+            continue
+
+        if not isinstance(summary, dict) or summary.get('model') != model:
+            continue
+
+        per_file = summary.get('per_file')
+        if not isinstance(per_file, list):
+            continue
+
+        for row in per_file:
+            if not isinstance(row, dict):
+                continue
+
+            expected_output = row.get('expected_output')
+            actual_output = row.get('actual_output')
+            if expected_output is None or actual_output is None:
+                continue
+
+            masked_output = build_masked_payload(expected_output)
+            masked_experiments = ensure_experiment_list(masked_output)
+            actual_experiments = ensure_experiment_list(actual_output)
+            if len(masked_experiments) != len(actual_experiments):
+                continue
+
+            for masked_experiment, actual_experiment in zip(masked_experiments, actual_experiments):
+                cache_key = build_prediction_cache_key(
+                    model=model,
+                    system_prompt='',
+                    masked_payload=[masked_experiment],
+                    response_format=response_format,
+                    include_system_prompt=False,
+                )
+                primed_entries.setdefault(cache_key, copy.deepcopy(actual_experiment))
+
+    prediction_cache.prime(primed_entries)
+
+
 @retry(
     wait=wait_random_exponential(multiplier=1, min=1, max=60),
     stop=stop_after_attempt(6),
@@ -225,7 +279,12 @@ def build_benchmark_items(
     max_workers: int,
     prediction_cache: PredictionCache,
     service_tier: str = 'flex',
+    cache_only: bool = False,
+    cache_ignore_system_prompt: bool = False,
+    docs_dir: Path = Path('docs'),
 ) -> list[BenchmarkItem]:
+    cache_only = cache_only or prediction_cache.cache_only
+    cache_ignore_system_prompt = cache_ignore_system_prompt or prediction_cache.ignore_system_prompt
     benchmark_sources: list[tuple[Path, Any, Any]] = []
     for json_path in sorted(json_dir.glob("*.json")):
         ground_truth = json.loads(json_path.read_text(encoding='utf-8'))
@@ -242,6 +301,12 @@ def build_benchmark_items(
 
     text_format = build_prediction_text_format()
     format_signature = build_prediction_format_signature()
+    prime_prediction_cache_from_benchmark_summaries(
+        prediction_cache=prediction_cache,
+        docs_dir=docs_dir,
+        model=model,
+        response_format=format_signature,
+    )
     predicted_experiments_by_file: dict[str, list[Any]] = {}
     tasks: list[tuple[str, int, Any, str]] = []
     for json_path, ground_truth, masked_payload in benchmark_sources:
@@ -263,6 +328,7 @@ def build_benchmark_items(
                 system_prompt=system_prompt,
                 masked_payload=[masked_experiment],
                 response_format=format_signature,
+                include_system_prompt=not cache_ignore_system_prompt,
             )
 
             cached_prediction = prediction_cache.get(cache_key)
@@ -271,6 +337,16 @@ def build_benchmark_items(
                 continue
 
             tasks.append((json_path.name, experiment_index, masked_experiment, cache_key))
+
+    if tasks and cache_only:
+        missing_predictions = ", ".join(
+            f"{file_name} experiment {experiment_index + 1}"
+            for file_name, experiment_index, _, _ in tasks
+        )
+        raise ValueError(
+            "Cache-only mode is enabled, but cached predictions are missing for "
+            f"{missing_predictions}."
+        )
 
     if tasks:
         with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:

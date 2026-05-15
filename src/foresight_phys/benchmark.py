@@ -30,15 +30,23 @@ def run_benchmark(args: argparse.Namespace) -> dict[str, Any]:
 
     system_prompt_path = resolve_system_prompt_path(args.system_prompt)
     system_prompt = system_prompt_path.read_text(encoding='utf-8').strip()
-    formula_judge = FormulaJudge(model=FORMULA_JUDGE_MODEL)
+    formula_judge = FormulaJudge(
+        model=FORMULA_JUDGE_MODEL,
+        cache_only=getattr(args, 'cache_only', False),
+    )
+    if getattr(args, 'cache_only', False):
+        formula_judge.prime_from_benchmark_summaries(docs_dir=Path('docs'))
     benchmark_item_kwargs: dict[str, Any] = {
         'json_dir': Path(args.json_dir),
         'system_prompt': system_prompt,
         'model': args.model,
         'service_tier': getattr(args, 'service_tier', 'flex'),
+        'cache_only': getattr(args, 'cache_only', False),
+        'cache_ignore_system_prompt': getattr(args, 'cache_ignore_system_prompt', False),
         'max_files': args.max_files,
         'max_workers': args.max_workers,
         'prediction_cache': prediction_cache,
+        'docs_dir': Path('docs'),
     }
     benchmark_items = build_benchmark_items(**benchmark_item_kwargs)
 

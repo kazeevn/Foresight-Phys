@@ -64,13 +64,15 @@ def build_prediction_cache_key(
     system_prompt: str,
     masked_payload: Any,
     response_format: dict[str, Any],
+    include_system_prompt: bool = True,
 ) -> str:
     canonical_payload = {
         "model": model,
-        "system_prompt": system_prompt,
         "masked_payload": masked_payload,
         "response_format": response_format,
     }
+    if include_system_prompt:
+        canonical_payload["system_prompt"] = system_prompt
     canonical_json = json.dumps(
         canonical_payload,
         ensure_ascii=False,

@@ -158,7 +158,20 @@ def parse_args() -> argparse.Namespace:
         action='store_true',
         help='Disable local prediction cache and always call the LLM.',
     )
-    return apply_run_defaults(parser.parse_args())
+    parser.add_argument(
+        '--cache-only',
+        action='store_true',
+        help='Never call OpenAI; require every prediction to already exist in the local cache.',
+    )
+    parser.add_argument(
+        '--cache-ignore-system-prompt',
+        action='store_true',
+        help='Ignore the system prompt when computing prediction cache keys.',
+    )
+    args = parser.parse_args()
+    if args.disable_cache and args.cache_only:
+        parser.error('--cache-only cannot be used with --disable-cache.')
+    return apply_run_defaults(args)
 
 
 def main() -> None:

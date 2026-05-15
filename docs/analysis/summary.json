@@ -8,9 +8,9 @@
       "model": "gpt-5.4",
       "n_fields": 661,
       "n_papers": 26,
-      "mean_quality": 0.5535635102652354,
-      "mean_correct": 0.555757807007807,
-      "numeric_quality": 0.4607922438804319,
+      "mean_quality": 0.8504136870839195,
+      "mean_correct": 0.9008285464535464,
+      "numeric_quality": 0.8589009524615958,
       "numeric_crps": 3.038534685466435,
       "numeric_crps_scaled": 0.42329714261521284,
       "bool_categorical_accuracy": 0.9357520786092215,
@@ -23,9 +23,9 @@
       "model": "gpt-5.4-mini",
       "n_fields": 661,
       "n_papers": 26,
-      "mean_quality": 0.5053090780008134,
-      "mean_correct": 0.5087923220958935,
-      "numeric_quality": 0.3961697016727326,
+      "mean_quality": 0.7873674698806329,
+      "mean_correct": 0.8586353130995987,
+      "numeric_quality": 0.7832726441669755,
       "numeric_crps": 5.6380408002836715,
       "numeric_crps_scaled": 0.6501820674990733,
       "bool_categorical_accuracy": 0.8758503401360545,
@@ -38,9 +38,9 @@
       "model": "gpt-5.4-nano",
       "n_fields": 661,
       "n_papers": 26,
-      "mean_quality": 0.46112633610837417,
-      "mean_correct": 0.4760830736723594,
-      "numeric_quality": 0.34868502001306134,
+      "mean_quality": 0.7689084015371495,
+      "mean_correct": 0.8498063213241784,
+      "numeric_quality": 0.7601895081808473,
       "numeric_crps": 5.855803142059823,
       "numeric_crps_scaled": 0.7194314754574583,
       "bool_categorical_accuracy": 0.918896447467876,
@@ -53,9 +53,9 @@
       "model": "gpt-5.5",
       "n_fields": 661,
       "n_papers": 26,
-      "mean_quality": 0.6441316072173184,
-      "mean_correct": 0.6330147927469356,
-      "numeric_quality": 0.5625484370737587,
+      "mean_quality": 0.8716313206574089,
+      "mean_correct": 0.9170215201465202,
+      "numeric_quality": 0.8621975991413157,
       "numeric_crps": 3.2812110495380984,
       "numeric_crps_scaled": 0.413407202576053,
       "bool_categorical_accuracy": 0.9722222222222223,
@@ -72,7 +72,7 @@
       "n_papers": 26,
       "numeric_crps": 2.846894396227592,
       "numeric_crps_scaled": 0.4045113087636763,
-      "numeric_quality": 0.46657919777542683,
+      "numeric_quality": 0.8651628970787745,
       "frac_within_1sigma": 0.4264136108092152,
       "frac_within_2sigma": 0.6330356807417247,
       "frac_within_3sigma": 0.7746861959774047
@@ -83,7 +83,7 @@
       "n_papers": 26,
       "numeric_crps": 5.6380408002836715,
       "numeric_crps_scaled": 0.6501820674990733,
-      "numeric_quality": 0.3961697016727326,
+      "numeric_quality": 0.7832726441669755,
       "frac_within_1sigma": 0.3563644856364636,
       "frac_within_2sigma": 0.5497134169249553,
       "frac_within_3sigma": 0.6663064377624817
@@ -94,7 +94,7 @@
       "n_papers": 26,
       "numeric_crps": 5.752577553540745,
       "numeric_crps_scaled": 0.7033958615478271,
-      "numeric_quality": 0.349168456372106,
+      "numeric_quality": 0.7655347128173909,
       "frac_within_1sigma": 0.2981159011928243,
       "frac_within_2sigma": 0.49858796575829545,
       "frac_within_3sigma": 0.6075453179299333
@@ -105,18 +105,18 @@
       "n_papers": 26,
       "numeric_crps": 3.1697377271830374,
       "numeric_crps_scaled": 0.3994312408097533,
-      "numeric_quality": 0.5656984727760984,
+      "numeric_quality": 0.8668562530634156,
       "frac_within_1sigma": 0.5259066940385622,
       "frac_within_2sigma": 0.7679810040386964,
       "frac_within_3sigma": 0.8924241570395417
     }
   ],
   "difficulty_distribution_overall": {
-    "discriminative": 145,
-    "hard (1 right)": 145,
-    "trivial (all correct)": 143,
-    "intractable (none correct)": 137,
-    "easy (1 wrong)": 91
+    "trivial (all correct)": 483,
+    "easy (1 wrong)": 90,
+    "discriminative": 52,
+    "intractable (none correct)": 18,
+    "hard (1 right)": 18
   },
   "difficulty_by_type": [
     {
@@ -137,11 +137,11 @@
     },
     {
       "type": "float",
-      "discriminative": 132,
-      "easy (1 wrong)": 66,
-      "hard (1 right)": 138,
-      "intractable (none correct)": 132,
-      "trivial (all correct)": 33
+      "discriminative": 41,
+      "easy (1 wrong)": 69,
+      "hard (1 right)": 15,
+      "intractable (none correct)": 15,
+      "trivial (all correct)": 361
     },
     {
       "type": "formula",
@@ -153,11 +153,11 @@
     },
     {
       "type": "integer",
-      "discriminative": 2,
-      "easy (1 wrong)": 5,
-      "hard (1 right)": 4,
-      "intractable (none correct)": 2,
-      "trivial (all correct)": 8
+      "discriminative": 0,
+      "easy (1 wrong)": 1,
+      "hard (1 right)": 0,
+      "intractable (none correct)": 0,
+      "trivial (all correct)": 20
     }
   ],
   "categorical_random_baseline": 0.2926900584795321,

@@ -106,6 +106,8 @@ uv run --env-file .env foresight-phys --run-name paper-benchmark-run-01
 uv run --env-file .env foresight-phys --disable-langfuse
 uv run --env-file .env foresight-phys --cache-path .cache/custom_predictions.json
 uv run --env-file .env foresight-phys --disable-cache
+uv run --env-file .env foresight-phys --cache-only
+uv run --env-file .env foresight-phys --cache-ignore-system-prompt
 uv run --env-file .env foresight-phys --output docs/custom-run/benchmark_results.json
 uv run --env-file .env foresight-phys --html-output docs/custom-run/benchmark_human_readable_report.html
 uv run --env-file .env foresight-phys --html-output ""
@@ -124,6 +126,7 @@ For each JSON file, the benchmark pipeline:
 	 to the OpenAI Responses API using a Pydantic structured-output schema.
 4. Runs requests in parallel with retry and exponential backoff.
 5. Reuses cached experiment predictions when available and persists each new prediction to the shared cache as soon as it completes.
+   `--cache-only` disables OpenAI calls entirely and raises on any missing cached prediction or formula judgment.
 6. Compares predicted results against the reference JSON, using an LLM judge for formula equivalence when needed.
 7. Writes a machine-readable JSON summary, an offline HTML report, and refreshes `docs/index.html` as a run index.
 
@@ -141,25 +144,39 @@ prediction schema is not identical to the benchmark input schema:
 	every entry in `allowed_categorial_values`, summing to ≈1, plus a best-guess `result`.
 - `formula`: `result` plus `confidence ∈ [0, 1]`.
 
-The prediction cache key includes the model, system prompt, masked payload, and
-response schema, so changing any of those invalidates `.cache/llm_predictions.json`
-and the cache will be repopulated on the next run.
+By default, the prediction cache key includes the model, system prompt, masked
+payload, and response schema, so changing any of those invalidates
+`.cache/llm_predictions.json` and the cache will be repopulated on the next run.
+Use `--cache-ignore-system-prompt` to reuse cache entries across different
+system prompts by omitting the prompt from the cache key. When older cache
+entries only exist in prior benchmark reports, the benchmark backfills those
+prompt-agnostic entries from `docs/*/benchmark_results.json`.
 
 ## Metrics
 
 Predictions are scored with proper scoring rules. Per file, the benchmark
 computes:
 
+- `numeric_crps_scaled`: **primary numeric metric** — mean of capped
+  normalized CRPS over numeric predictions. Lower is better; 0 is a Dirac
+  at the truth. For `normal` targets this is `CRPS / |y|` (only defined
+  when `y ≠ 0`); for `log_normal` it equals the raw dex-CRPS (already
+  unitless). Capped at 3 so a single catastrophic field cannot dominate
+  the average. CRPS is a proper scoring rule, so it penalises both
+  miscalibration and over-spread.
+- `numeric_crps`: mean raw CRPS in the units of the predicted variable
+  (linear for `normal`, dex for `log_normal`), capped at 30. Not
+  comparable across experiments with different scales — use
+  `numeric_crps_scaled` for cross-experiment aggregation.
+  `CRPS = sigma * [z * (2 Phi(z) - 1) + 2 phi(z) - 1 / sqrt(pi)]`.
+- `numeric_quality`: mean of per-field numeric quality, where
+  `quality = 1 - crps_scaled / 3` is `numeric_crps_scaled` mapped onto
+  `[0, 1]` (higher is better; 1 is a Dirac at the truth). Linear in
+  CRPS, so it preserves the ranking induced by the proper score.
+  Undefined (and excluded from the mean) when `crps_scaled` is undefined.
 - `prediction_quality`: mean of per-field quality across all result fields.
-  Quality is bounded in [0, 1] (`exp(-z²/2)` for numeric, `1 - brier` for
-  bool / formula, `1 - ½·brier` for categorical).
-- `numeric_quality`: mean numeric-field quality only.
-- `numeric_crps`: mean CRPS of numeric predictions under the chosen
-	distribution, after fitting a Gaussian from `p10`/`p50`/`p90`. The benchmark
-	evaluates the forecast in the space where `sigma` lives: linear units for
-	`normal`, dex for `log_normal`.
-	`CRPS = sigma * [z * (2 Phi(z) - 1) + 2 phi(z) - 1 / sqrt(pi)]`
-	(capped at 30).
+  Quality is bounded in [0, 1] (`1 - crps_scaled / 3` for numeric,
+  `1 - brier` for bool / formula, `1 - ½·brier` for categorical).
 - `coverage_1sigma`, `coverage_2sigma`: fraction of numeric predictions with
   `|z| < 1` and `|z| < 2`. With well-calibrated uncertainty these target
   ≈0.68 and ≈0.95.

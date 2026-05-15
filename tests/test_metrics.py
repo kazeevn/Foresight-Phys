@@ -20,6 +20,10 @@ def expected_crps(*, z: float, sigma: float) -> float:
     return sigma * (z * (2.0 * Phi - 1.0) + 2.0 * phi - 1.0 / math.sqrt(math.pi))
 
 
+def expected_quality(crps_scaled: float) -> float:
+    return 1.0 - min(crps_scaled, CRPS_SCALED_CAP) / CRPS_SCALED_CAP
+
+
 Z_90 = 1.2815515655446004
 
 
@@ -44,21 +48,25 @@ def _quantile_meta_log_normal(*, p50: float, sigma_dex: float) -> dict:
 
 
 class ScoreNumericTests(unittest.TestCase):
-    def test_log_normal_perfect_prediction_has_quality_one(self) -> None:
+    def test_log_normal_centered_prediction_has_quality_from_crps(self) -> None:
         score = score_numeric(
             expected_value=1.0,
             actual_meta=_quantile_meta_log_normal(p50=1.0, sigma_dex=0.3),
         )
         self.assertAlmostEqual(score["z"], 0.0)
-        self.assertAlmostEqual(score["quality"], 1.0)
+        # Quality is 1 - normalized CRPS / cap; even at z=0, a Gaussian with
+        # nonzero sigma has nonzero CRPS, so quality < 1 (Dirac is the limit).
         self.assertAlmostEqual(
             score["crps"],
             expected_crps(z=0.0, sigma=0.3),
         )
+        self.assertAlmostEqual(
+            score["quality"], expected_quality(expected_crps(z=0.0, sigma=0.3))
+        )
         self.assertTrue(score["within_1sigma"])
         self.assertTrue(score["within_2sigma"])
 
-    def test_log_normal_one_sigma_off_quality_matches_gaussian_density(self) -> None:
+    def test_log_normal_one_sigma_off_quality_tracks_crps(self) -> None:
         # gt is 10^sigma away from p50 on log10 scale.
         sigma_dex = math.log10(2.0)
         score = score_numeric(
@@ -66,11 +74,9 @@ class ScoreNumericTests(unittest.TestCase):
             actual_meta=_quantile_meta_log_normal(p50=1.0, sigma_dex=sigma_dex),
         )
         self.assertAlmostEqual(score["z"], 1.0)
-        self.assertAlmostEqual(
-            score["crps"],
-            expected_crps(z=1.0, sigma=sigma_dex),
-        )
-        self.assertAlmostEqual(score["quality"], math.exp(-0.5))
+        crps = expected_crps(z=1.0, sigma=sigma_dex)
+        self.assertAlmostEqual(score["crps"], crps)
+        self.assertAlmostEqual(score["quality"], expected_quality(crps))
 
     def test_normal_distribution_uses_linear_residual(self) -> None:
         score = score_numeric(
@@ -78,8 +84,10 @@ class ScoreNumericTests(unittest.TestCase):
             actual_meta=_quantile_meta_normal(p50=9.0, sigma=0.5),
         )
         self.assertAlmostEqual(score["z"], 2.0)
-        self.assertAlmostEqual(score["crps"], expected_crps(z=2.0, sigma=0.5))
-        self.assertAlmostEqual(score["quality"], math.exp(-2.0))
+        raw = expected_crps(z=2.0, sigma=0.5)
+        self.assertAlmostEqual(score["crps"], raw)
+        # Normal target: crps_scaled = raw / |y|; quality derives from it.
+        self.assertAlmostEqual(score["quality"], expected_quality(raw / 10.0))
 
     def test_sigma_derived_from_p10_p90_span(self) -> None:
         # p10/p50/p90 = 8/9/10 ⇒ span 2 ⇒ sigma = 2 / (2 * Z_0.9) = 1/Z_0.9.
@@ -106,7 +114,9 @@ class ScoreNumericTests(unittest.TestCase):
             actual_meta=_quantile_meta_log_normal(p50=1.0, sigma_dex=0.3),
         )
         self.assertEqual(score["crps"], 30.0)
-        self.assertEqual(score["quality"], 0.0)
+        # Normalized CRPS is undefined when y == 0, so quality is too.
+        self.assertIsNone(score["crps_scaled"])
+        self.assertIsNone(score["quality"])
 
     def test_inverted_quantiles_treated_as_max_penalty(self) -> None:
         score = score_numeric(
@@ -328,11 +338,10 @@ class ComputeFileMetricsTests(unittest.TestCase):
 
         metrics = compute_file_metrics(expected_json, actual_json)
 
-        self.assertAlmostEqual(metrics["numeric_quality"], 1.0)
-        self.assertAlmostEqual(metrics["numeric_crps"], expected_crps(z=0.0, sigma=0.3))
-        self.assertAlmostEqual(
-            metrics["numeric_crps_scaled"], expected_crps(z=0.0, sigma=0.3)
-        )
+        crps_log_normal = expected_crps(z=0.0, sigma=0.3)
+        self.assertAlmostEqual(metrics["numeric_quality"], expected_quality(crps_log_normal))
+        self.assertAlmostEqual(metrics["numeric_crps"], crps_log_normal)
+        self.assertAlmostEqual(metrics["numeric_crps_scaled"], crps_log_normal)
         self.assertAlmostEqual(metrics["coverage_1sigma"], 1.0)
         self.assertAlmostEqual(metrics["coverage_2sigma"], 1.0)
         self.assertAlmostEqual(metrics["bool_brier"], (0.9 - 1.0) ** 2)

@@ -9,7 +9,12 @@ from types import SimpleNamespace
 from unittest.mock import patch
 
 from foresight_phys.cache import PredictionCache
-from foresight_phys.json_payloads import build_prediction_format_signature, build_prediction_text_format
+from foresight_phys.json_payloads import (
+    build_masked_payload,
+    build_prediction_cache_key,
+    build_prediction_format_signature,
+    build_prediction_text_format,
+)
 from foresight_phys.prediction import build_benchmark_items, call_openai_with_retry
 
 
@@ -270,6 +275,171 @@ class PredictionSchemaTests(unittest.TestCase):
             {'solid': 0.4, 'liquid': 0.6},
         )
 
+    def test_build_benchmark_items_raises_on_cache_miss_in_cache_only_mode(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            json_dir = Path(tmp_dir)
+            paper_path = json_dir / 'paper.json'
+            ground_truth = [
+                {
+                    'experiment_description': 'Example experiment',
+                    'experiment_results': {
+                        'bandgap_eV': {
+                            'type': 'float',
+                            'description': 'Measured bandgap',
+                            'result': 1.23,
+                        }
+                    },
+                }
+            ]
+            paper_path.write_text(json.dumps(ground_truth), encoding='utf-8')
+
+            prediction_cache = PredictionCache(
+                enabled=True,
+                path=json_dir / 'cache.json',
+                entries={},
+                cache_only=True,
+            )
+
+            with patch('foresight_phys.prediction.call_openai_with_retry') as call_openai:
+                with self.assertRaisesRegex(
+                    ValueError,
+                    r'Cache-only mode is enabled, but cached predictions are missing for paper\.json experiment 1\.',
+                ):
+                    build_benchmark_items(
+                        json_dir=json_dir,
+                        system_prompt='Prompt A',
+                        model='gpt-5.4-nano',
+                        max_files=None,
+                        max_workers=1,
+                        prediction_cache=prediction_cache,
+                        cache_only=True,
+                    )
+
+        call_openai.assert_not_called()
+
+    def test_build_benchmark_items_can_ignore_system_prompt_for_cache_hits(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            json_dir = Path(tmp_dir)
+            paper_path = json_dir / 'paper.json'
+            ground_truth = [
+                {
+                    'experiment_description': 'Example experiment',
+                    'experiment_results': {
+                        'bandgap_eV': {
+                            'type': 'float',
+                            'description': 'Measured bandgap',
+                            'result': 1.23,
+                        }
+                    },
+                }
+            ]
+            paper_path.write_text(json.dumps(ground_truth), encoding='utf-8')
+
+            masked_payload = build_masked_payload(ground_truth)
+            cached_prediction = {
+                'experiment_description': 'Example experiment',
+                'experiment_results': {
+                    'bandgap_eV': _example_predicted_float_field(1.5),
+                },
+            }
+            cache_key = build_prediction_cache_key(
+                model='gpt-5.4-nano',
+                system_prompt='Prompt A',
+                masked_payload=[masked_payload[0]],
+                response_format=build_prediction_format_signature(),
+                include_system_prompt=False,
+            )
+            prediction_cache = PredictionCache(
+                enabled=True,
+                path=json_dir / 'cache.json',
+                entries={cache_key: cached_prediction},
+                ignore_system_prompt=True,
+            )
+
+            with patch('foresight_phys.prediction.call_openai_with_retry') as call_openai:
+                items = build_benchmark_items(
+                    json_dir=json_dir,
+                    system_prompt='Prompt B',
+                    model='gpt-5.4-nano',
+                    max_files=None,
+                    max_workers=1,
+                    prediction_cache=prediction_cache,
+                    cache_ignore_system_prompt=True,
+                )
+
+        call_openai.assert_not_called()
+        self.assertEqual(items[0].actual_output[0]['experiment_results']['bandgap_eV']['result'], 1.5)
+
+    def test_build_benchmark_items_can_prime_prompt_agnostic_cache_from_benchmark_summaries(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            tmp_path = Path(tmp_dir)
+            json_dir = tmp_path / 'jsons'
+            docs_dir = tmp_path / 'docs'
+            run_dir = docs_dir / 'prior-run'
+            json_dir.mkdir()
+            run_dir.mkdir(parents=True)
+
+            ground_truth = [
+                {
+                    'experiment_description': 'Example experiment',
+                    'experiment_results': {
+                        'bandgap_eV': {
+                            'type': 'float',
+                            'description': 'Measured bandgap',
+                            'result': 1.23,
+                        }
+                    },
+                }
+            ]
+            predicted_output = [
+                {
+                    'experiment_description': 'Example experiment',
+                    'experiment_results': {
+                        'bandgap_eV': _example_predicted_float_field(1.5),
+                    },
+                }
+            ]
+            (json_dir / 'paper.json').write_text(json.dumps(ground_truth), encoding='utf-8')
+            (run_dir / 'benchmark_results.json').write_text(
+                json.dumps(
+                    {
+                        'model': 'gpt-5.4',
+                        'per_file': [
+                            {
+                                'file': 'paper.json',
+                                'expected_output': ground_truth,
+                                'actual_output': predicted_output,
+                            }
+                        ],
+                    }
+                ),
+                encoding='utf-8',
+            )
+
+            prediction_cache = PredictionCache(
+                enabled=True,
+                path=tmp_path / 'cache.json',
+                entries={},
+                cache_only=True,
+                ignore_system_prompt=True,
+            )
+
+            with patch('foresight_phys.prediction.call_openai_with_retry') as call_openai:
+                items = build_benchmark_items(
+                    json_dir=json_dir,
+                    system_prompt='Prompt B',
+                    model='gpt-5.4',
+                    max_files=None,
+                    max_workers=1,
+                    prediction_cache=prediction_cache,
+                    cache_only=True,
+                    cache_ignore_system_prompt=True,
+                    docs_dir=docs_dir,
+                )
+
+        call_openai.assert_not_called()
+        self.assertEqual(items[0].actual_output[0]['experiment_results']['bandgap_eV']['result'], 1.5)
+
     def test_build_benchmark_items_attaches_manifest_paper_titles(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:
             json_dir = Path(tmp_dir)
@@ -438,6 +608,29 @@ class PredictionCachePersistenceTests(unittest.TestCase):
             {
                 'paper-a': {'prediction': 'first'},
                 'paper-b': {'prediction': 'second'},
+            },
+        )
+
+    def test_summary_reports_cache_modes(self) -> None:
+        prediction_cache = PredictionCache(
+            enabled=True,
+            path=Path('cache.json'),
+            entries={'paper-a': {'prediction': 'first'}},
+            cache_only=True,
+            ignore_system_prompt=True,
+        )
+
+        self.assertEqual(
+            prediction_cache.summary(),
+            {
+                'enabled': True,
+                'path': 'cache.json',
+                'cache_only': True,
+                'ignore_system_prompt': True,
+                'hits': 0,
+                'misses': 0,
+                'entries': 1,
+                'warning': None,
             },
         )
 

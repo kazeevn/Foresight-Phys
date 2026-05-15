@@ -35,8 +35,9 @@ class DummyCache:
 
 
 class DummyFormulaJudge:
-    def __init__(self, *, model: str) -> None:
+    def __init__(self, *, model: str, cache_only: bool = False) -> None:
         self.model = model
+        self.cache_only = cache_only
 
 
 class RunBenchmarkTests(unittest.TestCase):
@@ -156,9 +157,12 @@ class RunBenchmarkTests(unittest.TestCase):
                 written_summary = json.loads(output_path.read_text(encoding="utf-8"))
 
         self.assertEqual(summary["files_evaluated"], 2)
-        # Numeric quality is 1.0 on both papers; bool/cat hit at high prob; formula matches.
+        # Both papers: log_normal centered at truth with sigma_dex=0.3, so z=0
+        # but CRPS > 0 (Dirac is the quality=1 limit). Quality is high but
+        # strictly below 1.
         self.assertGreater(summary["aggregate_prediction_quality"], 0.7)
-        self.assertAlmostEqual(summary["aggregate_numeric_quality"], 1.0)
+        self.assertGreater(summary["aggregate_numeric_quality"], 0.95)
+        self.assertLess(summary["aggregate_numeric_quality"], 1.0)
         self.assertAlmostEqual(summary["aggregate_coverage_1sigma"], 1.0)
         self.assertAlmostEqual(summary["aggregate_formula_accuracy"], 1.0)
         # Paper one has only categorical+formula+numeric, paper two has bool+numeric.

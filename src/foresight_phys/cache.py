@@ -18,6 +18,8 @@ class PredictionCache:
     enabled: bool
     path: Path
     entries: dict[str, Any]
+    cache_only: bool = False
+    ignore_system_prompt: bool = False
     warning: str | None = None
     hits: int = 0
     misses: int = 0
@@ -26,21 +28,43 @@ class PredictionCache:
     @classmethod
     def from_args(cls, args: argparse.Namespace) -> "PredictionCache":
         cache_path = Path(args.cache_path)
+        cache_only = getattr(args, "cache_only", False)
+        ignore_system_prompt = getattr(args, "cache_ignore_system_prompt", False)
         if args.disable_cache:
-            return cls(enabled=False, path=cache_path, entries={})
+            return cls(
+                enabled=False,
+                path=cache_path,
+                entries={},
+                cache_only=cache_only,
+                ignore_system_prompt=ignore_system_prompt,
+            )
 
         if cache_path.exists():
             try:
-                return cls(enabled=True, path=cache_path, entries=cls._load_entries(cache_path))
+                return cls(
+                    enabled=True,
+                    path=cache_path,
+                    entries=cls._load_entries(cache_path),
+                    cache_only=cache_only,
+                    ignore_system_prompt=ignore_system_prompt,
+                )
             except (OSError, TypeError, ValueError, json.JSONDecodeError) as exc:
                 return cls(
                     enabled=True,
                     path=cache_path,
                     entries={},
+                    cache_only=cache_only,
+                    ignore_system_prompt=ignore_system_prompt,
                     warning=f"Cache reset: failed reading {cache_path} ({exc}).",
                 )
 
-        return cls(enabled=True, path=cache_path, entries={})
+        return cls(
+            enabled=True,
+            path=cache_path,
+            entries={},
+            cache_only=cache_only,
+            ignore_system_prompt=ignore_system_prompt,
+        )
 
     @staticmethod
     def _load_entries(cache_path: Path) -> dict[str, Any]:
@@ -116,6 +140,20 @@ class PredictionCache:
         self._dirty = True
         self.flush()
 
+    def prime(self, entries: dict[str, Any]) -> None:
+        if not self.enabled:
+            return
+
+        changed = False
+        for key, value in entries.items():
+            if key in self.entries:
+                continue
+            self.entries[key] = copy.deepcopy(value)
+            changed = True
+
+        if changed:
+            self._dirty = True
+
     def flush(self) -> None:
         if not self.enabled or not self._dirty:
             return
@@ -139,6 +177,8 @@ class PredictionCache:
         return {
             "enabled": self.enabled,
             "path": str(self.path),
+            "cache_only": self.cache_only,
+            "ignore_system_prompt": self.ignore_system_prompt,
             "hits": self.hits,
             "misses": self.misses,
             "entries": len(self.entries),
