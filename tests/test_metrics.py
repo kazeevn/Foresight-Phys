@@ -13,38 +13,86 @@ from foresight_phys.metrics import (
 )
 
 
+def expected_crps(*, z: float, sigma: float) -> float:
+    phi = math.exp(-0.5 * z * z) / math.sqrt(2.0 * math.pi)
+    Phi = 0.5 * (1.0 + math.erf(z / math.sqrt(2.0)))
+    return sigma * (z * (2.0 * Phi - 1.0) + 2.0 * phi - 1.0 / math.sqrt(math.pi))
+
+
+Z_90 = 1.2815515655446004
+
+
+def _quantile_meta_normal(*, p50: float, sigma: float) -> dict:
+    half_span = Z_90 * sigma
+    return {
+        "distribution": "normal",
+        "p10": p50 - half_span,
+        "p50": p50,
+        "p90": p50 + half_span,
+    }
+
+
+def _quantile_meta_log_normal(*, p50: float, sigma_dex: float) -> dict:
+    half_span = Z_90 * sigma_dex
+    return {
+        "distribution": "log_normal",
+        "p10": p50 * 10.0 ** (-half_span),
+        "p50": p50,
+        "p90": p50 * 10.0 ** half_span,
+    }
+
+
 class ScoreNumericTests(unittest.TestCase):
     def test_log_normal_perfect_prediction_has_quality_one(self) -> None:
         score = score_numeric(
             expected_value=1.0,
-            actual_meta={"distribution": "log_normal", "result": 1.0, "sigma": 0.3},
+            actual_meta=_quantile_meta_log_normal(p50=1.0, sigma_dex=0.3),
         )
         self.assertAlmostEqual(score["z"], 0.0)
         self.assertAlmostEqual(score["quality"], 1.0)
-        # NLL of N(0, sigma) at z=0 is log(sigma) + 0.5 log(2π).
         self.assertAlmostEqual(
-            score["nll"],
-            math.log(0.3) + 0.5 * math.log(2.0 * math.pi),
+            score["crps"],
+            expected_crps(z=0.0, sigma=0.3),
         )
         self.assertTrue(score["within_1sigma"])
         self.assertTrue(score["within_2sigma"])
 
     def test_log_normal_one_sigma_off_quality_matches_gaussian_density(self) -> None:
-        # gt is 10^sigma away from result on log10 scale.
+        # gt is 10^sigma away from p50 on log10 scale.
+        sigma_dex = math.log10(2.0)
         score = score_numeric(
             expected_value=2.0,
-            actual_meta={"distribution": "log_normal", "result": 1.0, "sigma": math.log10(2.0)},
+            actual_meta=_quantile_meta_log_normal(p50=1.0, sigma_dex=sigma_dex),
         )
         self.assertAlmostEqual(score["z"], 1.0)
+        self.assertAlmostEqual(
+            score["crps"],
+            expected_crps(z=1.0, sigma=sigma_dex),
+        )
         self.assertAlmostEqual(score["quality"], math.exp(-0.5))
 
     def test_normal_distribution_uses_linear_residual(self) -> None:
         score = score_numeric(
             expected_value=10.0,
-            actual_meta={"distribution": "normal", "result": 9.0, "sigma": 0.5},
+            actual_meta=_quantile_meta_normal(p50=9.0, sigma=0.5),
         )
         self.assertAlmostEqual(score["z"], 2.0)
+        self.assertAlmostEqual(score["crps"], expected_crps(z=2.0, sigma=0.5))
         self.assertAlmostEqual(score["quality"], math.exp(-2.0))
+
+    def test_sigma_derived_from_p10_p90_span(self) -> None:
+        # p10/p50/p90 = 8/9/10 ⇒ span 2 ⇒ sigma = 2 / (2 * Z_0.9) = 1/Z_0.9.
+        score = score_numeric(
+            expected_value=9.0,
+            actual_meta={
+                "distribution": "normal",
+                "p10": 8.0,
+                "p50": 9.0,
+                "p90": 10.0,
+            },
+        )
+        self.assertAlmostEqual(score["sigma"], 1.0 / Z_90)
+        self.assertAlmostEqual(score["z"], 0.0)
 
     def test_missing_prediction_gives_zero_quality(self) -> None:
         score = score_numeric(expected_value=1.0, actual_meta=None)
@@ -54,8 +102,22 @@ class ScoreNumericTests(unittest.TestCase):
     def test_log_normal_with_zero_gt_treated_as_max_penalty(self) -> None:
         score = score_numeric(
             expected_value=0.0,
-            actual_meta={"distribution": "log_normal", "result": 1.0, "sigma": 0.3},
+            actual_meta=_quantile_meta_log_normal(p50=1.0, sigma_dex=0.3),
         )
+        self.assertEqual(score["crps"], 30.0)
+        self.assertEqual(score["quality"], 0.0)
+
+    def test_inverted_quantiles_treated_as_max_penalty(self) -> None:
+        score = score_numeric(
+            expected_value=1.0,
+            actual_meta={
+                "distribution": "normal",
+                "p10": 2.0,
+                "p50": 1.0,
+                "p90": 0.0,
+            },
+        )
+        self.assertEqual(score["crps"], 30.0)
         self.assertEqual(score["quality"], 0.0)
 
 
@@ -185,9 +247,7 @@ class ComputeFileMetricsTests(unittest.TestCase):
             "experiment_results": {
                 "temperature": {
                     "type": "float",
-                    "result": 10.0,
-                    "distribution": "log_normal",
-                    "sigma": 0.3,
+                    **_quantile_meta_log_normal(p50=10.0, sigma_dex=0.3),
                 },
                 "phase": {
                     "type": "categorical",
@@ -313,9 +373,7 @@ class ComputeFileMetricsTests(unittest.TestCase):
             "experiment_results": {
                 "temperature": {
                     "type": "float",
-                    "result": 10.0,
-                    "distribution": "log_normal",
-                    "sigma": 0.3,
+                    **_quantile_meta_log_normal(p50=10.0, sigma_dex=0.3),
                 },
                 "stable": {"type": "bool", "result": True, "prob_true": 0.7},
             },

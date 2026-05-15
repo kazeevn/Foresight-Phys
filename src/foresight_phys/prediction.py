@@ -58,6 +58,10 @@ def normalize_prediction_payload(parsed: BenchmarkPredictionEnvelope) -> list[di
                     for entry in probabilities_list
                     if isinstance(entry, dict) and 'value' in entry
                 }
+            # Synthesize a point-estimate `result` from p50 for numeric fields
+            # so downstream display / parquet code stays type-agnostic.
+            if dumped.get('type') in {'float', 'integer'} and 'p50' in dumped:
+                dumped['result'] = dumped['p50']
             experiment_results[result_field.key] = dumped
 
         payload.append(
@@ -175,9 +179,11 @@ def call_openai_with_retry(
         "Return exactly one experiment in payload. "
         "For that experiment, return experiment_results as a list of result objects, each with "
         "key, type, description, and the per-type fields below.\n"
-        "- type 'float' or 'integer': set 'result' (median for log_normal, mean for normal), "
-        "'distribution' ('normal' or 'log_normal'), and 'sigma' (>0; in dex for log_normal, "
-        "in linear units for normal).\n"
+        "- type 'float' or 'integer': set 'distribution' ('normal' or 'log_normal') and your "
+        "10th/50th/90th percentiles as 'p10', 'p50', 'p90' (with p10 < p50 < p90). For "
+        "'log_normal' all three must be > 0 and are taken in linear units (we apply log10 "
+        "internally). Aim for true 10/50/90 percentiles: the truth should fall outside "
+        "[p10, p90] about 20% of the time. If unsure, err wide.\n"
         "- type 'bool': set 'result' (true/false) and 'prob_true' (probability of true, in [0,1]).\n"
         "- type 'categorical': set 'result' to your best-guess value, 'allowed_categorial_values' "
         "to the list given, and 'probabilities' as a list of {value, probability} covering every "

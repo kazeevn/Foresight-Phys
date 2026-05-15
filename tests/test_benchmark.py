@@ -70,9 +70,10 @@ class RunBenchmarkTests(unittest.TestCase):
                 "experiment_results": {
                     "temperature": {
                         "type": "float",
-                        "result": 10.0,
                         "distribution": "log_normal",
-                        "sigma": 0.3,
+                        "p10": 10.0 * 10.0 ** (-1.2815515655446004 * 0.3),
+                        "p50": 10.0,
+                        "p90": 10.0 * 10.0 ** (1.2815515655446004 * 0.3),
                     },
                     "phase": {
                         "type": "categorical",
@@ -111,9 +112,10 @@ class RunBenchmarkTests(unittest.TestCase):
                 "experiment_results": {
                     "temperature": {
                         "type": "float",
-                        "result": 10.0,
                         "distribution": "log_normal",
-                        "sigma": 0.3,
+                        "p10": 10.0 * 10.0 ** (-1.2815515655446004 * 0.3),
+                        "p50": 10.0,
+                        "p90": 10.0 * 10.0 ** (1.2815515655446004 * 0.3),
                     },
                     "stable": {
                         "type": "bool",
@@ -168,7 +170,7 @@ class RunBenchmarkTests(unittest.TestCase):
             summary["aggregate_prediction_quality"],
         )
         self.assertEqual(
-            written_summary["aggregate_numeric_nll"], summary["aggregate_numeric_nll"]
+            written_summary["aggregate_numeric_crps"], summary["aggregate_numeric_crps"]
         )
 
     def test_run_benchmark_updates_docs_index(self) -> None:
@@ -237,7 +239,7 @@ class ReportingTests(unittest.TestCase):
             "generated_at_utc": "2026-01-01T00:00:00+00:00",
             "model": "gpt-5.4-nano",
             "aggregate_prediction_quality": 1.0,
-            "aggregate_numeric_nll": -0.3,
+            "aggregate_numeric_crps": 0.07,
             "aggregate_coverage_1sigma": 1.0,
             "aggregate_coverage_2sigma": 1.0,
             "aggregate_bool_brier": None,
@@ -249,7 +251,7 @@ class ReportingTests(unittest.TestCase):
                     "file": "paper-one.json",
                     "paper_title": "Visible Paper Title",
                     "prediction_quality": 1.0,
-                    "numeric_nll": -0.3,
+                    "numeric_crps": 0.07,
                     "coverage_1sigma": 1.0,
                     "coverage_2sigma": 1.0,
                     "bool_brier": None,
@@ -268,6 +270,9 @@ class ReportingTests(unittest.TestCase):
                                     "ground_truth": 10.0,
                                     "predicted": 10.0,
                                     "distribution": "log_normal",
+                                    "p10": 5.0,
+                                    "p50": 10.0,
+                                    "p90": 20.0,
                                     "sigma": 0.3,
                                     "status_text": "z = +0.00",
                                     "status_class": "status-numeric",
@@ -311,9 +316,10 @@ class ReportingTests(unittest.TestCase):
                 "experiment_results": {
                     "temperature": {
                         "type": "float",
-                        "result": 10.0,
                         "distribution": "log_normal",
-                        "sigma": 0.3,
+                        "p10": 10.0 * 10.0 ** (-1.2815515655446004 * 0.3),
+                        "p50": 10.0,
+                        "p90": 10.0 * 10.0 ** (1.2815515655446004 * 0.3),
                     },
                 },
             },
@@ -369,7 +375,7 @@ class ReportingTests(unittest.TestCase):
                         "model": "gpt-5.4-nano",
                         "files_evaluated": 3,
                         "aggregate_prediction_quality": 0.625,
-                        "aggregate_numeric_nll": 0.75,
+                        "aggregate_numeric_crps": 0.75,
                         "aggregate_coverage_1sigma": 0.5,
                         "aggregate_coverage_2sigma": 0.9,
                     }
@@ -390,7 +396,7 @@ class ReportingTests(unittest.TestCase):
                         "model": "gpt-5.4-mini",
                         "files_evaluated": 5,
                         "aggregate_prediction_quality": 0.875,
-                        "aggregate_numeric_nll": 0.125,
+                        "aggregate_numeric_crps": 0.125,
                         "aggregate_coverage_1sigma": 0.7,
                         "aggregate_coverage_2sigma": 0.95,
                     }

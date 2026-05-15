@@ -28,9 +28,10 @@ class FloatResult(BaseModel):
     key: str
     type: Literal['float']
     description: str
-    result: StrictFloat | StrictInt
     distribution: Literal['normal', 'log_normal']
-    sigma: StrictFloat
+    p10: StrictFloat | StrictInt
+    p50: StrictFloat | StrictInt
+    p90: StrictFloat | StrictInt
 
 
 class IntegerResult(BaseModel):
@@ -39,9 +40,10 @@ class IntegerResult(BaseModel):
     key: str
     type: Literal['integer']
     description: str
-    result: StrictFloat | StrictInt
     distribution: Literal['normal', 'log_normal']
-    sigma: StrictFloat
+    p10: StrictFloat | StrictInt
+    p50: StrictFloat | StrictInt
+    p90: StrictFloat | StrictInt
 
 
 class BoolResult(BaseModel):

@@ -7,7 +7,7 @@ by ``benchmark.run_benchmark`` so the cross-model summary is not dominated by
 papers that contribute many redundant fields.
 
 Numeric fields are summarised through proper-scoring-rule quantities: mean
-NLL, mean quality (``exp(-z²/2)``), and coverage at 1σ / 2σ as calibration
+CRPS, mean quality (``exp(-z²/2)``), and coverage at 1σ / 2σ as calibration
 diagnostics.
 """
 from __future__ import annotations
@@ -69,7 +69,7 @@ def _build_wide(scored: pd.DataFrame) -> pd.DataFrame:
             "experiment_description",
         ],
         columns="model",
-        values=["correct", "quality", "nll", "numeric_pred", "z"],
+        values=["correct", "quality", "crps", "numeric_pred", "z"],
         aggfunc="first",
     ).reset_index()
     wide.columns = [f"{a}__{b}" if b else a for a, b in wide.columns]
@@ -94,7 +94,7 @@ def _per_model_summary(scored: pd.DataFrame) -> list[dict]:
     numeric_df["abs_z"] = numeric_df["z"].abs()
     for col, cutoff in COVERAGE_BUCKETS:
         numeric_df[col] = (numeric_df["abs_z"] < cutoff).astype(float)
-    nll_macro = _paper_macro(numeric_df, "nll")
+    crps_macro = _paper_macro(numeric_df, "crps")
     numeric_quality_macro = _paper_macro(numeric_df, "quality")
     coverage_macros = {col: _paper_macro(numeric_df, col) for col, _ in COVERAGE_BUCKETS}
 
@@ -118,7 +118,7 @@ def _per_model_summary(scored: pd.DataFrame) -> list[dict]:
                 if m in numeric_quality_macro.index
                 else None
             ),
-            "numeric_nll": float(nll_macro.get(m, float("nan"))) if m in nll_macro.index else None,
+            "numeric_crps": float(crps_macro.get(m, float("nan"))) if m in crps_macro.index else None,
             "bool_categorical_accuracy": (
                 float(disc_macro.get(m, float("nan"))) if m in disc_macro.index else None
             ),
@@ -143,7 +143,7 @@ def _numeric_calibration(scored: pd.DataFrame) -> list[dict]:
     num["abs_z"] = num["z"].abs()
     for col, cutoff in COVERAGE_BUCKETS:
         num[col] = (num["abs_z"] < cutoff).astype(float)
-    nll_macro = _paper_macro(num, "nll")
+    crps_macro = _paper_macro(num, "crps")
     quality_macro = _paper_macro(num, "quality")
     coverage = {col: _paper_macro(num, col) for col, _ in COVERAGE_BUCKETS}
 
@@ -153,7 +153,7 @@ def _numeric_calibration(scored: pd.DataFrame) -> list[dict]:
             "model": m,
             "n_fields": int(len(sub)),
             "n_papers": int(sub["file_id"].nunique()),
-            "numeric_nll": float(nll_macro.get(m, float("nan"))) if m in nll_macro.index else None,
+            "numeric_crps": float(crps_macro.get(m, float("nan"))) if m in crps_macro.index else None,
             "numeric_quality": (
                 float(quality_macro.get(m, float("nan")))
                 if m in quality_macro.index

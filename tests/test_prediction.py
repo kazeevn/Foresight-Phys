@@ -18,9 +18,10 @@ def _example_float_field() -> dict:
         'key': 'bandgap_eV',
         'type': 'float',
         'description': 'Measured bandgap',
-        'result': 1.23,
         'distribution': 'log_normal',
-        'sigma': 0.3,
+        'p10': 0.6,
+        'p50': 1.23,
+        'p90': 2.5,
     }
 
 
@@ -30,7 +31,9 @@ def _example_predicted_float_field(result: float = 1.5) -> dict:
         'description': 'Measured bandgap',
         'result': result,
         'distribution': 'log_normal',
-        'sigma': 0.3,
+        'p10': result / 2.0,
+        'p50': result,
+        'p90': result * 2.0,
     }
 
 
@@ -126,7 +129,11 @@ class PredictionSchemaTests(unittest.TestCase):
         )
         bandgap_pred = payload[0]['experiment_results']['bandgap_eV']
         self.assertEqual(bandgap_pred['distribution'], 'log_normal')
-        self.assertEqual(bandgap_pred['sigma'], 0.3)
+        self.assertEqual(bandgap_pred['p10'], 0.6)
+        self.assertEqual(bandgap_pred['p50'], 1.23)
+        self.assertEqual(bandgap_pred['p90'], 2.5)
+        # normalize_prediction_payload synthesises `result` from p50 for downstream display.
+        self.assertEqual(bandgap_pred['result'], 1.23)
         self.assertEqual(payload[0]['experiment_results']['stable']['prob_true'], 0.8)
         self.assertEqual(payload[0]['experiment_results']['dispersion']['confidence'], 0.6)
 

@@ -144,8 +144,11 @@ computes:
 - `prediction_quality`: mean of per-field quality across all result fields.
   Quality is bounded in [0, 1] (`exp(-z²/2)` for numeric, `1 - brier` for
   bool / formula, `1 - ½·brier` for categorical).
-- `numeric_nll`: mean NLL of numeric predictions under the chosen
-  distribution. `0.5 z² + log(sigma) + 0.5 log(2π)` (capped at 30).
+- `numeric_crps`: mean CRPS of numeric predictions under the chosen
+	distribution. The benchmark evaluates the Gaussian forecast in the space
+	where `sigma` lives: linear units for `normal`, dex for `log_normal`.
+	`CRPS = sigma * [z * (2 Phi(z) - 1) + 2 phi(z) - 1 / sqrt(pi)]`
+	(capped at 30).
 - `coverage_1sigma`, `coverage_2sigma`: fraction of numeric predictions with
   `|z| < 1` and `|z| < 2`. With well-calibrated uncertainty these target
   ≈0.68 and ≈0.95.

@@ -19,6 +19,23 @@ def format_timestamp(timestamp: float | None) -> str:
     return datetime.fromtimestamp(timestamp, tz=timezone.utc).isoformat()
 
 
+def _numeric_metric_label_and_key(
+    values: dict[str, Any],
+    *,
+    aggregate: bool,
+) -> tuple[str, str]:
+    prefix = 'aggregate_' if aggregate else ''
+    crps_key = f'{prefix}numeric_crps'
+    if crps_key in values:
+        return 'Numeric CRPS', crps_key
+
+    nll_key = f'{prefix}numeric_nll'
+    if nll_key in values:
+        return 'Numeric NLL', nll_key
+
+    return 'Numeric CRPS', crps_key
+
+
 def write_runs_index(*, docs_dir: Path, latest_run_name: str | None = None) -> None:
     docs_dir.mkdir(parents=True, exist_ok=True)
 
@@ -49,13 +66,19 @@ def write_runs_index(*, docs_dir: Path, latest_run_name: str | None = None) -> N
         if not timestamps:
             timestamps.append(run_dir.stat().st_mtime)
 
+        numeric_metric_label, numeric_metric_key = _numeric_metric_label_and_key(
+            summary,
+            aggregate=True,
+        )
+
         runs.append(
             {
                 'run_name': run_dir.name,
                 'model': summary.get('model'),
                 'files_evaluated': summary.get('files_evaluated'),
                 'aggregate_prediction_quality': summary.get('aggregate_prediction_quality'),
-                'aggregate_numeric_nll': summary.get('aggregate_numeric_nll'),
+                'aggregate_numeric_metric_label': numeric_metric_label,
+                'aggregate_numeric_metric': summary.get(numeric_metric_key),
                 'aggregate_coverage_1sigma': summary.get('aggregate_coverage_1sigma'),
                 'aggregate_coverage_2sigma': summary.get('aggregate_coverage_2sigma'),
                 'summary_href': f'{run_dir.name}/benchmark_results.json' if summary_path.exists() else None,
@@ -106,8 +129,8 @@ def write_runs_index(*, docs_dir: Path, latest_run_name: str | None = None) -> N
                     f'<dd>{html.escape(files_text)}</dd></div>',
                     '<div><dt>Prediction Quality</dt>'
                     f'<dd>{html.escape(format_metric_value(run["aggregate_prediction_quality"]))}</dd></div>',
-                    '<div><dt>Numeric NLL</dt>'
-                    f'<dd>{html.escape(format_metric_value(run["aggregate_numeric_nll"]))}</dd></div>',
+                    f'<div><dt>{html.escape(run["aggregate_numeric_metric_label"])}</dt>'
+                    f'<dd>{html.escape(format_metric_value(run["aggregate_numeric_metric"]))}</dd></div>',
                     '<div><dt>Coverage @1σ</dt>'
                     f'<dd>{html.escape(format_metric_value(run["aggregate_coverage_1sigma"]))}</dd></div>',
                     '<div><dt>Coverage @2σ</dt>'
@@ -348,13 +371,20 @@ def write_human_readable_report(
 
     def format_uncertainty(row: dict[str, Any]) -> str:
         field_type = str(row.get('type', '')).strip().lower()
-        if field_type in {'float', 'integer'}:
+        if field_type in {'float', 'integer', 'int', 'number'}:
             distribution = row.get('distribution')
+            p10 = row.get('p10')
+            p50 = row.get('p50')
+            p90 = row.get('p90')
             sigma = row.get('sigma')
-            if distribution is None or sigma is None:
+            if distribution is None or p10 is None or p50 is None or p90 is None:
                 return 'n/a'
             unit = 'dex' if distribution == 'log_normal' else 'linear'
-            return f'σ = {sigma:.3g} ({distribution}, {unit})'
+            sigma_part = f', σ ≈ {sigma:.3g} {unit}' if sigma is not None else ''
+            return (
+                f'p10/p50/p90 = {p10:.3g} / {p50:.3g} / {p90:.3g} '
+                f'({distribution}{sigma_part})'
+            )
         if field_type in {'bool', 'boolean'}:
             prob_true = row.get('prob_true')
             if prob_true is None:
@@ -376,9 +406,13 @@ def write_human_readable_report(
     def collect_file_section(item_summary: dict[str, Any]) -> str:
         section_parts: list[str] = []
         section_parts.append('<div class="paper-metrics">')
+        numeric_metric_label, numeric_metric_key = _numeric_metric_label_and_key(
+            item_summary,
+            aggregate=False,
+        )
         chips = (
             ("Prediction Quality", "prediction_quality"),
-            ("Numeric NLL", "numeric_nll"),
+            (numeric_metric_label, numeric_metric_key),
             ("Coverage @1σ", "coverage_1sigma"),
             ("Coverage @2σ", "coverage_2sigma"),
             ("Bool Brier", "bool_brier"),
@@ -484,6 +518,11 @@ def write_human_readable_report(
     else:
         sidebar_html = '\n'.join(sidebar_buttons)
         panels_html = '\n'.join(paper_panels)
+
+    aggregate_numeric_label, aggregate_numeric_key = _numeric_metric_label_and_key(
+        summary,
+        aggregate=True,
+    )
 
     report_html = f'''<!DOCTYPE html>
 <html lang="en">
@@ -609,7 +648,7 @@ def write_human_readable_report(
         <div class="meta">Generated: {html.escape(generated_at_utc)}</div>
         <div class="meta">Files: {len(items)}</div>
         <div class="meta">Aggregate prediction quality: {format_metric_value(summary.get('aggregate_prediction_quality'))}</div>
-        <div class="meta">Aggregate numeric NLL: {format_metric_value(summary.get('aggregate_numeric_nll'))}</div>
+        <div class="meta">Aggregate {html.escape(aggregate_numeric_label)}: {format_metric_value(summary.get(aggregate_numeric_key))}</div>
         <div class="meta">Aggregate coverage @1σ: {format_metric_value(summary.get('aggregate_coverage_1sigma'))}</div>
         <div class="meta">Aggregate coverage @2σ: {format_metric_value(summary.get('aggregate_coverage_2sigma'))}</div>
         <div class="meta">Aggregate bool Brier: {format_metric_value(summary.get('aggregate_bool_brier'))}</div>

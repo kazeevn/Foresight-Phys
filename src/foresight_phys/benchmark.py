@@ -68,7 +68,7 @@ def run_benchmark(args: argparse.Namespace) -> dict[str, Any]:
     aggregate_keys = (
         'prediction_quality',
         'numeric_quality',
-        'numeric_nll',
+        'numeric_crps',
         'coverage_1sigma',
         'coverage_2sigma',
         'bool_brier',

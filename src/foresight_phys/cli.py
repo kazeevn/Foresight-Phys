@@ -174,7 +174,7 @@ def main() -> None:
 
     _print("Aggregate prediction quality", "aggregate_prediction_quality")
     _print("Aggregate numeric quality", "aggregate_numeric_quality")
-    _print("Aggregate numeric NLL", "aggregate_numeric_nll")
+    _print("Aggregate numeric CRPS", "aggregate_numeric_crps")
     _print("Aggregate coverage @1σ", "aggregate_coverage_1sigma")
     _print("Aggregate coverage @2σ", "aggregate_coverage_2sigma")
     _print("Aggregate bool Brier", "aggregate_bool_brier")

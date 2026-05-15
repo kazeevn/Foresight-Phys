@@ -7,13 +7,20 @@ from .formula_judging import FormulaJudge, FormulaJudgment
 from .json_payloads import get_at_path, iter_result_paths
 
 
-# Cap NLL at this value so individual catastrophic numeric predictions don't
-# swamp the run aggregates and infinities don't propagate.
-NLL_CAP = 30.0
-# Floor for sigma to keep log/division stable.
+# Cap CRPS so individual catastrophic numeric predictions don't swamp the run
+# aggregates and malformed values stay finite.
+CRPS_CAP = 30.0
+# Floor for sigma to keep division stable.
 SIGMA_FLOOR = 1e-9
 LN10 = math.log(10.0)
-LOG_2PI = math.log(2.0 * math.pi)
+SQRT_2 = math.sqrt(2.0)
+SQRT_PI = math.sqrt(math.pi)
+SQRT_2PI = math.sqrt(2.0 * math.pi)
+# Standard-normal inverse CDF at 0.9; used to fit sigma from (p10, p90).
+# scipy.stats.norm.ppf(0.9) to 16 digits.
+Z_90 = 1.2815515655446004
+# (p90 - p10) span = 2 * Z_90 standard deviations for a Gaussian.
+QUANTILE_SPAN_TO_SIGMA = 2.0 * Z_90
 
 
 def coerce_bool(value: Any) -> tuple[bool, bool]:
@@ -127,10 +134,34 @@ def is_categorical_result(result_type: str | None, expected_value: Any) -> bool:
     )
 
 
-def _clip_nll(value: float) -> float:
+def _clip_crps(value: float) -> float:
     if not math.isfinite(value):
-        return NLL_CAP
-    return min(max(value, -NLL_CAP), NLL_CAP)
+        return CRPS_CAP
+    return min(max(value, 0.0), CRPS_CAP)
+
+
+def _standard_normal_pdf(z: float) -> float:
+    return math.exp(-0.5 * z * z) / SQRT_2PI
+
+
+def _standard_normal_cdf(z: float) -> float:
+    return 0.5 * (1.0 + math.erf(z / SQRT_2))
+
+
+def _normal_crps(*, z: float, sigma: float) -> float:
+    cdf = _standard_normal_cdf(z)
+    pdf = _standard_normal_pdf(z)
+    return sigma * (z * (2.0 * cdf - 1.0) + 2.0 * pdf - 1.0 / SQRT_PI)
+
+
+def _coerce_finite_float(value: Any) -> tuple[bool, float]:
+    try:
+        f = float(value)
+    except (TypeError, ValueError):
+        return False, 0.0
+    if not math.isfinite(f):
+        return False, 0.0
+    return True, f
 
 
 def score_numeric(
@@ -138,16 +169,19 @@ def score_numeric(
     expected_value: Any,
     actual_meta: dict[str, Any] | None,
 ) -> dict[str, Any]:
-    """Score a numeric prediction under the model's chosen normal / log_normal."""
+    """Score a numeric prediction with CRPS by fitting a Gaussian to (p10, p50, p90)."""
     expected_ok, expected_value_f = coerce_numeric(expected_value)
     result: dict[str, Any] = {
         "expected_ok": expected_ok,
         "expected_value": expected_value_f if expected_ok else None,
         "predicted_value": None,
         "distribution": None,
+        "p10": None,
+        "p50": None,
+        "p90": None,
         "sigma": None,
         "z": None,
-        "nll": NLL_CAP,
+        "crps": CRPS_CAP,
         "quality": 0.0,
         "within_1sigma": None,
         "within_2sigma": None,
@@ -161,38 +195,41 @@ def score_numeric(
         # Treat malformed predictions as missing-uncertainty: maximum penalty.
         return result
 
-    pred_ok, predicted_value = coerce_numeric(actual_meta.get("result"))
-    if not pred_ok:
+    p10_ok, p10 = _coerce_finite_float(actual_meta.get("p10"))
+    p50_ok, p50 = _coerce_finite_float(actual_meta.get("p50"))
+    p90_ok, p90 = _coerce_finite_float(actual_meta.get("p90"))
+    if not (p10_ok and p50_ok and p90_ok):
+        return result
+    if not (p10 < p90):
+        # Inverted or collapsed interval — degenerate forecast, max penalty.
         return result
 
-    sigma_raw = actual_meta.get("sigma")
-    try:
-        sigma = float(sigma_raw)
-    except (TypeError, ValueError):
-        return result
-    if not math.isfinite(sigma) or sigma <= 0.0:
-        return result
-    sigma = max(sigma, SIGMA_FLOOR)
-
-    result["predicted_value"] = predicted_value
     result["distribution"] = distribution
-    result["sigma"] = sigma
+    result["p10"] = p10
+    result["p50"] = p50
+    result["p90"] = p90
+    result["predicted_value"] = p50
 
     if distribution == "log_normal":
-        # Log-normal is undefined at zero in either argument; treat as max-penalty.
-        if expected_value_f == 0.0 or predicted_value == 0.0:
+        # log_normal requires all quantiles strictly positive; otherwise undefined.
+        if p10 <= 0.0 or p50 <= 0.0 or p90 <= 0.0:
             return result
-        # Sign mismatch is also undefined under log_normal; treat as max-penalty.
-        if (expected_value_f > 0) != (predicted_value > 0):
+        if expected_value_f <= 0.0:
             return result
-        z = (math.log10(abs(expected_value_f)) - math.log10(abs(predicted_value))) / sigma
+        log_p10 = math.log10(p10)
+        log_p50 = math.log10(p50)
+        log_p90 = math.log10(p90)
+        sigma = max((log_p90 - log_p10) / QUANTILE_SPAN_TO_SIGMA, SIGMA_FLOOR)
+        z = (math.log10(expected_value_f) - log_p50) / sigma
     else:  # normal
-        z = (expected_value_f - predicted_value) / sigma
+        sigma = max((p90 - p10) / QUANTILE_SPAN_TO_SIGMA, SIGMA_FLOOR)
+        z = (expected_value_f - p50) / sigma
 
-    nll = 0.5 * z * z + math.log(sigma) + 0.5 * LOG_2PI
+    result["sigma"] = sigma
+    crps = _normal_crps(z=z, sigma=sigma)
     quality = math.exp(-0.5 * z * z)
     result["z"] = z
-    result["nll"] = _clip_nll(nll)
+    result["crps"] = _clip_crps(crps)
     result["quality"] = quality
     result["within_1sigma"] = bool(abs(z) < 1.0)
     result["within_2sigma"] = bool(abs(z) < 2.0)
@@ -441,7 +478,7 @@ def has_bool_or_categorical_targets(payload: Any) -> bool:
 METRIC_KEYS = (
     "prediction_quality",
     "numeric_quality",
-    "numeric_nll",
+    "numeric_crps",
     "coverage_1sigma",
     "coverage_2sigma",
     "bool_brier",
@@ -479,7 +516,10 @@ def _format_numeric_status(score: dict[str, Any]) -> tuple[str, str, str]:
     return (
         f"z = {score['z']:+.2f} (σ = {score['sigma']:.3g} {score['distribution']})",
         "status-numeric",
-        f"NLL = {score['nll']:.3f}; quality = {score['quality']:.3f}",
+        (
+            f"p10/p50/p90 = {score['p10']:.3g} / {score['p50']:.3g} / {score['p90']:.3g}; "
+            f"CRPS = {score['crps']:.3f}; quality = {score['quality']:.3f}"
+        ),
     )
 
 
@@ -553,7 +593,7 @@ def build_experiment_report(
 
     quality_values: list[float] = []
     numeric_quality_values: list[float] = []
-    numeric_nll_values: list[float] = []
+    numeric_crps_values: list[float] = []
     coverage_1sigma_hits: list[float] = []
     coverage_2sigma_hits: list[float] = []
     bool_brier_values: list[float] = []
@@ -602,7 +642,7 @@ def build_experiment_report(
             )
             quality_values.append(score["quality"])
             numeric_quality_values.append(score["quality"])
-            numeric_nll_values.append(score["nll"])
+            numeric_crps_values.append(score["crps"])
             if score["within_1sigma"] is not None:
                 coverage_1sigma_hits.append(1.0 if score["within_1sigma"] else 0.0)
             if score["within_2sigma"] is not None:
@@ -611,9 +651,12 @@ def build_experiment_report(
             row.update(
                 {
                     "distribution": score["distribution"],
+                    "p10": score["p10"],
+                    "p50": score["p50"],
+                    "p90": score["p90"],
                     "sigma": score["sigma"],
                     "z": score["z"],
-                    "nll": score["nll"],
+                    "crps": score["crps"],
                     "quality": score["quality"],
                 }
             )
@@ -708,9 +751,9 @@ def build_experiment_report(
             if numeric_quality_values
             else None
         ),
-        "numeric_nll": (
-            sum(numeric_nll_values) / len(numeric_nll_values)
-            if numeric_nll_values
+        "numeric_crps": (
+            sum(numeric_crps_values) / len(numeric_crps_values)
+            if numeric_crps_values
             else None
         ),
         "coverage_1sigma": (

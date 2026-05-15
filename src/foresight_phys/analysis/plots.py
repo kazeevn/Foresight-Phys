@@ -289,8 +289,8 @@ def fig_reliability(scored: pd.DataFrame) -> plt.Figure:
     return fig
 
 
-def fig_nll_bars(scored: pd.DataFrame) -> plt.Figure:
-    """Per-model mean NLL across numeric / bool / categorical / formula."""
+def fig_crps_bars(scored: pd.DataFrame) -> plt.Figure:
+    """Per-model mean CRPS / Brier across numeric / discrete / formula fields."""
     models = _model_order(scored)
     palette = _model_palette(models)
 
@@ -308,13 +308,13 @@ def fig_nll_bars(scored: pd.DataFrame) -> plt.Figure:
             for m in models
         }
 
-    nll = macro(scored["type"].isin(NUMERIC_TYPES), "nll")
+    crps = macro(scored["type"].isin(NUMERIC_TYPES), "crps")
     bool_br = macro(scored["type"] == "bool", "brier")
     cat_br = macro(scored["type"] == "categorical", "brier")
     form_br = macro(scored["type"] == "formula", "brier")
 
     metrics = {
-        "Numeric\nNLL": [nll[m] for m in models],
+        "Numeric\nCRPS": [crps[m] for m in models],
         "Bool\nBrier": [bool_br[m] for m in models],
         "Categorical\nBrier": [cat_br[m] for m in models],
         "Formula\nBrier": [form_br[m] for m in models],
@@ -485,7 +485,7 @@ def _figure_specs() -> list[tuple[str, PlotFactory, tuple[str, ...]]]:
         ("coverage_bars", fig_coverage_bars, ("scored",)),
         ("abs_z_cdf", fig_abs_z_cdf, ("scored",)),
         ("reliability", fig_reliability, ("scored",)),
-        ("nll_bars", fig_nll_bars, ("scored",)),
+        ("crps_bars", fig_crps_bars, ("scored",)),
         ("aggregate_per_field", fig_aggregate_per_field, ("scored",)),
         ("difficulty_distribution", fig_difficulty, ("wide",)),
         ("numeric_scatter", fig_numeric_scatter, ("scored",)),

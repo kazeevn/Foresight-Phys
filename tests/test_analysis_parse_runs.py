@@ -33,6 +33,9 @@ class ParseRunsTests(unittest.TestCase):
                                         "ground_truth": 10.0,
                                         "predicted": 9.5,
                                         "distribution": "log_normal",
+                                        "p10": 5.0,
+                                        "p50": 9.5,
+                                        "p90": 18.0,
                                         "sigma": 0.3,
                                         "z": 0.1,
                                         "nll": 0.5,
@@ -79,7 +82,7 @@ class ParseRunsTests(unittest.TestCase):
             self.assertEqual(df.iloc[0]["distribution"], "log_normal")
             self.assertAlmostEqual(df.iloc[0]["sigma"], 0.3)
             self.assertAlmostEqual(df.iloc[0]["z"], 0.1)
-            self.assertAlmostEqual(df.iloc[0]["nll"], 0.5)
+            self.assertAlmostEqual(df.iloc[0]["crps"], 0.5)
             self.assertAlmostEqual(df.iloc[0]["quality"], 0.95)
             self.assertEqual(df.iloc[1]["status_class"], "status-match")
             self.assertEqual(
