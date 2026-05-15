@@ -1,85 +1,126 @@
 [
   {
-    "experiment_description": "Ab initio structural relaxation of a monolayer MoS2 slab modeled in a hexagonal supercell containing two sulfur atomic planes with an intercalated molybdenum plane. The in-plane lattice parameter was fixed to the experimental bulk value 3.16 Å, and the supercell height along the out-of-plane direction was 20 Å, with a slab Coulomb-truncation scheme used to suppress interactions between periodic images. Ground-state calculations were performed with density functional theory in the local density approximation using QUANTUM ESPRESSO, fully relativistic optimized norm-conserving Vanderbilt SG15 pseudopotentials, molybdenum 4s and 4p semicore states included as valence states, a 12 × 12 k-point mesh, fixed occupations, and a 100 Ry plane-wave cutoff. All atomic forces were relaxed to below 1e-6 Ry/a0. The dependent quantities were the relaxed out-of-plane S-plane separation and corresponding Mo–S bond length obtained from the final equilibrium geometry.",
+    "experiment_description": "A periodic first-principles structural and charge-density modeling procedure is applied to monolayer MoS2 as the material platform for testing whether second-order optical responses require many-body correlations beyond two-particle excitons. The target structure is a single S-Mo-S layer in a hexagonal close-packed supercell with one molybdenum plane between two sulfur planes, point group D3h and space group P6m2, with the in-plane lattice parameter fixed to the experimental bulk value 3.16 Å. The out-of-plane supercell height is 20 Å to separate periodically repeated slabs, and slab-geometry Coulomb truncation is used to suppress image interactions. Ground-state DFT is performed in the local-density approximation using QUANTUM ESPRESSO with fully relativistic optimized norm-conserving Vanderbilt SG15 pseudopotentials; molybdenum 4s and 4p semicore states are included as valence along with 4d and 5s states. Self-consistent calculations use fixed occupations, a 12 × 12 in-plane k-point mesh, and a 100 Ry plane-wave cutoff. Atomic coordinates are relaxed until all forces are below 10^-6 Ry/a0 while the in-plane lattice parameter and supercell height are fixed. The spatial-geometric scope is the translationally periodic primitive monolayer unit cell with no finite edges or defects; surface continuity and out-of-plane extent are assessed from the planar, in-plane averaged electron charge density rho(z) along the full 20 Å supercell. The intended goal is to determine the relaxed intrinsic S-Mo-S layer geometry and the effective electronic thickness used to convert supercell optical tensors into 3D-like monolayer quantities.",
     "experiment_results": {
-      "relaxed_s_s_interplanar_distance_A": {
+      "relaxed_mo_s_plane_separation_A": {
         "type": "float",
-        "description": "Relaxed distance between the two sulfur planes in the monolayer MoS2 slab geometry.",
+        "description": "The relaxed vertical separation between the molybdenum plane and each sulfur plane in the monolayer unit cell.",
         "result": 1.55
       },
       "relaxed_mo_s_bond_length_A": {
         "type": "float",
-        "description": "Mo–S bond length in relaxed monolayer MoS2 obtained from the LDA structural relaxation.",
+        "description": "The relaxed nearest-neighbor Mo-S bond length in the monolayer unit cell.",
         "result": 2.39
+      },
+      "effective_monolayer_thickness_A": {
+        "type": "float",
+        "description": "The electronic effective monolayer thickness obtained from the out-of-plane extent of the planar-averaged charge density.",
+        "result": 7.3
       }
     }
   },
   {
-    "experiment_description": "Electronic band-structure calculation for monolayer MoS2 in the relaxed slab geometry with in-plane lattice parameter 3.16 Å and 20 Å out-of-plane supercell height. The ground-state electronic structure was computed using LDA in QUANTUM ESPRESSO with fully relativistic optimized norm-conserving Vanderbilt SG15 pseudopotentials, Mo semicore states included, a 100 Ry plane-wave cutoff, fixed occupations, and a 12 × 12 k-point mesh. Quasiparticle corrections were then computed with the one-shot G0W0 approximation in YAMBO starting from LDA wavefunctions and energies. The G0W0 calculation used the plasmon-pole approximation, dielectric-matrix cutoff 12 Ry, exchange and correlation self-energy cutoff 40 Ry, up to 220 bands in the dielectric-matrix and correlation self-energy sums, a 30 × 30 k-point mesh, Coulomb truncation in slab geometry, and the random-integration method for the screened potential with 2 × 10^6 random points. The band dispersion was evaluated along the Γ–K–M–Γ path, and the direct band gap at the K point was read from the LDA and G0W0 band structures.",
+    "experiment_description": "The electronic band structure of monolayer MoS2 is calculated to establish the one-particle and quasiparticle electronic starting point for a TDCDFT description of excitonic and trionic contributions to second-harmonic generation. The structure is a periodic S-Mo-S monolayer in a 20 Å out-of-plane supercell with slab Coulomb truncation, fixed in-plane lattice parameter 3.16 Å, relaxed S-Mo-S geometry, and no finite-size edges or defects; the electronic properties are averaged over the full two-dimensional Brillouin zone of the primitive cell. The baseline band dispersion is obtained from LDA DFT in QUANTUM ESPRESSO using fully relativistic SG15 norm-conserving pseudopotentials, Mo semicore states as valence, fixed occupations, a 12 × 12 self-consistent k-point mesh, and a 100 Ry plane-wave cutoff. Quasiparticle corrections are then computed from the LDA wave functions and energies using the one-shot G0W0 approximation in YAMBO. The G0W0 dielectric matrix uses the plasmon-pole approximation, 12 Ry cutoff for the dielectric matrix, 40 Ry cutoff for exchange and correlation self-energy terms, up to 220 bands in dielectric-matrix and correlation sums, the Bruneval-Gonze acceleration for empty states, a 30 × 30 k-point mesh, random-integration of the screened potential with 2 × 10^6 Monte Carlo points, reciprocal-vector cutoffs of 2.5 Ry and 1 Ry for bare and screened Coulomb terms, and slab Coulomb truncation. The band path sampled for reporting is Gamma-K-M-Gamma, and the direct-gap location is identified relative to the high-symmetry points of the monolayer Brillouin zone.",
     "experiment_results": {
-      "lda_direct_band_gap_at_k_eV": {
+      "lda_direct_band_gap_eV": {
         "type": "float",
-        "description": "Direct electronic band gap at the K point of monolayer MoS2 from the LDA band structure.",
+        "description": "The direct electronic band gap from the LDA band structure.",
         "result": 1.65
       },
-      "g0w0_direct_band_gap_at_k_eV": {
+      "g0w0_direct_band_gap_eV": {
         "type": "float",
-        "description": "Direct quasiparticle band gap at the K point of monolayer MoS2 after one-shot G0W0 correction.",
+        "description": "The direct quasiparticle band gap after one-shot G0W0 correction.",
         "result": 2.52
+      },
+      "direct_gap_k_point": {
+        "type": "categorical",
+        "description": "The Brillouin-zone high-symmetry point at which the direct valence-to-conduction gap occurs.",
+        "result": "K",
+        "allowed_categorial_values": [
+          "Gamma",
+          "K",
+          "M",
+          "other"
+        ]
       }
     }
   },
   {
-    "experiment_description": "Linear optical-response calculation for monolayer MoS2 using many-body perturbation theory. Starting from LDA wavefunctions and G0W0 quasiparticle energies for a relaxed 20 Å-height monolayer supercell with slab Coulomb truncation, the Bethe–Salpeter equation was solved in YAMBO to include electron–hole excitonic effects in the macroscopic in-plane optical dielectric tensor. The BSE calculation used the Lanczos–Haydock solver, a 33 × 33 k-point mesh, electron–hole exchange cutoff 25 Ry, electron–hole attraction cutoff 8 Ry, 14 occupied states, and 22 unoccupied states in the excitonic Hamiltonian. The macroscopic optical dielectric spectrum was evaluated over the visible/near-ultraviolet photon-energy range shown in the paper, and excitonic resonance positions were identified from the peak structure of the BSE dielectric spectrum.",
+    "experiment_description": "The linear optical response of monolayer MoS2 is computed as the two-particle excitonic input for the paper's central TDCDFT strategy: a dynamical long-range linear exchange-correlation kernel is constructed so that second-harmonic generation can include electron-hole excitonic screening before testing three-particle trionic corrections. The sample model is a pristine, translationally periodic monolayer MoS2 primitive cell in a 20 Å slab supercell with fixed in-plane lattice parameter 3.16 Å, relaxed S-Mo-S geometry, slab Coulomb truncation, and optical tensors rescaled using an effective monolayer thickness of 7.3 Å; the spatial scope is the full periodic monolayer, with response averaged over the unit cell and sampled over the two-dimensional Brillouin zone. Starting from LDA wave functions and G0W0 quasiparticle energies computed with the settings specified for the quasiparticle calculation, the Bethe-Salpeter equation is solved in YAMBO using the Lanczos-Haydock solver. The BSE kernel uses 25 Ry cutoff for the electron-hole exchange part and 8 Ry cutoff for the electron-hole attraction part; 14 occupied and 22 unoccupied spin-split states are included in the excitonic Hamiltonian; a 33 × 33 k-point mesh is used. The optical observable is the in-plane xx component of the macroscopic dielectric function over photon energies from 0 to 5 eV, including spin-orbit effects and electron-hole attraction. Peak positions are read from the computed macroscopic optical dielectric spectrum.",
     "experiment_results": {
-      "bse_a_exciton_peak_energy_eV": {
+      "a_b_exciton_doublet_energy_lower_eV": {
         "type": "float",
-        "description": "Approximate lower-energy member of the spin-split A/B exciton doublet in the BSE macroscopic optical dielectric spectrum of monolayer MoS2.",
+        "description": "The lower photon-energy bound of the A/B exciton double-peak region in the BSE macroscopic optical dielectric spectrum.",
         "result": 2.0
       },
-      "bse_b_exciton_peak_energy_eV": {
+      "a_b_exciton_doublet_energy_upper_eV": {
         "type": "float",
-        "description": "Approximate higher-energy member of the spin-split A/B exciton doublet in the BSE macroscopic optical dielectric spectrum of monolayer MoS2.",
+        "description": "The upper photon-energy bound of the A/B exciton double-peak region in the BSE macroscopic optical dielectric spectrum.",
         "result": 2.15
       },
-      "bse_c_exciton_peak_energy_eV": {
+      "c_exciton_peak_energy_eV": {
         "type": "float",
-        "description": "Approximate C-exciton resonance energy in the BSE macroscopic optical dielectric spectrum of monolayer MoS2.",
+        "description": "The photon energy of the C excitonic peak in the BSE macroscopic optical dielectric spectrum.",
         "result": 2.7
       }
     }
   },
   {
-    "experiment_description": "Second-harmonic-generation calculation for monolayer MoS2 including many-body interactions up to the two-particle excitonic level only. The monolayer was modeled as a 20 Å-height slab and the macroscopic response was rescaled to an effective monolayer thickness Leff = 7.3 Å. Independent-particle SHG susceptibility tensors were computed in the optical and long-wavelength limit using length-gauge expressions implemented in WANNIER90, starting from a 48 spin-split-band manifold and constructing 36 disentangled maximally localized Wannier functions spanning 14 high-energy valence bands and 22 low-energy conduction bands, with sulfur p trial orbitals and molybdenum s and d trial orbitals. A 1000 × 1000 interpolated k-point mesh was used, with complex-frequency broadening η = 0.1 eV, auxiliary denominator regularization ηr = 0.05 eV, and occupation factors evaluated at T = 0 K. The interacting TDCDFT polarizability used a dynamical linear long-range-corrected screening tensor derived from the BSE/RPA dielectric response to include excitons, while the quadratic long-range-corrected tensor was fixed to B_LRC^xxy = 0 a.u. The photon energy ω was swept from 0.50 to 2.50 eV, and the reported dependent quantity was the absolute in-plane macroscopic two-dimensional SHG susceptibility component |χ2_xxy(ω,ω)| multiplied by Leff.",
+    "experiment_description": "A frequency-dependent in-plane long-range linear exchange-correlation screening tensor is extracted for monolayer MoS2 to encode two-particle electron-hole excitonic effects inside the TDCDFT formulation of second-harmonic generation. The calculation uses the pristine periodic monolayer geometry in a 20 Å slab supercell with in-plane lattice parameter 3.16 Å, relaxed S-Mo-S coordinates, slab Coulomb truncation, and monolayer tensor rescaling using effective thickness 7.3 Å. The spatial scope is the homogeneous primitive monolayer unit cell averaged macroscopically, with reciprocal-space sampling over the two-dimensional Brillouin zone; no finite edges, grains, or local defects are included. The independent-particle/random-phase optical dielectric tensor epsilon_RPA(omega) is obtained without electron-hole attraction, while epsilon_BSE(omega) is obtained from the Bethe-Salpeter calculation including excitonic effects. Here omega denotes the optical photon angular frequency expressed on the plotted energy axis in eV; A_LRC(omega) denotes the tensorial long-range linear exchange-correlation screening parameter; epsilon_BSE(omega) and epsilon_RPA(omega) are optical dielectric tensors; the superscript -1 denotes tensor inverse; subtraction and multiplication are tensor operations; and the reported component is the in-plane xx component allowed by D3h symmetry. The frequency window is 0 to 5 eV, matching the optical dielectric calculation.",
     "experiment_results": {
-      "shg_onset_photon_energy_eV_blrc_0": {
+      "linear_lrc_screening_tensor_formula": {
+        "type": "formula",
+        "description": "The tensor relation used to extract the dynamical linear long-range exchange-correlation screening tensor from BSE and RPA optical dielectric tensors.",
+        "result": "A_LRC(omega) = -4*pi*([epsilon_BSE(omega) - 1]^(-1) - [epsilon_RPA(omega) - 1]^(-1))"
+      }
+    }
+  },
+  {
+    "experiment_description": "The second-harmonic-generation response of monolayer MoS2 is computed with many-body effects included up to the two-particle excitonic level, to test the baseline part of the paper's central claim that excitons alone do not fully determine the quantitative nonlinear optical response. The modeled material is pristine periodic monolayer MoS2 with D3h symmetry, fixed in-plane lattice parameter 3.16 Å, relaxed S-Mo-S geometry, a 20 Å slab supercell, slab Coulomb truncation, and optical response rescaled using effective layer thickness Leff = 7.3 Å. The geometric scope is the homogeneous monolayer primitive cell with no finite edges or defects; the macroscopic xxy susceptibility is obtained by averaging the microscopic interacting optical polarizability over the unit cell and integrating over the full two-dimensional Brillouin zone. Independent-particle SHG tensors are evaluated in the optical and long-wavelength limit using length-gauge expressions implemented in WANNIER90. The Wannier interpolation starts from 48 spin-split bands and constructs 36 disentangled maximally localized Wannier functions spanning 14 high-energy valence bands and 22 low-energy conduction bands, using two p trial orbitals on S atoms and one s plus one d trial orbital on the Mo atom. The interpolated k-point mesh is 1000 × 1000, the imaginary broadening of hbar*omega is eta = 0.1 eV, the denominator regularization parameter is eta_r = 0.05 eV, and occupation factors and derivatives are evaluated at T = 0 K. The photon energy omega is swept from 0.50 to 2.50 eV for the SHG process in which two photons of frequency omega generate radiation at 2omega. The interacting TDCDFT calculation uses the dynamical linear long-range kernel A_LRC(omega) extracted from the BSE optical dielectric tensor, while the quadratic long-range kernel is fixed to B_LRC^xxy = 0 a.u., so that three-particle trionic correlations are not included. The reported observable is the absolute two-dimensional SHG susceptibility component |chi_2^xxy(omega,omega)| multiplied by Leff, in nm^2/V.",
+    "experiment_results": {
+      "two_particle_shg_onset_energy_eV": {
         "type": "float",
-        "description": "Approximate photon energy at which the calculated SHG signal begins to rise for the excitonic-only calculation with B_LRC^xxy = 0 a.u.",
+        "description": "The photon energy at which the calculated excitonic-only SHG signal begins in the swept spectrum.",
         "result": 1.0
       },
-      "first_shg_resonance_photon_energy_eV_blrc_0": {
+      "two_particle_shg_first_resonance_energy_eV": {
         "type": "float",
-        "description": "Photon energy of the first pronounced calculated SHG resonance for monolayer MoS2 with excitonic effects included and no quadratic LRC term.",
+        "description": "The photon energy of the first pronounced resonance in the calculated excitonic-only SHG spectrum.",
         "result": 1.35
       },
-      "max_abs_chi2_xxy_times_leff_nm2_per_V_blrc_0": {
+      "two_particle_shg_peak_susceptibility_nm2_per_V": {
         "type": "float",
-        "description": "Approximate maximum peak height of |χ2_xxy(ω,ω)| × Leff for the excitonic-only monolayer MoS2 SHG calculation.",
+        "description": "The peak value of the calculated excitonic-only absolute two-dimensional xxy SHG susceptibility in the main resonance region.",
         "result": 0.14
       }
     }
   },
   {
-    "experiment_description": "Second-harmonic-generation calculation for monolayer MoS2 including two-particle excitonic effects and an additional static quadratic long-range-corrected term intended to represent three-particle trionic correlations. The same monolayer slab, Leff = 7.3 Å rescaling, independent-particle length-gauge SHG tensors, 36 maximally localized Wannier functions, 1000 × 1000 interpolated k-point mesh, η = 0.1 eV, ηr = 0.05 eV, and T = 0 K occupations were used as in the excitonic-only SHG calculation. The dynamical linear LRC tensor was obtained from the BSE/RPA dielectric response, and the in-plane longitudinal quadratic LRC component was fixed to B_LRC^xxy = -3.5 a.u. The photon energy ω was swept over 0.50–2.50 eV, and the dependent response was the absolute in-plane macroscopic two-dimensional SHG susceptibility component |χ2_xxy(ω,ω)| multiplied by Leff.",
+    "experiment_description": "The second-harmonic-generation response of monolayer MoS2 is recalculated while sweeping a static long-range quadratic exchange-correlation screening tensor to parameterize three-particle trionic correlations, which is the central mechanism proposed in the paper for improving quantitative nonlinear optical predictions beyond an exciton-only treatment. The material model, spatial averaging, and numerical SHG workflow are the same as for the excitonic-only SHG calculation: pristine periodic monolayer MoS2 with D3h symmetry, in-plane lattice parameter 3.16 Å, relaxed S-Mo-S geometry, 20 Å slab supercell, slab Coulomb truncation, Leff = 7.3 Å monolayer rescaling, length-gauge independent-particle response in WANNIER90, 36 maximally localized Wannier functions spanning 14 valence and 22 conduction bands from 48 spin-split bands, 1000 × 1000 interpolated k-point mesh, eta = 0.1 eV optical broadening, eta_r = 0.05 eV denominator regularization, and T = 0 K occupations. The SHG process is omega + omega -> 2omega with photon energy omega swept across 0.50 to 2.50 eV. The dynamical linear kernel A_LRC(omega) is retained to include two-particle excitonic screening, while the in-plane longitudinal quadratic component B_LRC^xxy is swept from -4 to 0 atomic units. For each value of B_LRC^xxy, the height of the main |chi_2^xxy(omega,omega)| × Leff peak near the C-exciton-related SHG resonance is computed and compared with the reference peak height from the reported monolayer MoS2 SHG spectrum used for calibration.",
     "experiment_results": {
-      "main_shg_peak_photon_energy_eV_blrc_minus_3p5": {
+      "optimal_quadratic_lrc_screening_parameter_xxy_a_u": {
         "type": "float",
-        "description": "Approximate photon energy of the main calculated SHG peak when the quadratic LRC component B_LRC^xxy is set to -3.5 a.u.",
+        "description": "The fitted static in-plane xxy quadratic long-range exchange-correlation screening parameter associated with trionic three-particle correlations.",
+        "result": -3.5
+      },
+      "quadratic_lrc_sweep_peak_reduction_factor": {
+        "type": "float",
+        "description": "The approximate factor by which the main SHG peak height is reduced across the negative quadratic-kernel range relative to the excitonic-only calculation.",
+        "result": 2.0
+      }
+    }
+  },
+  {
+    "experiment_description": "A trion-corrected second-harmonic-generation spectrum is computed for monolayer MoS2 using the static quadratic long-range exchange-correlation tensor value selected from the B_LRC^xxy sweep, in order to characterize the nonlinear optical response when both two-particle excitonic and three-particle trionic correlations are included in the TDCDFT response. The material model is the pristine periodic monolayer MoS2 primitive cell with D3h symmetry, fixed in-plane lattice parameter 3.16 Å, relaxed S-Mo-S coordinates, a 20 Å slab supercell, slab Coulomb truncation, and effective thickness Leff = 7.3 Å for converting the supercell response to a two-dimensional susceptibility. The response is a macroscopic unit-cell average over the homogeneous monolayer and a Brillouin-zone integral over a 1000 × 1000 interpolated mesh; finite edges, substrate disorder, and local defects are not part of the model. Independent-particle SHG tensors are calculated in the optical long-wavelength limit using WANNIER90 length-gauge expressions with 36 maximally localized Wannier functions obtained from 48 spin-split bands, spanning 14 valence and 22 conduction bands; eta = 0.1 eV, eta_r = 0.05 eV, and T = 0 K are used. The interacting TDCDFT response uses the BSE-derived dynamical linear A_LRC(omega) and a static quadratic component B_LRC^xxy = -3.5 a.u. The photon energy omega is swept from 0.50 to 2.50 eV for the SHG process omega + omega -> 2omega, and the reported output is |chi_2^xxy(omega,omega)| × Leff in nm^2/V.",
+    "experiment_results": {
+      "trion_corrected_main_shg_peak_energy_eV": {
+        "type": "float",
+        "description": "The photon energy of the main SHG peak when the static quadratic trionic kernel is included.",
         "result": 1.4
       },
-      "max_abs_chi2_xxy_times_leff_nm2_per_V_blrc_minus_3p5": {
+      "trion_corrected_main_shg_peak_susceptibility_nm2_per_V": {
         "type": "float",
-        "description": "Approximate maximum peak height of |χ2_xxy(ω,ω)| × Leff for the monolayer MoS2 SHG calculation including the static quadratic LRC term B_LRC^xxy = -3.5 a.u.",
+        "description": "The main-peak value of the absolute two-dimensional xxy SHG susceptibility when the static quadratic trionic kernel is included.",
         "result": 0.08
       }
     }

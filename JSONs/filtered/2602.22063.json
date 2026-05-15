@@ -1,39 +1,110 @@
 [
   {
-    "experiment_description": "An ultracold gas of 87Rb atoms was prepared as a Bose–Einstein-condensed cloud in the hyperfine state |1⟩ = |F = 2, mF = 1⟩ in a nearly isotropic optical trap with trap frequencies approximately 2π × (35, 25, 11) Hz. The cloud contained about 2 × 10^5 atoms, had temperature T ≃ 7 nK, condensate fraction fc ≃ 0.75, chemical potential μin/h ≃ 350 Hz, and Thomas–Fermi radii approximately (8, 12, 26) μm. A state-dependent three-dimensional blue-detuned optical speckle disorder was applied for atoms transferred into |2⟩ = |F = 1, mF = −1⟩. The speckle disorder had amplitude VR/h = 416 Hz, longitudinal correlation length σx = 1.45 μm, transverse correlation length σ⊥ = 0.30 μm, and geometric-mean correlation length σ = 0.50 μm, corresponding to correlation energy Eσ/h = 441 Hz. A radio-frequency pulse of duration trf ≃ 40 ms transferred approximately 5% of the atoms from |1⟩ to |2⟩, with the RF detuning setting the target energy Ef = ℏδrf. The resulting energy filter had rms width ΔE/h ≃ 14 Hz. Immediately after transfer, the optical trap was switched off and atoms remaining in |1⟩ were removed. The atoms in |2⟩ then evolved in the disordered potential while magnetically levitated against gravity; weak residual harmonic confinement remained in the horizontal x–y plane, so the analyzed expansion was along the vertical z direction. In-situ fluorescence imaging along x measured the column density ncol(y,z,t), which was integrated over y to obtain the one-dimensional density profile n1d(z,t). Density profiles were recorded for target energies spanning the Anderson transition, including Ef/h = 166, 246, and 366 Hz, at evolution times up to 5 s. The Anderson mobility edge was determined from the energy-resolved transport response of these density profiles across the disorder-induced transition.",
+    "experiment_description": "Central concept: a three-dimensional, state-dependent optical speckle potential provides the disordered medium in which radio-frequency-selected ultracold 87Rb matter waves are tested for Anderson localization, diffusion, and critical transport. To characterize the disorder used for both the experiment and the ab initio simulations, generate or measure a blue-detuned laser speckle potential with strictly positive potential values. In the numerical implementation, use a Fourier-filtering construction of the speckle electric field on a regular rectangular grid covering a volume of (100 µm)^3, with grid spacings typically Δx = 0.7 µm and Δy = Δz = 0.3 µm. Model the experimental optical system as a λ = 780 nm laser beam propagating along x, linearly polarized in the y–z plane, incident on a diffusive lens with Gaussian beam waist w = 9.9 mm, truncated by a diaphragm of diameter D = 20.4 mm, and focused by a lens of focal length d = 15.2 mm. Set the disorder amplitude to VR/h = 416 Hz. Compute the potential V(r) = VR |E(r)|^2/I from the filtered random complex Gaussian field, and evaluate the normalized autocorrelation C(Δr) = δV(r)δV(r+Δr)/VR^2 with δV = V − VR. The spatial characterization compares two-dimensional cuts through the three-dimensional potential over the simulated 100 µm scale and autocorrelation line cuts along the longitudinal x direction and a transverse direction over displacement ranges sufficient to resolve the speckle-grain half-widths. Correlation lengths are defined as the autocorrelation half width at half maximum divided by 1.39156, and the geometric-mean correlation length σ defines Eσ = ℏ^2/(mσ^2). The goal is to determine the spatial correlation statistics and probability distribution of the disorder potential used for energy-resolved Anderson-transport measurements.",
     "experiment_results": {
-      "mobility_edge_frequency_hz": {
+      "speckle_potential_distribution": {
+        "type": "categorical",
+        "description": "The probability law of the positive blue-detuned speckle potential values.",
+        "result": "one_sided_exponential_positive",
+        "allowed_categorial_values": [
+          "one_sided_exponential_positive",
+          "gaussian",
+          "symmetric_exponential",
+          "other"
+        ]
+      },
+      "longitudinal_correlation_length_um": {
         "type": "float",
-        "description": "Experimentally determined Anderson mobility edge Ec expressed as Ec/h for 87Rb atoms propagating in the specified three-dimensional blue-detuned speckle disorder.",
+        "description": "The speckle correlation length along the elongated longitudinal x direction, using the stated half-width normalization convention.",
+        "result": 1.45
+      },
+      "transverse_correlation_length_um": {
+        "type": "float",
+        "description": "The speckle correlation length in a transverse direction in the y–z plane, using the stated half-width normalization convention.",
+        "result": 0.3
+      },
+      "geometric_mean_correlation_length_um": {
+        "type": "float",
+        "description": "The geometric-mean speckle correlation length over the three spatial directions.",
+        "result": 0.5
+      },
+      "correlation_energy_hz": {
+        "type": "float",
+        "description": "The disorder correlation energy expressed as Eσ/h, where Eσ = ℏ^2/(mσ^2).",
+        "result": 441
+      }
+    }
+  },
+  {
+    "experiment_description": "Central concept: energy-resolved transport across the three-dimensional Anderson transition is enabled by transferring a small fraction of atoms from a disorder-insensitive hyperfine state into a disorder-sensitive state with a radio-frequency pulse whose detuning selects the target energy. Start with an ultracold 87Rb Bose gas in state |1⟩ = |F = 2, mF = 1⟩ in a nearly isotropic optical trap with trap frequencies approximately 2π × (35, 25, 11) Hz, temperature about 7 nK, chemical potential µin/h about 350 Hz, and Thomas–Fermi radii about (8, 12, 26) µm. The atom number is about 2 × 10^5, with a condensate fraction fc used in the energy-distribution model and a residual thermal fraction 1 − fc. Apply a bichromatic state-dependent optical speckle disorder of amplitude VR/h = 416 Hz, and use a weak-coupling radio-frequency pulse of duration trf ≃ 40 ms and Kaiser temporal envelope to transfer approximately 5% of atoms to |2⟩ = |F = 1, mF = −1⟩. The radio-frequency detuning δrf from the bare resonance sets Ef = ℏδrf. Immediately after transfer, switch off the optical trap and remove atoms left in |1⟩. For the formula result, E is the final atom energy in the disorder-sensitive state; Ef is the rf-selected target energy; fc is the condensate fraction; F(E − Ef) is the energy-filter intensity set by the rf pulse envelope; A(E,k=0) is the zero-momentum spectral function in the random potential; kB is Boltzmann’s constant; T is the initial cloud temperature; Θ is the Heaviside step function; and D(E;Ef) is normalized as the transferred-atom energy probability density. The goal is to determine the energy distribution produced by this rf-transfer preparation, including the contribution of the thermal component.",
+    "experiment_results": {
+      "rf_filtered_rms_energy_width_hz": {
+        "type": "float",
+        "description": "The root-mean-square energy width of the radio-frequency energy filter expressed as ΔE/h.",
+        "result": 14
+      },
+      "initial_condensate_fraction": {
+        "type": "float",
+        "description": "The condensate fraction of the atomic cloud in the disorder-insensitive state used in the transferred-energy distribution model.",
+        "result": 0.75
+      },
+      "initial_thermal_fraction": {
+        "type": "float",
+        "description": "The noncondensed thermal fraction of the atomic cloud in the disorder-insensitive state used in the transferred-energy distribution model.",
+        "result": 0.25
+      },
+      "transferred_energy_distribution": {
+        "type": "formula",
+        "description": "The modeled energy probability density of atoms transferred into the disorder-sensitive state, including Bose-condensed and thermal contributions.",
+        "result": "D(E;E_f)=f_c F(E-E_f)A(E,k=0)+(1-f_c)D_th(E;E_f), with D_th(E;E_f)=2(k_B T)^(-3/2)/sqrt(pi) * Theta(E-E_f)*sqrt(E-E_f)*exp[-(E-E_f)/(k_B T)]"
+      }
+    }
+  },
+  {
+    "experiment_description": "Central concept: after rf preparation of a narrow-energy matter wave in a three-dimensional disordered potential, the subsequent in-situ density evolution is used to identify localized, critical, and diffusive transport across the Anderson mobility edge. Prepare 87Rb atoms as a Bose-condensed cloud in |1⟩ = |F = 2, mF = 1⟩, transfer about 5% to |2⟩ = |F = 1, mF = −1⟩ using the 40 ms rf pulse in the state-dependent speckle potential of amplitude VR/h = 416 Hz, and choose target energies Ef/h = 166 Hz, 246 Hz, and 366 Hz. After transfer, set t = 0 by switching off the optical trap and removing atoms in |1⟩. Keep the atoms suspended against gravity by magnetic levitation; the residual confinement is shallow and lies in the horizontal x–y plane, while the analysis focuses on expansion along vertical z. Image the atoms in situ by fluorescence along x, giving a column density ncol(y,z,t) = ∫ dx nexp(r,t), then integrate over y to obtain n1d(z,t) = ∫ dy ncol(y,z,t). Record initial profiles immediately after transfer and subsequent profiles at evolution times including 1 s, 3 s, and 5 s. Analyze spatial profiles over the resolved z range shown in the data, approximately from −100 µm to +100 µm for the long-time comparison and about −80 µm to +80 µm for the time-series comparison, with each plotted point averaged over 6–9 independent experimental runs and error bars given as the standard error of the mean. Compare the profiles with the self-consistent-theory prediction using the experimentally measured initial n1d(z,0), an asymmetric pseudo-Voigt fit to that initial profile, and the rf-transfer energy distribution including the measured thermal fraction. The self-consistent-theory fit uses the central density n1d(0,t) over target energies near the transition and times up to 3 s to determine α0 and β, where α0 has units s^(−1/3), β has units µm s^(−1/3), and Ec is the mobility edge separating localized from diffusive dynamics.",
+    "experiment_results": {
+      "experimental_mobility_edge_hz": {
+        "type": "float",
+        "description": "The experimentally determined Anderson mobility-edge energy Ec/h used for the density-profile comparison.",
         "result": 237
       },
-      "transport_regime_at_Ef_over_h_166Hz": {
+      "sct_fit_alpha0_s_minus_1_3_experiment": {
+        "type": "float",
+        "description": "The α0 parameter obtained by fitting the self-consistent localization theory to the experimental central-density dynamics.",
+        "result": 4.29
+      },
+      "sct_fit_beta_um_s_minus_1_3_experiment": {
+        "type": "float",
+        "description": "The β parameter obtained by fitting the self-consistent localization theory to the experimental central-density dynamics.",
+        "result": 2.97
+      },
+      "transport_regime_Ef_166_hz_experiment": {
         "type": "categorical",
-        "description": "Observed long-time transport regime for atoms transferred with target energy Ef/h = 166 Hz in the specified disorder, inferred from the measured one-dimensional density profile dynamics.",
+        "description": "The transport regime assigned from the measured one-dimensional density-profile evolution at the specified target energy.",
         "result": "localized",
         "allowed_categorial_values": [
           "localized",
-          "critical",
+          "critical_near_mobility_edge",
           "diffusive"
         ]
       },
-      "transport_regime_at_Ef_over_h_246Hz": {
+      "transport_regime_Ef_246_hz_experiment": {
         "type": "categorical",
-        "description": "Observed long-time transport regime for atoms transferred with target energy Ef/h = 246 Hz in the specified disorder, inferred from the measured one-dimensional density profile dynamics.",
-        "result": "critical",
+        "description": "The transport regime assigned from the measured one-dimensional density-profile evolution at the specified target energy.",
+        "result": "critical_near_mobility_edge",
         "allowed_categorial_values": [
           "localized",
-          "critical",
+          "critical_near_mobility_edge",
           "diffusive"
         ]
       },
-      "transport_regime_at_Ef_over_h_366Hz": {
+      "transport_regime_Ef_366_hz_experiment": {
         "type": "categorical",
-        "description": "Observed long-time transport regime for atoms transferred with target energy Ef/h = 366 Hz in the specified disorder, inferred from the measured one-dimensional density profile dynamics.",
+        "description": "The transport regime assigned from the measured one-dimensional density-profile evolution at the specified target energy.",
         "result": "diffusive",
         "allowed_categorial_values": [
           "localized",
-          "critical",
+          "critical_near_mobility_edge",
           "diffusive"
         ]
       }

@@ -1,101 +1,142 @@
 [
   {
-    "experiment_description": "A monolayer CrI3 van der Waals device was fabricated by mechanically exfoliating CrI3 from bulk crystals in a nitrogen-filled glovebox and stacking it with hBN dielectric flakes and graphite/graphene contacts on a 285-nm SiO2/Si substrate. The representative device used a monolayer CrI3 sheet of approximately 0.7 nm thickness and an hBN dielectric layer of 9.8 nm thickness. Polar reflective magnetic circular dichroism (RMCD) was measured in a cryogen-free optical cryostat using a 633 nm laser with fixed power of approximately 3 µW focused onto the CrI3 region through a 50× objective. The reflected beam was detected with a photomultiplier tube and lock-in detection. For the zero-gate magnetic hysteresis measurement, the gate voltage was held at 0 V, the temperature was held at 10 K, and the out-of-plane magnetic field μ0H was swept between negative and positive values over the plotted range of approximately -0.16 T to +0.16 T. Temperature-dependent RMCD loops on the same monolayer device were also used to identify the disappearance of ferromagnetic order under zero gate bias.",
+    "experiment_description": "Central concept: fabricate an air-isolated vertical van der Waals device in which a target monolayer CrI3 magnetic layer is placed between hBN dielectric layers and graphene/graphite electrodes so that an out-of-plane voltage can both break inversion symmetry, generating Dzyaloshinskii-Moriya interaction, and electrostatically dope CrI3, tuning magnetic anisotropy for voltage-controlled topological spin textures. The fabrication procedure starts from bulk CrI3 crystals synthesized by chemical vapor transport from elemental Cr and I precursors with Cr:I molar ratio 1:3; precursor grade and furnace temperature profile are not specified in the provided text. Inside a nitrogen-filled inert glovebox, CrI3, hBN, and graphene/graphite flakes are mechanically exfoliated using PDMS films. Exfoliated hBN, CrI3, and graphene/graphite flakes are sequentially transferred onto pre-patterned Au electrodes on a 285-nm SiO2/Si substrate to form a graphene/graphite–hBN–CrI3–hBN/graphene vertical heterostructure. The reported dielectric hBN layer used for electrostatic gating has thickness 9.8 nm, and the CrI3 monolayer thickness used in device modeling is 0.7 nm. The device is loaded in situ from the glovebox into an optical cryostat for magneto-optical-electric measurements, with CrI3 kept isolated from ambient atmosphere during fabrication and measurement. Optical micrograph inspection and subsequent magneto-optical/Raman characterization are used to determine whether the intended active heterostructure geometry is formed; the exact lateral area, yield over multiple fabricated devices, and edge-to-active-region distances are not reported.",
+    "experiment_results": {
+      "target_air_isolated_gated_monolayer_cri3_heterostructure_formed": {
+        "type": "bool",
+        "description": "Whether the inert-atmosphere exfoliation and transfer process produced the intended air-isolated gated monolayer CrI3 heterostructure for magneto-optical-electric measurements.",
+        "result": true
+      }
+    }
+  },
+  {
+    "experiment_description": "Central concept: quantify the hBN dielectric response used to convert applied voltage in the monolayer CrI3 vertical device into out-of-plane electric field and electrostatic doping, which are the control knobs for voltage-tunable DMI and magnetic anisotropy. The hBN dielectric layer is part of a graphene–hBN–CrI3–graphene/graphite device stack on SiO2/Si. Its thickness is determined by optical contrast on an hBN–SiO2–Si structure: white light is normally incident and focused with a 50×, NA = 0.45 microscope objective, reflected light is collected through a beamsplitter into a spectrometer, and a CCD records the spectrally resolved reflected signal. The optical contrast is defined as C = (R_SiO2 − R_SiO2+hBN)/R_SiO2, where R_SiO2 is the normal-incidence reflection coefficient of bare SiO2/Si and R_SiO2+hBN is the coefficient for hBN-covered SiO2/Si. The relative dielectric constant of the hBN dielectric is measured using a ferroelectric analyzer; electrode geometry, AC amplitude, and frequency are not specified in the provided text. The spatial scope is the dielectric flake used in the gated device; the exact mapped area and number of measurement points are not reported.",
+    "experiment_results": {
+      "hbn_relative_dielectric_constant": {
+        "type": "float",
+        "description": "The measured relative dielectric constant of the hBN dielectric layer used in the gated monolayer CrI3 device.",
+        "result": 2.9
+      }
+    }
+  },
+  {
+    "experiment_description": "Central concept: verify that the active CrI3 flake in the voltage-controlled topological-spin-texture device is in the monolayer magnetic limit by probing spin-lattice-coupled Raman modes. Polarization-resolved and temperature-dependent Raman measurements are performed on the active CrI3 region of the hBN-encapsulated/gated device using a Witec Alpha 300R Plus low-wavenumber confocal Raman microscope integrated with a closed-cycle He optical cryostat and superconducting magnet. Excitation is a 633 nm laser with approximately 0.3 mW power. A 50× objective with NA = 0.45 is used at cryogenic temperature and under magnetic-field-compatible conditions. Raman signals are collected through a photonic crystal fiber into a spectrometer with an 1800 g/mm grating. Cross-polarized (XY) and co-linear (XX) configurations are obtained by rotating an analyzer before the fiber. Typical integration time is 120 s. Temperature is swept across the low-temperature ferromagnetic regime and above the magnetic ordering range while monitoring the same confocal spot or designated active region; the exact lateral spot size, active-area dimensions, and number of independent positions are not reported. The measurement targets the Raman-active phonon selection and its temperature-dependent coupling to magnetic order in monolayer CrI3.",
+    "experiment_results": {
+      "a1g_raman_phonon_frequency_cm_minus1": {
+        "type": "float",
+        "description": "The measured Raman shift of the A1g phonon mode used for monolayer CrI3 identification.",
+        "result": 127.8
+      },
+      "raman_spin_lattice_coupling_onset_temperature_K": {
+        "type": "float",
+        "description": "The temperature scale at which the polarization-resolved Raman response changes due to spin-lattice coupling in the CrI3 monolayer.",
+        "result": 40
+      },
+      "a1g_raman_polarization_channels": {
+        "type": "categorical",
+        "description": "The polarization channels in which the A1g Raman phonon is detected for the monolayer CrI3 device.",
+        "result": "XX_and_XY",
+        "allowed_categorial_values": [
+          "XX_only",
+          "XY_only",
+          "XX_and_XY",
+          "not_detected"
+        ]
+      }
+    }
+  },
+  {
+    "experiment_description": "Central concept: establish the baseline magnetic state of the target monolayer CrI3 device before applying voltage-induced DMI/anisotropy control, so that later anomalous circular-dichroism features can be assigned to voltage-created topological spin textures rather than ordinary ferromagnetic hysteresis. Polar reflective magnetic circular dichroism (RMCD) is measured on a designated region of the monolayer CrI3 device using a magneto-optical-electric joint-measurement scanning imaging system based on a Witec Alpha 300R Plus confocal platform, a closed-cycle superconducting magnet with up to 7 T field capability, and a cryogen-free optical cryostat with 10 K base temperature. A 633 nm laser with fixed power about 3 µW is modulated by a photoelastic modulator at 50 kHz, reflected from a non-polarizing beamsplitter with R/T = 30/70, and focused onto the active CrI3 region using a 50× objective with NA = 0.55. The reflected beam is collected by the same objective and detected by a photomultiplier tube coupled to a lock-in amplifier. The device gate voltage is fixed at 0 V. Out-of-plane magnetic field µ0H is swept in both directions through the low-field switching region, and high-field RMCD response is also checked to test for interlayer antiferromagnetic signatures. Temperature-dependent RMCD is acquired on the same device region to determine the magnetic ordering temperature. The confocal spot is positioned within the active region; the exact illuminated area, distance from edges, and number of spatial positions are not reported.",
     "experiment_results": {
       "zero_gate_coercive_field_T": {
         "type": "float",
-        "description": "Coercive magnetic field of the monolayer CrI3 ferromagnetic RMCD hysteresis loop at zero gate voltage and 10 K.",
+        "description": "The coercive out-of-plane magnetic field of the monolayer CrI3 device measured by RMCD at zero gate voltage.",
         "result": 0.04
       },
       "zero_gate_curie_temperature_K": {
         "type": "float",
-        "description": "Curie temperature of intrinsic monolayer CrI3 determined from temperature-dependent RMCD under zero gate voltage.",
+        "description": "The Curie temperature of the monolayer CrI3 device measured by temperature-dependent RMCD at zero gate voltage.",
         "result": 40
+      },
+      "high_field_rmcd_step_present_zero_gate": {
+        "type": "bool",
+        "description": "Whether the zero-gate RMCD loop contains a high-field step associated with interlayer antiferromagnetic coupling.",
+        "result": false
       }
     }
   },
   {
-    "experiment_description": "Polarization-resolved Raman spectroscopy was performed on monolayer CrI3 in the same magneto-optical cryogenic platform using a Witec Alpha 300R Plus low-wavenumber confocal Raman microscope coupled to a closed-cycle helium optical cryostat and superconducting magnet. The excitation laser wavelength was 633 nm, the laser intensity was approximately 0.3 mW, a 50× objective with numerical aperture 0.45 was used, the spectrometer grating was 1800 g/mm, and the typical integration time was 120 s. Raman spectra were collected in co-linear polarization geometry, denoted XX, and cross-polarized geometry, denoted XY, with the analyzer rotated before the collection fiber. Measurements were made at low temperature and as a function of temperature across the magnetic ordering regime to probe spin-lattice coupling in the monolayer.",
+    "experiment_description": "Central concept: test voltage creation and continuous manipulation of topological spin textures in the strict monolayer CrI3 limit by using reflective topological circular dichroism, an optical-frequency analogue of the topological Hall effect. The same air-isolated gated monolayer CrI3/hBN/graphene device is measured at 10 K with the polar RMCD setup: 633 nm laser, approximately 3 µW power, 50 kHz photoelastic modulation, non-polarizing R/T = 30/70 beamsplitter, 50× NA = 0.55 objective, photomultiplier detection, lock-in readout, superconducting out-of-plane magnetic field, and a voltage source meter connected to the vertical electrodes. Gate voltage Vg is swept over the positive electron-doping range from 0 V to about 16 V, with representative loops at 0, 8, 12, and 16 V and phase maps over approximately 0–15/16 V. Out-of-plane magnetic field µ0H is swept over the switching/topological range in both directions, approximately within ±0.2 T in the plotted maps. The total RMCD signal is decomposed as I_RMCD = I_RCD(M) + I_RCD(T), where I_RCD(M) is the conventional reflective circular dichroism component proportional to the out-of-plane ferromagnetic magnetization background and I_RCD(T) is the topological circular dichroism component proportional to topological charge density; I_RCD(T) is obtained by subtracting the conventional magnetic background from total RMCD. RCDT peak positions are extracted by Gaussian fitting and plotted versus gate voltage. The measurement is made on a designated confocal spot/active region of the device; exact lateral spot diameter, spatial map area, and number of independent devices or positions are not reported. The phase-mapping objective is to determine the voltage range in which nontrivial topological magnetic order is optically detected and how its characteristic field shifts with voltage as magnetic anisotropy evolves from perpendicular toward in-plane.",
     "experiment_results": {
-      "a1g_phonon_frequency_cm_minus_1": {
+      "topological_circular_dichroism_onset_voltage_V": {
         "type": "float",
-        "description": "Observed Raman frequency of the A1g phonon mode used to identify the monolayer CrI3 spin-lattice-coupled phonon response.",
-        "result": 127.8
-      },
-      "a1g_phonon_detected_polarization_channels": {
-        "type": "categorical",
-        "description": "Polarization selection channels in which the A1g Raman phonon was detected in monolayer CrI3.",
-        "result": "cross_xy_and_colinear_xx",
-        "allowed_categorial_values": [
-          "cross_xy_and_colinear_xx",
-          "colinear_xx_only",
-          "cross_xy_only",
-          "not_detected"
-        ]
-      },
-      "xy_a1g_intensity_enhancement_onset_temperature_K": {
-        "type": "float",
-        "description": "Temperature below which the A1g Raman phonon intensity in the cross-polarized XY configuration showed a pronounced enhancement associated with spin-lattice coupling.",
-        "result": 40
-      }
-    }
-  },
-  {
-    "experiment_description": "A dual-gated monolayer CrI3 heterostructure consisting of graphene or graphite electrodes, hBN dielectric layers, and monolayer CrI3 was measured by polar RMCD at 10 K. The hBN dielectric thickness was 9.8 nm with dielectric constant 2.9, and the monolayer CrI3 thickness was approximately 0.7 nm. A 633 nm laser of approximately 3 µW was modulated by a photoelastic modulator at 50 kHz, reflected from the device through a non-polarizing beamsplitter, focused with a 50× objective of numerical aperture 0.55, and detected with a photomultiplier tube and lock-in amplifier. Gate voltage Vg was swept over the experimentally plotted range from 0 V to 16 V while the out-of-plane magnetic field μ0H was swept in both directions over the plotted interval of approximately -0.2 T to +0.2 T. The topological circular dichroism component RCDT was obtained by subtracting the conventional ferromagnetic reflective circular dichroism contribution RCDM from the total RMCD loop. RCDT peak positions were extracted by Gaussian fitting and tracked as a function of gate voltage for peaks associated with opposite signs of topological charge.",
-    "experiment_results": {
-      "topological_phase_onset_gate_voltage_V": {
-        "type": "float",
-        "description": "Gate voltage at which a nonzero RCDT signal first emerged, marking electrical switching from trivial ferromagnetic order to a topological magnetic phase in the monolayer CrI3 device.",
+        "description": "The gate voltage at which the RCDT signal first emerges from the near-zero background in the voltage-dependent RMCD phase diagram.",
         "result": 5
       },
-      "anisotropy_sign_change_gate_voltage_V": {
+      "type_i_to_type_ii_skyrmion_transition_voltage_V": {
         "type": "float",
-        "description": "Gate voltage near which the magnetic anisotropy changed from perpendicular to in-plane character, accompanied by an abrupt change in the RCDT response and the transition between the two skyrmion regimes.",
+        "description": "The gate voltage at which the voltage-dependent RCDT response changes between the low-voltage topological regime associated with perpendicular anisotropy and the high-voltage regime associated with small in-plane anisotropy.",
         "result": 14
       },
-      "positive_topological_charge_rcdt_peak_field_shift_Oe_per_V": {
+      "positive_topological_charge_peak_field_shift_Oe_per_V": {
         "type": "float",
-        "description": "Linear voltage-tuning slope of the magnetic field position of the RCDT peak associated with positive topological charge before the abrupt high-voltage shift.",
+        "description": "The fitted slope of the magnetic-field position of the RCDT peak associated with positive topological charge as a function of gate voltage in the linear voltage-tuning regime.",
         "result": 22
       },
-      "negative_topological_charge_rcdt_peak_field_shift_Oe_per_V": {
+      "negative_topological_charge_peak_field_shift_Oe_per_V": {
         "type": "float",
-        "description": "Linear voltage-tuning slope of the magnetic field position of the RCDT peak associated with negative topological charge before the abrupt high-voltage shift.",
+        "description": "The fitted slope of the magnetic-field position of the RCDT peak associated with negative topological charge as a function of gate voltage in the linear voltage-tuning regime.",
         "result": 13
+      },
+      "conventional_rcdm_hysteresis_present_at_16V": {
+        "type": "bool",
+        "description": "Whether a residual conventional ferromagnetic RCDM hysteresis component remains in the RMCD loop under the high positive gate-voltage condition.",
+        "result": false
+      },
+      "voltage_induced_topological_phase_sequence": {
+        "type": "categorical",
+        "description": "The sequence of magnetic phases inferred from voltage-dependent RMCD/RCDT under the positive-gate sweep.",
+        "result": "ferromagnetic_to_type_i_skyrmion_to_type_ii_skyrmion",
+        "allowed_categorial_values": [
+          "ferromagnetic_only",
+          "ferromagnetic_to_type_i_skyrmion",
+          "ferromagnetic_to_type_i_skyrmion_to_type_ii_skyrmion",
+          "type_ii_skyrmion_only"
+        ]
       }
     }
   },
   {
-    "experiment_description": "Temperature-dependent polar RMCD measurements were performed on the same monolayer CrI3 dual-gated heterostructure under a fixed applied gate voltage of 16 V. The RMCD setup used a 633 nm laser of approximately 3 µW, photoelastic modulation at 50 kHz, a 50× objective with numerical aperture 0.55, photomultiplier detection, and lock-in readout in the cryogenic magneto-optical system. At the fixed gate voltage, out-of-plane magnetic field μ0H was swept in both directions over approximately -0.2 T to +0.2 T while the sample temperature was varied across the plotted low-temperature range from 10 K to 27 K. Temperature-field RMCD phase diagrams were constructed for both magnetic-field sweep directions. RMCD peaks associated with maximal topological quasiparticle density were fit with Gaussian profiles, and their magnetic-field positions and half-peak widths were tracked versus temperature.",
+    "experiment_description": "Central concept: characterize the thermal stability and field-temperature phase boundaries of voltage-induced two-dimensional topological spin textures in monolayer CrI3 under a gate condition that drives the system into the high-voltage, small-in-plane-anisotropy regime. The gated monolayer CrI3 device is biased at +16 V and measured by polar RMCD/RCDT using the same optical configuration: 633 nm laser, about 3 µW power, 50 kHz PEM modulation, 50× NA = 0.55 objective, PMT and lock-in detection, closed-cycle cryostat, and superconducting out-of-plane magnetic field. RMCD loops are collected at discrete temperatures including 10, 15, 18, 21, 24, and 27 K, and field-temperature maps are acquired over roughly 10–27 K while sweeping µ0H in both directions across approximately ±0.2 T. Positive-to-negative and negative-to-positive field-sweep directions are recorded separately to distinguish opposite topological-charge signs. RMCD peak positions and half-peak widths are obtained by Gaussian fitting; peak positions are plotted versus temperature. Temperature cuts of RMCD are also taken at selected fixed out-of-plane fields including approximately ±0.02, ±0.03, ±0.035, and ±0.04 T to identify the field-dependent transition temperature. The measurement is performed on the same designated active monolayer region; exact illuminated area, number of spatial positions, and device-to-device statistics are not reported. The objective is to determine how temperature and magnetic field bound the topological magnetic phase produced by voltage-controlled spin-orbit interactions.",
     "experiment_results": {
-      "topological_to_in_plane_ferromagnetic_transition_temperature_K": {
+      "topological_to_in_plane_ferromagnetic_transition_temperature_at_16V_K": {
         "type": "float",
-        "description": "Temperature at fixed 16 V gate bias where the topological magnetic phase disappeared into an in-plane ferromagnetic state.",
+        "description": "The temperature at which the topological magnetic phase gives way to the in-plane ferromagnetic state under +16 V gate bias.",
         "result": 24
       },
-      "in_plane_ferromagnetic_to_paramagnetic_transition_temperature_K": {
+      "in_plane_ferromagnetic_to_paramagnetic_transition_temperature_at_16V_K": {
         "type": "float",
-        "description": "Temperature at fixed 16 V gate bias where the in-plane ferromagnetic state transitioned to a paramagnetic state.",
+        "description": "The temperature at which the in-plane ferromagnetic state gives way to the paramagnetic state under +16 V gate bias.",
         "result": 27
       },
-      "positive_topological_charge_peak_field_temperature_slope_Oe_per_K": {
+      "positive_topological_peak_field_temperature_slope_Oe_per_K": {
         "type": "float",
-        "description": "Magnitude of the linear decrease with temperature of the RMCD peak field corresponding to maximum density of positive-topological-charge quasiparticles at 16 V.",
+        "description": "The fitted magnitude of the temperature dependence of the magnetic-field position of the RMCD/RCDT peak associated with positive topological charge under +16 V bias.",
         "result": 11.5
       },
-      "negative_topological_charge_peak_field_temperature_slope_Oe_per_K": {
+      "negative_topological_peak_field_temperature_slope_Oe_per_K": {
         "type": "float",
-        "description": "Magnitude of the linear decrease with temperature of the RMCD peak field corresponding to maximum density of negative-topological-charge quasiparticles at 16 V.",
+        "description": "The fitted magnitude of the temperature dependence of the magnetic-field position of the RMCD/RCDT peak associated with negative topological charge under +16 V bias.",
         "result": 10.4
       },
-      "topological_transition_temperature_at_abs_field_0p04T_K": {
+      "topological_phase_critical_temperature_at_abs_field_0p04T_K": {
         "type": "float",
-        "description": "Critical temperature of the topological magnetic phase at an out-of-plane magnetic field magnitude of 0.04 T under 16 V gate bias.",
+        "description": "The critical temperature for the topological magnetic phase under +16 V bias at an out-of-plane magnetic-field magnitude of 0.04 T.",
         "result": 15
       },
-      "topological_transition_temperature_at_abs_field_0p02T_K": {
+      "topological_phase_critical_temperature_at_abs_field_0p02T_K": {
         "type": "float",
-        "description": "Critical temperature of the topological magnetic phase at an out-of-plane magnetic field magnitude of 0.02 T under 16 V gate bias.",
+        "description": "The critical temperature for the topological magnetic phase under +16 V bias at an out-of-plane magnetic-field magnitude of 0.02 T.",
         "result": 24
       }
     }

@@ -1,81 +1,206 @@
 [
   {
-    "experiment_description": "Room-temperature photoluminescence spectroscopy was performed on optically active defects in hexagonal boron nitride. Two drops of solvent-exfoliated hBN solution were drop-cast onto a marked silicon substrate and annealed at 850 °C under a 1 Torr argon atmosphere in a tube furnace, then cooled naturally to room temperature. A custom confocal microscope excited a selected defect using a continuous-wave 532 nm laser, focused with a high-NA objective; fluorescence was collected through the same objective, pump light was suppressed with a long-pass filter, and the emission was routed to a spectrometer. The spectrum was recorded over the visible emission band to identify the zero-phonon-line emission and its spectral width.",
+    "experiment_description": "Analytical tight-binding treatment of the central mechanism: Anderson localization of room-temperature single photons in a one-dimensional laser-written waveguide array with off-diagonal coupling disorder. The optical field amplitude at waveguide site n is modeled by the paraxial coupled-mode equation i dψ_n/dz = κ_{n,n-1}ψ_{n-1}+κ_{n,n+1}ψ_{n+1}+β_nψ_n, where z is propagation distance, ψ_n is the modal amplitude in site n, κ_{n,m} are nearest-neighbor coupling coefficients, and β_n are on-site propagation constants. The Hamiltonian H has eigenmodes φ_m with site amplitudes φ_m^(n), eigenvalues E_m, and an initial excitation localized at launch site n0. The configuration average, denoted <...>_c.a., is taken over independent disorder realizations drawn from a continuous distribution so that spectra are non-degenerate with probability one. For the off-diagonal-disorder case, β_n is fixed to β0 and the random couplings are symmetric, κ_{n,n+1}=κ_{n+1,n}=κ_n. The logarithmic-coupling variance is σ^2 = Var[ln(κ_n)]. The effective localization length ξ is defined by fitting the stationary, disorder-averaged site intensity near the launch site to an exponential envelope with site index n, launch index n0, and amplitude I0. Mode-resolved localization lengths are ξ_m, and w_m are mode weights used in the weighted harmonic mean.",
     "experiment_results": {
-      "zero_phonon_line_center_nm": {
-        "type": "float",
-        "description": "Center wavelength of the zero-phonon line measured from the hBN defect photoluminescence spectrum.",
-        "result": 619
+      "stationary_configuration_averaged_intensity_formula": {
+        "type": "formula",
+        "description": "The long-propagation configuration-averaged site intensity for a localized single-site input in a disordered tight-binding lattice.",
+        "result": "I_n = lim_{z->infty}<I_n(z)>_c.a. = sum_m <|phi_m^(n)|^2 |phi_m^(n0)|^2>_c.a."
       },
-      "single_photon_emission_bandwidth_nm": {
-        "type": "float",
-        "description": "Reported optical bandwidth of the hBN single-photon emission used for comparison with wavelength-scanned laser excitation.",
-        "result": 7.5
+      "effective_exponential_profile_formula": {
+        "type": "formula",
+        "description": "The exponential envelope used to define the effective localization length of the stationary disorder-averaged intensity profile near the launch site.",
+        "result": "I_n ≈ I_0 exp(-2|n-n0|/xi)"
+      },
+      "effective_localization_length_weighted_harmonic_mean_formula": {
+        "type": "formula",
+        "description": "The effective localization length expressed in terms of mode-resolved localization lengths and mode weights.",
+        "result": "xi = ( (sum_m w_m xi_m^(-1))/(sum_m w_m) )^(-1), with w_m = tanh^2(1/xi_m) xi_m"
+      },
+      "off_diagonal_disorder_inverse_variance_scaling_formula": {
+        "type": "formula",
+        "description": "The predicted scaling of the effective localization length with the variance of logarithmic nearest-neighbor couplings in a one-dimensional random-hopping lattice.",
+        "result": "xi ∼ 1/sigma^2"
       }
     }
   },
   {
-    "experiment_description": "A single hBN defect emitter was characterized at room temperature by fiber-based Hanbury Brown–Twiss interferometry. The defect was excited with a 100 µW, 532 nm laser in a custom confocal microscope. Photoluminescence was separated from the pump using a 550 nm dichroic beam splitter, filtered with a 20 nm bandpass centered on the emitter zero-phonon line, coupled into a fiber-based HBT setup, and the second-order autocorrelation was normalized to the long-delay value. The autocorrelation trace was fitted using a three-level-emitter model to extract the antibunching value at zero delay and the excited-state decay lifetime under the stated excitation conditions.",
+    "experiment_description": "Fabrication procedure for the integrated photonic platform used to test whether single photons from a solid-state hBN emitter can undergo Anderson localization in a controlled off-diagonally disordered lattice. Two one-dimensional waveguide arrays are inscribed in a fused-silica chip, Corning 7980, by femtosecond direct laser writing. A Coherent Mira/RegA laser provides 800 nm, 150 fs pulses at 100 kHz, focused 200 µm below the sample surface using a 20× microscope objective with numerical aperture NA = 0.36. The substrate is translated relative to the focus with an Aerotech precision positioning system. The ordered control array is designed with 101 nominally identical waveguides separated by 21.9 µm, corresponding to nominal coupling κ0 = 0.08 mm^-1. The disordered array is designed with 101 nominally identical waveguides and inter-waveguide separations chosen so that nearest-neighbor couplings are independently sampled from a uniform distribution κ_n ~ U(κ0-Δ, κ0+Δ), with disorder strength Δ/κ0 = 0.8. The fabricated chip is intended to support end-facet imaging after propagation through the full waveguide length and to provide a periodic control and a coupling-disordered lattice for the Anderson-localization measurements.",
     "experiment_results": {
-      "second_order_autocorrelation_g2_0": {
+      "target_waveguide_arrays_formed": {
+        "type": "bool",
+        "description": "Whether the direct-laser-writing process produced the intended fused-silica chip containing the ordered and coupling-disordered waveguide arrays used for the optical measurements.",
+        "result": true
+      },
+      "waveguide_refractive_index_contrast": {
         "type": "float",
-        "description": "Zero-delay normalized second-order autocorrelation of the hBN emitter, reported without jitter correction.",
+        "description": "The typical refractive-index contrast of the laser-written waveguides in fused silica.",
+        "result": 0.0005
+      },
+      "propagation_loss_upper_bound_dB_per_cm_at_815_nm": {
+        "type": "float",
+        "description": "The reported upper bound on propagation loss for the laser-written waveguides at the characterization wavelength.",
+        "result": 0.3
+      },
+      "mode_minor_axis_diameter_um": {
+        "type": "float",
+        "description": "The minor-axis diameter of the elliptically shaped guided mode of the laser-written waveguides.",
+        "result": 9.0
+      },
+      "mode_major_axis_diameter_um": {
+        "type": "float",
+        "description": "The major-axis diameter of the elliptically shaped guided mode of the laser-written waveguides.",
+        "result": 13.0
+      }
+    }
+  },
+  {
+    "experiment_description": "Preparation and optical characterization of the room-temperature hexagonal-boron-nitride single-photon source used to inject nonclassical light into the disordered waveguide lattice. Two drops of solvent-exfoliated hBN solution, Boron Nitride Pristine Flakes in Solution from Graphene Supermarket, are drop-cast onto a marked silicon substrate. The substrate is annealed at 850 °C under a 1 Torr argon atmosphere in a tube furnace and then allowed to cool naturally to room temperature. A single defect is addressed in a custom confocal microscope using a 532 nm continuous-wave laser with 100 µW excitation power, focused by a Nikon 100× objective with NA = 0.9. The hBN sample position is controlled using a P-611.3 NanoCube three-axis piezo scanner with sub-10-nm resolution. Emission is collected through the same objective, separated from excitation using a 70:30 non-polarizing beamsplitter and pump-rejection filtering, and routed either to a spectrometer or to a fiber-based Hanbury Brown–Twiss interferometer. The zero-phonon-line region is isolated using a 20 nm-class bandpass filter centered on the selected emitter line. The second-order autocorrelation g^(2)(t) is normalized at long delay and fit with the three-level model g^(2)(t)=1-(1+a1)exp(-t/τ1)+a2 exp(-t/τ2), where τ1 is the antibunching recovery time associated with the excited-state lifetime under the measurement conditions, τ2 is a bunching timescale, and a1 and a2 are amplitudes. No detector-jitter correction is applied. The measurement is configured to establish the spectral emission line and whether emission is dominated by a single quantum defect for use in the Anderson-localization experiment.",
+    "experiment_results": {
+      "zero_phonon_line_wavelength_nm": {
+        "type": "float",
+        "description": "The center wavelength of the selected hBN defect zero-phonon emission line.",
+        "result": 619.0
+      },
+      "single_photon_bandwidth_nm": {
+        "type": "float",
+        "description": "The optical bandwidth of the hBN single-photon emission used for comparison with filtered laser excitation.",
+        "result": 7.5
+      },
+      "g2_zero_delay": {
+        "type": "float",
+        "description": "The normalized second-order autocorrelation at zero delay for the hBN defect emission without detector-jitter correction.",
         "result": 0.29
       },
-      "excited_state_lifetime_above_saturation_ns": {
+      "excited_state_lifetime_ns": {
         "type": "float",
-        "description": "Excited-state lifetime extracted from the three-level fit to the autocorrelation data; reported uncertainty in the paper is ±0.1 ns.",
+        "description": "The excited-state lifetime parameter obtained from the three-level autocorrelation fit under above-saturation excitation conditions.",
         "result": 2.7
+      },
+      "excited_state_lifetime_uncertainty_ns": {
+        "type": "float",
+        "description": "The uncertainty of the excited-state lifetime parameter from the autocorrelation fit.",
+        "result": 0.1
+      },
+      "single_defect_single_photon_emission": {
+        "type": "bool",
+        "description": "Whether the autocorrelation measurement satisfies the single-emitter antibunching criterion for the addressed hBN defect.",
+        "result": true
       }
     }
   },
   {
-    "experiment_description": "Anderson localization of hBN single photons was measured in the bulk of a one-dimensional disordered femtosecond-laser-written waveguide array in fused silica. The photonic chip was fabricated in Corning 7980 fused silica using 800 nm, 150 fs pulses at 100 kHz focused 200 µm below the surface with a 20×, NA 0.36 objective; the written waveguides had an index contrast of about 5×10^-4 and elliptic modes of roughly 9 µm by 13 µm. The disordered array contained 101 nominally identical waveguides with off-diagonal coupling disorder: nearest-neighbor coupling coefficients were designed to be uniformly distributed with mean κ0 = 0.08 mm^-1 and disorder ratio Δ/κ0 = 0.8, where Δ is the half-width of the uniform coupling distribution. Single photons from the hBN defect were generated by 100 µW, 532 nm excitation, collected in a confocal microscope, separated from pump light with a 550 nm dichroic, filtered around the zero-phonon-line emission, and injected by free-space optics into waveguides near the center of the disordered array, beginning at waveguide 30 of 101 to avoid edge reflections. The excitation site was shifted to neighboring waveguides to sample 30 disorder realizations. For each realization, the output end facet was imaged with a single-photon-sensitive EMCCD camera, the peak intensity in each output waveguide was extracted, and profiles were shifted to a common launch-site coordinate and averaged. The averaged output profile was fitted to I(j)=I0 exp[-2|j-j0|/ξ], where j is output waveguide index, j0 is the injected waveguide index after alignment, I0 is the fitted central intensity scale, and ξ is the effective localization length in waveguide-site units.",
+    "experiment_description": "Numerical coupled-mode propagation test of the central Anderson-localization mechanism in the same one-dimensional off-diagonally disordered waveguide geometry targeted experimentally. The model uses constant on-site propagation constants β_n=β0 and random symmetric nearest-neighbor couplings κ_n independently sampled from a uniform distribution κ_n ~ U(κ0-Δ, κ0+Δ) with Δ/κ0 = 0.8. Ordered control simulations use Δ/κ0 = 0. The propagation distance is 10 cm. Bulk excitation launches into the central waveguide of the array, and edge excitation launches into the boundary waveguide; for edge excitation, the adjacent external glass is represented as an effective lossy auxiliary mode. The propagation dynamics are computed by exact diagonalization of the tight-binding Hamiltonian and checked with a Crank–Nicolson propagation scheme. Disorder-averaged profiles are computed over 10^4 independently randomized realizations, using launch-site shifts to exploit statistical shift invariance. End-facet site intensities are fit to I(n)=I0 exp(-2|n-n0|/ξ), where n is output waveguide index, n0 is launch waveguide index, I0 is a fitted amplitude, and ξ is the effective localization length in units of waveguide sites. Additional eigenmode diagnostics compute effective localization lengths from inverse participation ratio and transfer-matrix estimates using the weighted harmonic-mean prescription.",
     "experiment_results": {
-      "bulk_single_photon_localization_length_sites": {
+      "simulated_bulk_localization_length_waveguides": {
         "type": "float",
-        "description": "Effective exponential localization length extracted from the disorder-averaged bulk single-photon output intensity profile; reported uncertainty in the paper is ±0.55 sites as a 95% confidence interval.",
+        "description": "The effective localization length extracted from the simulated disorder-averaged end-facet profile for bulk excitation.",
+        "result": 5.15
+      },
+      "simulated_bulk_localization_length_95ci_waveguides": {
+        "type": "float",
+        "description": "The 95% confidence interval half-width of the simulated bulk-excitation exponential-fit localization length.",
+        "result": 0.41
+      },
+      "simulated_edge_localization_length_waveguides": {
+        "type": "float",
+        "description": "The effective localization length extracted from the simulated disorder-averaged end-facet profile for edge excitation.",
+        "result": 7.52
+      },
+      "simulated_edge_localization_length_95ci_waveguides": {
+        "type": "float",
+        "description": "The 95% confidence interval half-width of the simulated edge-excitation exponential-fit localization length.",
+        "result": 0.73
+      },
+      "ipr_effective_localization_length_waveguides": {
+        "type": "float",
+        "description": "The effective localization length obtained from inverse-participation-ratio eigenmode diagnostics using the weighted harmonic-mean prescription.",
+        "result": 2.66
+      },
+      "transfer_matrix_effective_localization_length_waveguides": {
+        "type": "float",
+        "description": "The effective localization length obtained from transfer-matrix eigenmode diagnostics using the weighted harmonic-mean prescription.",
+        "result": 2.52
+      }
+    }
+  },
+  {
+    "experiment_description": "Ordered-array control measurement for the single-photon transport experiment. Single photons emitted by the characterized hBN defect at its selected zero-phonon line are isolated with a 20 nm bandpass filter, directed through free-space optics, and coupled into the central input waveguide of the 101-site periodic laser-written fused-silica waveguide array with 21.9 µm spacing and nominal coupling κ0 = 0.08 mm^-1. The waveguide chip output facet is imaged using an objective onto a single-photon-resolving electron-multiplying CCD camera. The spatial scope is the full visible end-facet span of the ordered array, approximately 0 to 1200 µm laterally in the plotted line scan; the two-dimensional EMCCD image is vertically binned to obtain a one-dimensional intensity profile across waveguide positions. This control is configured to determine the ordered-lattice transport behavior under the same single-photon source, coupling optics, chip imaging, and end-facet analysis used for the disordered Anderson-localization measurements.",
+    "experiment_results": {
+      "ordered_array_single_photon_transport_regime": {
+        "type": "categorical",
+        "description": "The transport class assigned to the hBN single-photon end-facet intensity profile in the ordered periodic waveguide array.",
+        "result": "discrete_diffraction",
+        "allowed_categorial_values": [
+          "discrete_diffraction",
+          "localized",
+          "undetermined"
+        ]
+      }
+    }
+  },
+  {
+    "experiment_description": "Bulk Anderson-localization measurement with hBN single photons in the coupling-disordered laser-written waveguide array. Single photons from the room-temperature hBN defect, spectrally filtered around the 619 nm zero-phonon-line region, are coupled by free-space optics into interior sites of the 101-waveguide disordered fused-silica array. The array uses off-diagonal disorder: nearest-neighbor couplings are designed to be uniformly distributed about κ0 with disorder strength Δ/κ0 = 0.8 while on-site propagation constants are nominally fixed. To avoid boundary reflections, the first bulk launch is placed at waveguide 30 of 101 and subsequent realizations are obtained by shifting the excitation site to neighboring waveguides. For each of 30 launch-site/disorder realizations, the output facet after propagation through the chip is imaged on a single-photon-resolving EMCCD. The end-facet intensity is analyzed over waveguide indices centered on the injection site, covering the localized central region and tails across approximately -20 to +20 relative waveguide indices. The peak intensity in each waveguide is extracted from the end-facet image, aligned to the injection site, averaged over the 30 realizations, and fit to I(n)=I0 exp(-2|n-n0|/ξ), where n is relative waveguide index, n0 is the launch index after alignment, I0 is a fitted amplitude, and ξ is the effective localization length in waveguide-site units. The measurement is designed to test whether the limited temporal coherence of a defect-based solid-state emitter is compatible with Anderson localization in an integrated photonic lattice.",
+    "experiment_results": {
+      "experimental_bulk_localization_length_waveguides": {
+        "type": "float",
+        "description": "The effective localization length extracted from the disorder-averaged hBN single-photon end-facet profile for bulk excitation.",
         "result": 7.11
+      },
+      "experimental_bulk_localization_length_95ci_waveguides": {
+        "type": "float",
+        "description": "The 95% confidence interval half-width of the experimental bulk-excitation exponential-fit localization length.",
+        "result": 0.55
       }
     }
   },
   {
-    "experiment_description": "Boundary Anderson localization of hBN single photons was measured in the same type of one-dimensional disordered fused-silica waveguide lattice. The laser-written chip contained 101 nominally identical waveguides with off-diagonal coupling disorder, coupling mean κ0 = 0.08 mm^-1, and disorder ratio Δ/κ0 = 0.8. Single photons emitted by the room-temperature hBN defect under 100 µW, 532 nm excitation were collected, spectrally filtered around the zero-phonon-line emission, and coupled by free-space optics into the edge waveguide of the disordered array. The output end facet was imaged using an EMCCD camera. The edge-excitation measurement was repeated for four disorder realizations, and the resulting end-facet intensity profiles were averaged. The averaged edge profile was fitted to I(j)=I0 exp[-2|j-j0|/ξ], where j is output waveguide index, j0 is the boundary launch-site index, I0 is the fitted edge intensity scale, and ξ is the effective localization length in waveguide-site units.",
+    "experiment_description": "Boundary Anderson-localization measurement with hBN single photons in the same coupling-disordered laser-written waveguide array. Single photons from the room-temperature hBN defect, filtered around the 619 nm zero-phonon-line region, are coupled into the edge waveguide of the 101-site off-diagonally disordered fused-silica array. The output facet is imaged with the single-photon-resolving EMCCD through the same objective-based imaging system used for the bulk measurement. Four independent edge-excitation realizations are recorded and averaged. The spatial analysis covers the edge site and neighboring sites extending to approximately 30 waveguide indices into the array. Peak intensities are extracted per waveguide, averaged over the four realizations, and fit to I(n)=I0 exp(-2|n-n0|/ξ), where n is waveguide index measured inward from the boundary, n0 is the edge launch site, I0 is a fitted amplitude, and ξ is the effective localization length in waveguide-site units. This measurement probes how Anderson localization of hBN single photons is modified when the injection site has fewer neighboring scattering pathways at the lattice boundary.",
     "experiment_results": {
-      "edge_single_photon_localization_length_sites": {
+      "experimental_edge_localization_length_waveguides": {
         "type": "float",
-        "description": "Effective exponential localization length extracted from the averaged edge-excitation single-photon output intensity profile; reported uncertainty in the paper is ±2.66 sites as a 95% confidence interval.",
+        "description": "The effective localization length extracted from the averaged hBN single-photon end-facet profile for boundary excitation.",
         "result": 10.08
+      },
+      "experimental_edge_localization_length_95ci_waveguides": {
+        "type": "float",
+        "description": "The 95% confidence interval half-width of the experimental edge-excitation exponential-fit localization length.",
+        "result": 2.66
       }
     }
   },
   {
-    "experiment_description": "Wavelength-dependent classical-light localization was measured in the bulk of the same disordered one-dimensional waveguide array to compare with the hBN single-photon result. A filtered supercontinuum laser with optical bandwidth below 4 nm was coupled into central waveguides of the disordered lattice. The laser center wavelength was set successively to 607, 612, 617, 622, and 627 nm. For each wavelength, 30 disorder realizations were sampled by shifting the excitation to neighboring waveguides, the output end facet was imaged, peak waveguide intensities were averaged after aligning the launch sites, and each averaged profile was fitted to I(j)=I0 exp[-2|j-j0|/ξ], where j is waveguide index, j0 is the aligned launch waveguide, I0 is a fitted intensity scale, and ξ is the effective localization length in waveguide-site units.",
+    "experiment_description": "Spectral-dependence control measurement testing whether the localization length in the coupling-disordered waveguide array changes across the wavelength range relevant to the hBN emitter. A filtered supercontinuum laser with bandwidth below 4 nm is coupled into interior sites of the same 101-waveguide off-diagonally disordered fused-silica array. The laser center wavelength is separately set to 607, 612, 617, 622, and 627 nm. For each wavelength, 30 bulk realizations are measured by exciting the central-region waveguide of a disordered lattice and shifting the launch site between neighboring waveguides, using the same end-facet EMCCD imaging, peak-per-waveguide extraction, disorder averaging, and exponential fitting procedure as in the hBN bulk single-photon experiment. The spatial scope is the relative waveguide-index region around the launch site used to capture the central peak and exponential tails. The measurement is configured to compare classical narrowband excitation with the finite-bandwidth hBN single-photon source under otherwise matched disordered-lattice conditions.",
     "experiment_results": {
-      "laser_localization_length_at_607_nm_sites": {
+      "laser_localization_length_at_607_nm_waveguides": {
         "type": "float",
-        "description": "Approximate effective localization length read from the plotted fitted value for 607 nm laser excitation.",
+        "description": "The approximate effective localization length extracted from the plotted exponential fit for filtered laser excitation at the specified wavelength.",
         "result": 7.3
       },
-      "laser_localization_length_at_612_nm_sites": {
+      "laser_localization_length_at_612_nm_waveguides": {
         "type": "float",
-        "description": "Approximate effective localization length read from the plotted fitted value for 612 nm laser excitation.",
-        "result": 7.6
+        "description": "The approximate effective localization length extracted from the plotted exponential fit for filtered laser excitation at the specified wavelength.",
+        "result": 7.65
       },
-      "laser_localization_length_at_617_nm_sites": {
+      "laser_localization_length_at_617_nm_waveguides": {
         "type": "float",
-        "description": "Approximate effective localization length read from the plotted fitted value for 617 nm laser excitation.",
+        "description": "The approximate effective localization length extracted from the plotted exponential fit for filtered laser excitation at the specified wavelength.",
         "result": 7.4
       },
-      "laser_localization_length_at_622_nm_sites": {
+      "laser_localization_length_at_622_nm_waveguides": {
         "type": "float",
-        "description": "Approximate effective localization length read from the plotted fitted value for 622 nm laser excitation.",
-        "result": 7.6
+        "description": "The approximate effective localization length extracted from the plotted exponential fit for filtered laser excitation at the specified wavelength.",
+        "result": 7.65
       },
-      "laser_localization_length_at_627_nm_sites": {
+      "laser_localization_length_at_627_nm_waveguides": {
         "type": "float",
-        "description": "Approximate effective localization length read from the plotted fitted value for 627 nm laser excitation.",
-        "result": 7.6
+        "description": "The approximate effective localization length extracted from the plotted exponential fit for filtered laser excitation at the specified wavelength.",
+        "result": 7.55
+      },
+      "localization_length_wavelength_dependence_detected": {
+        "type": "bool",
+        "description": "Whether the fitted localization length shows a statistically significant dependence across the scanned laser wavelength range.",
+        "result": false
       }
     }
   }

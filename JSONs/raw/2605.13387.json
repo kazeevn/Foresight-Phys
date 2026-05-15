@@ -1,166 +1,334 @@
 [
   {
-    "experiment_description": "A cloud of neutral cesium atoms was prepared near the waist of a tapered optical nanofiber with nominal waist radius 225 nm. The atoms were confined by a nanofiber-guided two-color evanescent-field dipole trap: a red-detuned 935 nm field with 55 µW launched from both fiber ends to form a standing wave, and a blue-detuned 685 nm field with 7.75 mW in a running-wave configuration. The resulting trap minimum was calculated to lie about 270 nm from the nanofiber surface, with trap sites separated by λ_red/(2 n_eff), where λ_red = 935 nm and n_eff = 1.08. The experiment began with a 1.5 s cesium magneto-optical trap. During the MOT stage, the D2 cooling laser was red-detuned by 2 Γ_D2 from the F = 4 → F′ = 5 cycling transition and a D2 repumper was resonant with F = 3 → F′ = 4; counterpropagating free-space beams had σ+ and σ− polarizations. In a 19 ms transition stage, the magnetic-field gradient was ramped to zero, the D2 cooling intensity was reduced, and its detuning was increased to 11 Γ_D2. A first red-detuned polarization-gradient-cooling stage then lasted 45 ms. For the gray-molasses stage, the D2 beams were switched off and two phase-coherent D1 light fields drove a Λ system coupling the cesium 6S1/2 F = 3 and F = 4 ground states to the 6P1/2 F′ = 4 excited state. The stronger D1 field was blue-detuned by 4.5 Γ_D1 from F = 4 → F′ = 4, while an electro-optic modulator generated the second field at the cesium hyperfine ground-state splitting with sideband-to-carrier ratio 1:4; the two-photon detuning was set near the Λ resonance. The temperature of the untrapped atomic cloud was measured by time-of-flight imaging after the red-detuned polarization-gradient-cooling stage and after a 150 ms Λ-enhanced gray-molasses stage.",
+    "experiment_description": "Central concept: test whether Λ-enhanced gray molasses (ΛGM), which combines velocity-selective coherent population trapping with blue-detuned polarization-gradient cooling in a Λ system, can increase loading of an unusually shallow nanophotonic cesium-atom trap compared with conventional red-detuned polarization-gradient cooling (RPGC). The apparatus uses laser-cooled Cs atoms near the evanescent field of a tapered optical nanofiber with nominal waist radius 225 nm. The two-color nanofiber trap uses a fiber-guided red-detuned standing wave at wavelength 935 nm launched from both fiber ends with 55 µW total setting per paper convention, and a fiber-guided blue-detuned running wave at wavelength 685 nm with 7.75 mW; the calculated trap minimum is about 270 nm from the nanofiber surface and the calculated trap depth is 24 µK. A 3D MOT prepares the cloud for 1.5 s using a D2 cooler red-detuned by 2 natural linewidths ΓD2 from the Cs F=4 to F′=5 transition and a D2 repumper resonant with F=3 to F′=4, with counter-propagating σ+ and σ− beams. During a 19 ms transition phase the magnetic-field gradient is ramped to zero, D2 cooling intensity is reduced, and D2 detuning is increased to 11 ΓD2. The loading sequence then applies RPGC on the D2 line for variable durations up to about 50 ms and then switches to ΛGM on the D1 line for variable durations up to about 200 ms. In ΛGM, two phase-coherent light fields couple the two Cs hyperfine ground states to the 6P1/2, F′=4 state; the D1 cooler is blue-detuned from F=4 to F′=4 by Δ1P=4.5 ΓD1, and the second phase-coherent field is generated with an electro-optic modulator near the Cs ground-state hyperfine splitting with a sideband-to-carrier ratio of 1:4. The two-photon detuning is held at the experimentally selected near-resonant value for the loading-time measurement. The spatial scope is the nanofiber-guided dipole trap along the fiber waist, consisting of two diametral one-dimensional arrays of trapping sites with axial period λred/(2 neff), where neff=1.08. For each loading time, the dependent variable is obtained by weak fiber-guided transmission spectroscopy on the D2 F=4 to F′=5 transition; the probe is scanned for 500 µs at approximately 10^-2 times the saturation power, with transverse probe polarization parallel to the plane containing the trapped atoms, and the optical depth is extracted by fitting the transmission spectrum with a saturated Lorentzian.",
     "experiment_results": {
-      "rpgc_cloud_temperature_uK": {
+      "rpgc_asymptotic_optical_depth": {
         "type": "float",
-        "description": "Temperature of the untrapped cesium cloud after the red-detuned polarization-gradient-cooling stage, determined from time-of-flight expansion.",
-        "result": 5.5
-      },
-      "lambda_gray_molasses_cloud_temperature_uK": {
-        "type": "float",
-        "description": "Temperature of the untrapped cesium cloud after the Λ-enhanced gray-molasses cooling stage, determined from time-of-flight expansion.",
-        "result": 1.9
-      }
-    }
-  },
-  {
-    "experiment_description": "The loading dynamics of cesium atoms into the nanofiber-guided two-color dipole trap were measured using the same nanofiber and trapping fields: 225 nm nominal waist radius, 935 nm red-detuned standing-wave trap with 55 µW from each fiber side, and 685 nm blue-detuned running-wave trap with 7.75 mW. The atoms were initially prepared in a MOT, followed by the 19 ms magnetic-field and D2-cooling transition described in the experimental sequence. The red-detuned polarization-gradient-cooling duration was varied up to about 50 ms, and in the second loading stage the initial RPGC preparation was followed by Λ-enhanced gray molasses on the D1 line with the stronger D1 field blue-detuned by 4.5 Γ_D1 from F = 4 → F′ = 4. The ΛGM duration was varied so that total molasses times extended to about 200 ms. The ΛGM two-photon detuning was chosen to maximize loading, as determined by a separate scan. After each loading duration, the optical depth of the nanofiber-trapped ensemble was measured by transmission spectroscopy through the nanofiber on the cesium D2 F = 4 → F′ = 5 transition using a weak probe. The loading curves were fit with saturating exponentials to extract steady-state optical depths and loading time constants for the RPGC-only and RPGC-plus-ΛGM stages.",
-    "experiment_results": {
-      "rpgc_saturation_optical_depth": {
-        "type": "float",
-        "description": "Steady-state optical depth of the nanofiber-trapped cesium ensemble obtained from an exponential fit to loading during the red-detuned polarization-gradient-cooling stage.",
+        "description": "The fitted steady-state optical depth reached when loading the nanofiber trap using the RPGC stage alone under the specified sequence.",
         "result": 20.4
+      },
+      "rpgc_asymptotic_optical_depth_uncertainty": {
+        "type": "float",
+        "description": "The one-standard-error uncertainty of the fitted RPGC steady-state optical depth.",
+        "result": 1.2
       },
       "rpgc_loading_time_constant_ms": {
         "type": "float",
-        "description": "Exponential time constant for the increase of optical depth during loading with red-detuned polarization-gradient cooling.",
+        "description": "The exponential loading time constant obtained from the RPGC optical-depth-versus-time data.",
         "result": 9.4
       },
-      "lambda_gray_molasses_saturation_optical_depth": {
+      "rpgc_loading_time_constant_uncertainty_ms": {
         "type": "float",
-        "description": "Steady-state optical depth of the nanofiber-trapped cesium ensemble obtained after adding the Λ-enhanced gray-molasses loading stage.",
+        "description": "The one-standard-error uncertainty of the RPGC exponential loading time constant.",
+        "result": 1.6
+      },
+      "lambda_gm_asymptotic_optical_depth": {
+        "type": "float",
+        "description": "The fitted steady-state optical depth reached after switching from the RPGC stage to the ΛGM loading stage under the specified sequence.",
         "result": 125
       },
-      "lambda_gray_molasses_loading_time_constant_ms": {
+      "lambda_gm_asymptotic_optical_depth_uncertainty": {
         "type": "float",
-        "description": "Exponential time constant for the increase of optical depth during the Λ-enhanced gray-molasses loading stage.",
+        "description": "The one-standard-error uncertainty of the fitted ΛGM steady-state optical depth.",
+        "result": 4
+      },
+      "lambda_gm_loading_time_constant_ms": {
+        "type": "float",
+        "description": "The exponential loading time constant obtained from the ΛGM optical-depth-versus-time data.",
         "result": 18.0
       },
-      "lambda_gray_molasses_od_enhancement_factor": {
+      "lambda_gm_loading_time_constant_uncertainty_ms": {
         "type": "float",
-        "description": "Ratio of the saturated optical depth obtained with the Λ-enhanced gray-molasses loading stage to that obtained with the red-detuned polarization-gradient-cooling stage alone.",
+        "description": "The one-standard-error uncertainty of the ΛGM exponential loading time constant.",
+        "result": 1.1
+      },
+      "lambda_gm_od_enhancement_over_rpgc": {
+        "type": "float",
+        "description": "The ratio of the steady-state optical depth after ΛGM loading to that after RPGC-only loading in the same nanofiber trap.",
         "result": 6.0
       }
     }
   },
   {
-    "experiment_description": "The two-photon detuning dependence of Λ-enhanced gray-molasses loading into the nanofiber trap was measured using the same cesium nanofiber-trap apparatus. The trap used the 935 nm red-detuned standing-wave field at 55 µW from both ends of the nanofiber and the 685 nm blue-detuned running-wave field at 7.75 mW. Cesium atoms were first prepared in a MOT and red-detuned polarization-gradient-cooled, then loaded further using the D1 ΛGM scheme coupling 6S1/2 F = 3 and F = 4 to 6P1/2 F′ = 4. The stronger D1 field was blue-detuned by 4.5 Γ_D1 from F = 4 → F′ = 4, and an electro-optic modulator generated the phase-coherent second Λ field. The ΛGM two-photon detuning Δ2P was swept over the range shown in the detuning scan, approximately from −100 kHz to +100 kHz. For each detuning, the final optical depth after the loading sequence was measured by nanofiber transmission spectroscopy on the D2 F = 4 → F′ = 5 transition. The dependence of the normalized final optical depth on Δ2P was fit with a Gaussian to determine the detuning at which loading was maximal.",
+    "experiment_description": "Central concept: characterize the cooling action of the ΛGM stage used to load a nanophotonic Cs trap by measuring the temperature of the surrounding untrapped molasses cloud, because lower temperature is expected to increase capture into the very small trap volumes near the optical nanofiber. A Cs MOT is prepared with the D2 cooler and repumper beams as in the nanofiber experiment, followed by the 19 ms magnetic-field and D2-cooling transition ramp and a 45 ms RPGC stage on the D2 transition. ΛGM is then applied on the D1 transition using counter-propagating σ+ and σ− beams coupling the Cs F=3 and F=4 ground states to 6P1/2, F′=4; the D1 cooler is detuned by Δ1P=4.5 ΓD1 from F=4 to F′=4, the second phase-coherent field is generated by an EOM near the hyperfine splitting, and the two-photon detuning Δ2P is either swept across the near-resonance range shown in the paper or set at zero for the duration-dependent measurement. The temperature measurement applies to the untrapped free-space Cs atom cloud in the vicinity of the nanofiber rather than to atoms already bound in the evanescent-field trap. The cloud temperature is measured by time-of-flight imaging after releasing the atoms, with ΛGM durations including a short fixed-duration detuning scan and a duration scan extending to the long-cooling condition used to characterize the final ΛGM temperature.",
     "experiment_results": {
-      "optimal_lambda_gray_molasses_two_photon_detuning_kHz": {
+      "rpgc_cloud_temperature_uK": {
         "type": "float",
-        "description": "Two-photon detuning of the D1 Λ-enhanced gray-molasses fields at which the final nanofiber-trapped optical depth was maximal, extracted from a Gaussian fit to the detuning scan.",
-        "result": -5.9
-      }
-    }
-  },
-  {
-    "experiment_description": "The local filling of the nanofiber trap was characterized after preparing a large trapped cesium ensemble. A MOT was loaded for 1.2 s, followed by 60 ms of red-detuned polarization-gradient cooling and 190 ms of Λ-enhanced gray-molasses loading into the nanofiber-guided two-color trap. The trap used the same 225 nm nominal-radius nanofiber waist, 935 nm red-detuned standing-wave field, and 685 nm blue-detuned running-wave field as in the main experiment. The trapped atoms were illuminated through the nanofiber using D2 EIT-cooling light fields detuned by about 7.3 Γ_D2, and their fluorescence was imaged perpendicular to the nanofiber propagation direction onto an Andor iXon Ultra EMCCD camera. The imaging sequence was repeated 3000 times with 23 ms integration and probing time. An independent atom-number measurement was performed by sending a weak nanofiber-guided probe resonant with the cesium D2 F = 4 → F′ = 4 transition and fitting the optical-pumping transmission dynamics. Combining the fluorescence-derived axial line density with the independently measured atom number, and accounting for the two diametral one-dimensional arrays of trap sites with site spacing λ_red/(2 n_eff), yielded the local trap-site filling factor.",
-    "experiment_results": {
-      "maximum_trap_site_filling_factor": {
-        "type": "float",
-        "description": "Maximum measured probability for occupation of an individual nanofiber trap site by a single cesium atom, inferred from fluorescence imaging and independent atom-number calibration.",
-        "result": 0.5
+        "description": "The time-of-flight temperature of the untrapped Cs cloud after the RPGC stage before applying ΛGM.",
+        "result": 5.5
       },
-      "high_filling_region_length_mm": {
+      "rpgc_cloud_temperature_uncertainty_uK": {
         "type": "float",
-        "description": "Approximate axial length over which the trapped ensemble showed a flat-topped high-filling distribution near the maximum filling factor.",
-        "result": 1.0
+        "description": "The one-standard-error uncertainty of the RPGC cloud temperature.",
+        "result": 0.2
+      },
+      "lambda_gm_cloud_temperature_after_long_cooling_uK": {
+        "type": "float",
+        "description": "The time-of-flight temperature of the untrapped Cs cloud after the long-duration ΛGM cooling condition.",
+        "result": 1.9
+      },
+      "lambda_gm_cloud_temperature_after_long_cooling_uncertainty_uK": {
+        "type": "float",
+        "description": "The one-standard-error uncertainty of the long-duration ΛGM cloud temperature.",
+        "result": 0.1
       }
     }
   },
   {
-    "experiment_description": "The atom number and atom–photon coupling strength of the loaded nanofiber-trapped cesium ensemble were measured immediately after the optimized loading sequence. Cesium atoms were prepared near a 225 nm nominal-radius nanofiber and loaded into the two-color evanescent-field trap formed by a 935 nm red-detuned standing-wave field with 55 µW launched from both ends and a 685 nm blue-detuned running-wave field with 7.75 mW. Loading used a MOT, red-detuned polarization-gradient cooling, and D1 Λ-enhanced gray molasses with the stronger D1 field blue-detuned by 4.5 Γ_D1 from F = 4 → F′ = 4. The optical depth OD was determined by scanning a weak nanofiber-guided probe across the cesium D2 F = 4 → F′ = 5 transition and fitting the transmission spectrum with a saturated Lorentzian; the probe power was about 10^-2 times the saturation power, its transverse polarization was parallel to the plane containing the trapped atoms, and the scan duration was 500 µs. The atom number N was measured separately with the depumping method: a 1.3 pW nanofiber-guided probe resonant with D2 F = 4 → F′ = 4, with transverse polarization orthogonal to the plane containing the trapped atoms, optically pumped atoms from F = 4 to F = 3, and the time-dependent transmission of a boxcar probe pulse was fitted to the established depumping model. The coupling strength β was computed from β = OD/(4N).",
+    "experiment_description": "Central concept: determine the two-photon detuning condition under which ΛGM most effectively loads atoms into the nanofiber trap, testing the role of the velocity-selective dark state in the small-volume nanophotonic capture process. The same Cs nanofiber trap is used: a 225 nm nominal-radius nanofiber waist, 935 nm red-detuned standing-wave trap field at 55 µW launched from both directions, 685 nm blue-detuned running-wave trap field at 7.75 mW, calculated trap depth 24 µK, and trap sites at two diametral arrays near the nanofiber surface. The atoms are first prepared in the MOT and RPGC sequence, then ΛGM is applied on the D1 line with Δ1P=4.5 ΓD1 and a phase-coherent second field generated by an EOM with sideband-to-carrier ratio 1:4. The independent variable is the ΛGM two-photon detuning Δ2P, scanned over the approximately ±100 kHz range around the hyperfine two-photon resonance. For each detuning, the final nanofiber-trapped optical depth is obtained by fiber-guided weak-probe transmission spectroscopy on the D2 F=4 to F′=5 transition and normalized to the maximum optical depth within the scan; the detuning dependence is fit with a Gaussian to extract the peak position. The measurement samples the same guided-mode interaction region of the nanofiber trap and is sensitive to residual light shifts and magnetic fields through shifts of the optimum dark-state condition.",
     "experiment_results": {
-      "loaded_atom_number": {
-        "type": "integer",
-        "description": "Total number of cesium atoms in the nanofiber-guided trap extracted from depumping transmission dynamics after optimized loading.",
+      "lambda_gm_optimal_two_photon_detuning_kHz": {
+        "type": "float",
+        "description": "The fitted two-photon detuning at which the ΛGM loading optical depth is maximal.",
+        "result": -5.9
+      },
+      "lambda_gm_optimal_two_photon_detuning_uncertainty_kHz": {
+        "type": "float",
+        "description": "The one-standard-error uncertainty of the fitted optimum ΛGM two-photon detuning.",
+        "result": 0.6
+      }
+    }
+  },
+  {
+    "experiment_description": "Central concept: independently quantify the number of atoms coupled to the nanofiber and the single-atom coupling probability after ΛGM-assisted loading, establishing whether the enhanced loading produces a large guided-mode optical depth in a shallow nanophotonic trap. The sample is a Cs ensemble loaded into the two-color nanofiber trap at the waist of a 225 nm nominal-radius tapered optical fiber, using the MOT, RPGC, and ΛGM sequence described for the loading experiment. The optical depth is measured by scanning a weak nanofiber-guided probe across the Cs D2 F=4 to F′=5 transition at approximately 10^-2 Psat for a 500 µs scan; the probe polarization is transverse and parallel to the plane containing the trapped atoms, and the transmission spectrum is fit with a saturated Lorentzian. The atom number is measured in the same class of loaded ensembles by a depumping method: a weak 1.3 pW nanofiber-guided probe resonant with the Cs D2 F=4 to F′=4 transition, with transverse polarization orthogonal to the plane containing the trapped atoms, is sent as a boxcar-shaped pulse through the fiber; the time-dependent transmission is fit to the optical-pumping model of Ref. [49], equivalently checked by counting missing photons while accounting for branching ratios to the two hyperfine ground states. The guided-mode emission probability is then derived as β=OD/(4N), where OD is the resonant optical depth of the trapped ensemble and N is the atom number. The spatial scope is the nanofiber-waist trap region addressed by the guided probe, integrating over the ensemble along the fiber rather than imaging individual sites.",
+    "experiment_results": {
+      "representative_optical_depth": {
+        "type": "float",
+        "description": "The optical depth extracted from a representative weak-probe transmission spectrum after ΛGM-assisted loading.",
+        "result": 144
+      },
+      "representative_optical_depth_uncertainty": {
+        "type": "float",
+        "description": "The one-standard-error uncertainty of the representative optical-depth fit.",
+        "result": 4
+      },
+      "depumping_atom_number": {
+        "type": "float",
+        "description": "The total number of nanofiber-trapped Cs atoms extracted from the depumping transmission dynamics.",
         "result": 4360
       },
-      "atom_photon_coupling_beta_percent": {
+      "depumping_atom_number_uncertainty": {
         "type": "float",
-        "description": "Single-atom emission probability into the guided nanofiber mode, inferred from independently measured optical depth and atom number as β = OD/(4N).",
+        "description": "The one-standard-error uncertainty of the depumping-derived atom number.",
+        "result": 230
+      },
+      "single_atom_waveguide_decay_probability_percent": {
+        "type": "float",
+        "description": "The guided-mode spontaneous-emission probability per excited atom derived from optical depth and atom number using β=OD/(4N).",
         "result": 1.08
+      },
+      "single_atom_waveguide_decay_probability_uncertainty_percent": {
+        "type": "float",
+        "description": "The one-standard-error uncertainty of the derived guided-mode spontaneous-emission probability.",
+        "result": 0.03
       }
     }
   },
   {
-    "experiment_description": "The storage time of atoms in the nanofiber-guided dipole trap was measured with and without free-space Λ-enhanced gray-molasses cooling applied after loading. Cesium atoms were loaded into the two-color nanofiber trap formed by the 935 nm red-detuned standing-wave field at 55 µW from both fiber ends and the 685 nm blue-detuned running-wave field at 7.75 mW. After loading, all molasses beams were switched off and the optical depth was measured as a function of holding time in the trap using nanofiber transmission spectroscopy on the D2 F = 4 → F′ = 5 transition; an exponential fit to OD versus hold time gave the passive storage time. In the active-cooling measurement, after the trapped ensemble was loaded, the surrounding untrapped cloud was allowed to fall below the nanofiber by waiting for a delay long enough to avoid reloading; the D1 ΛGM cooling beams were then switched on again after either a 45 ms or a 175 ms delay. The D1 ΛGM beams used the same Λ configuration between 6S1/2 F = 3, F = 4 and 6P1/2 F′ = 4, with the stronger field blue-detuned by 4.5 Γ_D1 from F = 4 → F′ = 4 and σ+/σ− counterpropagating free-space polarizations. The post-cooling optical-depth decay was fit exponentially to extract the active storage time. In a related measurement, the atom–photon coupling β was monitored as a function of holding time with and without the same ΛGM cooling light, using independent OD and atom-number measurements.",
+    "experiment_description": "Central concept: determine whether ΛGM-assisted loading drives the nanofiber trap into the collisional blockade filling regime, where at most one Cs atom occupies each trap site and the expected site-occupation ceiling is set by light-assisted two-body loss. The nanofiber trap uses the same 935 nm red-detuned standing-wave and 685 nm blue-detuned running-wave fields, forming two diametral one-dimensional arrays of sites above and below the nanofiber. The site spacing used to convert line density to filling factor is λred/(2 neff)=935 nm/(2×1.08), and both diametral arrays are included in the filling calculation. To prepare a high-atom-number ensemble for imaging, the MOT is loaded for 1.2 s, followed by 60 ms of RPGC and 190 ms of ΛGM loading. The trapped ensemble is illuminated through the nanofiber using the D2 EIT-cooling light fields detuned by about 7.3 ΓD2, and fluorescence is imaged perpendicular to the guided-light propagation direction onto an Andor iXon Ultra EMCCD. The image in the analysis is accumulated by repeating the imaging sequence 3000 times with 23 ms integration/probing time per shot. The spatial analysis covers the fiber-waist region visible in the EMCCD image, including the approximately millimeter-scale central portion away from the up-taper where the evanescent trapping intensity decreases; the local line density from fluorescence is combined with an independent total atom-number measurement to infer the local filling factor along the nanofiber.",
+    "experiment_results": {
+      "maximum_site_filling_factor": {
+        "type": "float",
+        "description": "The maximum inferred probability for a single trap site in one of the two nanofiber arrays to be occupied by a Cs atom.",
+        "result": 0.5
+      },
+      "flat_top_distribution_length_mm": {
+        "type": "float",
+        "description": "The length along the nanofiber over which the inferred atom distribution is approximately flat-topped near its maximum filling condition.",
+        "result": 1.0
+      },
+      "collisional_blockade_regime_reached": {
+        "type": "bool",
+        "description": "Whether the inferred filling behavior is consistent with operation at the single-atom-per-site collisional blockade limit.",
+        "result": true
+      }
+    }
+  },
+  {
+    "experiment_description": "Central concept: test whether applying the same free-space ΛGM light fields after loading can act as EIT-assisted cooling for atoms already bound in the shallow nanofiber trap, thereby extending trap storage without relying on reloading from the surrounding cloud. The Cs ensemble is first loaded into the 24 µK two-color nanofiber trap using the MOT, RPGC, and ΛGM loading sequence. After loading, all molasses beams are turned off and the optical depth is measured as a function of hold time in the trap to obtain the passive loss curve. For the active-cooling condition, all molasses beams remain off during an initial waiting time long enough for untrapped atoms in the surrounding cloud to fall below the nanofiber, then the ΛGM beams are turned on again after specified delays such as 45 ms or about 175–195 ms. The ΛGM fields use the D1 Λ system coupling the Cs hyperfine ground states to 6P1/2, F′=4 with the D1 cooler detuned by Δ1P=4.5 ΓD1 and the phase-coherent second field set near the two-photon resonance. The measurement probes only atoms remaining in the nanofiber-guided trap after the waiting interval and tracks the ensemble-integrated guided-mode optical depth by weak D2 F=4 to F′=5 transmission spectroscopy as a function of hold time over hundreds of milliseconds. Exponential fits to OD versus hold time define the passive and active storage time constants.",
     "experiment_results": {
       "passive_storage_time_ms": {
         "type": "float",
-        "description": "Exponential lifetime of the trapped cesium ensemble in the nanofiber-guided dipole trap when no cooling light was applied after loading.",
+        "description": "The exponential decay time of the nanofiber-trapped atom optical depth with all molasses beams off after loading.",
         "result": 79.0
       },
-      "lambda_gray_molasses_active_storage_time_ms": {
+      "passive_storage_time_uncertainty_ms": {
         "type": "float",
-        "description": "Exponential lifetime of the trapped cesium ensemble when free-space D1 Λ-enhanced gray-molasses cooling light was applied during the holding time after the initial delay.",
+        "description": "The one-standard-error uncertainty of the passive storage time fit for the free-space ΛGM cooling comparison.",
+        "result": 1.5
+      },
+      "lambda_gm_active_storage_time_ms": {
+        "type": "float",
+        "description": "The exponential decay time of the nanofiber-trapped atom optical depth when the ΛGM light fields are reapplied after the post-loading wait.",
         "result": 400
       },
-      "lambda_gray_molasses_storage_time_enhancement_factor": {
+      "lambda_gm_active_storage_time_uncertainty_ms": {
         "type": "float",
-        "description": "Ratio of the active storage time with free-space Λ-enhanced gray-molasses cooling to the passive storage time measured without post-loading cooling.",
+        "description": "The one-standard-error uncertainty of the active storage time fit with ΛGM/EIT-assisted cooling.",
+        "result": 9
+      },
+      "lambda_gm_storage_time_enhancement_factor": {
+        "type": "float",
+        "description": "The ratio of active storage time with the reapplied ΛGM light fields to the passive storage time in the same trap configuration.",
         "result": 5.0
       }
     }
   },
   {
-    "experiment_description": "Fiber-guided EIT cooling of nanofiber-trapped cesium atoms was tested after standard loading into the same two-color nanofiber trap. The trap used the 225 nm nominal-radius tapered-fiber waist, a 935 nm red-detuned standing-wave field with 55 µW launched from both fiber ends, and a 685 nm blue-detuned running-wave field with 7.75 mW. After MOT preparation, red-detuned polarization-gradient cooling, and D1 Λ-enhanced gray-molasses loading, all molasses beams were switched off and the trapped ensemble was held. For the guided-cooling case, after a 41 ms delay two additional phase-coherent light fields were launched co-propagating through the nanofiber to form a Λ system on the cesium D2 line via the 6P3/2 F′ = 4 excited state. The stronger guided coupling field was blue-detuned by 2.5 Γ_D2 from F = 4 → F′ = 4 and had about 500 pW optical power; a fiber-based phase modulator generated the sideband with carrier-to-sideband ratio 13:1. The transverse polarization of the guided EIT-cooling fields was aligned orthogonal to the plane containing the trapped atoms. Optical depth was measured versus holding time, both without guided EIT cooling and with guided EIT cooling, and exponential fits to OD decay yielded passive and active storage times.",
+    "experiment_description": "Central concept: determine whether free-space ΛGM/EIT-assisted cooling preserves the atom–nanofiber coupling strength during storage by counteracting motional heating in the shallow evanescent-field trap. The same nanofiber-trapped Cs ensemble is prepared using the MOT, RPGC, and ΛGM loading sequence in the two-color trap with 935 nm standing-wave red field and 685 nm running-wave blue field. After loading, the atoms are either held passively with all molasses beams off or held with the D1 ΛGM fields reapplied after the waiting interval used to avoid loading from the falling untrapped cloud. At selected hold times normalized by the passive storage time τp, two independent guided-probe measurements are performed: resonant D2 F=4 to F′=5 transmission spectroscopy gives OD, and D2 F=4 to F′=4 depumping transmission gives atom number N. The coupling strength is calculated as β=OD/(4N), where β is the probability for an excited Cs atom to emit into the guided nanofiber mode. The measurement integrates over the full trapped ensemble addressed by the guided mode and compares the time dependence of β for passive and actively cooled storage conditions.",
+    "experiment_results": {
+      "passive_beta_time_trend": {
+        "type": "categorical",
+        "description": "The observed time dependence of the derived atom–waveguide coupling probability during passive storage.",
+        "result": "decreases",
+        "allowed_categorial_values": [
+          "decreases",
+          "constant",
+          "increases"
+        ]
+      },
+      "lambda_gm_cooled_beta_time_trend": {
+        "type": "categorical",
+        "description": "The observed time dependence of the derived atom–waveguide coupling probability during storage with reapplied ΛGM/EIT-assisted cooling.",
+        "result": "constant",
+        "allowed_categorial_values": [
+          "decreases",
+          "constant",
+          "increases"
+        ]
+      },
+      "lambda_gm_cooled_beta_percent": {
+        "type": "float",
+        "description": "The approximate maintained atom–waveguide coupling probability during the actively cooled hold.",
+        "result": 1.0
+      }
+    }
+  },
+  {
+    "experiment_description": "Central concept: demonstrate an all-guided-light implementation of EIT cooling in a nanophotonic trap, exploiting the radially decaying nanofiber evanescent field to address radial motional sidebands with co-propagating guided fields rather than external paraxial beams. Cs atoms are first loaded into the same shallow two-color nanofiber trap. After loading, a waiting interval is inserted so that untrapped atoms fall away from the nanofiber, and then two additional phase-coherent nanofiber-guided fields co-propagate through the fiber to establish a Λ system on the Cs D2 line via F′=4. The strong coupling field is blue-detuned from the F=4 to F′=4 transition by Δ1P,EIT,C=2.5 ΓD2 for the storage-time measurement, with guided power in the few-hundred-picowatt range; sidebands are generated by a fiber-based phase modulator with carrier-to-sideband ratio 13:1. The transverse polarization of the EIT-cooling fields is aligned orthogonal to the plane containing the trapped atoms. Passive and active storage curves are measured by recording the nanofiber-guided optical depth versus hold time after loading, with the active guided-EIT condition switched on after a 41 ms delay. The exponential decay of OD over the measured hold interval defines the passive and guided-EIT-cooled storage times for the same nanofiber trap geometry.",
     "experiment_results": {
       "guided_eit_passive_storage_time_ms": {
         "type": "float",
-        "description": "Exponential lifetime of the nanofiber-trapped cesium ensemble in the storage-time dataset without guided EIT cooling.",
+        "description": "The exponential optical-depth decay time for the nanofiber-trapped atoms without guided EIT cooling in the guided-light comparison measurement.",
         "result": 50
+      },
+      "guided_eit_passive_storage_time_uncertainty_ms": {
+        "type": "float",
+        "description": "The one-standard-error uncertainty of the passive storage time in the guided-EIT comparison measurement.",
+        "result": 1
       },
       "guided_eit_active_storage_time_ms": {
         "type": "float",
-        "description": "Exponential lifetime of the nanofiber-trapped cesium ensemble when co-propagating nanofiber-guided D2 EIT-cooling light fields were applied after the delay.",
+        "description": "The exponential optical-depth decay time when co-propagating nanofiber-guided EIT-cooling fields are applied after the post-loading delay.",
         "result": 131
+      },
+      "guided_eit_active_storage_time_uncertainty_ms": {
+        "type": "float",
+        "description": "The one-standard-error uncertainty of the guided-EIT active storage time.",
+        "result": 9
       },
       "guided_eit_storage_time_enhancement_factor": {
         "type": "float",
-        "description": "Ratio of active storage time under nanofiber-guided EIT cooling to the passive storage time in the corresponding measurement.",
+        "description": "The ratio of active storage time with guided EIT cooling to passive storage time in the same measurement sequence.",
         "result": 2.6
       }
     }
   },
   {
-    "experiment_description": "The resonance condition for nanofiber-guided EIT cooling was characterized by scanning the two-photon detuning and coupling strength of co-propagating guided D2 light fields applied to cesium atoms already loaded into the nanofiber-guided two-color trap. The trap used the 935 nm red-detuned standing-wave field and 685 nm blue-detuned running-wave field near a 225 nm nominal-radius nanofiber waist. The guided EIT-cooling fields formed a Λ system via the cesium 6P3/2 F′ = 4 excited state, with the transverse polarization orthogonal to the plane containing the trapped atoms. First, for a fixed guided EIT-cooling duration of 20 ms and a coupling-laser one-photon detuning of Δ1P,EIT,C = 2.5 Γ_D2, the two-photon detuning Δ2P,EIT was scanned across the resonance and the optical depth after cooling was measured. Second, for several values of the one-photon detuning Δ1P,EIT,C, the coupling-beam Rabi frequency Ω1P,EIT,C was varied by changing the guided coupling power, and the Ω1P,EIT,C value that maximized the post-cooling optical depth was determined. The set of optimal Ω1P,EIT,C values versus Δ1P,EIT,C was fit to the EIT-cooling resonance condition to extract an effective trap frequency.",
+    "experiment_description": "Central concept: identify the cooling resonance and motional frequency associated with the all-guided EIT-cooling mechanism in the nanofiber trap. The loaded Cs atoms are held in the same 24 µK two-color nanofiber-guided trap, and the EIT-cooling fields are two phase-coherent co-propagating D2 guided fields coupling the Cs hyperfine ground states through F′=4. For the two-photon detuning scan, the optical depth is measured after a fixed 20 ms guided-EIT cooling interval while the two-photon detuning Δ2P,EIT is scanned across the resonance; Δ2P,EIT is defined as zero when probe and coupling fields couple the two hyperfine ground states without changing motional quantum number. Negative Δ2P,EIT addresses sideband cooling and positive detuning addresses sideband heating. For the coupling-strength scan, the one-photon detuning Δ1P,EIT,C of the strong coupling field is set to values in the plotted MHz-scale range, the coupling Rabi frequency Ω1P,EIT,C is varied by changing the guided coupling-field power, and the optical depth after EIT cooling is used to locate the maximum. The EIT cooling condition used for comparison is (1/2)[sqrt(Δ1P,EIT,C^2+Ω1P,EIT,C^2)-|Δ1P,EIT,C|]=ν, where Δ1P,EIT,C is the one-photon detuning of the guided coupling field, Ω1P,EIT,C is its Rabi frequency, and ν is the relevant trap oscillation frequency inferred from fitting the optimum Rabi-frequency positions. The measurement samples the nanofiber-trapped ensemble addressed by the guided evanescent fields and is sensitive to radial, azimuthal, and axial motional contributions within the one-dimensional EIT-cooling model.",
     "experiment_results": {
       "guided_eit_optimal_two_photon_detuning_kHz": {
         "type": "float",
-        "description": "Two-photon detuning of the guided D2 EIT fields at which the post-cooling optical depth was maximal in the detuning scan.",
+        "description": "The two-photon detuning at which the guided-EIT cooling scan gives the largest post-cooling optical depth.",
         "result": -25
       },
-      "guided_eit_extracted_trap_frequency_kHz": {
+      "guided_eit_optimal_coupler_power_pW": {
         "type": "float",
-        "description": "Effective motional trap frequency inferred from the dependence of the optimal guided EIT-coupling Rabi frequency on one-photon detuning.",
+        "description": "The guided coupling-field power at which the post-cooling optical depth is maximal for the specified one-photon detuning condition.",
+        "result": 500
+      },
+      "guided_eit_optimal_coupler_power_fraction_of_saturation": {
+        "type": "float",
+        "description": "The coupling-field power at the optical-depth maximum expressed as a fraction of the saturation power.",
+        "result": 0.3
+      },
+      "guided_eit_fitted_trap_frequency_kHz": {
+        "type": "float",
+        "description": "The trap oscillation frequency inferred by fitting the optimum guided-EIT coupling Rabi frequencies to the EIT-cooling resonance condition.",
         "result": 46
+      },
+      "guided_eit_fitted_trap_frequency_uncertainty_kHz": {
+        "type": "float",
+        "description": "The one-standard-error uncertainty of the trap frequency inferred from the guided-EIT resonance fit.",
+        "result": 2
       }
     }
   },
   {
-    "experiment_description": "Atom loading and loss rates were derived for the nanofiber trap under Λ-enhanced gray-molasses and red-detuned polarization-gradient-cooling conditions. The same cesium nanofiber trap was used: 225 nm nominal fiber-waist radius, 935 nm red-detuned standing-wave field with 55 µW launched from both ends, and 685 nm blue-detuned running-wave field with 7.75 mW. The one-atom loss rate γ for each cooling scheme was obtained as γ = 1/τ, where τ is the measured storage time while cooling the trapped atoms with that scheme. The one-atom loading rate R was obtained from the initial slope of the atom-number loading curve immediately after switching on the corresponding cooling beams. The atom number was inferred from N = OD/(4β) using optical-depth measurements and β = 1% for this loading-rate estimate. The number of available trap sites was calculated from an estimated 1.5 mm atomic-cloud length, two diametral one-dimensional trap arrays, and site spacing λ_red/(2 n_eff) with λ_red = 935 nm and n_eff = 1.08. The RPGC and ΛGM rates were then compared using the same definitions.",
+    "experiment_description": "Central concept: compare ΛGM and RPGC loading dynamics at the single-site rate-equation level to determine whether the enhanced ΛGM loading is limited by collisional blockade in the nanofiber trap. The nanofiber trap is the same two-color evanescent-field trap with two diametral arrays of sites and an estimated atom-cloud length along the nanofiber of 1.5 mm for counting available trapping sites. The number of available sites is determined using the axial period λred/(2 neff) with λred=935 nm and neff=1.08 and by including the two arrays. The atom number N(t) used for loading-rate extraction is inferred from the measured optical-depth loading curves via N=OD/(4β), using β=1% for this rate estimate. The one-atom loading rate R for each cooling method is obtained from the initial slope dN/dt at the onset of the RPGC or ΛGM loading stage divided by the number of available traps. The one-atom loss rate γ is obtained as γ=1/τ, where τ is the storage time of trapped atoms while applying the respective cooling method. For comparison with collisional blockade, the trap volume V is calculated from the full widths at half maximum of the trap potential in cylindrical coordinates, dr=270 nm, dθ=0.87 rad, dz=150 nm, and the relation V=dr dz dθ r ln[1/(1−η)] sqrt[η/(1−η)], where η=kBT/|U0|, T is the atom temperature, U0 is the trap depth, kB is Boltzmann’s constant, and r is the trap radius from the fiber axis; the Cs two-body loss coefficient κ=10×10^-10 cm^3 s^-1 is used to compute κ/(4V). The regime criterion is γ/2<R<κ/(4V) for collisional-blockade-limited loading.",
     "experiment_results": {
-      "lambda_gray_molasses_loading_rate_per_s": {
+      "lambda_gm_single_site_loading_rate_s_inv": {
         "type": "float",
-        "description": "One-atom loading rate per trap site under Λ-enhanced gray-molasses loading, extracted from the initial atom-number increase.",
+        "description": "The one-atom loading rate per available nanofiber trap site inferred from the initial ΛGM loading slope.",
         "result": 25
       },
-      "rpgc_loading_rate_per_s": {
+      "lambda_gm_single_site_loading_rate_uncertainty_s_inv": {
         "type": "float",
-        "description": "One-atom loading rate per trap site under red-detuned polarization-gradient-cooling loading, extracted from the initial atom-number increase.",
+        "description": "The one-standard-error uncertainty of the ΛGM one-atom loading rate.",
+        "result": 2
+      },
+      "rpgc_single_site_loading_rate_s_inv": {
+        "type": "float",
+        "description": "The one-atom loading rate per available nanofiber trap site inferred from the initial RPGC loading slope.",
         "result": 7
       },
-      "lambda_gray_molasses_one_atom_loss_rate_per_s": {
+      "rpgc_single_site_loading_rate_uncertainty_s_inv": {
         "type": "float",
-        "description": "One-atom loss rate under Λ-enhanced gray-molasses cooling, obtained as the inverse of the storage time for atoms cooled with that scheme.",
+        "description": "The one-standard-error uncertainty of the RPGC one-atom loading rate.",
+        "result": 1
+      },
+      "lambda_gm_one_atom_loss_rate_s_inv": {
+        "type": "float",
+        "description": "The one-atom loss rate for trapped atoms under the ΛGM cooling condition.",
         "result": 2.5
       },
-      "rpgc_one_atom_loss_rate_per_s": {
+      "lambda_gm_one_atom_loss_rate_uncertainty_s_inv": {
         "type": "float",
-        "description": "One-atom loss rate under red-detuned polarization-gradient cooling, obtained as the inverse of the storage time for atoms cooled with that scheme.",
+        "description": "The one-standard-error uncertainty of the ΛGM one-atom loss rate.",
+        "result": 0.01
+      },
+      "rpgc_one_atom_loss_rate_s_inv": {
+        "type": "float",
+        "description": "The one-atom loss rate for trapped atoms under the RPGC cooling condition.",
         "result": 50
+      },
+      "rpgc_one_atom_loss_rate_uncertainty_s_inv": {
+        "type": "float",
+        "description": "The one-standard-error uncertainty of the RPGC one-atom loss rate.",
+        "result": 1
+      },
+      "normalized_two_body_loss_rate_s_inv": {
+        "type": "float",
+        "description": "The normalized two-body loss rate κ/(4V) for the specified nanofiber trap volume and Cs two-body loss coefficient.",
+        "result": 2200000.0
+      },
+      "lambda_gm_loading_regime": {
+        "type": "categorical",
+        "description": "The rate-equation loading regime inferred for ΛGM from the measured loading and loss rates relative to the collisional blockade criterion.",
+        "result": "collisional_blockade_limited",
+        "allowed_categorial_values": [
+          "collisional_blockade_limited",
+          "weak_loading"
+        ]
+      },
+      "rpgc_loading_regime": {
+        "type": "categorical",
+        "description": "The rate-equation loading regime inferred for RPGC from the measured loading and loss rates relative to the collisional blockade criterion.",
+        "result": "weak_loading",
+        "allowed_categorial_values": [
+          "collisional_blockade_limited",
+          "weak_loading"
+        ]
       }
     }
   }

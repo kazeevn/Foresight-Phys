@@ -1,53 +1,78 @@
 [
   {
-    "experiment_description": "Gas-phase methyl iodide (CH3I) at 15 torr and room temperature was studied by time-resolved optical birefringence in a collinear pump-probe geometry. A Ti:sapphire ultrafast source at 800 nm with approximately 110–120 fs pulse duration was split into a strong pump arm carrying about 90% of the energy and a weak probe arm carrying about 10%. The pump beam at 800 nm was sent through a 4-f pulse-shaping system containing two gratings and a Jenoptik dual-mask 640-pixel spatial light modulator at the Fourier plane. The probe was frequency doubled in a BBO crystal to produce a weak 400 nm readout pulse. The probe polarization was set to 45 degrees relative to the pump, and the transmitted probe polarization was analyzed after the gas cell using a quarter-wave plate, Wollaston prism, and balanced photodetection. The pump spectral phase was either transform-limited, with no imposed phase, or cubic, of the form Phi(omega)=b_tilde*(omega-omega0)^3, where omega is optical angular frequency, omega0 is the pulse center angular frequency, and b_tilde is the imposed cubic spectral-phase coefficient. Delay scans of the induced birefringence were recorded around the CH3I half-revival windows at approximately 1.5*T_rev near 100 ps, 2.5*T_rev near 167 ps, and 5.5*T_rev near 367 ps. For the cubic-phase measurements, the applied b_tilde values were 2.0e7 fs^3 at 1.5*T_rev, 3.4e7 fs^3 at 2.5*T_rev, and 6.8e7 fs^3 at 5.5*T_rev. The dependent observable was the temporal morphology of the induced birefringence revival waveform at the selected half-revival delays.",
+    "experiment_description": "Central concept tested: a femtosecond pump pulse with a tailored cubic spectral phase is used to imprint a Raman-coherence phase that cancels centrifugal-distortion dephasing at a chosen rotational revival of a gas-phase molecular rotor. The validation target is methyl iodide (CH3I), a symmetric-top molecule with strong centrifugal distortion and no l-doubling contribution in the alignment signal. CH3I gas is held at 15 torr and room temperature in the spectroscopic gas cell. A Ti:sapphire/CPA ultrafast source provides approximately 800 nm, 110–120 fs pulses. The beam is split into a strong pump arm carrying about 90% of the energy and a weak probe arm carrying about 10%. The pump is sent through a 4-f pulse shaper consisting of two gratings, cylindrical reflective optics, and a Jenoptik dual-mask 640-pixel spatial light modulator located at the Fourier plane. The probe is frequency doubled in a BBO crystal to 400 nm. Pump and probe propagate collinearly through the gas; the birefringence measurement integrates over the pump–probe overlap volume along the gas-cell path, with no spatial scan or lateral/depth-resolved imaging reported. The probe polarization is set to 45 degrees relative to the pump polarization; after the cell the transmitted probe passes through a quarter-wave plate and Wollaston prism and is read by balanced photodetectors to record transient optical birefringence versus pump–probe delay. Reference traces use an unshaped transform-limited near-IR pump. Shaped traces use a spectral phase Phi_shape(omega)=a_tilde(omega-omega0)^2+b_tilde(omega-omega0)^3, where omega is optical angular frequency, omega0 is the pump carrier angular frequency, a_tilde is the quadratic spectral-phase coefficient, and b_tilde is the cubic spectral-phase coefficient. For the analytic cubic-phase design, a_tilde is set to zero and b_tilde is chosen for a target revival order n using the molecular rotational constant B and centrifugal-distortion constant D in consistent spectroscopic units; T_rev=(2Bc)^(-1), with c the speed of light. The reported CH3I constants used for the design context are B=0.25 cm^-1 and D=2.1e-7 cm^-1. Time-domain windows are examined around the 1.5 T_rev, 2.5 T_rev, and 5.5 T_rev fractional revivals. The applied cubic phase coefficients are b_tilde=2.0e7 fs^3 for 1.5 T_rev, b_tilde=3.4e7 fs^3 for 2.5 T_rev, and b_tilde=6.8e7 fs^3 for 5.5 T_rev. The time axis is referenced by setting the first signal peak at the end of the excitation pulse to t=0. The measurement is configured to compare the revival waveform morphology under unshaped excitation with the waveform obtained when the cubic phase is selected to pre-compensate centrifugal distortion at the chosen delay.",
     "experiment_results": {
-      "transform_limited_half_revival_morphology": {
-        "type": "categorical",
-        "description": "Observed temporal morphology of the CH3I half-revival birefringence signals at the selected long-delay half-revival windows after excitation by a transform-limited 800 nm pump pulse.",
-        "result": "multi_cycle_fragmented",
-        "allowed_categorial_values": [
-          "near_single_cycle",
-          "multi_cycle_fragmented"
-        ]
+      "cubic_phase_design_law": {
+        "type": "formula",
+        "description": "Analytic relation used for the cubic spectral-phase coefficient required to compensate centrifugal-distortion phase at revival order n.",
+        "result": "b_tilde ≈ pi*n*D/(2*B^4)"
       },
-      "cubic_phase_precompensated_half_revival_morphology": {
-        "type": "categorical",
-        "description": "Observed temporal morphology of the CH3I half-revival birefringence signals at the selected half-revival windows after excitation by the corresponding cubic-phase-shaped 800 nm pump pulses.",
-        "result": "near_single_cycle",
-        "allowed_categorial_values": [
-          "near_single_cycle",
-          "multi_cycle_fragmented"
-        ]
+      "unshaped_ch3i_selected_revivals_multi_oscillatory": {
+        "type": "bool",
+        "description": "Whether transform-limited excitation of CH3I produces multi-oscillatory revival waveforms at the selected delayed fractional revivals.",
+        "result": true
+      },
+      "cubic_phase_ch3i_selected_revivals_single_cycle": {
+        "type": "bool",
+        "description": "Whether the cubic-phase-shaped excitation produces temporally compact single-cycle-like revival waveforms at the selected delayed fractional revivals.",
+        "result": true
+      },
+      "analytic_vs_numerical_cubic_phase_difference_upper_bound_percent_for_n_gt_5": {
+        "type": "float",
+        "description": "Upper bound on the reported difference between the analytic cubic-phase approximation and brute-force least-squares numerical optimization for revival orders greater than five.",
+        "result": 1.0
       }
     }
   },
   {
-    "experiment_description": "Gas-phase carbon dioxide (CO2) was studied by the same collinear time-resolved optical birefringence apparatus: an approximately 110–120 fs, 800 nm ultrafast laser was split into a 90% pump arm and 10% probe arm; the pump was passed through a 4-f pulse shaper with a Jenoptik spatial light modulator; the probe was frequency doubled to 400 nm in BBO; the probe polarization was set to 45 degrees relative to the pump; and induced birefringence was detected using a quarter-wave plate, Wollaston prism, and balanced photodetector. CO2 alignment traces were recorded for an unshaped 120 fs pump near the early 3/4*T_rev revival and near the long-delay 32*T_rev revival. Additional CO2 traces were acquired from 1380 ps to 1412 ps after excitation using an 800 nm pump pulse with a cubic spectral phase designed to pre-compensate centrifugal-distortion dephasing at the 32*T_rev revival. Measurements were performed at 293 K and at 403 K; the higher temperature was used to increase thermal occupation of the v=1 bending vibrational manifold of CO2. The shaped-pulse traces were normalized to the 32+3/4 ground-vibrational-level revival feature. The dependent observables were the time-domain revival waveform morphology and the number of temporally separated rotational-vibrational alignment contributions resolved in the long-delay shaped-pulse trace.",
+    "experiment_description": "Central concept tested: before applying centrifugal-distortion pre-compensation to resolve closely spaced l-doubling contributions in carbon dioxide, the time-domain width of a conventional CO2 alignment feature is measured to set the temporal scale required for separating different rotational-vibrational components. CO2 gas is measured by time-resolved optical birefringence in the same collinear pump–probe geometry: an approximately 800 nm, 120 fs transform-limited pump excites rotational Raman coherences; a weak 400 nm probe generated by frequency doubling in BBO crosses the same gas volume collinearly; the probe polarization is 45 degrees relative to the pump; a quarter-wave plate, Wollaston prism, and balanced photodetectors analyze the transmitted probe polarization. The measurement integrates over the pump–probe overlap volume in the gas cell; no spatial scan, imaging resolution, or transverse homogeneity map is reported. The pump is unshaped for this reference measurement. The pump–probe delay is scanned around the CO2 three-quarter revival, 3/4 T_rev, using the CO2 rotational timing context given by the B000 ground-state rotational constant. The gas pressure is not specified in the provided text. The measurement is configured to determine the temporal duration of the short-delay alignment transient used as a reference for evaluating resolvability of l-doubling-related alignment events at later revivals.",
     "experiment_results": {
-      "early_unshaped_alignment_feature_duration_ps": {
+      "co2_reference_alignment_signal_duration_ps": {
         "type": "float",
-        "description": "Approximate temporal duration of the short-delay CO2 alignment revival feature produced by the unshaped 120 fs pump pulse near the 3/4*T_rev revival.",
+        "description": "Temporal duration of the short-delay CO2 alignment feature measured under transform-limited excitation.",
         "result": 1.0
+      }
+    }
+  },
+  {
+    "experiment_description": "Central concept tested: in CO2, l-doubling in the v=1 bending manifold gives multiple rotational-wavepacket contributions with slightly different revival periods, but conventional impulsive alignment can leave those contributions overlapped at long delay because centrifugal distortion broadens the revival waveforms. CO2 gas is placed in the heated spectroscopic cell and measured by collinear time-resolved optical birefringence. An approximately 800 nm, 120 fs transform-limited pump pulse excites rotational alignment without spectral phase shaping. A weak probe arm is frequency doubled in BBO to 400 nm and read out after the sample using 45-degree probe polarization, a quarter-wave plate, a Wollaston prism, and balanced photodetection. The measurement integrates over the pump–probe overlap volume along the cell; no spatially resolved scan or gas-density homogeneity map is reported. The gas is heated to 403 K to increase the thermal population of the v=1 bending manifold associated with l-doubling, while also sampling a higher-J rotational distribution. The CO2 rotational constants used as timing context are B000=0.3902 cm^-1, B010+=0.3912 cm^-1, and B010-=0.3905 cm^-1, with centrifugal-distortion constant D=1.33e-7 cm^-1. The pump–probe delay is scanned near the long-delay 32 T_rev region, around 1380 ps after excitation, where the l-doubling-related revival events are expected to be separated in arrival time by the small differences in rotational constants. The measurement is configured to determine whether the separate rotational-vibrational alignment contributions can be distinguished without centrifugal-distortion pre-compensation.",
+    "experiment_results": {
+      "unshaped_co2_32trev_revival_multi_oscillatory": {
+        "type": "bool",
+        "description": "Whether the long-delay CO2 revival under transform-limited excitation has a multi-oscillatory waveform morphology.",
+        "result": true
       },
-      "long_delay_unshaped_revival_morphology": {
-        "type": "categorical",
-        "description": "Observed morphology of the CO2 birefringence revival near the 32*T_rev delay after excitation by an unshaped 120 fs pump pulse.",
-        "result": "severe_multi_oscillatory_temporally_elongated",
-        "allowed_categorial_values": [
-          "compact_single_event",
-          "severe_multi_oscillatory_temporally_elongated"
-        ]
+      "unshaped_co2_32trev_l_doubling_components_temporally_resolved": {
+        "type": "bool",
+        "description": "Whether the l-doubling-related CO2 rotational-vibrational contributions are temporally distinguishable under transform-limited excitation near the long-delay revival region.",
+        "result": false
+      }
+    }
+  },
+  {
+    "experiment_description": "Central concept tested: a cubic spectral phase applied to the femtosecond pump pulse is used to pre-compensate centrifugal-distortion dephasing in CO2 at a long-delay revival so that l-doubling-related rotational-vibrational contributions can be directly observed in the time domain. CO2 gas is measured in the heated-cell transient-birefringence apparatus using collinear pump and probe beams. The pump is an approximately 800 nm, 120 fs near-IR pulse routed through the 4-f pulse shaper with gratings, cylindrical reflective optics, and a Jenoptik dual-mask 640-pixel spatial light modulator; its spectral phase is selected according to the cubic pre-compensation design for the 32 T_rev region. The weak probe is generated at 400 nm by frequency doubling in BBO and analyzed after the gas with 45-degree input polarization, a quarter-wave plate, a Wollaston prism, and balanced photodetectors. The measurement integrates over the pump–probe overlap volume in the gas cell; no lateral scan, depth-resolved measurement, or transverse homogeneity assessment is reported. The CO2 pressure is not specified in the provided text. Measurements are taken at both 293 K and 403 K. Heating to 403 K is used as a controlled condition to increase the population of the v=1 bending mode at omega_bend=667 cm^-1. The timing analysis uses the CO2 rotational constants B000=0.3902 cm^-1, B010+=0.3912 cm^-1, and B010-=0.3905 cm^-1, corresponding to the ground vibrational state and the two l-doubled v=1 bending components. The pump–probe delay range recorded for the long-delay measurement is 1380–1412 ps, spanning alignment events around the 32 T_rev to 33 T_rev region. The plotted traces are normalized to the 32 3/4 T_rev revival of the ground-vibrational-level rotational constant B000. The measurement is configured to determine whether the centrifugal-distortion-precompensated response separates the ground-state and l-doubled bending-state contributions in time.",
+    "experiment_results": {
+      "cubic_phase_co2_l_doubling_components_temporally_resolved": {
+        "type": "bool",
+        "description": "Whether the cubic-phase-precompensated CO2 long-delay birefringence trace distinguishes the l-doubling-related rotational-vibrational contributions in the time domain.",
+        "result": true
       },
-      "cubic_phase_long_delay_resolved_component_count": {
+      "number_of_time_domain_rotational_components_resolved": {
         "type": "integer",
-        "description": "Number of temporally separated CO2 rotational-vibrational alignment contributions observed in the 1380–1412 ps long-delay trace after excitation by the cubic-phase-shaped pump pulse.",
+        "description": "Number of distinct CO2 rotational-vibrational alignment components identified in the precompensated long-delay time-domain measurement.",
         "result": 3
       },
-      "time_domain_l_doubling_resolved": {
-        "type": "bool",
-        "description": "Whether the long-delay cubic-phase-shaped CO2 birefringence measurement directly resolved separated alignment transients associated with l-doubling-related rotational-vibrational contributions.",
-        "result": true
+      "resolved_co2_component_set": {
+        "type": "categorical",
+        "description": "Identity of the CO2 rotational-vibrational component set assigned to the time-separated precompensated alignment features.",
+        "result": "B000_B010plus_B010minus",
+        "allowed_categorial_values": [
+          "B000_only",
+          "B000_B010plus",
+          "B000_B010minus",
+          "B010plus_B010minus",
+          "B000_B010plus_B010minus"
+        ]
       }
     }
   }

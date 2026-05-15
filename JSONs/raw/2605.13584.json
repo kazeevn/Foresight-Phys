@@ -1,36 +1,56 @@
 [
   {
-    "experiment_description": "A plano-concave Fabry-Pérot microcavity was assembled from a planar and a concave distributed Bragg reflector mirror, each having peak reflectance 99.9% at 530 nm and consisting of 11 alternating SiO2/Ta2O5 layers. The concave mirror feature had diameter 7.5 µm and radius of curvature 180 µm. The mirror separation was fixed at approximately 10 µm, and a drop of olive oil was held between the mirrors by capillary forces to provide a time-delayed thermo-optical nonlinearity. A tunable continuous-wave laser in the 530–540 nm range drove the cavity, with input and transmitted light coupled by 20x microscope objectives and detected in transmission with an avalanche photodetector. The laser power was stepped with a mechanical chopper rotating at 20 Hz. The thermal relaxation time of the oil-filled cavity mode was obtained from the full width at half maximum of the transient overshoot in the transmitted-intensity relaxation trajectory after the laser-power step.",
+    "experiment_description": "Central concept tested: a single-mode laser-driven optical microcavity with a delayed thermo-optical nonlinearity can steer the intracavity-field relaxation path into the phase-space bottleneck left by a nearby saddle-node bifurcation, producing a long-lived non-stationary optical state that appears as a plateau in transmitted intensity before the unique steady state is reached. The apparatus is a plano-concave Fabry-Pérot microcavity filled with olive oil held by capillary forces. The cavity mirrors are distributed Bragg reflectors with peak reflectance 99.9% at 530 nm; each DBR consists of 11 alternating SiO2 and Ta2O5 layers. One mirror is planar and the other has a laser-written concave feature of 7.5 µm diameter and 180 µm radius of curvature. The mirror separation is fixed at approximately 10 µm using screw-tuned sandwiched mounts separated by stiff rubber. A tunable continuous-wave laser in the 530–540 nm range drives the cavity through a 20x microscope objective, and transmitted light is collected through a second 20x microscope objective and detected with an avalanche photodetector. A mechanical chopper rotating at 20 Hz implements a step in incident laser power from zero to 550 µW. Two laser-cavity detunings are compared on the same single-mode cavity geometry: one chosen so that, after the power step, the driven cavity is close to the saddle-node bifurcation detuning Δb, and one chosen farther from the same bifurcation. The measured observable is the transmitted optical intensity versus time after the power step, over the single spatial optical mode defined by the concave microcavity; no lateral scan is performed. The intended measurement is to determine whether the relaxation trajectory contains a non-stationary intensity plateau and to quantify its duration relative to the step time, with the detuning condition serving as the independent control variable.",
     "experiment_results": {
-      "thermal_relaxation_time_us": {
+      "near_saddle_node_transmission_plateau_observed": {
+        "type": "bool",
+        "description": "Whether the near-bifurcation power-step relaxation trace contains a transmitted-intensity plateau before final steady-state relaxation.",
+        "result": true
+      },
+      "near_saddle_node_plateau_duration_ms": {
         "type": "float",
-        "description": "Thermal memory/relaxation time of the olive-oil-filled optical microcavity inferred from the FWHM of the transient overshoot in transmitted intensity.",
-        "result": 3.0
-      }
-    }
-  },
-  {
-    "experiment_description": "The olive-oil-filled plano-concave Fabry-Pérot microcavity used distributed Bragg reflector mirrors with 99.9% peak reflectance at 530 nm, 11 alternating SiO2/Ta2O5 layers per mirror, a concave feature of diameter 7.5 µm and radius of curvature 180 µm, and an inter-mirror spacing of approximately 10 µm. The cavity was driven by a continuous-wave tunable laser in the 530–540 nm range, injected and collected in transmission with 20x microscope objectives, and the transmitted power was recorded using an avalanche photodetector. A mechanical chopper rotating at 20 Hz implemented a step in laser power from zero to 550 µW. The laser-cavity detuning was chosen so that after the power step the driven cavity lay close to a saddle-node bifurcation of the thermo-optically nonlinear cavity response. The dependent observable was the time-resolved transmitted intensity after the step; the lifetime of the long-lived transient state was extracted as the duration of the low-velocity relaxation interval before final relaxation to the unique steady state.",
-    "experiment_results": {
-      "ghost_lifetime_ms": {
-        "type": "float",
-        "description": "Duration of the long-lived non-stationary transmitted-intensity transient after the 550 µW power step with the laser-cavity detuning close to the saddle-node bifurcation.",
+        "description": "Duration of the transmitted-intensity plateau in the near-bifurcation power-step relaxation trace.",
         "result": 12.0
       },
-      "ghost_lifetime_to_thermal_relaxation_ratio": {
+      "far_from_saddle_node_transmission_plateau_observed": {
+        "type": "bool",
+        "description": "Whether the farther-detuned power-step relaxation trace contains a transmitted-intensity plateau before final steady-state relaxation.",
+        "result": false
+      },
+      "plateau_duration_to_thermal_relaxation_time_ratio": {
         "type": "float",
-        "description": "Ratio of the observed long-lived transient duration to the thermal relaxation time of the olive-oil thermo-optical response in the same cavity system.",
+        "description": "Ratio of the near-bifurcation plateau duration to the olive-oil thermal relaxation time in the same cavity system.",
         "result": 4000.0
       }
     }
   },
   {
-    "experiment_description": "Using the same olive-oil-filled plano-concave Fabry-Pérot microcavity, with DBR mirrors of 99.9% peak reflectance at 530 nm, 11 alternating SiO2/Ta2O5 layers, a 7.5 µm diameter and 180 µm radius-of-curvature concave feature, and approximately 10 µm mirror spacing, the cavity was driven by a chopped continuous-wave tunable laser in the 530–540 nm range. The laser power was stepped from zero to the fixed driven condition used for observing the long-lived transient near the saddle-node bifurcation, and transmitted intensity was measured with an avalanche photodetector. A set of 1000 independent experimental relaxation trajectories was recorded under fixed nominal driving conditions. For each trajectory, the lifetime of the long-lived transient was extracted, and the probability density function of these lifetimes was plotted on logarithmic axes to estimate its scaling exponent over the range where the distribution followed a power law.",
+    "experiment_description": "Central concept tested: the thermo-optical memory time of the olive-oil-filled microcavity is the delayed nonlinear-response timescale that can redirect relaxation toward the saddle-node bottleneck. The same plano-concave Fabry-Pérot microcavity is used: DBR mirrors with 99.9% peak reflectance at 530 nm, 11 alternating SiO2/Ta2O5 layers per DBR, a planar mirror facing a concave laser-written mirror feature of 7.5 µm diameter and 180 µm radius of curvature, and an inter-mirror spacing of approximately 10 µm. Olive oil is held between the mirrors by capillary forces. A tunable continuous-wave laser in the 530–540 nm range is coupled into and out of the cavity using 20x microscope objectives, and transmitted intensity is recorded with an avalanche photodetector. A mechanical chopper at 20 Hz supplies a step-like optical excitation. The measurement targets the short-time overshoot in the transmitted-intensity relaxation trajectory produced by the delayed thermo-optical response. The oil thermal relaxation time τ is obtained from the full width at half maximum of that overshoot peak. The measurement is local to the single transverse cavity mode selected by the 7.5 µm concave feature; no spatial scan or multi-position averaging is specified.",
     "experiment_results": {
+      "olive_oil_thermal_relaxation_time_us": {
+        "type": "float",
+        "description": "Thermal relaxation time of the olive-oil nonlinear medium inferred from the FWHM of the transmitted-intensity overshoot.",
+        "result": 3.0
+      }
+    }
+  },
+  {
+    "experiment_description": "Central concept tested: in the presence of experimental fluctuations, the lifetime of the non-stationary ghost-state plateau in the memory-nonlinear optical cavity should fluctuate from shot to shot and can show scaling associated with diffusion through a nearly flat phase-space bottleneck near a saddle-node bifurcation. The apparatus is the same olive-oil-filled single-mode plano-concave Fabry-Pérot microcavity, using DBR mirrors with 99.9% peak reflectance at 530 nm, 11 alternating SiO2/Ta2O5 layers per DBR, a laser-written concave feature of 7.5 µm diameter and 180 µm radius of curvature, and approximately 10 µm mirror spacing. The cavity is driven by a tunable 530–540 nm continuous-wave laser, coupled and collected with 20x microscope objectives, and measured in transmission with an avalanche photodetector. A 20 Hz mechanical chopper repeatedly applies a power step from zero to the operating laser power, with the laser-cavity detuning set close to the saddle-node bifurcation condition after the step. The data set consists of 1000 independent experimental time traces from the same single-mode cavity geometry. For each trace, the ghost lifetime is defined as the duration of the post-step transmitted-intensity plateau before relaxation proceeds toward the final steady state. A probability density function of the measured lifetimes, expressed in milliseconds, is constructed and fitted over the range where an algebraic dependence is assessed; the expected comparison form is PDF ∝ t^p, where t is the ghost lifetime and p is the fitted exponent.",
+    "experiment_results": {
+      "number_of_experimental_ghost_lifetime_trajectories": {
+        "type": "integer",
+        "description": "Number of independent experimental relaxation trajectories used to construct the ghost-lifetime distribution.",
+        "result": 1000
+      },
       "ghost_lifetime_pdf_power_law_exponent": {
         "type": "float",
-        "description": "Empirical exponent of the power-law region in the probability density function of ghost-state lifetimes measured from 1000 repeated experimental trajectories.",
+        "description": "Exponent p in the approximate power-law dependence PDF ∝ t^p of the experimentally measured ghost-lifetime distribution over the assessed scaling range.",
         "result": -1.5
+      },
+      "long_lifetime_distribution_fat_tail_observed": {
+        "type": "bool",
+        "description": "Whether the experimentally measured ghost-lifetime distribution departs from the short-range power-law trend by having an enhanced long-lifetime tail attributed to stochastic initial detuning.",
+        "result": true
       }
     }
   }

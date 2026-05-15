@@ -1,1 +1,182 @@
-[]
+[
+  {
+    "experiment_description": "Fabricate the photonic platform for a minimal-control quasiperiodic Fibonacci-type end-to-end pump: an array of N = 11 evanescently coupled optical waveguides in transparent glass, where nearest-neighbor separations implement a Fibonacci-type Sturmian sequence with two target center-to-center spacings dA = 10 µm and dB = 7 µm. The sequence is defined by χ_i = sgn[cos(2π i τ^{-1} + π τ^{-1} + φ) − cos(π τ^{-1})], where τ = (1 + sqrt(5))/2 is the golden ratio, φ is the phason angle, positive χ_i assigns spacing dB, negative χ_i assigns spacing dA, and i labels neighboring waveguide bonds. The central device idea is that two selected phason configurations support a localized defect-like pumping state at opposite ends, so the platform should realize uniform single-mode guides whose separations can encode the quasiperiodic hopping pattern and allow only waveguides 2 and 10 to be bent for pumping. Use femtosecond-laser direct writing with a Menlo Systems BlueCut fs laser at 1030 nm central wavelength, approximately 350 fs pulse duration, and 1 MHz repetition rate. Focus the writing beam into the bulk glass with a 40× objective of NA = 0.6. Mount the substrate on a high-precision three-axis translation stage and translate it along the propagation direction z at 40 mm/s while keeping the laser focus fixed. Write all guides at approximately 100 µm depth below the glass surface. Set the writing laser power to the paper's optimized value for single-mode guiding at the 780 nm probe wavelength; the numerical writing power is not reported. Fabricate two nominally identical samples for each reported lattice configuration, including defect-free, bent, straight, and structurally defected arrays, so the spatial scope is the full 11-waveguide chain in each sample and reproducibility is assessed by independent fabrication and optical measurement of paired samples.",
+    "experiment_results": {
+      "single_mode_guiding_at_780_nm": {
+        "type": "bool",
+        "description": "Whether the direct-written waveguides support single-mode guiding at the probe wavelength.",
+        "result": true
+      },
+      "mode_field_diameter_1_over_e2_um": {
+        "type": "float",
+        "description": "The measured Gaussian mode-field diameter of the fabricated waveguides using the 1/e^2 intensity convention.",
+        "result": 10
+      },
+      "refractive_index_modification": {
+        "type": "float",
+        "description": "The estimated refractive-index change induced in the glass by the direct-writing process.",
+        "result": 0.001
+      },
+      "propagation_loss_db_per_cm": {
+        "type": "float",
+        "description": "The estimated optical propagation loss of the fabricated waveguides.",
+        "result": 0.3
+      },
+      "paired_sample_reproducibility_verified": {
+        "type": "bool",
+        "description": "Whether nominally identical paired samples for the reported configurations were independently fabricated and measured under the same optical conditions.",
+        "result": true
+      }
+    }
+  },
+  {
+    "experiment_description": "Calibrate the evanescent coupling law used to map the quasiperiodic Fibonacci-type photonic chain onto a tight-binding Hamiltonian for the minimal end-to-end pump. Fabricate isolated two-waveguide directional couplers in the same transparent glass substrate and with the same femtosecond direct-writing conditions as the full N = 11 lattices: 1030 nm, approximately 350 fs, 1 MHz writing laser; 40× NA = 0.6 focusing objective; 40 mm/s sample translation; approximately 100 µm writing depth; and the same optimized writing power used for the pump arrays. Prepare couplers with different center-to-center separations d_ij spanning the range shown in the calibration plot, approximately 9–16 µm. Inject 780 nm light into one waveguide of each two-guide coupler and measure the two output intensities at the end facet. Extract the coupling strength J_ij in mm^{-1} from the power oscillation according to coupled-mode theory. Fit the measured coupling-versus-distance data to an exponential relation J_ij(d_ij) = J exp(−d_ij/ξ), where d_ij is the center-to-center separation in µm, J is the fitted prefactor in mm^{-1}, and ξ is the fitted evanescent decay length in µm. This calibration supplies the physical hopping parameters for the Fibonacci-type chain in which dA = 10 µm represents a weak bond and dB = 7 µm represents a strong bond.",
+    "experiment_results": {
+      "coupling_distance_law_mm_inverse": {
+        "type": "formula",
+        "description": "The experimentally fitted nearest-neighbor waveguide coupling strength as a function of center-to-center waveguide separation.",
+        "result": "J_ij(d_ij) = 63.5 * exp(-d_ij / 2.2), with J_ij in mm^-1 and d_ij in µm"
+      },
+      "coupling_prefactor_J_mm_inverse": {
+        "type": "float",
+        "description": "The exponential-fit prefactor for the waveguide coupling-distance relation.",
+        "result": 63.5
+      },
+      "coupling_decay_length_um": {
+        "type": "float",
+        "description": "The exponential decay length of the waveguide coupling as a function of center-to-center separation.",
+        "result": 2.2
+      }
+    }
+  },
+  {
+    "experiment_description": "Optically test the localized end states that underpin the proposed minimal-control quasiperiodic Fibonacci-type pump, using straight 11-waveguide arrays with no z-dependent bending. Fabricate two static Fibonacci-type configurations: configuration 1 is the phason configuration in which the localized pumping state is targeted at the left end, and configuration 2 is the phason configuration in which the corresponding localized pumping state is targeted at the right end. The arrays use dA = 10 µm and dB = 7 µm center-to-center spacings according to the Sturmian Fibonacci construction, with all waveguide separations kept constant along the full propagation length L = 40 mm. Use the same femtosecond-laser-written glass waveguides described for the platform fabrication. For optical characterization, couple 780 nm laser light into a single outermost guide using a 10× objective with NA = 0.25: inject the leftmost waveguide i = 1 for configuration 1 and the rightmost waveguide i = 11 for configuration 2. Image the entire output facet covering all 11 waveguides onto a CCD camera with a second 10× NA = 0.25 objective matched to the input objective. Record the output intensity distribution across all waveguide sites i = 1,...,11. The measurement is configured to determine whether single-site injection into the outer guide efficiently overlaps the localized defect-like pumping state without performing end-to-end transfer; two nominally identical samples per configuration are used to check reproducibility.",
+    "experiment_results": {
+      "configuration_1_static_output_peak_waveguide_index": {
+        "type": "integer",
+        "description": "The waveguide index at which the output intensity is maximal for the straight configuration-1 array after injecting the leftmost guide.",
+        "result": 1
+      },
+      "configuration_2_static_output_peak_waveguide_index": {
+        "type": "integer",
+        "description": "The waveguide index at which the output intensity is maximal for the straight configuration-2 array after injecting the rightmost guide.",
+        "result": 11
+      },
+      "localized_end_state_optical_signature_detected": {
+        "type": "bool",
+        "description": "Whether the static-array measurements give an end-localized output intensity maximum at the same end as the injected outer guide for both phason configurations.",
+        "result": true
+      }
+    }
+  },
+  {
+    "experiment_description": "Demonstrate the central device concept: end-to-end light pumping in a finite quasiperiodic Fibonacci-type photonic chain by changing only a small part of the structure. Use an N = 11 femtosecond-laser-written glass waveguide array of total propagation length L = 40 mm, with Fibonacci-type separations dA = 10 µm and dB = 7 µm. The pump interpolates between configuration 1, with the localized defect-like pumping state targeted at the left edge, and configuration 2, with that state targeted at the right edge. Only waveguides 2 and 10 are laterally bent along z, which changes the two outer bonds at each end. In the theoretical protocol the distances are d_1,9(z) = dB − (dB − dA) cos(π z / 2L) and d_2,10(z) = dA + (dB − dA) cos(π z / 2L), where d_1 ≡ d_12, d_2 ≡ d_23, d_9 ≡ d_9,10, d_10 ≡ d_10,11, z is the propagation coordinate, and L is the total propagation length. In the fabricated device implement this interpolation as an S-bend trajectory made of two circular arcs with opposite curvature joined at z = L/2, having the same endpoints, vanishing slopes at z = 0 and z = L, and midpoint position as the cosine profile. Use lateral displacement Δx = 3 µm and arc radius R = L^2/(4Δx) ≈ 133 m. Inject 780 nm laser light into the leftmost waveguide i = 1 at z = 0 using a 10× NA = 0.25 objective. Image the complete output facet spanning all 11 waveguides at z = L onto a CCD camera through a matched 10× NA = 0.25 objective. The measurement tests whether single-end excitation is transported to the opposite end by the quasiperiodic defect-state pump; two nominally identical samples are fabricated and measured under identical conditions.",
+    "experiment_results": {
+      "defect_free_s_bend_output_peak_waveguide_index": {
+        "type": "integer",
+        "description": "The waveguide index at which the output intensity is maximal after defect-free S-bend pumping with input at waveguide 1.",
+        "result": 11
+      },
+      "defect_free_s_bend_end_to_end_pumping_observed": {
+        "type": "bool",
+        "description": "Whether the defect-free S-bend device produces an output intensity maximum at the end opposite to the injected end.",
+        "result": true
+      }
+    }
+  },
+  {
+    "experiment_description": "Test robustness of the minimal-control quasiperiodic Fibonacci-type end-to-end pump against controlled structural defects in the S-bend implementation. Use N = 11 femtosecond-laser-written glass waveguide arrays of length L = 40 mm with the same dA = 10 µm and dB = 7 µm Fibonacci-type spacing construction as the defect-free pump, and bend only waveguides 2 and 10 using the same two-circular-arc S-bend trajectory with Δx = 3 µm and R ≈ 133 m to interpolate between the two end-localized phason configurations. Introduce local bond defects by replacing selected nearest-neighbor spacings in the otherwise Fibonacci-type array with dD = 8 µm. Measure four defect classes separately: one dA bond replaced by dD; two dA bonds replaced by dD; one dB bond replaced by dD; and two spatially separated dB bonds replaced by dD. For each defect class, inject 780 nm light into the leftmost waveguide i = 1 at z = 0 using a 10× NA = 0.25 objective and image the full 11-site output facet at z = L onto a CCD camera with a matched collection objective. The spatial scope of each measurement is the entire waveguide array, and two nominally identical samples per defect configuration are independently fabricated and measured. The measurement is configured to determine whether the end-to-end transfer mechanism based on a quasiperiodic localized pumping state tolerates specified local changes in inter-waveguide spacing.",
+    "experiment_results": {
+      "s_bend_one_dA_defect_output_peak_waveguide_index": {
+        "type": "integer",
+        "description": "The output-intensity maximum waveguide index for S-bend pumping when one dA spacing is replaced by dD.",
+        "result": 11
+      },
+      "s_bend_one_dA_defect_pumping_observed": {
+        "type": "bool",
+        "description": "Whether S-bend pumping gives an opposite-end output maximum when one dA spacing is replaced by dD.",
+        "result": true
+      },
+      "s_bend_two_dA_defects_output_peak_waveguide_index": {
+        "type": "integer",
+        "description": "The output-intensity maximum waveguide index for S-bend pumping when two dA spacings are replaced by dD.",
+        "result": 11
+      },
+      "s_bend_two_dA_defects_pumping_observed": {
+        "type": "bool",
+        "description": "Whether S-bend pumping gives an opposite-end output maximum when two dA spacings are replaced by dD.",
+        "result": true
+      },
+      "s_bend_one_dB_defect_output_peak_waveguide_index": {
+        "type": "integer",
+        "description": "The output-intensity maximum waveguide index for S-bend pumping when one dB spacing is replaced by dD.",
+        "result": 11
+      },
+      "s_bend_one_dB_defect_pumping_observed": {
+        "type": "bool",
+        "description": "Whether S-bend pumping gives an opposite-end output maximum when one dB spacing is replaced by dD.",
+        "result": true
+      },
+      "s_bend_two_dB_defects_output_peak_waveguide_index": {
+        "type": "integer",
+        "description": "The output-intensity maximum waveguide index for S-bend pumping when two spatially separated dB spacings are replaced by dD.",
+        "result": 11
+      },
+      "s_bend_two_dB_defects_pumping_observed": {
+        "type": "bool",
+        "description": "Whether S-bend pumping gives an opposite-end output maximum when two spatially separated dB spacings are replaced by dD.",
+        "result": true
+      }
+    }
+  },
+  {
+    "experiment_description": "Measure end-to-end pumping in the same quasiperiodic Fibonacci-type photonic chain using a linear bending trajectory instead of the cosine-like/S-bend interpolation, to test whether the minimal-control pump depends on the detailed functional form of the structural change. Use an N = 11 femtosecond-laser-written glass waveguide array of length L = 40 mm with nearest-neighbor separations dA = 10 µm and dB = 7 µm arranged according to the Fibonacci-type Sturmian sequence. Bend only waveguides 2 and 10 so the relevant outer inter-waveguide spacings change linearly along z between the same configuration-1 and configuration-2 endpoints used for the defect-free pump, while all other spacings remain fixed according to the selected quasiperiodic pattern. Inject 780 nm light into the leftmost guide i = 1 at z = 0 with a 10× NA = 0.25 objective. Image the entire output facet containing all 11 waveguides at z = L onto a CCD camera using a matched 10× NA = 0.25 objective. Two nominally identical samples are fabricated and measured. The measurement is configured to determine whether the localized pumping state of the quasiperiodic chain transfers excitation from one end to the other under a simpler linear interpolation of the controlled bonds.",
+    "experiment_results": {
+      "defect_free_linear_bend_output_peak_waveguide_index": {
+        "type": "integer",
+        "description": "The waveguide index at which the output intensity is maximal after defect-free linear-bend pumping with input at waveguide 1.",
+        "result": 11
+      },
+      "defect_free_linear_bend_end_to_end_pumping_observed": {
+        "type": "bool",
+        "description": "Whether the defect-free linear-bend device produces an output intensity maximum at the end opposite to the injected end.",
+        "result": true
+      }
+    }
+  },
+  {
+    "experiment_description": "Measure robustness of the quasiperiodic Fibonacci-type end-to-end pump under linear bending when controlled structural defects are present. Use N = 11 femtosecond-laser-written glass arrays of length L = 40 mm with dA = 10 µm and dB = 7 µm Fibonacci-type nearest-neighbor spacings. Bend only waveguides 2 and 10 linearly along z to interpolate between the same two end-localized configurations used for pumping. Introduce a local spacing defect dD = 8 µm in three separate defect classes: one dA bond replaced by dD; two dA bonds replaced by dD; and one dB bond replaced by dD. For each defect class, couple 780 nm light into the leftmost waveguide i = 1 at z = 0 with a 10× NA = 0.25 objective and image the full output facet across all 11 waveguides at z = L onto a CCD camera with a matched objective. Two nominally identical samples per configuration are fabricated and measured under identical conditions. The measurement tests whether the minimal two-waveguide-control pump remains end-to-end under both a linear interpolation protocol and specified local bond-spacing perturbations.",
+    "experiment_results": {
+      "linear_bend_one_dA_defect_output_peak_waveguide_index": {
+        "type": "integer",
+        "description": "The output-intensity maximum waveguide index for linear-bend pumping when one dA spacing is replaced by dD.",
+        "result": 11
+      },
+      "linear_bend_one_dA_defect_pumping_observed": {
+        "type": "bool",
+        "description": "Whether linear-bend pumping gives an opposite-end output maximum when one dA spacing is replaced by dD.",
+        "result": true
+      },
+      "linear_bend_two_dA_defects_output_peak_waveguide_index": {
+        "type": "integer",
+        "description": "The output-intensity maximum waveguide index for linear-bend pumping when two dA spacings are replaced by dD.",
+        "result": 11
+      },
+      "linear_bend_two_dA_defects_pumping_observed": {
+        "type": "bool",
+        "description": "Whether linear-bend pumping gives an opposite-end output maximum when two dA spacings are replaced by dD.",
+        "result": true
+      },
+      "linear_bend_one_dB_defect_output_peak_waveguide_index": {
+        "type": "integer",
+        "description": "The output-intensity maximum waveguide index for linear-bend pumping when one dB spacing is replaced by dD.",
+        "result": 11
+      },
+      "linear_bend_one_dB_defect_pumping_observed": {
+        "type": "bool",
+        "description": "Whether linear-bend pumping gives an opposite-end output maximum when one dB spacing is replaced by dD.",
+        "result": true
+      }
+    }
+  }
+]

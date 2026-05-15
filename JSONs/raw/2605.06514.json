@@ -1,371 +1,346 @@
 [
   {
-    "experiment_description": "LaBi2 thin films were grown by molecular beam epitaxy on MgO (001) substrates using a two-step growth procedure and capped in situ with amorphous Ge. The films were stored in an N2 glovebox and measured within 24 hours of growth. Film thicknesses used for the parallel-field superconducting analysis were 2.1, 2.3, 2.7, 3.0, 8.5, 12, 23, 34, and 75 nm, as estimated from X-ray diffraction Laue fringes. Electronic transport was measured in a dilution refrigerator with base temperature about 20 mK and a two-axis vector magnet rated 9 T in one axis and 3 T in the other. A linear four-point geometry on rectangular samples measured longitudinal resistance using a lock-in amplifier with 100–500 nA bias current at 10–20 Hz. The magnetic field was aligned parallel to the film plane using an alignment procedure to obtain the in-plane upper critical field. The superconducting critical field curve H_parallel_c2(T) was determined from temperature-dependent resistance traces using the criterion R = 0.5 R0, where R0 is the normal-state resistance just above the transition. The measured H_parallel_c2(T) curves were fit to two dirty-limit pair-breaking models. In the Kharitonov-Feigel’man (KF) model, the fitted parameters were Tc0, the critical temperature in the absence of magnetic impurities; tau_s = 1/nu_s, the magnetic spin-exchange scattering time; tau_so, the spin-orbit scattering time; tau_tr, the transport scattering time entering the orbital depairing term; and sgn(J)zeta = sgn(J)nSJS/nu_s, the signed inverse Born parameter. The KF fitting assumed antiferromagnetic exchange coupling J > 0, impurity spin S = 5/2, pF estimated from normal-state Drude/free-electron analysis, nu_s and sgn(J)zeta varying by at most ±50% across the thickness series, and the lower-bound constraint tau_so/tau_tr >= 1. The Klemm-Luther-Beasley (KLB) model was fit using the dirty-limit expression with free parameters Tc,H=0 and tau_so; for films showing low-field deviations, the KLB fit was performed outside the low-field enhanced regime and extrapolated to zero field.",
+    "experiment_description": "Central concept: LaBi2 thin films are used as a thickness-tunable spin-orbit-coupled superconducting platform to test whether finite-dimensional orbital depairing and dilute magnetic-impurity spin-exchange scattering must be included, beyond the single-mechanism Klemm-Luther-Beasley (KLB) picture, when interpreting in-plane upper critical fields and extracted scattering times. Fabricate a thickness series of layered LaBi2 on MgO(001) substrates by the two-step molecular-beam-epitaxy procedure referenced by the paper, using molecular beams for La and Bi; the detailed flux, substrate-temperature, and timing recipe is not reproduced in the parsed text. The La source is high-purity material from AMES laboratory, with possible ppm-level Ce, Nd, and Fe contaminants discussed as relevant to magnetic scattering. After growth, cap each film in situ with amorphous Ge to protect against air exposure, store the samples in an N2-atmosphere glovebox, and perform measurements within 24 h of growth. Characterize the resulting films by X-ray diffraction using a Rigaku SmartLab diffractometer: collect full 2theta scans over the reported 0-100 degree range and detailed scans of the LaBi2 (006) Bragg peak; use Laue-fringe spacing on both sides of the (006) peak to estimate film thickness, averaging over observable fringe pairs. The XRD measurement probes the illuminated film footprint; the paper does not report the beam footprint, lateral resolution, or number of locations per sample. The goal is to determine whether the MBE/capping process produces the intended layered LaBi2 phase with continuous films in the ultrathin regime, as assessed by phase-selective diffraction peaks, Laue-fringe structure, and electrical continuity for transport contacts.",
     "experiment_results": {
-      "kf_tc0_t_2p1nm_mK": {
-        "type": "float",
-        "description": "KF-fitted critical temperature in the absence of magnetic impurities for the 2.1 nm LaBi2 film.",
-        "result": 352
+      "target_labi2_phase_formed": {
+        "type": "bool",
+        "description": "Whether the growth and capping procedure produced films identified by XRD as the intended LaBi2 crystalline phase across the studied thickness series.",
+        "result": true
       },
-      "kf_tau_s_t_2p1nm_s": {
+      "minimum_electrically_continuous_film_thickness_nm": {
         "type": "float",
-        "description": "KF-fitted magnetic spin-exchange scattering time for the 2.1 nm LaBi2 film.",
-        "result": 5.49e-11
+        "description": "Smallest LaBi2 film thickness in the growth series for which the film is electrically continuous enough for transport measurements.",
+        "result": 2.1
       },
-      "kf_tau_so_t_2p1nm_s": {
+      "thinnest_film_thickness_in_quintuple_layers": {
         "type": "float",
-        "description": "KF-fitted spin-orbit scattering time for the 2.1 nm LaBi2 film.",
-        "result": 9.9e-15
+        "description": "Thickness of the thinnest electrically measured LaBi2 film expressed in the number of LaBi2 quintuple-layer building blocks.",
+        "result": 2.4
       },
-      "kf_tau_tr_t_2p1nm_s": {
+      "thinnest_film_thickness_in_conventional_unit_cells": {
         "type": "float",
-        "description": "KF-fitted transport scattering time entering orbital depairing for the 2.1 nm LaBi2 film.",
-        "result": 2.7e-15
-      },
-      "kf_sgn_j_zeta_t_2p1nm_dimensionless": {
-        "type": "float",
-        "description": "KF-fitted signed inverse Born parameter for the 2.1 nm LaBi2 film.",
-        "result": 26.8
-      },
-      "klb_tc_t_2p1nm_mK": {
-        "type": "float",
-        "description": "KLB-extrapolated zero-field critical temperature for the 2.1 nm LaBi2 film.",
-        "result": 317
-      },
-      "klb_tau_so_t_2p1nm_s": {
-        "type": "float",
-        "description": "KLB-fitted spin-orbit scattering time for the 2.1 nm LaBi2 film.",
-        "result": 1e-13
-      },
-      "kf_tc0_t_2p3nm_mK": {
-        "type": "float",
-        "description": "KF-fitted critical temperature in the absence of magnetic impurities for the 2.3 nm LaBi2 film.",
-        "result": 435
-      },
-      "kf_tau_s_t_2p3nm_s": {
-        "type": "float",
-        "description": "KF-fitted magnetic spin-exchange scattering time for the 2.3 nm LaBi2 film.",
-        "result": 6.66e-11
-      },
-      "kf_tau_so_t_2p3nm_s": {
-        "type": "float",
-        "description": "KF-fitted spin-orbit scattering time for the 2.3 nm LaBi2 film.",
-        "result": 8.1e-15
-      },
-      "kf_tau_tr_t_2p3nm_s": {
-        "type": "float",
-        "description": "KF-fitted transport scattering time entering orbital depairing for the 2.3 nm LaBi2 film.",
-        "result": 8.1e-15
-      },
-      "kf_sgn_j_zeta_t_2p3nm_dimensionless": {
-        "type": "float",
-        "description": "KF-fitted signed inverse Born parameter for the 2.3 nm LaBi2 film.",
-        "result": 39.9
-      },
-      "klb_tc_t_2p3nm_mK": {
-        "type": "float",
-        "description": "KLB-extrapolated zero-field critical temperature for the 2.3 nm LaBi2 film.",
-        "result": 403
-      },
-      "klb_tau_so_t_2p3nm_s": {
-        "type": "float",
-        "description": "KLB-fitted spin-orbit scattering time for the 2.3 nm LaBi2 film.",
-        "result": 1.4e-13
-      },
-      "kf_tc0_t_2p7nm_mK": {
-        "type": "float",
-        "description": "KF-fitted critical temperature in the absence of magnetic impurities for the 2.7 nm LaBi2 film.",
-        "result": 483
-      },
-      "kf_tau_s_t_2p7nm_s": {
-        "type": "float",
-        "description": "KF-fitted magnetic spin-exchange scattering time for the 2.7 nm LaBi2 film.",
-        "result": 6.86e-11
-      },
-      "kf_tau_so_t_2p7nm_s": {
-        "type": "float",
-        "description": "KF-fitted spin-orbit scattering time for the 2.7 nm LaBi2 film.",
-        "result": 9.7e-15
-      },
-      "kf_tau_tr_t_2p7nm_s": {
-        "type": "float",
-        "description": "KF-fitted transport scattering time entering orbital depairing for the 2.7 nm LaBi2 film.",
-        "result": 9.6e-15
-      },
-      "kf_sgn_j_zeta_t_2p7nm_dimensionless": {
-        "type": "float",
-        "description": "KF-fitted signed inverse Born parameter for the 2.7 nm LaBi2 film.",
-        "result": 36.8
-      },
-      "klb_tc_t_2p7nm_mK": {
-        "type": "float",
-        "description": "KLB-extrapolated zero-field critical temperature for the 2.7 nm LaBi2 film.",
-        "result": 453
-      },
-      "klb_tau_so_t_2p7nm_s": {
-        "type": "float",
-        "description": "KLB-fitted spin-orbit scattering time for the 2.7 nm LaBi2 film.",
-        "result": 1.7e-13
-      },
-      "kf_tc0_t_3p0nm_mK": {
-        "type": "float",
-        "description": "KF-fitted critical temperature in the absence of magnetic impurities for the 3.0 nm LaBi2 film.",
-        "result": 499
-      },
-      "kf_tau_s_t_3p0nm_s": {
-        "type": "float",
-        "description": "KF-fitted magnetic spin-exchange scattering time for the 3.0 nm LaBi2 film.",
-        "result": 7.99e-11
-      },
-      "kf_tau_so_t_3p0nm_s": {
-        "type": "float",
-        "description": "KF-fitted spin-orbit scattering time for the 3.0 nm LaBi2 film.",
-        "result": 1.05e-14
-      },
-      "kf_tau_tr_t_3p0nm_s": {
-        "type": "float",
-        "description": "KF-fitted transport scattering time entering orbital depairing for the 3.0 nm LaBi2 film.",
-        "result": 1.05e-14
-      },
-      "kf_sgn_j_zeta_t_3p0nm_dimensionless": {
-        "type": "float",
-        "description": "KF-fitted signed inverse Born parameter for the 3.0 nm LaBi2 film.",
-        "result": 13.3
-      },
-      "klb_tc_t_3p0nm_mK": {
-        "type": "float",
-        "description": "KLB-extrapolated zero-field critical temperature for the 3.0 nm LaBi2 film.",
-        "result": 466
-      },
-      "klb_tau_so_t_3p0nm_s": {
-        "type": "float",
-        "description": "KLB-fitted spin-orbit scattering time for the 3.0 nm LaBi2 film.",
-        "result": 2.9e-13
-      },
-      "kf_tc0_t_8p5nm_mK": {
-        "type": "float",
-        "description": "KF-fitted critical temperature in the absence of magnetic impurities for the 8.5 nm LaBi2 film.",
-        "result": 582
-      },
-      "kf_tau_s_t_8p5nm_s": {
-        "type": "float",
-        "description": "KF-fitted magnetic spin-exchange scattering time for the 8.5 nm LaBi2 film.",
-        "result": 6.68e-11
-      },
-      "kf_tau_so_t_8p5nm_s": {
-        "type": "float",
-        "description": "KF-fitted spin-orbit scattering time for the 8.5 nm LaBi2 film.",
-        "result": 2.54e-14
-      },
-      "kf_tau_tr_t_8p5nm_s": {
-        "type": "float",
-        "description": "KF-fitted transport scattering time entering orbital depairing for the 8.5 nm LaBi2 film.",
-        "result": 1.42e-14
-      },
-      "kf_sgn_j_zeta_t_8p5nm_dimensionless": {
-        "type": "float",
-        "description": "KF-fitted signed inverse Born parameter for the 8.5 nm LaBi2 film.",
-        "result": 39.9
-      },
-      "klb_tc_t_8p5nm_mK": {
-        "type": "float",
-        "description": "KLB-extrapolated zero-field critical temperature for the 8.5 nm LaBi2 film.",
-        "result": 534
-      },
-      "klb_tau_so_t_8p5nm_s": {
-        "type": "float",
-        "description": "KLB-fitted spin-orbit scattering time for the 8.5 nm LaBi2 film.",
-        "result": 3.68e-12
-      },
-      "kf_tc0_t_12nm_mK": {
-        "type": "float",
-        "description": "KF-fitted critical temperature in the absence of magnetic impurities for the 12 nm LaBi2 film.",
-        "result": 697
-      },
-      "kf_tau_s_t_12nm_s": {
-        "type": "float",
-        "description": "KF-fitted magnetic spin-exchange scattering time for the 12 nm LaBi2 film.",
-        "result": 2.26e-11
-      },
-      "kf_tau_so_t_12nm_s": {
-        "type": "float",
-        "description": "KF-fitted spin-orbit scattering time for the 12 nm LaBi2 film.",
-        "result": 2.22e-14
-      },
-      "kf_tau_tr_t_12nm_s": {
-        "type": "float",
-        "description": "KF-fitted transport scattering time entering orbital depairing for the 12 nm LaBi2 film.",
-        "result": 2.22e-14
-      },
-      "kf_sgn_j_zeta_t_12nm_dimensionless": {
-        "type": "float",
-        "description": "KF-fitted signed inverse Born parameter for the 12 nm LaBi2 film.",
-        "result": 13.7
-      },
-      "klb_tc_t_12nm_mK": {
-        "type": "float",
-        "description": "KLB-extrapolated zero-field critical temperature for the 12 nm LaBi2 film.",
-        "result": 547
-      },
-      "klb_tau_so_t_12nm_s": {
-        "type": "float",
-        "description": "KLB-fitted spin-orbit scattering time for the 12 nm LaBi2 film.",
-        "result": 9.72e-12
-      },
-      "kf_tc0_t_23nm_mK": {
-        "type": "float",
-        "description": "KF-fitted critical temperature in the absence of magnetic impurities for the 23 nm LaBi2 film.",
-        "result": 647
-      },
-      "kf_tau_s_t_23nm_s": {
-        "type": "float",
-        "description": "KF-fitted magnetic spin-exchange scattering time for the 23 nm LaBi2 film.",
-        "result": 2.88e-11
-      },
-      "kf_tau_so_t_23nm_s": {
-        "type": "float",
-        "description": "KF-fitted spin-orbit scattering time for the 23 nm LaBi2 film.",
-        "result": 1.92e-14
-      },
-      "kf_tau_tr_t_23nm_s": {
-        "type": "float",
-        "description": "KF-fitted transport scattering time entering orbital depairing for the 23 nm LaBi2 film.",
-        "result": 1.79e-14
-      },
-      "kf_sgn_j_zeta_t_23nm_dimensionless": {
-        "type": "float",
-        "description": "KF-fitted signed inverse Born parameter for the 23 nm LaBi2 film.",
-        "result": 31.2
-      },
-      "klb_tc_t_23nm_mK": {
-        "type": "float",
-        "description": "KLB-extrapolated zero-field critical temperature for the 23 nm LaBi2 film.",
-        "result": 535
-      },
-      "klb_tau_so_t_23nm_s": {
-        "type": "float",
-        "description": "KLB-fitted spin-orbit scattering time for the 23 nm LaBi2 film.",
-        "result": 6.05e-11
-      },
-      "kf_tc0_t_34nm_mK": {
-        "type": "float",
-        "description": "KF-fitted critical temperature in the absence of magnetic impurities for the 34 nm LaBi2 film.",
-        "result": 604
-      },
-      "kf_tau_s_t_34nm_s": {
-        "type": "float",
-        "description": "KF-fitted magnetic spin-exchange scattering time for the 34 nm LaBi2 film.",
-        "result": 5.17e-11
-      },
-      "kf_tau_so_t_34nm_s": {
-        "type": "float",
-        "description": "KF-fitted spin-orbit scattering time for the 34 nm LaBi2 film.",
-        "result": 1.41e-13
-      },
-      "kf_tau_tr_t_34nm_s": {
-        "type": "float",
-        "description": "KF-fitted transport scattering time entering orbital depairing for the 34 nm LaBi2 film.",
-        "result": 1.09e-14
-      },
-      "kf_sgn_j_zeta_t_34nm_dimensionless": {
-        "type": "float",
-        "description": "KF-fitted signed inverse Born parameter for the 34 nm LaBi2 film.",
-        "result": 27.8
-      },
-      "klb_tc_t_34nm_mK": {
-        "type": "float",
-        "description": "KLB-extrapolated zero-field critical temperature for the 34 nm LaBi2 film.",
-        "result": 549
-      },
-      "klb_tau_so_t_34nm_s": {
-        "type": "float",
-        "description": "KLB-fitted spin-orbit scattering time for the 34 nm LaBi2 film.",
-        "result": 1.3e-10
-      },
-      "kf_tc0_t_75nm_mK": {
-        "type": "float",
-        "description": "KF-fitted critical temperature in the absence of magnetic impurities for the 75 nm LaBi2 film.",
-        "result": 600
-      },
-      "kf_tau_s_t_75nm_s": {
-        "type": "float",
-        "description": "KF-fitted magnetic spin-exchange scattering time for the 75 nm LaBi2 film.",
-        "result": 6.64e-11
-      },
-      "kf_tau_so_t_75nm_s": {
-        "type": "float",
-        "description": "KF-fitted spin-orbit scattering time for the 75 nm LaBi2 film.",
-        "result": 1.67e-14
-      },
-      "kf_tau_tr_t_75nm_s": {
-        "type": "float",
-        "description": "KF-fitted transport scattering time entering orbital depairing for the 75 nm LaBi2 film.",
-        "result": 1.67e-14
-      },
-      "kf_sgn_j_zeta_t_75nm_dimensionless": {
-        "type": "float",
-        "description": "KF-fitted signed inverse Born parameter for the 75 nm LaBi2 film.",
-        "result": 13.3
-      },
-      "klb_tc_t_75nm_mK": {
-        "type": "float",
-        "description": "KLB-extrapolated zero-field critical temperature for the 75 nm LaBi2 film.",
-        "result": 558
-      },
-      "klb_tau_so_t_75nm_s": {
-        "type": "float",
-        "description": "KLB-fitted spin-orbit scattering time for the 75 nm LaBi2 film.",
-        "result": 1.25e-09
+        "description": "Thickness of the thinnest electrically measured LaBi2 film expressed in conventional LaBi2 unit cells.",
+        "result": 1.2
       }
     }
   },
   {
-    "experiment_description": "For the same MBE-grown, Ge-capped LaBi2 thickness series on MgO (001), in-plane upper critical fields were measured by four-point lock-in transport in a dilution refrigerator with a two-axis vector magnet. The magnetic field was aligned parallel to the film plane, and H_parallel_c2(T) was extracted using the R = 0.5 R0 criterion from superconducting transitions measured as a function of temperature and parallel magnetic field. To quantify violation of the weak-coupling BCS Pauli limit, the authors extrapolated H_parallel_c2 to T approaching 0 and compared it with H_P^BCS = 1.86 × Tc, where Tc is the zero-field critical temperature in kelvin used for the Pauli-limit estimate. Thickness dependence of the dimensionless ratio H_parallel_c2/H_P^BCS was analyzed over the measured film series using a power-law form H_parallel_c2/H_P^BCS proportional to t^alpha, where t is the LaBi2 film thickness and alpha is the fitted scaling exponent.",
+    "experiment_description": "Central concept: the zero-field superconducting transition of thickness-controlled LaBi2 thin films supplies the baseline critical temperature used to assess Pauli-limit violation and to compare KLB and Kharitonov-Feigel'man (KF) pair-breaking models. Measure rectangular Ge-capped LaBi2/MgO(001) films with approximate XRD-derived thicknesses t = 75, 34, 12, 8.5, 3.0, and 2.1 nm in a dilution refrigerator with base temperature about 20 mK. Use a linear four-point bond geometry on each rectangular film; drive an AC bias current of 100-500 nA at 10-20 Hz and read the longitudinal resistance with a lock-in amplifier. Sweep temperature through the superconducting transition at zero applied magnetic field. Normalize resistance by the normal-state resistance R0 measured above the transition, and define the experimental zero-field critical temperature T_c,H=0^Exp as the temperature where R/R0 = 0.5. The contacted transport path spans the macroscopic rectangular sample between voltage leads; the paper does not report the channel dimensions, contact spacing, lateral homogeneity map, or number of independent locations per thickness. The goal is to quantify how the intrinsic superconducting transition evolves as the film approaches the two-dimensional dirty-limit regime relevant to spin-orbit and magnetic pair-breaking.",
     "experiment_results": {
-      "h_parallel_c2_over_bcs_pauli_limit_t_2p1nm_dimensionless": {
+      "tc_exp_75_nm_mK": {
         "type": "float",
-        "description": "Approximate zero-temperature in-plane upper critical field divided by the conventional BCS Pauli limit for the 2.1 nm LaBi2 film, using the experimentally measured zero-field Tc for the Pauli-limit estimate.",
+        "description": "Experimental zero-field superconducting critical temperature defined by R/R0 = 0.5 for the 75 nm LaBi2 film.",
+        "result": 540
+      },
+      "tc_exp_34_nm_mK": {
+        "type": "float",
+        "description": "Experimental zero-field superconducting critical temperature defined by R/R0 = 0.5 for the 34 nm LaBi2 film.",
+        "result": 550
+      },
+      "tc_exp_12_nm_mK": {
+        "type": "float",
+        "description": "Experimental zero-field superconducting critical temperature defined by R/R0 = 0.5 for the 12 nm LaBi2 film.",
+        "result": 540
+      },
+      "tc_exp_8p5_nm_mK": {
+        "type": "float",
+        "description": "Experimental zero-field superconducting critical temperature defined by R/R0 = 0.5 for the 8.5 nm LaBi2 film.",
+        "result": 535
+      },
+      "tc_exp_3p0_nm_mK": {
+        "type": "float",
+        "description": "Experimental zero-field superconducting critical temperature defined by R/R0 = 0.5 for the 3.0 nm LaBi2 film.",
+        "result": 460
+      },
+      "tc_exp_2p1_nm_mK": {
+        "type": "float",
+        "description": "Experimental zero-field superconducting critical temperature defined by R/R0 = 0.5 for the 2.1 nm LaBi2 film.",
+        "result": 300
+      }
+    }
+  },
+  {
+    "experiment_description": "Central concept: perpendicular-field superconducting transport supplies the superconducting coherence length used to assess whether LaBi2 films lie in the dirty limit, where the KLB and KF pair-breaking frameworks are applicable. Use the same Ge-capped LaBi2/MgO(001) rectangular films and four-point lock-in transport configuration as the zero-field transition experiment, in a dilution refrigerator with base temperature about 20 mK. Apply magnetic field perpendicular to the film plane and sweep temperature through the resistive transition for each thickness t = 75, 34, 12, 8.5, 3.0, and 2.1 nm. Determine H_c2^perp(T) from the same resistive transition criterion used for the main transport analysis. Fit H_c2^perp(T) to the single-gap Ginzburg-Landau relation H_c2^perp(T) = (Phi0/(2*pi*xi_ab^2)) * (1 - (T_c/T_c,H=0)^2), where Phi0 is the superconducting flux quantum, xi_ab is the in-plane superconducting coherence length, T_c is the transition temperature at applied perpendicular field, and T_c,H=0 is the zero-field transition temperature. The measurement samples the contacted rectangular transport path; the paper does not report channel dimensions, lateral mapping, or multiple-location statistics. The goal is to obtain the superconducting coherence length for comparison with mean free path estimates and to determine the dimensional/scattering regime relevant to pair-breaking.",
+    "experiment_results": {
+      "xi_ab_75_nm_nm": {
+        "type": "float",
+        "description": "In-plane superconducting coherence length extracted from perpendicular-field Ginzburg-Landau fitting for the 75 nm LaBi2 film.",
+        "result": 220
+      },
+      "xi_ab_34_nm_nm": {
+        "type": "float",
+        "description": "In-plane superconducting coherence length extracted from perpendicular-field Ginzburg-Landau fitting for the 34 nm LaBi2 film.",
+        "result": 175
+      },
+      "xi_ab_12_nm_nm": {
+        "type": "float",
+        "description": "In-plane superconducting coherence length extracted from perpendicular-field Ginzburg-Landau fitting for the 12 nm LaBi2 film.",
+        "result": 110
+      },
+      "xi_ab_8p5_nm_nm": {
+        "type": "float",
+        "description": "In-plane superconducting coherence length extracted from perpendicular-field Ginzburg-Landau fitting for the 8.5 nm LaBi2 film.",
+        "result": 110
+      },
+      "xi_ab_3p0_nm_nm": {
+        "type": "float",
+        "description": "In-plane superconducting coherence length extracted from perpendicular-field Ginzburg-Landau fitting for the 3.0 nm LaBi2 film.",
+        "result": 32
+      },
+      "xi_ab_2p1_nm_nm": {
+        "type": "float",
+        "description": "In-plane superconducting coherence length extracted from perpendicular-field Ginzburg-Landau fitting for the 2.1 nm LaBi2 film.",
+        "result": 28
+      }
+    }
+  },
+  {
+    "experiment_description": "Central concept: normal-state magnetotransport provides carrier-density, mobility, mean-free-path, Fermi-momentum, and transport-scattering estimates needed to evaluate the orbital pair-breaking term in the KF model for finite-thickness LaBi2. Measure normal-state sheet resistivity rho_xx and Hall resistivity rho_yx at T = 2 K for Ge-capped LaBi2/MgO(001) films, including representative thicknesses 75, 12, and 2.3 nm, under perpendicular magnetic field swept from 0 to 10 T. Use the same macroscopic rectangular four-point geometry; the paper does not report channel dimensions or lateral mapping. Fit rho_xx(B) and rho_yx(B) to the two-carrier Drude formulas rho_xx = (1/e)*[(p*mu_h+n*mu_e)+(p*mu_e+n*mu_h)*mu_h*mu_e*B^2]/[(p*mu_h+n*mu_e)^2+(p-n)^2*mu_h^2*mu_e^2*B^2] and rho_yx = (B/e)*[(p*mu_h^2-n*mu_e^2)+(p-n)^2*mu_h^2*mu_e^2*B^2]/[(p*mu_h+n*mu_e)^2+(p-n)^2*mu_h^2*mu_e^2*B^2], where e is elementary charge, B is perpendicular magnetic field, n and p are electron-like and hole-like carrier densities, and mu_e and mu_h are electron-like and hole-like mobilities. Estimate mean free path and transport scattering time using l_i = (mu_i/e)*p_F,i = (hbar*mu_i/e)*(3*pi^2*n_i)^(1/3) and tau_tr,i = m_eff,i*mu_i/e, with m_eff,i set equal to the free-electron mass m_e for both carrier types. For the result expressed as a formula, t denotes film thickness in nm and <n> denotes the species-averaged carrier density mean(n,p) in cm^-3. The goal is to characterize the normal-state transport inputs used for the finite-dimensional orbital depairing analysis.",
+    "experiment_results": {
+      "species_averaged_carrier_density_power_law_cm_minus3": {
+        "type": "formula",
+        "description": "Empirical power-law fit to the species-averaged carrier density versus LaBi2 film thickness from two-carrier Drude analysis.",
+        "result": "<n>(t) = 1.0e20 * t^0.82 cm^-3, with t in nm"
+      },
+      "normal_state_magnetotransport_weak_antilocalization_in_ultrathin_limit": {
+        "type": "bool",
+        "description": "Whether the ultrathin normal-state magnetoresistance required a truncated-field Drude fit because of cusp-like low-field features attributed to weak anti-localization.",
+        "result": true
+      }
+    }
+  },
+  {
+    "experiment_description": "Central concept: the in-plane upper critical field H_c2^parallel(T) is the primary measurement used to test whether finite-thickness orbital depairing and magnetic spin-exchange scattering, included in the KF framework, are required beyond the KLB spin-orbit-scattering-only model. Measure Ge-capped LaBi2/MgO(001) films with thicknesses t = 75, 34, 12, 8.5, 3.0, and 2.1 nm in a dilution refrigerator with base temperature about 20 mK and a two-axis vector magnet rated 9-3 T. Use a field-alignment procedure adopted from the cited LaSb2 work to align the magnetic field parallel to the film plane. Use linear four-point lock-in transport with 100-500 nA excitation at 10-20 Hz on rectangular samples. Sweep temperature through the superconducting transition while applying parallel magnetic fields over the accessible range; determine H_c2^parallel(T) using the R/R0 = 0.5 criterion, with additional 0.1 R0 and 0.9 R0 criteria checked for the 2.1 nm film. The active measurement region is the contacted macroscopic transport path; channel dimensions, edge distances, and lateral homogeneity maps are not reported. Define the conventional weak-coupling BCS Pauli field as H_P^BCS = 1.86*T_c, with T_c in kelvin and H_P^BCS in tesla. Define the Pauli-limit violation ratio as H_c2^parallel(T -> 0)/H_P^BCS. For the power-law result, t is film thickness in nm and alpha is defined by H_c2^parallel/H_P^BCS proportional to t^alpha. The measurement is configured to detect thickness-dependent suppression of orbital pair breaking and possible field-enhanced superconductivity from suppression of magnetic fluctuations in the ultrathin dirty-limit regime.",
+    "experiment_results": {
+      "field_enhanced_tc_observed_2p1_nm": {
+        "type": "bool",
+        "description": "Whether the 2.1 nm LaBi2 film exhibited an increase of the resistive superconducting transition temperature under finite parallel magnetic field relative to zero field.",
+        "result": true
+      },
+      "hc2_parallel_over_bcs_pauli_limit_2p1_nm": {
+        "type": "float",
+        "description": "Ratio of the zero-temperature-extrapolated in-plane upper critical field to the conventional BCS Pauli limit for the 2.1 nm LaBi2 film, using the experimental zero-field critical temperature convention.",
         "result": 10
       },
-      "pauli_limit_violation_thickness_scaling_exponent_alpha": {
+      "hc2_parallel_pauli_violation_thickness_exponent": {
         "type": "float",
-        "description": "Fitted exponent alpha for the measured thickness dependence H_parallel_c2/H_P^BCS proportional to t^alpha.",
+        "description": "Exponent alpha from fitting the measured thickness dependence of H_c2^parallel/H_P^BCS to a power law proportional to t^alpha.",
         "result": -1.37
       }
     }
   },
   {
-    "experiment_description": "Perpendicular-field superconducting upper critical fields were measured on the MBE-grown, Ge-capped LaBi2 films on MgO (001) using four-point electronic transport in the same dilution refrigerator and vector magnet setup. The applied magnetic field was oriented perpendicular to the film plane. For each film thickness in the series, H_perpendicular_c2(T) was extracted from the resistive superconducting transition as a function of temperature. The resulting H_perpendicular_c2(T) curves were fit to the single-gap Ginzburg-Landau form H_perpendicular_c2(T) = (Phi0/(2*pi*xi_ab^2))*(1 - (Tc/Tc,H=0)^2), where Phi0 is the superconducting flux quantum, xi_ab is the in-plane superconducting coherence length to be fitted, Tc is the temperature at which the critical field is evaluated, and Tc,H=0 is the zero-field critical temperature for that film.",
+    "experiment_description": "Central concept: the paper compares the standard KLB interpretation of spin-orbit-enhanced in-plane critical fields with the multi-mechanism KF framework, which includes orbital, paramagnetic, and magnetic scattering channels, to determine how finite film thickness changes the extracted pair-breaking parameters in LaBi2. Use the measured H_c2^parallel(T) curves from four-point transport on Ge-capped LaBi2/MgO(001) films in a dilution refrigerator with a carefully aligned parallel field. Define H_c2^parallel from R/R0 = 0.5. In the KLB fit, use ln(T_c/T_c,H=0) = psi(1/2) - psi(1/2 + 3*tau_SO*mu_B^2*(H_c2^parallel)^2/(4*pi*hbar*k_B*T_c,H=0)), where psi is the digamma function, tau_SO is the spin-orbit scattering time, T_c,H=0 is the fitted zero-field critical temperature, and H_c2^parallel is the parallel upper critical field. For the ultrathin sample, perform the KLB fit only outside the low-field field-enhanced regime and extrapolate to zero field. In the KF fit, use the Kharitonov-Feigel'man Cooperon formulation described in the Supplementary Material: the fit parameters include T_c0, the zero-field critical temperature in the absence of magnetic impurities; tau_S = 1/nu_S, the magnetic scattering time; tau_SO, the spin-orbit scattering time entering the paramagnetic depairing channel; tau_tr, the transport scattering time entering the orbital depairing term; and sgn(J)*zeta = n_S*J*S/nu_S, the inverse Born parameter, where n_S is magnetic impurity concentration, J is exchange coupling, S is impurity spin, and nu_S is the magnetic scattering rate. Use h = mu_B*H scaled by T_c0, include the orbital factor (p_F*t)^2 with p_F estimated from the normal-state Drude carrier-density power law, assume antiferromagnetic exchange J > 0 and S = 5/2, constrain nu_S and sgn(J)*zeta to vary within ±50 percent across the thickness series after initialization from the ultrathin fit, and impose tau_SO/tau_tr >= 1. The spatial scope is the same contacted transport path used for the H_c2^parallel(T) measurements; channel dimensions and independent-location statistics are not reported. The goal is to extract the pair-breaking scattering scales and model-dependent zero-field critical-temperature definitions for each thickness.",
     "experiment_results": {
-      "xi_ab_t_2p1nm_nm": {
+      "kf_tc0_2p1_nm_mK": {
         "type": "float",
-        "description": "Approximate in-plane superconducting coherence length obtained from the perpendicular-field Ginzburg-Landau fit for the 2.1 nm LaBi2 film.",
-        "result": 29
+        "description": "KF-fitted intrinsic zero-field critical temperature in the absence of magnetic impurities for the 2.1 nm LaBi2 film.",
+        "result": 352
       },
-      "xi_ab_t_3p0nm_nm": {
+      "kf_tau_s_2p1_nm_s": {
         "type": "float",
-        "description": "Approximate in-plane superconducting coherence length obtained from the perpendicular-field Ginzburg-Landau fit for the 3.0 nm LaBi2 film.",
-        "result": 31
+        "description": "KF-fitted magnetic scattering time for the 2.1 nm LaBi2 film.",
+        "result": 5.49e-11
       },
-      "xi_ab_t_8p5nm_nm": {
+      "kf_tau_so_2p1_nm_s": {
         "type": "float",
-        "description": "Approximate in-plane superconducting coherence length obtained from the perpendicular-field Ginzburg-Landau fit for the 8.5 nm LaBi2 film.",
-        "result": 110
+        "description": "KF-fitted spin-orbit scattering time for the 2.1 nm LaBi2 film.",
+        "result": 9.9e-15
       },
-      "xi_ab_t_12nm_nm": {
+      "kf_tau_tr_2p1_nm_s": {
         "type": "float",
-        "description": "Approximate in-plane superconducting coherence length obtained from the perpendicular-field Ginzburg-Landau fit for the 12 nm LaBi2 film.",
-        "result": 110
+        "description": "KF-fitted transport scattering time for the 2.1 nm LaBi2 film.",
+        "result": 2.7e-15
       },
-      "xi_ab_t_34nm_nm": {
+      "kf_sgn_j_zeta_2p1_nm": {
         "type": "float",
-        "description": "Approximate in-plane superconducting coherence length obtained from the perpendicular-field Ginzburg-Landau fit for the 34 nm LaBi2 film.",
-        "result": 175
+        "description": "KF-fitted inverse Born parameter sgn(J)*zeta for the 2.1 nm LaBi2 film.",
+        "result": 26.8
       },
-      "xi_ab_t_75nm_nm": {
+      "klb_tc_2p1_nm_mK": {
         "type": "float",
-        "description": "Approximate in-plane superconducting coherence length obtained from the perpendicular-field Ginzburg-Landau fit for the 75 nm LaBi2 film.",
-        "result": 220
+        "description": "KLB-extrapolated zero-field critical temperature for the 2.1 nm LaBi2 film.",
+        "result": 317
+      },
+      "klb_tau_so_2p1_nm_s": {
+        "type": "float",
+        "description": "KLB-fitted spin-orbit scattering time for the 2.1 nm LaBi2 film.",
+        "result": 1e-13
+      },
+      "kf_tc0_3p0_nm_mK": {
+        "type": "float",
+        "description": "KF-fitted intrinsic zero-field critical temperature in the absence of magnetic impurities for the 3.0 nm LaBi2 film.",
+        "result": 499
+      },
+      "kf_tau_s_3p0_nm_s": {
+        "type": "float",
+        "description": "KF-fitted magnetic scattering time for the 3.0 nm LaBi2 film.",
+        "result": 7.99e-11
+      },
+      "kf_tau_so_3p0_nm_s": {
+        "type": "float",
+        "description": "KF-fitted spin-orbit scattering time for the 3.0 nm LaBi2 film.",
+        "result": 1.05e-14
+      },
+      "kf_tau_tr_3p0_nm_s": {
+        "type": "float",
+        "description": "KF-fitted transport scattering time for the 3.0 nm LaBi2 film.",
+        "result": 1.05e-14
+      },
+      "kf_sgn_j_zeta_3p0_nm": {
+        "type": "float",
+        "description": "KF-fitted inverse Born parameter sgn(J)*zeta for the 3.0 nm LaBi2 film.",
+        "result": 13.3
+      },
+      "klb_tc_3p0_nm_mK": {
+        "type": "float",
+        "description": "KLB-extrapolated zero-field critical temperature for the 3.0 nm LaBi2 film.",
+        "result": 466
+      },
+      "klb_tau_so_3p0_nm_s": {
+        "type": "float",
+        "description": "KLB-fitted spin-orbit scattering time for the 3.0 nm LaBi2 film.",
+        "result": 2.9e-13
+      },
+      "kf_tc0_8p5_nm_mK": {
+        "type": "float",
+        "description": "KF-fitted intrinsic zero-field critical temperature in the absence of magnetic impurities for the 8.5 nm LaBi2 film.",
+        "result": 582
+      },
+      "kf_tau_s_8p5_nm_s": {
+        "type": "float",
+        "description": "KF-fitted magnetic scattering time for the 8.5 nm LaBi2 film.",
+        "result": 6.68e-11
+      },
+      "kf_tau_so_8p5_nm_s": {
+        "type": "float",
+        "description": "KF-fitted spin-orbit scattering time for the 8.5 nm LaBi2 film.",
+        "result": 2.54e-14
+      },
+      "kf_tau_tr_8p5_nm_s": {
+        "type": "float",
+        "description": "KF-fitted transport scattering time for the 8.5 nm LaBi2 film.",
+        "result": 1.42e-14
+      },
+      "kf_sgn_j_zeta_8p5_nm": {
+        "type": "float",
+        "description": "KF-fitted inverse Born parameter sgn(J)*zeta for the 8.5 nm LaBi2 film.",
+        "result": 39.9
+      },
+      "klb_tc_8p5_nm_mK": {
+        "type": "float",
+        "description": "KLB-extrapolated zero-field critical temperature for the 8.5 nm LaBi2 film.",
+        "result": 534
+      },
+      "klb_tau_so_8p5_nm_s": {
+        "type": "float",
+        "description": "KLB-fitted spin-orbit scattering time for the 8.5 nm LaBi2 film.",
+        "result": 3.68e-12
+      },
+      "kf_tc0_12_nm_mK": {
+        "type": "float",
+        "description": "KF-fitted intrinsic zero-field critical temperature in the absence of magnetic impurities for the 12 nm LaBi2 film.",
+        "result": 697
+      },
+      "kf_tau_s_12_nm_s": {
+        "type": "float",
+        "description": "KF-fitted magnetic scattering time for the 12 nm LaBi2 film.",
+        "result": 2.26e-11
+      },
+      "kf_tau_so_12_nm_s": {
+        "type": "float",
+        "description": "KF-fitted spin-orbit scattering time for the 12 nm LaBi2 film.",
+        "result": 2.22e-14
+      },
+      "kf_tau_tr_12_nm_s": {
+        "type": "float",
+        "description": "KF-fitted transport scattering time for the 12 nm LaBi2 film.",
+        "result": 2.22e-14
+      },
+      "kf_sgn_j_zeta_12_nm": {
+        "type": "float",
+        "description": "KF-fitted inverse Born parameter sgn(J)*zeta for the 12 nm LaBi2 film.",
+        "result": 13.7
+      },
+      "klb_tc_12_nm_mK": {
+        "type": "float",
+        "description": "KLB-extrapolated zero-field critical temperature for the 12 nm LaBi2 film.",
+        "result": 547
+      },
+      "klb_tau_so_12_nm_s": {
+        "type": "float",
+        "description": "KLB-fitted spin-orbit scattering time for the 12 nm LaBi2 film.",
+        "result": 9.72e-12
+      },
+      "kf_tc0_34_nm_mK": {
+        "type": "float",
+        "description": "KF-fitted intrinsic zero-field critical temperature in the absence of magnetic impurities for the 34 nm LaBi2 film.",
+        "result": 604
+      },
+      "kf_tau_s_34_nm_s": {
+        "type": "float",
+        "description": "KF-fitted magnetic scattering time for the 34 nm LaBi2 film.",
+        "result": 5.17e-11
+      },
+      "kf_tau_so_34_nm_s": {
+        "type": "float",
+        "description": "KF-fitted spin-orbit scattering time for the 34 nm LaBi2 film.",
+        "result": 1.41e-13
+      },
+      "kf_tau_tr_34_nm_s": {
+        "type": "float",
+        "description": "KF-fitted transport scattering time for the 34 nm LaBi2 film.",
+        "result": 1.09e-14
+      },
+      "kf_sgn_j_zeta_34_nm": {
+        "type": "float",
+        "description": "KF-fitted inverse Born parameter sgn(J)*zeta for the 34 nm LaBi2 film.",
+        "result": 27.8
+      },
+      "klb_tc_34_nm_mK": {
+        "type": "float",
+        "description": "KLB-extrapolated zero-field critical temperature for the 34 nm LaBi2 film.",
+        "result": 549
+      },
+      "klb_tau_so_34_nm_s": {
+        "type": "float",
+        "description": "KLB-fitted spin-orbit scattering time for the 34 nm LaBi2 film.",
+        "result": 1.3e-10
+      },
+      "kf_tc0_75_nm_mK": {
+        "type": "float",
+        "description": "KF-fitted intrinsic zero-field critical temperature in the absence of magnetic impurities for the 75 nm LaBi2 film.",
+        "result": 600
+      },
+      "kf_tau_s_75_nm_s": {
+        "type": "float",
+        "description": "KF-fitted magnetic scattering time for the 75 nm LaBi2 film.",
+        "result": 6.64e-11
+      },
+      "kf_tau_so_75_nm_s": {
+        "type": "float",
+        "description": "KF-fitted spin-orbit scattering time for the 75 nm LaBi2 film.",
+        "result": 1.67e-14
+      },
+      "kf_tau_tr_75_nm_s": {
+        "type": "float",
+        "description": "KF-fitted transport scattering time for the 75 nm LaBi2 film.",
+        "result": 1.67e-14
+      },
+      "kf_sgn_j_zeta_75_nm": {
+        "type": "float",
+        "description": "KF-fitted inverse Born parameter sgn(J)*zeta for the 75 nm LaBi2 film.",
+        "result": 13.3
+      },
+      "klb_tc_75_nm_mK": {
+        "type": "float",
+        "description": "KLB-extrapolated zero-field critical temperature for the 75 nm LaBi2 film.",
+        "result": 558
+      },
+      "klb_tau_so_75_nm_s": {
+        "type": "float",
+        "description": "KLB-fitted spin-orbit scattering time for the 75 nm LaBi2 film.",
+        "result": 1.25e-09
       }
     }
   }

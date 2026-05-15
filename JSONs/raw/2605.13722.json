@@ -1,56 +1,76 @@
 [
   {
-    "experiment_description": "Comparative Shubnikov–de Haas transport characterization was performed on two molecular-beam-epitaxy-grown hybrid superconductor–semiconductor two-dimensional heterostructures: one with an InAs quantum well and one with an InAs0.8Sb0.2 quantum well. Each stack consisted of an Al metal film on top of a semiconductor barrier/quantum-well/barrier structure, with the two-dimensional electron gas residing in the quantum well underneath the Al. The unpatterned planar films were contacted by directly wire-bonding to the Al film. Four-terminal longitudinal magnetoresistance R(B) was measured using four inline contacts rather than a van der Pauw geometry. Measurements were performed at T = 1.7 K so that the Al film was in the normal state, over magnetic field B = 0–9 T, using a bias current in the range 10–100 µA. The analysis used an effective mass m* = 0.03 me for both quantum-well compositions. The oscillatory SdH component ΔR(1/B) was obtained by high-pass filtering the magnetoresistance in the 1/B domain, suppressing spectral components corresponding to densities below 0.2 × 10^12 cm^-2. The spin-split subband densities n1 and n2 were extracted from the FFT of ΔR(1/B) for B < 1 T using ni = eFi/h, where Fi is the SdH frequency of subband i, e is the elementary charge, and h is Planck’s constant. Total carrier density was computed as n = n1 + n2. The Rashba spin-orbit coupling parameter was computed as α = [ℏ^2(nh - nl)/m*] sqrt[π/(4 nl)], where nh and nl are respectively the higher and lower spin-split subband densities and ℏ is the reduced Planck constant. The transport scattering time τt was obtained by fitting the full raw R(B) trace over the entire field range to a two-channel magnetoresistance model for parallel semiconductor and metal conduction with metal Hall coefficient set to zero, semiconductor Hall coefficient fixed as RS = 1/(ne), and fit parameters including semiconductor resistivity ρS, a geometric conversion factor, and a metal resistivity written as ρM = ρM0 + ρM1 B. The transport lifetime was then calculated from τt = m*/(ne^2ρS). The quantum scattering time τq was extracted by fitting the full ΔR(1/B) waveform for B < 0.7 T to a two-subband SdH oscillation model including Dingle damping, thermal damping, and independent phase offsets for the two spin-split subbands.",
+    "experiment_description": "Central concept: use Shubnikov–de Haas (SdH) oscillations measured directly through an unpatterned superconductor–semiconductor heterostructure as a rapid, above-1 K, no-nanofabrication probe of the buried semiconductor quantum well in the device-relevant metal-covered stack. The hybrid is treated as two parallel conducting electronic systems: a normal-state Al metal film with very high carrier density and negligible Hall coefficient, and a lower-density InAs-based two-dimensional electron gas (2DEG) in a quantum well beneath the Al. The measurement targets carrier density, Rashba spin-orbit coupling, and transport/quantum scattering times of the semiconductor channel while the metal remains present. The sample is an MBE-grown Al/top-barrier/InAs quantum-well/back-barrier heterostructure with Sb fraction x = 0 in the InAs1−xSbx quantum well. The unpatterned two-dimensional film is contacted by directly wire-bonding to the Al film, and four-terminal longitudinal magnetoresistance R(B) is measured using four inline contacts rather than a Van der Pauw geometry to increase current uniformity in the contacted region. The Al film is kept in its normal state by measuring at T = 1.7 K. Magnetic field is swept from B = 0 to 9 T. A bias current in the range 10–100 µA is used. The spatial scope is the contacted region of the unpatterned planar film sampled by the four inline contacts; exact contact spacing, film area, layer thicknesses, and number of independent locations are not reported in the parsed text. The SdH oscillatory component ΔR(1/B) is obtained by applying a high-pass filter in the 1/B domain that suppresses spectral components corresponding to densities below 0.2 × 10^12 cm−2. Spin-split subband densities n1 and n2 are extracted from the FFT of ΔR(1/B) for B < 1 T using ni = eFi/h, where Fi is the SdH frequency, e is the elementary charge, and h is Planck’s constant. Total density is n = n1 + n2. Rashba spin-orbit coupling is computed as α = [ℏ^2(nh − nl)/m*] sqrt[π/(4nl)], where nh and nl are the higher and lower spin-split subband densities, ℏ is the reduced Planck constant, and the effective mass used for the comparison is m* = 0.03 me. The raw R(B) over the full measured field range is fit to a two-channel magnetoresistance model with metal Hall coefficient RM set to zero; semiconductor Hall coefficient RS is fixed to 1/(ne); the fit parameters include semiconductor resistivity ρS, a geometric conversion factor from measured resistance to resistivity, and metal resistivity ρM = ρM0 + ρM1B. The transport scattering time is then calculated as τt = m*/(ne^2ρS). The quantum scattering time τq is obtained by fitting the full ΔR(1/B) waveform for B < 0.7 T to the SdH model including Dingle damping, thermal damping, and two spin-split cosine components; the fit is used because beating from the two subbands precludes a simple Dingle-envelope extraction. The ratio τt/τq is used as a scattering-mechanism marker, where τt weights scattering by 1 − cosθ and τq weights all scattering events equally.",
     "experiment_results": {
-      "inas_qw_rashba_soc_mev_nm": {
+      "in_as_qw_rashba_soc_meV_nm": {
         "type": "float",
-        "description": "Rashba spin-orbit coupling parameter extracted from the spin-split SdH subband densities for the hybrid Al/InAs quantum-well heterostructure.",
+        "description": "The Rashba spin-orbit coupling parameter extracted from the spin-split SdH subband densities for the Al-covered InAs quantum well.",
         "result": 5.66
       },
-      "inas0p8sb0p2_qw_rashba_soc_mev_nm": {
+      "in_as_qw_carrier_density_1e12_cm_minus2": {
         "type": "float",
-        "description": "Rashba spin-orbit coupling parameter extracted from the spin-split SdH subband densities for the hybrid Al/InAs0.8Sb0.2 quantum-well heterostructure.",
-        "result": 11.5
-      },
-      "inas_qw_carrier_density_1e12_cm_minus2": {
-        "type": "float",
-        "description": "Total two-dimensional carrier density in the InAs quantum well, obtained by summing the two spin-split SdH subband densities.",
+        "description": "The total 2DEG carrier density extracted from the sum of the two FFT-derived spin-split SdH subband densities for the Al-covered InAs quantum well.",
         "result": 1.13
       },
-      "inas0p8sb0p2_qw_carrier_density_1e12_cm_minus2": {
+      "in_as_qw_transport_scattering_time_ps": {
         "type": "float",
-        "description": "Total two-dimensional carrier density in the InAs0.8Sb0.2 quantum well, obtained by summing the two spin-split SdH subband densities.",
-        "result": 0.86
-      },
-      "inas_qw_transport_scattering_time_ps": {
-        "type": "float",
-        "description": "Transport scattering time of carriers in the InAs quantum well within the hybrid Al-covered heterostructure, extracted from the two-channel magnetoresistance fit.",
+        "description": "The transport scattering time of the buried semiconductor channel extracted from the two-channel magnetoresistance fit for the Al-covered InAs quantum well.",
         "result": 1.86
       },
-      "inas0p8sb0p2_qw_transport_scattering_time_ps": {
+      "in_as_qw_quantum_scattering_time_ps": {
         "type": "float",
-        "description": "Transport scattering time of carriers in the InAs0.8Sb0.2 quantum well within the hybrid Al-covered heterostructure, extracted from the two-channel magnetoresistance fit.",
-        "result": 0.38
-      },
-      "inas_qw_quantum_scattering_time_ps": {
-        "type": "float",
-        "description": "Quantum scattering time of carriers in the InAs quantum well within the hybrid Al-covered heterostructure, extracted from the full SdH waveform fit.",
+        "description": "The quantum scattering time extracted from the full SdH waveform fit for the Al-covered InAs quantum well.",
         "result": 0.76
       },
-      "inas0p8sb0p2_qw_quantum_scattering_time_ps": {
+      "in_as_qw_transport_to_quantum_scattering_time_ratio": {
         "type": "float",
-        "description": "Quantum scattering time of carriers in the InAs0.8Sb0.2 quantum well within the hybrid Al-covered heterostructure, extracted from the full SdH waveform fit.",
+        "description": "The ratio of transport scattering time to quantum scattering time for the Al-covered InAs quantum well.",
+        "result": 2.45
+      }
+    }
+  },
+  {
+    "experiment_description": "Central concept: use the same no-nanofabrication SdH analysis of an Al-covered InAs-based 2DEG to determine whether changing the quantum-well alloy composition is reflected simultaneously in the buried-channel density, Rashba spin-orbit coupling, and scattering times in the full superconductor–semiconductor stack. The sample is an MBE-grown Al/top-barrier/InAs0.8Sb0.2 quantum-well/back-barrier heterostructure, corresponding to Sb fraction x = 0.2 in InAs1−xSbx. The measurement is performed on an unpatterned two-dimensional film contacted by direct wire bonds to the Al film, using four-terminal longitudinal magnetoresistance R(B) with four inline contacts. The Al is measured in its normal state at T = 1.7 K. Magnetic field is swept from B = 0 to 9 T. A bias current in the range 10–100 µA is used. The spatial scope is the contacted region of the planar film sampled by the inline four-terminal geometry; exact area, contact spacing, layer thicknesses, and number of independent measurement positions are not reported in the parsed text. The SdH oscillatory component ΔR(1/B) is isolated with a high-pass filter in the 1/B domain suppressing components corresponding to densities below 0.2 × 10^12 cm−2. FFT analysis of ΔR(1/B) for B < 1 T provides spin-split subband densities n1 and n2 through ni = eFi/h, with total density n = n1 + n2. Rashba spin-orbit coupling is computed as α = [ℏ^2(nh − nl)/m*] sqrt[π/(4nl)], where nh and nl are the higher and lower spin-split subband densities, and m* = 0.03 me is used for direct comparison with the InAs control quantum well. The raw magnetoresistance over the full field range is fit to the two-channel metal/semiconductor magnetoresistance model with metal Hall coefficient RM = 0, fixed semiconductor Hall coefficient RS = 1/(ne), fit semiconductor resistivity ρS, a geometric resistance-to-resistivity factor, and metal resistivity ρM = ρM0 + ρM1B. Transport scattering time is calculated as τt = m*/(ne^2ρS). Quantum scattering time τq is extracted by fitting the full ΔR(1/B) waveform for B < 0.7 T to the two-subband SdH model including Dingle and thermal damping. The τt/τq ratio is used to characterize whether scattering is predominantly long-range/small-angle or short-range/isotropic.",
+    "experiment_results": {
+      "in_as_0p8_sb_0p2_qw_rashba_soc_meV_nm": {
+        "type": "float",
+        "description": "The Rashba spin-orbit coupling parameter extracted from the spin-split SdH subband densities for the Al-covered InAs0.8Sb0.2 quantum well.",
+        "result": 11.5
+      },
+      "in_as_0p8_sb_0p2_qw_carrier_density_1e12_cm_minus2": {
+        "type": "float",
+        "description": "The total 2DEG carrier density extracted from the sum of the two FFT-derived spin-split SdH subband densities for the Al-covered InAs0.8Sb0.2 quantum well.",
+        "result": 0.86
+      },
+      "in_as_0p8_sb_0p2_qw_transport_scattering_time_ps": {
+        "type": "float",
+        "description": "The transport scattering time of the buried semiconductor channel extracted from the two-channel magnetoresistance fit for the Al-covered InAs0.8Sb0.2 quantum well.",
+        "result": 0.38
+      },
+      "in_as_0p8_sb_0p2_qw_quantum_scattering_time_ps": {
+        "type": "float",
+        "description": "The quantum scattering time extracted from the full SdH waveform fit for the Al-covered InAs0.8Sb0.2 quantum well.",
         "result": 0.36
       },
-      "inas_qw_transport_to_quantum_scattering_time_ratio": {
+      "in_as_0p8_sb_0p2_qw_transport_to_quantum_scattering_time_ratio": {
         "type": "float",
-        "description": "Ratio of transport scattering time to quantum scattering time for the InAs quantum well in the hybrid Al-covered heterostructure.",
-        "result": 2.45
-      },
-      "inas0p8sb0p2_qw_transport_to_quantum_scattering_time_ratio": {
-        "type": "float",
-        "description": "Ratio of transport scattering time to quantum scattering time for the InAs0.8Sb0.2 quantum well in the hybrid Al-covered heterostructure.",
+        "description": "The ratio of transport scattering time to quantum scattering time for the Al-covered InAs0.8Sb0.2 quantum well.",
         "result": 1.05
+      }
+    }
+  },
+  {
+    "experiment_description": "Central concept: test whether the transport lifetime extracted from above-1 K SdH measurements on unpatterned Al-covered 2DEGs can provide information about metal–semiconductor coupling and therefore the proximity-induced superconducting gap, avoiding separate nanofabrication and dilution-refrigerator characterization during materials screening. A series of nominally related Al/InAs-based heterostructure stacks is prepared with intentionally varied metal–semiconductor coupling by changing the Al concentration in the quantum-well barriers while keeping other compositions fixed; exact barrier Al concentrations, layer thicknesses, and wafer count are not reported in the parsed text. For each stack, an unpatterned sample cleaved from the wafer is measured by the SdH procedure: direct wire bonds to the Al film, four-terminal inline longitudinal magnetoresistance, T = 1.7 K to keep Al normal, B = 0–9 T, bias current 10–100 µA, high-pass filtering in 1/B suppressing density components below 0.2 × 10^12 cm−2, FFT density extraction for B < 1 T, and two-channel magnetoresistance fitting to obtain transport scattering time τt. Separate samples cleaved from the same wafers are fabricated into quantum point contacts at the boundary of a half-plane of Al, forming an S-QPC-N geometry, and bias spectroscopy is used to determine the induced superconducting gap Δind. The measurement compares QPC-derived Δind to SdH-derived τt for the corresponding stack. The model context used for interpretation is 1/τt = 1/τt_semi + 2Γ/ℏ, where τt is the measured transport scattering time in the hybrid, τt_semi is the semiconductor disorder-limited transport scattering time in the absence of escape into the metal, Γ is the metal–semiconductor coupling energy, and ℏ is the reduced Planck constant; Γ is related to induced gap by Γ = Δind sqrt[(Δ0 + Δind)/(Δ0 − Δind)], where Δ0 is the parent Al superconducting gap and Δind is the induced superconducting gap. The plotted comparison uses Δ0 determined from QPC tunneling into the Al half-plane. The spatial scope for the SdH part is the contacted region of each unpatterned cleaved film; the spatial scope and dimensions of the S-QPC-N devices, number of QPCs per stack, base temperature for bias spectroscopy, and exact bias sweep range are not reported in the parsed text.",
+    "experiment_results": {
+      "parent_al_gap_from_qpc_tunneling_microeV": {
+        "type": "float",
+        "description": "The parent superconducting gap of the Al half-plane obtained from QPC tunneling spectroscopy.",
+        "result": 305
+      },
+      "semiconductor_disorder_transport_scattering_time_from_gap_lifetime_comparison_ps": {
+        "type": "float",
+        "description": "The semiconductor disorder-limited transport scattering time inferred by comparing induced-gap spectroscopy to SdH transport lifetimes across the varied-barrier stack series.",
+        "result": 2.5
       }
     }
   }

@@ -1,141 +1,330 @@
 [
   {
-    "experiment_description": "Computational determination of the zero-field Rydberg-series energies of neutral two-dimensional excitons in monolayer WSe2 for zero center-of-mass momentum. The exciton was modeled within the effective-mass approximation using electron mass me = 0.29 m0, hole mass mh = 0.64 m0, reduced mass mr defined by 1/mr = 1/me + 1/mh, Keldysh screening length r0 = 5 nm, and surrounding relative dielectric constant epsilon_v = 3.97, representative of hBN encapsulation. At B = 0 T the Hamiltonian was H0 = pe^2/(2me) + ph^2/(2mh) + V(r), where r is the electron-hole separation and V(r) is the Keldysh interaction V(r) = -e^2/[8 epsilon0 r0] * [H0_special(epsilon_v r/r0) - Y0_special(epsilon_v r/r0)], with H0_special the Struve function and Y0_special the Bessel function of the second kind. The radial Schrödinger equation was solved in real space for s exciton states with magnetic quantum number l = 0 and principal quantum numbers n = 1, 2, 3, and 4. The radial coordinate was represented on an equidistant grid with spacing delta_r = 0.05 nm from r = 0 to cutoff rcut = 60 nm, using boundary conditions R(rcut) = 0 and dR/dr at r = 0 equal to 0. The generalized finite-difference eigenvalue problem was solved numerically; reported eigenenergies are relative to the free electron-hole continuum, so bound states have negative energies.",
+    "experiment_description": "Numerical magnetoexciton calculation for charge-neutral, zero-center-of-mass-momentum (K=0, light-cone) two-dimensional bound excitons in monolayer WSe2, performed to compare the conventional real-space relative-coordinate description with a Landau-quantization-space description based on free electron and hole Landau-level components. The material model uses the effective-mass Hamiltonian with electron mass m_e=0.29 m0, hole mass m_h=0.64 m0, Keldysh electron-hole interaction V(r)=-(e^2/(8 epsilon_0 r0))[H_0(epsilon_v r/r0)-Y_0(epsilon_v r/r0)], screening length r0=5 nm, relative dielectric constant epsilon_v=3.97 representing hBN encapsulation, and vacuum permittivity epsilon_0. A perpendicular magnetic field B is swept over 0 to 65 T. In real space, the radial Schrödinger equation for exciton states indexed by principal quantum number n and magnetic quantum number l is solved on an equidistant radial grid with spacing delta_r=0.05 nm and cutoff r_cut=60 nm, using boundary conditions R(r_cut)=0 and dR/dr at r=0 equal to zero. In Landau quantization space, the bound exciton wavefunction is expanded in electron-hole Landau-level pair states {n_e=i+l_k, n_h=i}, where i is a nonnegative integer, n_e and n_h are electron and hole Landau-level indices, and l_k is the Landau-pair index; the Hamiltonian matrix uses dimension cutoff N_cut=300. The calculation targets the exciton energy spectrum epsilon_nl(B), the zero-field Rydberg energies, and the relation between the real-space angular label l and the Landau-space pair label l_k. For formula results, Delta_epsilon_nl(B) is defined as epsilon_{n,+l}(B)-epsilon_{n,-l}(B), omega_e=eB/m_e and omega_h=eB/m_h are electron and hole cyclotron frequencies, hbar is the reduced Planck constant, and l is the integer magnetic quantum number.",
     "experiment_results": {
-      "zero_field_1s_exciton_energy_meV": {
+      "zero_field_energy_1s_meV": {
         "type": "float",
-        "description": "Calculated zero-magnetic-field eigenenergy of the 1s exciton relative to the free electron-hole continuum.",
+        "description": "The calculated zero-magnetic-field exciton energy of the 1s state relative to the free electron-hole continuum.",
         "result": -172.44
       },
-      "zero_field_2s_exciton_energy_meV": {
+      "zero_field_energy_2s_meV": {
         "type": "float",
-        "description": "Calculated zero-magnetic-field eigenenergy of the 2s exciton relative to the free electron-hole continuum.",
+        "description": "The calculated zero-magnetic-field exciton energy of the 2s state relative to the free electron-hole continuum.",
         "result": -43.82
       },
-      "zero_field_3s_exciton_energy_meV": {
+      "zero_field_energy_3s_meV": {
         "type": "float",
-        "description": "Calculated zero-magnetic-field eigenenergy of the 3s exciton relative to the free electron-hole continuum.",
+        "description": "The calculated zero-magnetic-field exciton energy of the 3s state relative to the free electron-hole continuum.",
         "result": -19.52
       },
-      "zero_field_4s_exciton_energy_meV": {
+      "zero_field_energy_4s_meV": {
         "type": "float",
-        "description": "Calculated zero-magnetic-field eigenenergy of the 4s exciton relative to the free electron-hole continuum.",
+        "description": "The calculated zero-magnetic-field exciton energy of the 4s state relative to the free electron-hole continuum.",
         "result": -10.96
+      },
+      "positive_negative_l_energy_splitting_formula": {
+        "type": "formula",
+        "description": "The calculated magnetic-field-dependent energy splitting between the positive- and negative-angular-momentum exciton partners with the same principal quantum number.",
+        "result": "Delta_epsilon_nl(B)=hbar*(omega_e-omega_h)*l"
+      },
+      "real_space_landau_index_relation": {
+        "type": "formula",
+        "description": "The calculated relation between the real-space magnetic quantum number and the Landau-quantization-space electron-hole pairing index.",
+        "result": "l=l_k=n_e-n_h"
       }
     }
   },
   {
-    "experiment_description": "Computational determination of intrinsic exciton diamagnetic coefficients and root-mean-square electron-hole radii in monolayer WSe2 from zero-field wavefunctions. The same effective-mass Keldysh exciton model was used: electron mass me = 0.29 m0, hole mass mh = 0.64 m0, reduced mass mr satisfying 1/mr = 1/me + 1/mh, screening length r0 = 5 nm, and surrounding relative dielectric constant epsilon_v = 3.97. Zero-center-of-mass exciton radial wavefunctions R_nl(r) were obtained by solving the B = 0 T radial Schrödinger equation in real space on an equidistant radial grid with delta_r = 0.05 nm and cutoff rcut = 60 nm, with R(rcut) = 0 and dR/dr at r = 0 equal to 0. Exciton states were labeled by principal quantum number n and angular state s, p, d, or f corresponding to |l| = 0, 1, 2, or 3. For each state, the mean-square electron-hole separation was computed from <r_nl^2> = integral_0^infinity dr r^3 R_nl(r)^2. The root-mean-square radius was r_nl = sqrt(<r_nl^2>). The low-field diamagnetic coefficient sigma_nl was obtained from the quadratic diamagnetic shift relation Delta_epsilon_dia_nl(B) = sigma_nl B^2 = [e^2 <r_nl^2>/(8 mr)] B^2. Only the zero-field-wavefunction-derived values, not the high-field quadratic-fit values or cited external experimental data, are reported.",
+    "experiment_description": "Numerical determination of diamagnetic shifts and exciton root-mean-square radii for monolayer WSe2 K=0 bound excitons, using the same effective-mass Keldysh model, material parameters m_e=0.29 m0, m_h=0.64 m0, r0=5 nm, epsilon_v=3.97, and perpendicular magnetic-field sweep B=0 to 65 T as in the spectrum calculation. The central concept is to characterize the same exciton states in real space and Landau quantization space, while using diamagnetic response as a measure of exciton spatial extent. The real-space calculation uses radial grid spacing delta_r=0.05 nm and cutoff r_cut=60 nm; the Landau-space calculation uses electron-hole Landau pair basis {n_e=i+l, n_h=i} with N_cut=300. For the zero-field-wavefunction route, the radial probability density is W_nl(r)=r R_nl(r)^2 and the mean-square radius is <r_nl^2>=integral_0^infinity dr r^3 R_nl(r)^2. The diamagnetic coefficient sigma_nl is defined by Delta_epsilon_nl^dia(B)=sigma_nl B^2 in units of microelectronvolt per tesla squared, and r_nl=sqrt(<r_nl^2>) in nanometers. A second route computes Delta_epsilon_nl^dia(B)=0.5[epsilon_nl(B)+epsilon_{n,-l}(B)]-epsilon_{n,l}(0) and fits the B-dependent curve to the same quadratic form over the stated field range.",
     "experiment_results": {
-      "diamagnetic_coefficient_1s_microeV_per_T2": {
+      "zero_field_wavefunction_sigma_1s_microeV_per_T2": {
         "type": "float",
-        "description": "Low-field diamagnetic coefficient of the 1s exciton calculated from the zero-field wavefunction.",
+        "description": "The diamagnetic coefficient of the 1s exciton obtained from the zero-field wavefunction expectation value.",
         "result": 0.309
       },
-      "rms_radius_1s_nm": {
+      "zero_field_wavefunction_rms_radius_1s_nm": {
         "type": "float",
-        "description": "Root-mean-square electron-hole separation of the 1s exciton calculated from the zero-field wavefunction.",
+        "description": "The root-mean-square electron-hole separation of the 1s exciton obtained from the zero-field wavefunction expectation value.",
         "result": 1.68
       },
-      "diamagnetic_coefficient_2s_microeV_per_T2": {
+      "zero_field_wavefunction_sigma_2s_microeV_per_T2": {
         "type": "float",
-        "description": "Low-field diamagnetic coefficient of the 2s exciton calculated from the zero-field wavefunction.",
+        "description": "The diamagnetic coefficient of the 2s exciton obtained from the zero-field wavefunction expectation value.",
         "result": 4.87
       },
-      "rms_radius_2s_nm": {
+      "zero_field_wavefunction_rms_radius_2s_nm": {
         "type": "float",
-        "description": "Root-mean-square electron-hole separation of the 2s exciton calculated from the zero-field wavefunction.",
+        "description": "The root-mean-square electron-hole separation of the 2s exciton obtained from the zero-field wavefunction expectation value.",
         "result": 6.66
       },
-      "diamagnetic_coefficient_3s_microeV_per_T2": {
+      "zero_field_wavefunction_sigma_3s_microeV_per_T2": {
         "type": "float",
-        "description": "Low-field diamagnetic coefficient of the 3s exciton calculated from the zero-field wavefunction.",
+        "description": "The diamagnetic coefficient of the 3s exciton obtained from the zero-field wavefunction expectation value.",
         "result": 24.2
       },
-      "rms_radius_3s_nm": {
+      "zero_field_wavefunction_rms_radius_3s_nm": {
         "type": "float",
-        "description": "Root-mean-square electron-hole separation of the 3s exciton calculated from the zero-field wavefunction.",
+        "description": "The root-mean-square electron-hole separation of the 3s exciton obtained from the zero-field wavefunction expectation value.",
         "result": 14.85
       },
-      "diamagnetic_coefficient_4s_microeV_per_T2": {
+      "zero_field_wavefunction_sigma_4s_microeV_per_T2": {
         "type": "float",
-        "description": "Low-field diamagnetic coefficient of the 4s exciton calculated from the zero-field wavefunction.",
+        "description": "The diamagnetic coefficient of the 4s exciton obtained from the zero-field wavefunction expectation value.",
         "result": 76.2
       },
-      "rms_radius_4s_nm": {
+      "zero_field_wavefunction_rms_radius_4s_nm": {
         "type": "float",
-        "description": "Root-mean-square electron-hole separation of the 4s exciton calculated from the zero-field wavefunction.",
-        "result": 36.34
+        "description": "The root-mean-square electron-hole separation of the 4s exciton obtained from the zero-field wavefunction expectation value.",
+        "result": 26.34
       },
-      "diamagnetic_coefficient_2p_microeV_per_T2": {
+      "zero_field_wavefunction_sigma_2p_microeV_per_T2": {
         "type": "float",
-        "description": "Low-field diamagnetic coefficient of the 2p exciton calculated from the zero-field wavefunction.",
+        "description": "The diamagnetic coefficient of the 2p exciton obtained from the zero-field wavefunction expectation value.",
         "result": 2.3
       },
-      "rms_radius_2p_nm": {
+      "zero_field_wavefunction_rms_radius_2p_nm": {
         "type": "float",
-        "description": "Root-mean-square electron-hole separation of the 2p exciton calculated from the zero-field wavefunction.",
+        "description": "The root-mean-square electron-hole separation of the 2p exciton obtained from the zero-field wavefunction expectation value.",
         "result": 4.58
       },
-      "diamagnetic_coefficient_3p_microeV_per_T2": {
+      "zero_field_wavefunction_sigma_3p_microeV_per_T2": {
         "type": "float",
-        "description": "Low-field diamagnetic coefficient of the 3p exciton calculated from the zero-field wavefunction.",
+        "description": "The diamagnetic coefficient of the 3p exciton obtained from the zero-field wavefunction expectation value.",
         "result": 15.7
       },
-      "rms_radius_3p_nm": {
+      "zero_field_wavefunction_rms_radius_3p_nm": {
         "type": "float",
-        "description": "Root-mean-square electron-hole separation of the 3p exciton calculated from the zero-field wavefunction.",
+        "description": "The root-mean-square electron-hole separation of the 3p exciton obtained from the zero-field wavefunction expectation value.",
         "result": 11.96
       },
-      "diamagnetic_coefficient_4p_microeV_per_T2": {
+      "zero_field_wavefunction_sigma_4p_microeV_per_T2": {
         "type": "float",
-        "description": "Low-field diamagnetic coefficient of the 4p exciton calculated from the zero-field wavefunction.",
+        "description": "The diamagnetic coefficient of the 4p exciton obtained from the zero-field wavefunction expectation value.",
         "result": 56.2
       },
-      "rms_radius_4p_nm": {
+      "zero_field_wavefunction_rms_radius_4p_nm": {
         "type": "float",
-        "description": "Root-mean-square electron-hole separation of the 4p exciton calculated from the zero-field wavefunction.",
+        "description": "The root-mean-square electron-hole separation of the 4p exciton obtained from the zero-field wavefunction expectation value.",
         "result": 22.63
       },
-      "diamagnetic_coefficient_3d_microeV_per_T2": {
+      "zero_field_wavefunction_sigma_3d_microeV_per_T2": {
         "type": "float",
-        "description": "Low-field diamagnetic coefficient of the 3d exciton calculated from the zero-field wavefunction.",
+        "description": "The diamagnetic coefficient of the 3d exciton obtained from the zero-field wavefunction expectation value.",
         "result": 9.43
       },
-      "rms_radius_3d_nm": {
+      "zero_field_wavefunction_rms_radius_3d_nm": {
         "type": "float",
-        "description": "Root-mean-square electron-hole separation of the 3d exciton calculated from the zero-field wavefunction.",
+        "description": "The root-mean-square electron-hole separation of the 3d exciton obtained from the zero-field wavefunction expectation value.",
         "result": 9.27
       },
-      "diamagnetic_coefficient_4d_microeV_per_T2": {
+      "zero_field_wavefunction_sigma_4d_microeV_per_T2": {
         "type": "float",
-        "description": "Low-field diamagnetic coefficient of the 4d exciton calculated from the zero-field wavefunction.",
+        "description": "The diamagnetic coefficient of the 4d exciton obtained from the zero-field wavefunction expectation value.",
         "result": 42.4
       },
-      "rms_radius_4d_nm": {
+      "zero_field_wavefunction_rms_radius_4d_nm": {
         "type": "float",
-        "description": "Root-mean-square electron-hole separation of the 4d exciton calculated from the zero-field wavefunction.",
+        "description": "The root-mean-square electron-hole separation of the 4d exciton obtained from the zero-field wavefunction expectation value.",
         "result": 19.65
       },
-      "diamagnetic_coefficient_4f_microeV_per_T2": {
+      "zero_field_wavefunction_sigma_4f_microeV_per_T2": {
         "type": "float",
-        "description": "Low-field diamagnetic coefficient of the 4f exciton calculated from the zero-field wavefunction.",
+        "description": "The diamagnetic coefficient of the 4f exciton obtained from the zero-field wavefunction expectation value.",
         "result": 28.4
       },
-      "rms_radius_4f_nm": {
+      "zero_field_wavefunction_rms_radius_4f_nm": {
         "type": "float",
-        "description": "Root-mean-square electron-hole separation of the 4f exciton calculated from the zero-field wavefunction.",
+        "description": "The root-mean-square electron-hole separation of the 4f exciton obtained from the zero-field wavefunction expectation value.",
         "result": 16.08
+      },
+      "quadratic_fit_sigma_1s_microeV_per_T2": {
+        "type": "float",
+        "description": "The diamagnetic coefficient of the 1s exciton obtained from the quadratic fit to the magnetic-field-dependent diamagnetic shift.",
+        "result": 0.306
+      },
+      "quadratic_fit_rms_radius_1s_nm": {
+        "type": "float",
+        "description": "The root-mean-square electron-hole separation inferred from the fitted 1s diamagnetic coefficient.",
+        "result": 1.67
+      },
+      "quadratic_fit_sigma_2s_microeV_per_T2": {
+        "type": "float",
+        "description": "The diamagnetic coefficient of the 2s exciton obtained from the quadratic fit to the magnetic-field-dependent diamagnetic shift.",
+        "result": 3.98
+      },
+      "quadratic_fit_rms_radius_2s_nm": {
+        "type": "float",
+        "description": "The root-mean-square electron-hole separation inferred from the fitted 2s diamagnetic coefficient.",
+        "result": 6.02
+      },
+      "quadratic_fit_sigma_3s_microeV_per_T2": {
+        "type": "float",
+        "description": "The diamagnetic coefficient of the 3s exciton obtained from the quadratic fit to the magnetic-field-dependent diamagnetic shift.",
+        "result": 12.56
+      },
+      "quadratic_fit_rms_radius_3s_nm": {
+        "type": "float",
+        "description": "The root-mean-square electron-hole separation inferred from the fitted 3s diamagnetic coefficient.",
+        "result": 10.69
+      },
+      "quadratic_fit_sigma_4s_microeV_per_T2": {
+        "type": "float",
+        "description": "The diamagnetic coefficient of the 4s exciton obtained from the quadratic fit to the magnetic-field-dependent diamagnetic shift.",
+        "result": 23.31
+      },
+      "quadratic_fit_rms_radius_4s_nm": {
+        "type": "float",
+        "description": "The root-mean-square electron-hole separation inferred from the fitted 4s diamagnetic coefficient.",
+        "result": 14.56
+      },
+      "quadratic_fit_sigma_2p_microeV_per_T2": {
+        "type": "float",
+        "description": "The diamagnetic coefficient of the 2p exciton obtained from the quadratic fit to the magnetic-field-dependent diamagnetic shift.",
+        "result": 2.03
+      },
+      "quadratic_fit_rms_radius_2p_nm": {
+        "type": "float",
+        "description": "The root-mean-square electron-hole separation inferred from the fitted 2p diamagnetic coefficient.",
+        "result": 4.3
+      },
+      "quadratic_fit_sigma_3p_microeV_per_T2": {
+        "type": "float",
+        "description": "The diamagnetic coefficient of the 3p exciton obtained from the quadratic fit to the magnetic-field-dependent diamagnetic shift.",
+        "result": 9.19
+      },
+      "quadratic_fit_rms_radius_3p_nm": {
+        "type": "float",
+        "description": "The root-mean-square electron-hole separation inferred from the fitted 3p diamagnetic coefficient.",
+        "result": 9.14
+      },
+      "quadratic_fit_sigma_4p_microeV_per_T2": {
+        "type": "float",
+        "description": "The diamagnetic coefficient of the 4p exciton obtained from the quadratic fit to the magnetic-field-dependent diamagnetic shift.",
+        "result": 19.35
+      },
+      "quadratic_fit_rms_radius_4p_nm": {
+        "type": "float",
+        "description": "The root-mean-square electron-hole separation inferred from the fitted 4p diamagnetic coefficient.",
+        "result": 13.27
+      },
+      "quadratic_fit_sigma_3d_microeV_per_T2": {
+        "type": "float",
+        "description": "The diamagnetic coefficient of the 3d exciton obtained from the quadratic fit to the magnetic-field-dependent diamagnetic shift.",
+        "result": 5.94
+      },
+      "quadratic_fit_rms_radius_3d_nm": {
+        "type": "float",
+        "description": "The root-mean-square electron-hole separation inferred from the fitted 3d diamagnetic coefficient.",
+        "result": 7.35
+      },
+      "quadratic_fit_sigma_4d_microeV_per_T2": {
+        "type": "float",
+        "description": "The diamagnetic coefficient of the 4d exciton obtained from the quadratic fit to the magnetic-field-dependent diamagnetic shift.",
+        "result": 15.46
+      },
+      "quadratic_fit_rms_radius_4d_nm": {
+        "type": "float",
+        "description": "The root-mean-square electron-hole separation inferred from the fitted 4d diamagnetic coefficient.",
+        "result": 11.86
+      },
+      "quadratic_fit_sigma_4f_microeV_per_T2": {
+        "type": "float",
+        "description": "The diamagnetic coefficient of the 4f exciton obtained from the quadratic fit to the magnetic-field-dependent diamagnetic shift.",
+        "result": 11.29
+      },
+      "quadratic_fit_rms_radius_4f_nm": {
+        "type": "float",
+        "description": "The root-mean-square electron-hole separation inferred from the fitted 4f diamagnetic coefficient.",
+        "result": 10.13
       }
     }
   },
   {
-    "experiment_description": "Computational comparison of the magnetic-field splitting between positive- and negative-angular-momentum exciton states in monolayer WSe2. The exciton was modeled with electron mass me = 0.29 m0, hole mass mh = 0.64 m0, Keldysh screening length r0 = 5 nm, and relative dielectric constant epsilon_v = 3.97. A perpendicular magnetic field B was swept over the range 0 to 65 T. In real space, the zero-center-of-mass relative-motion radial equation included the kinetic term, Keldysh interaction, angular-momentum magnetic-moment term proportional to l B, and diamagnetic confinement term proportional to B^2 r^2, using radial grid spacing delta_r = 0.05 nm and cutoff rcut = 60 nm. In the Landau-quantization-space calculation, free electron-hole Landau-level product states were used as a basis with matrix dimension cutoff Ncut = 300, and the Coulomb matrix elements were evaluated with the same Keldysh interaction. The exciton energy epsilon_nl(B) denotes the eigenenergy of the state with principal quantum number n and magnetic quantum number l at field B. The measured splitting Delta_epsilon_nl(B) is defined as epsilon_n,+l(B) minus epsilon_n,-l(B), for positive integer l. The angular frequencies are omega_e = e B / me and omega_h = e B / mh, where e is the elementary charge; hbar is the reduced Planck constant. The compared states used l = 1, 2, and 3 across multiple n values.",
+    "experiment_description": "Real-space radial-wavefunction calculation for monolayer WSe2 K=0 excitons in the same Keldysh effective-mass model, used to characterize the spatial structure corresponding to the comparative real-space and Landau-space magnetoexciton description. The radial equation is solved with m_e=0.29 m0, m_h=0.64 m0, r0=5 nm, epsilon_v=3.97, grid spacing delta_r=0.05 nm, radial cutoff r_cut=60 nm, and perpendicular magnetic fields B=0 T and B=20 T. The analyzed states include s states with l=0, p states with |l|=1, d states with |l|=2, and f states with |l|=3. The radial probability density is W_nl(r)=r R_nl(r)^2, where R_nl(r) is the radial wavefunction; the node count excludes the endpoints r=0 and r=infinity. For formula results, n is the principal quantum number and l is the nonnegative angular-momentum magnitude for the state label.",
     "experiment_results": {
-      "positive_negative_l_exciton_energy_splitting_formula": {
+      "radial_probability_internal_node_count_formula": {
         "type": "formula",
-        "description": "Magnetic-field-dependent energy difference between exciton states with opposite magnetic quantum numbers, found to be independent of principal quantum number n and linear in both magnetic field B and l.",
-        "result": "Delta_epsilon_nl(B) = hbar*(omega_e - omega_h)*l = hbar*e*B*(1/me - 1/mh)*l"
+        "description": "The number of internal radial nodes in the calculated radial probability density of a bound exciton state.",
+        "result": "N_nodes=n-l-1"
+      }
+    }
+  },
+  {
+    "experiment_description": "Landau-quantization-space composition analysis for monolayer WSe2 K=0 excitons, designed to determine which free electron-hole Landau-level pair dominates a bound exciton state and how that composition responds to magnetic field and dielectric screening. The Hamiltonian uses the same Keldysh effective-mass parameters m_e=0.29 m0, m_h=0.64 m0, r0=5 nm, epsilon_v=3.97 for the fixed-dielectric calculations, and Landau-basis dimension cutoff N_cut=300. The exciton wavefunction is expanded as components phi_i_nl in free electron-hole pair states {n_e=i+l, n_h=i}, where i is the hole Landau-level index and l is the exciton magnetic quantum number. The reported dependent variable is the dominant index i, defined as the index with the largest weight |phi_i_nl|^2. Fixed-dielectric composition calculations are performed for s states at B=8 T and B=15 T, p+ states at B=5 T and B=10 T, and d+ states at B=25 T and B=35 T. A separate phase-diagram calculation sweeps B from 0 to 65 T and relative dielectric constant epsilon_v from 0 to 20 for ns states to target the competition between cyclotron quantization and Coulomb interaction strength.",
+    "experiment_results": {
+      "dominant_pair_i_1s_B8T": {
+        "type": "integer",
+        "description": "The dominant Landau-pair index in the 1s exciton at the specified magnetic field.",
+        "result": 0
+      },
+      "dominant_pair_i_2s_B8T": {
+        "type": "integer",
+        "description": "The dominant Landau-pair index in the 2s exciton at the specified magnetic field.",
+        "result": 0
+      },
+      "dominant_pair_i_3s_B8T": {
+        "type": "integer",
+        "description": "The dominant Landau-pair index in the 3s exciton at the specified magnetic field.",
+        "result": 0
+      },
+      "dominant_pair_i_4s_B8T": {
+        "type": "integer",
+        "description": "The dominant Landau-pair index in the 4s exciton at the specified magnetic field.",
+        "result": 1
+      },
+      "dominant_pair_i_1s_B15T": {
+        "type": "integer",
+        "description": "The dominant Landau-pair index in the 1s exciton at the specified magnetic field.",
+        "result": 0
+      },
+      "dominant_pair_i_2s_B15T": {
+        "type": "integer",
+        "description": "The dominant Landau-pair index in the 2s exciton at the specified magnetic field.",
+        "result": 0
+      },
+      "dominant_pair_i_3s_B15T": {
+        "type": "integer",
+        "description": "The dominant Landau-pair index in the 3s exciton at the specified magnetic field.",
+        "result": 1
+      },
+      "dominant_pair_i_4s_B15T": {
+        "type": "integer",
+        "description": "The dominant Landau-pair index in the 4s exciton at the specified magnetic field.",
+        "result": 2
+      },
+      "dominant_pair_i_4p_plus_B5T": {
+        "type": "integer",
+        "description": "The dominant Landau-pair index in the 4p+ exciton at the specified magnetic field.",
+        "result": 0
+      },
+      "dominant_pair_i_4p_plus_B10T": {
+        "type": "integer",
+        "description": "The dominant Landau-pair index in the 4p+ exciton at the specified magnetic field.",
+        "result": 1
+      },
+      "dominant_pair_i_4d_plus_B25T": {
+        "type": "integer",
+        "description": "The dominant Landau-pair index in the 4d+ exciton at the specified magnetic field.",
+        "result": 0
+      },
+      "dominant_pair_i_4d_plus_B35T": {
+        "type": "integer",
+        "description": "The dominant Landau-pair index in the 4d+ exciton at the specified magnetic field.",
+        "result": 1
+      },
+      "magnetic_field_favored_dominant_pair_formula": {
+        "type": "formula",
+        "description": "The free electron-hole Landau-level pair selected by the magnetic-field-dominated limit for an exciton state indexed by n and l.",
+        "result": "{n_e=n+l-1,n_h=n-1}"
+      },
+      "coulomb_interaction_favored_dominant_index_category": {
+        "type": "categorical",
+        "description": "The direction in Landau-pair index space favored by stronger Coulomb interaction in the dominant component of an exciton state.",
+        "result": "lower_i_pair",
+        "allowed_categorial_values": [
+          "lower_i_pair",
+          "higher_i_pair"
+        ]
       }
     }
   }

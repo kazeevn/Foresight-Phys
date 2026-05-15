@@ -1,56 +1,72 @@
 [
   {
-    "experiment_description": "Device-independent two-point-measurement quantum-memory test on a trapped-ion processor. A chain of three ground-state-cooled 40Ca+ ions was confined in a macroscopic linear Paul trap. The two outer ions encoded qubits A′ and E, while the middle ion served only as a spacer to reduce optical cross-talk. Qubit manipulations used an individually addressed 729 nm quadrupole laser with linewidth below 1 Hz, incident at 67.5 degrees to the trap axis; single-ion addressing used a crossed acousto-optic-deflector setup. State readout used resonant 397 nm fluorescence collected onto an EMCCD camera. The two outer ions were initialized in a Bell state with a single Mølmer-Sørensen entangling gate. Qubit A′ was then measured at the first time point. A random variable X with alphabet {0,1,2,3} selected one of four Pauli measurements {+sigma_x,+sigma_z,-sigma_x,-sigma_z}; the binary first outcome was A. During this mid-circuit measurement, qubit E was spectroscopically decoupled by shelving it in unused D5/2 levels, followed by Doppler and polarization-gradient re-cooling. Qubit A was then re-prepared in a state depending only on A and not on X: the quantum-memory test used sigma_x eigenstates |+> and |-> as the two post-measurement states. A variable waiting time was inserted after the first measurement and before the two-qubit unitary; the displayed memory-decay experiment swept the wait time from 0 ms to 100 ms. Magnetic-field noise was mitigated with dynamical-decoupling echo pulses every 2.5 ms during the wait. The subsequent unitary consisted of a CNOT gate followed by a virtual full SWAP of the two qubit labels. The CNOT was implemented as R_C,0(pi/2) · R_T,pi(pi/2) · R_T,pi/4(pi) · MS_XX^{C,T}(pi/2) · R_T,pi/2(pi/2), where R_i,phi(theta) is a single-qubit equatorial rotation of qubit i by angle theta about phase phi, and MS_XX is a Mølmer-Sørensen XX interaction. The second-time binary measurement on qubit B was the observable (sigma_x+sigma_z)/sqrt(2). From the observed conditional probabilities Pr(A=a,B=b|X=x), the classicality parameter Gamma_Pr(AB|X) was computed as the sum over b0,b1 of the infimum over x of the sum over a of Pr(A=a,B=b_a|X=x). The same probability data were also used to evaluate Pearl’s cross-talk witness Delta_Pr(AB|X), defined as the maximum over a of the sum over b of the supremum over x of Pr(A=a,B=b|X=x). Cross-talk was additionally addressed by estimating the average causal direct effect ACDE, the supremum over a,b,x,x′ of the absolute difference between Pr(B_do(A=a,X=x)=b) and Pr(B_do(A=a,X=x′)=b). The qubit-memory fidelity lower bound was inferred from Gamma_Pr(AB|X) using the paper’s device-independent qubit-memory bound.",
+    "experiment_description": "Device-independent two-point-measurement certification of a local qubit quantum memory is implemented on a trapped-ion processor to test whether temporal correlations can rule out a classical, entanglement-breaking memory model without trusting device internals. The processor consists of a linear chain of three ground-state-cooled 40Ca+ ions in a macroscopic linear Paul trap; the two outer ions encode qubits A′ and E, while the middle ion is a spacer to reduce optical addressing cross-talk over the ion-chain length. Qubit manipulation uses an individually addressed 729 nm laser with linewidth below 1 Hz incident at 67.5 degrees to the trap axis through a crossed-AOD addressing system; state readout uses resonant 397 nm fluorescence collected on an EMCCD camera, with fluorescence corresponding to population in the S1/2 manifold and absence of fluorescence to population in the D5/2 manifold. The sequence prepares the two outer ions A′+E in a Bell state using a Mølmer-Sørensen entangling gate. Qubit E is spectroscopically shelved into unused D5/2 levels during the mid-circuit measurement on A′ to reduce measurement back-action. The first measurement setting X is sampled from four Pauli choices {σx, σz, −σx, −σz}, with binary outcome A. A measure-and-prepare instrument is implemented so that the post-measurement qubit A is prepared in a σx eigenstate depending only on A and not on X; in the memory-test assignment, outcome A=1 corresponds to |+⟩ and A=0 corresponds to |−⟩, with equivalent sign conventions handled by post-processing of the four X settings. After readout, Doppler and polarization-gradient recooling are applied because the fluorescence measurement heats the shared motional mode; resolved sideband recooling is not used after the mid-circuit measurement in order not to disturb E. With no deliberately added storage-delay sweep in this certification run, qubits A+E undergo a CNOT gate followed by a virtual full SWAP, where the CNOT is composed of one Mølmer-Sørensen interaction and local rotations R^C_0(π/2), R^T_π(π/2), R^T_{π/4}(π), MS^C,T_XX(π/2), and R^T_{π/2}(π/2). The second-time qubit B is measured in the (σx+σz)/√2 basis. Repeated runs over the four X settings produce the empirical probabilities Pr(A,B|X). The device-independent memory witness is Γ = Σ_{b0,b1} inf_{x∈{0,1,2,3}} Σ_{a∈{0,1}} Pr(A=a,B=b_a|X=x), whose classical instrumental bound is Γ≥1. The reported qubit-memory quality is the Uhlmann fidelity FMemory between the Choi-Jamiołkowski state of the implemented memory channel and that of an ideal identity memory, lower-bounded from Γ using FMemory ≥ 1/2[1 − (Γ − 2 + S_K)/(√2 − S_K)], with S_K=(8+7√2)/17. To assess cross-talk in the same spatially local ion-chain geometry, the Pearl parameter Δ = max_a Σ_b sup_x Pr(A=a,B=b|X=x) is computed, and the average causal direct effect is defined as ACDE = sup |Pr(B_do(A=a,X=x)=b) − Pr(B_do(A=a,X=x′)=b)| over the indicated binary outcomes and settings; in this implementation the same empirical probability table and post-processed intervention assignments are used to estimate these quantities.",
     "experiment_results": {
-      "temporal_correlation_gamma": {
+      "instrumental_inequality_gamma": {
         "type": "float",
-        "description": "Measured value of the two-point-measurement classicality parameter Gamma_Pr(AB|X) for the optimized quantum-memory certification sequence with no added storage delay beyond the base sequence; classical memory models obey Gamma_Pr(AB|X) >= 1.",
+        "description": "The measured value of the device-independent two-point-measurement memory witness Γ computed from Pr(A,B|X).",
         "result": 0.642
       },
-      "qubit_memory_fidelity_lower_bound_percent": {
+      "memory_fidelity_lower_bound_fraction": {
         "type": "float",
-        "description": "Device-independent lower bound, in percent, on the fidelity of the implemented qubit memory channel to an ideal qubit memory channel inferred from the measured temporal correlations.",
-        "result": 92.0
+        "description": "The device-independent lower bound on the fidelity of the implemented qubit memory channel to an ideal identity memory channel.",
+        "result": 0.92
       },
-      "pearl_cross_talk_parameter": {
+      "classical_memory_model_excluded": {
+        "type": "bool",
+        "description": "Whether the measured temporal correlations exclude the classical instrumental-memory bound for the tested qubit memory configuration.",
+        "result": true
+      },
+      "pearl_cross_talk_parameter_delta": {
         "type": "float",
-        "description": "Measured Pearl-inequality parameter Delta_Pr(AB|X) obtained from the same optimized quantum-memory data; values above 1 would witness cross-talk influence.",
+        "description": "The measured Pearl-inequality parameter Δ used as an observational witness for possible cross-talk influences from X to B not mediated by A.",
         "result": 0.883
       },
       "average_causal_direct_effect": {
         "type": "float",
-        "description": "Measured average causal direct effect used to quantify direct cross-talk influence from the first measurement setting X to the second outcome B not mediated by A.",
+        "description": "The measured average causal direct effect quantifying direct cross-talk influence from the first measurement setting X to the later outcome B under interventions fixing A.",
         "result": 0.0325
-      },
-      "certified_quantum_memory_time_ms": {
+      }
+    }
+  },
+  {
+    "experiment_description": "Temporal classicalisation of the same device-independent two-point-measurement qubit-memory protocol is characterized by sweeping a storage waiting time between the mid-circuit measurement-and-repreparation step and the CNOT-plus-virtual-SWAP readout operation. The physical platform, spatial geometry, optical addressing, shelving of the E ion, 397 nm EMCCD fluorescence readout, recooling after the first measurement, first measurement settings X∈{σx, σz, −σx, −σz}, σx-eigenstate post-measurement preparation of qubit A, and final B measurement in the (σx+σz)/√2 basis are the same as in the no-delay certification sequence. The added waiting time is swept from 0 ms to 100 ms. During this interval, dynamical decoupling echo pulses are inserted every 2.5 ms to suppress quasi-static and 100 Hz magnetic-field noise, while active magnetic-field compensation suppresses the 50 Hz mains component. For every waiting time, repeated experimental shots over all four X settings provide Pr(A,B|X), from which the rescaled violation of the classicality inequality is computed; positive rescaled values correspond to a violation of the classical temporal-causal bound, and the certification duration is determined from the waiting-time range over which the data still certify a non-classical qubit memory under the stated protocol.",
+    "experiment_results": {
+      "certified_quantum_memory_duration_ms": {
         "type": "float",
-        "description": "Storage time over which the trapped-ion qubit memory was reported to be certified as quantum by the temporal-correlation protocol.",
+        "description": "The storage duration for which the two-point-measurement protocol certifies the trapped-ion qubit memory as non-classical.",
         "result": 35.0
       }
     }
   },
   {
-    "experiment_description": "Two-point-measurement experiment testing non-classical quantum causal relations with a partial-swap interaction on the same three-ion 40Ca+ trapped-ion processor. The outer ions encoded qubits A′ and E and were initialized in a Bell state using a single Mølmer-Sørensen gate; the middle ion acted as a spacer. Individual control used the addressed 729 nm laser at 67.5 degrees to the trap axis, and fluorescence readout used 397 nm light and an EMCCD camera. At the first time point, qubit A′ was measured with X in {0,1,2,3} selecting the four Pauli observables {+sigma_x,+sigma_z,-sigma_x,-sigma_z}, yielding binary outcome A. Qubit E was shelved during the mid-circuit measurement to suppress measurement back-action, and the ion chain was re-cooled afterward. The post-measurement qubit A was prepared in a sigma_y eigenstate depending only on A and not on X: |+i> for one binary outcome and |-i> for the other, according to the paper’s post-processing convention. The two-qubit interaction was the partial-swap gate U_PS(alpha)=cos(alpha/2) id + i sin(alpha/2) U_swap, where alpha is the controlled swap angle in radians, id is the two-qubit identity, and U_swap is the full two-qubit swap operator. The experiment swept alpha from 0 to pi. In the trapped-ion circuit, U_PS(alpha) was implemented as MS_ZZ(-alpha/2) · MS_YY(-alpha/2) · MS_XX(-alpha/2), with the Mølmer-Sørensen rotation angle controlled through laser intensity while keeping gate time fixed. The second-time measurement on qubit B was sigma_x. For each alpha, the same temporal-correlation classicality parameter Gamma_Pr(AB|X) was evaluated from Pr(A=a,B=b|X=x), and violation of the classical causal bound was used to certify non-classical causal relations.",
+    "experiment_description": "A two-point-measurement experiment is performed on the same three-ion 40Ca+ trapped-ion processor to test non-classical causal relations by coherently varying the balance between common-cause and direct-cause mechanisms. The two outer ions encode A′ and E and the middle ion is a spacer; qubit control uses the 729 nm addressed laser at 67.5 degrees, and readout uses 397 nm fluorescence imaging on an EMCCD. The outer ions are initially prepared in a Bell state by a Mølmer-Sørensen gate. The first measurement on A′ uses the same four sampled Pauli settings X∈{σx, σz, −σx, −σz} with binary outcome A, while E is shelved during the mid-circuit measurement and the ion chain is recooled afterward. In this causal-relation protocol, the measure-and-prepare state of A is a σy eigenstate depending only on A: |+i⟩ for A=0 and |−i⟩ for A=1, with sign conventions handled by the four-setting post-processing table. The two-qubit operation after the first measurement is the partial-swap gate U_PS(α)=cos(α/2) id + i sin(α/2) U_swap, implemented as MS_ZZ(−α/2)·MS_YY(−α/2)·MS_XX(−α/2), where the rotation angle is controlled by laser intensity while keeping the gate time fixed. The independent control parameter α is swept over the interval 0 to π radians. The final measurement of B is σx. For each α, repeated runs over all X settings yield Pr(A,B|X), from which the same classical causal inequality witness is evaluated to determine whether the observed process can be simulated as a classical mixture of common-cause and direct-cause processes.",
     "experiment_results": {
-      "alpha_interval_with_observed_nonclassical_causality_rad": {
-        "type": "formula",
-        "description": "Swap-angle interval, in radians, over which the partial-swap two-point-measurement experiment exhibited violations of the classical causal inequality, thereby certifying non-classical causal relations.",
-        "result": "pi/2 < alpha < pi"
+      "nonclassical_causal_relations_certified": {
+        "type": "bool",
+        "description": "Whether the partial-swap two-point-measurement data certify causal relations outside classical common-cause/direct-cause mixtures for some swept gate angles.",
+        "result": true
+      },
+      "alpha_interval_with_reported_classical_inequality_violation": {
+        "type": "categorical",
+        "description": "The reported swept partial-swap angle interval in which the measured causal witness violates the classical causal bound.",
+        "result": "pi_over_2_less_alpha_less_pi",
+        "allowed_categorial_values": [
+          "none",
+          "zero_to_pi_over_2",
+          "pi_over_2_less_alpha_less_pi",
+          "zero_to_pi"
+        ]
       }
     }
   },
   {
-    "experiment_description": "Noise and coherence characterization of the trapped-ion qubit memory used to model the decay of the two-point-measurement memory-certification signal. The same 40Ca+ trapped-ion processor was operated with qubit manipulation by the addressed 729 nm laser and readout by 397 nm fluorescence. Coherent magnetic-field noise at the 50 Hz mains frequency was actively compensated, while a remaining 100 Hz component was mitigated by dynamical decoupling. The experiment applied echo pulses at 2.5 ms intervals during variable waiting periods. Ramsey experiments were performed over a waiting-time sweep from 0 ms to 200 ms; the Ramsey contrast was measured as a function of waiting time and fitted with an exponential decay model to obtain the effective dephasing time T2 under the applied dynamical-decoupling sequence. The same echo pulse used in the memory sequence was also calibrated to estimate its average pulse fidelity.",
+    "experiment_description": "The effective coherence time relevant to the trapped-ion quantum-memory decay model is characterized independently with Ramsey-type measurements on the same 40Ca+ trapped-ion processor. The qubit is manipulated with the addressed 729 nm laser and read out by 397 nm fluorescence imaging, while the magnetic environment is treated as in the memory-decay experiment: active compensation suppresses coherent 50 Hz mains magnetic-field noise, and a dynamical-decoupling echo sequence with pulses separated by 2.5 ms suppresses quasi-static and 100 Hz components. Ramsey experiments are run over a waiting-time sweep spanning 0 ms to 200 ms, and the Ramsey contrast is fit with an exponential decay model corresponding to Lorentzian-distributed frequency noise. The fitted decay constant is used as the effective T2 coherence time of the trapped-ion qubit under the dynamical-decoupling conditions used for the quantum-memory certification sequence.",
     "experiment_results": {
-      "effective_coherence_time_t2_ms": {
+      "effective_coherence_time_T2_ms": {
         "type": "float",
-        "description": "Effective dephasing time T2 of the trapped-ion qubit under the dynamical-decoupling sequence, obtained from an exponential fit to Ramsey-contrast decay.",
+        "description": "The exponential Ramsey-contrast decay time of the trapped-ion qubit under the dynamical-decoupling conditions used in the memory experiment.",
         "result": 363.62
-      },
-      "single_echo_pulse_average_fidelity": {
-        "type": "float",
-        "description": "Average fidelity of an individual echo pulse used in the dynamical-decoupling sequence for the memory-decay experiment.",
-        "result": 0.995
       }
     }
   }

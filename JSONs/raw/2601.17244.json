@@ -1,91 +1,151 @@
 [
   {
-    "experiment_description": "Atomistic molecular-dynamics and metadynamics simulations were performed for aqueous LiCl solutions using LAMMPS under periodic boundary conditions to determine concentration- and temperature-dependent Li-centered solvation microstate free energies. The LiCl molarity was swept from 0.5 to 23 M at 283 K, from 0.5 to 25 M at 298 K, and from 0.5 to 26 M at 313 K. Water was modeled with SPC/E and Li+/Cl- ions with the AMBER alkali-halide force field. Lennard-Jones and short-range electrostatic interactions used a 10 Å real-space cutoff; long-range electrostatics used PPPM with convergence tolerance 1e-5. Each configuration was energy minimized by conjugate gradient to force and energy tolerances of 1e-4 kcal/(mol Å) and 1e-4 kcal/mol, annealed to 400 K for 10 ps and cooled to the target temperature in NVT, equilibrated in NPT at 1 atm for 1 ns with a Nose-Hoover barostat relaxation time of 2 ps, resized to the final average cell over 100 ps, equilibrated for 500 ps in NVT, and run for 5 ns production in NVT. Temperature was controlled by a Nose-Hoover thermostat with 100 fs relaxation time; the timestep was 1 fs. Enhanced sampling used the COLVARS implementation of multiple-walker metadynamics starting from equilibrated MD snapshots. Bias was applied to one selected Li+ ion using three collective variables: Li-O, Li-Cl, and Li-Li coordination numbers, each bounded from 0 to 7. The coordination-number switching cutoffs were 2.65 Å for Li-O, 2.95 Å for Li-Cl, and 5 Å for Li-Li. The free-energy grid spacing was 0.1; Gaussian hills of 0.6 kcal/mol height and 1.25 width were deposited every 1000 simulation steps. Ten walkers communicated every 25 ps. Solvation structures were extracted from trajectories using Li+-centered distance cutoffs of 2.65 Å for Li-O and 3.05 Å for Li-Cl, grouped into solvated-ion, contact-ion-pair, bridge, and aggregate families. Biased probabilities were reweighted to recover unbiased microstate probabilities, converted to Helmholtz free energies, and then corrected for finite-reservoir water activity using a local free-water definition within a 12 Å sphere around the biased Li+ ion. Statistical estimates used bootstrap resampling over starting frames 0 through 9 at a fixed 10-frame interval. The reported microstate identities and solubility-like molarities were obtained by ranking corrected free energies across the concentration sweep and identifying the molarity at which aggregate Li-Cl microstates became the lowest-free-energy family.",
+    "experiment_description": "Use the SCOPE workflow—Solvation Characterization via Optimized Probability Ensemble averaging—to determine the local solvation microstate hierarchy for dilute aqueous LiCl at 298 K. The central idea being tested is that a finite-concentration electrolyte can be characterized by biasing one representative Li+ ion with metadynamics, reweighting the biased trajectory to recover equilibrium microstate probabilities, and applying a finite-water-reservoir chemical-potential correction based on water activity. Atomistic simulations are performed in LAMMPS with periodic boundary conditions using SPC/E water and AMBER Li+/Cl- ion parameters. Van der Waals interactions use a 10 Å real-space Lennard-Jones cutoff; short-range electrostatics use the same cutoff; long-range electrostatics use PPPM with convergence tolerance 1e-5. Each LiCl(aq) system is energy-minimized by conjugate gradient with force and energy tolerances of 1e-4 kcal/(mol Å) and 1e-4 kcal/mol, annealed by heating to 400 K for 10 ps and cooling back to 298 K in NVT with a Nose-Hoover thermostat relaxation time of 100 fs, equilibrated in NPT at 1 atm for 1 ns with a Nose-Hoover barostat relaxation time of 2 ps and a 1 fs timestep, resized to the equilibrium cell dimensions averaged over the final 250 ps, deformed to that size over 100 ps, equilibrated for another 500 ps in NVT, and then run for 5 ns in NVT at 298 K. For enhanced sampling, start each metadynamics walker from equilibrated classical-MD configurations and bias only one central Li+ ion. Use three collective variables: Li-O, Li-Cl, and Li-Li coordination numbers, each bounded from 0.0 to 7.0, with switching-function cutoff distances of 2.65 Å, 2.95 Å, and 5 Å, respectively. Store the free-energy surface on a grid with spacing 0.1. Add Gaussian hills every 1000 MD steps with hill weight 0.6 kcal/mol and hill width 1.25. Use 10 multiple-walker metadynamics walkers communicating every 25 ps. Extract Li+-centered clusters using Li-O and Li-Cl distance cutoffs of 2.65 Å and 3.05 Å, respectively; in the main coarse classification, solvent-separated ion-pair geometries are grouped into the solvated-ion category rather than treated as a separate microstate. Apply trajectory-space reweighting to recover unbiased microstate probabilities and compute relative Helmholtz free energies in units of kBT. Apply the finite-reservoir correction using water activity coefficients and define free water locally within a 12 Å sphere around the biased Li+ ion. Estimate statistical uncertainty by bootstrap resampling from starting frames 0 through 9 with a fixed 10-frame sampling interval. The spatial scope is the local solvation environment of the biased Li+ ion and the cluster identities generated from the first-shell Li-O/Li-Cl cutoffs, compared across the 10 walkers and bootstrap samples for the dilute 0.5 M condition.",
     "experiment_results": {
-      "low_concentration_most_stable_microstate": {
+      "dominant_microstate_0p5M_298K": {
         "type": "categorical",
-        "description": "Lowest-corrected-free-energy Li-centered microstate in dilute LiCl(aq), exemplified by the 0.5-1 M regime.",
-        "result": "solvated_ion_LiH2O4",
+        "description": "The lowest-free-energy Li-centered solvation microstate identified by the SCOPE free-energy spectrum for dilute 0.5 M LiCl(aq) at 298 K.",
+        "result": "Li[H2O]4",
         "allowed_categorial_values": [
-          "solvated_ion_LiH2O4",
-          "contact_ion_pair_LiClH2O3",
-          "bridge_microstate",
-          "aggregate_LiCl_microstate"
+          "Li[H2O]4",
+          "LiCl[H2O]3",
+          "Li2Cl[H2O]6",
+          "LiCl2[H2O]7",
+          "LiCl2[H2O]2"
         ]
       },
-      "low_concentration_principal_minority_microstate": {
+      "second_microstate_0p5M_298K": {
         "type": "categorical",
-        "description": "Next-most-probable Li-centered microstate in dilute LiCl(aq) after the dominant solvated-ion state.",
-        "result": "contact_ion_pair_LiClH2O3",
+        "description": "The next-lowest-free-energy Li-centered solvation microstate identified by the SCOPE free-energy spectrum for dilute 0.5 M LiCl(aq) at 298 K.",
+        "result": "LiCl[H2O]3",
         "allowed_categorial_values": [
-          "solvated_ion_LiH2O4",
-          "contact_ion_pair_LiClH2O3",
-          "bridge_microstate",
-          "aggregate_LiCl_microstate"
+          "Li[H2O]4",
+          "LiCl[H2O]3",
+          "Li2Cl[H2O]6",
+          "LiCl2[H2O]7",
+          "LiCl2[H2O]2"
         ]
       },
-      "dominant_aggregate_microstate_near_298K_crossover": {
+      "dominant_solovation_family_0p5M_298K": {
         "type": "categorical",
-        "description": "Lowest-free-energy aggregate microstate identified in the 298 K concentration sweep at the aggregate-dominance crossover.",
-        "result": "LiCl3_aggregate",
+        "description": "The coarse solvation-family assignment of the lowest-free-energy local Li-centered microstate in dilute 0.5 M LiCl(aq) at 298 K.",
+        "result": "solvated_ion",
         "allowed_categorial_values": [
-          "LiCl3_aggregate",
-          "Li2Cl5_aggregate",
-          "LiCl2_aggregate",
-          "LiClH2O3_contact_ion_pair",
-          "LiH2O4_solvated_ion"
+          "solvated_ion",
+          "contact_ion_pair",
+          "bridging_motif",
+          "aggregate"
         ]
-      },
-      "dominant_microstate_at_298K_25M": {
-        "type": "categorical",
-        "description": "Dominant larger aggregate microstate in the 298 K simulation at the highest-concentration portion of the sweep.",
-        "result": "Li2Cl5_aggregate",
-        "allowed_categorial_values": [
-          "LiCl3_aggregate",
-          "Li2Cl5_aggregate",
-          "LiCl2_aggregate",
-          "LiClH2O3_contact_ion_pair",
-          "LiH2O4_solvated_ion"
-        ]
-      },
-      "predicted_solubility_283K_M": {
-        "type": "float",
-        "description": "LiCl molarity at 283 K where corrected aggregate free energies indicate aggregate dominance, reported as the simulation-predicted solubility limit.",
-        "result": 17.0
-      },
-      "predicted_solubility_298K_M": {
-        "type": "float",
-        "description": "LiCl molarity at 298 K where corrected aggregate free energies indicate aggregate dominance, reported as the simulation-predicted solubility limit.",
-        "result": 20.0
-      },
-      "predicted_solubility_313K_M": {
-        "type": "float",
-        "description": "LiCl molarity at 313 K where corrected aggregate free energies indicate aggregate dominance, reported as the simulation-predicted solubility limit.",
-        "result": 21.0
       }
     }
   },
   {
-    "experiment_description": "A higher-resolution solvation-structure analysis was performed for dilute 0.5 M LiCl(aq) using the same molecular-dynamics, metadynamics, reweighting, and finite-water-activity correction workflow as in the main SCOPE simulations, but with an alternative cluster extraction scheme. Both Li+-centered and Cl--centered clusters were included. The Li-O and Li-Cl connectivity criteria followed the main Li-centered extraction, and an additional Cl-H distance cutoff of 2.85 Å was introduced to resolve water-mediated Li+-Cl- arrangements. The coarse solvated-ion category was subdivided into solvent-separated ion pairs and isolated solvated ions: solvent-separated ion pairs were defined as Li+ and Cl- separated by exactly one water molecule, while isolated solvated ions were defined as Li+ and Cl- separated by two or more water molecules. Within the fixed LiCl[H2O]9 composition, contact-ion-pair-like and solvent-separated-ion-pair-like geometries were additionally separated using a simple Li+-Cl- distance criterion with a 3.2 Å cutoff. Bootstrap sampling was used to compare the corrected free energies of these resolved local structures.",
+    "experiment_description": "Use the SCOPE workflow to compute the concentration-dependent corrected free-energy spectrum of LiCl(aq) at 298 K from dilute solution to beyond the solubility regime, testing the central proposed organizing principle that finite-concentration electrolytes evolve from hydration-dominated local states to ion-pair competition and then to aggregated Li-Cl clusters as ionic strength increases. Simulate LiCl(aq) concentrations spanning 0.5 M to 25 M at 298 K in LAMMPS with SPC/E water, AMBER Li+/Cl- parameters, periodic boundary conditions, 10 Å van der Waals and short-range electrostatic cutoffs, PPPM long-range electrostatics with 1e-5 convergence tolerance, and a 1 fs timestep. For each concentration, apply the same equilibration protocol: conjugate-gradient minimization to 1e-4 kcal/(mol Å) force tolerance and 1e-4 kcal/mol energy tolerance, NVT annealing through 400 K for 10 ps and back to 298 K using a Nose-Hoover thermostat with 100 fs relaxation time, 1 ns NPT equilibration at 1 atm using a Nose-Hoover barostat with 2 ps relaxation time, equilibrium cell averaging over the final 250 ps, deformation to the averaged cell over 100 ps, 500 ps additional NVT equilibration, and 5 ns NVT production. For SCOPE sampling, initialize multiple-walker metadynamics from equilibrated classical-MD snapshots; bias one central Li+ ion with Li-O, Li-Cl, and Li-Li coordination-number collective variables bounded between 0.0 and 7.0, using cutoffs of 2.65 Å, 2.95 Å, and 5 Å, respectively. Use a free-energy grid spacing of 0.1, add Gaussian hills every 1000 steps with 0.6 kcal/mol weight and 1.25 width, and use 10 walkers communicating every 25 ps. Identify local microstates by Li+-centered cluster extraction with Li-O = 2.65 Å and Li-Cl = 3.05 Å cutoffs. Reweight biased trajectories to obtain unbiased microstate probabilities and convert them to relative Helmholtz free energies in kBT. Apply the chemical-potential correction for finite water reservoir effects using water activity coefficients and the local free-water population inside a 12 Å sphere centered on the biased Li+ ion. The spatial/geometric scope is the biased-ion local environment and its connected Li-O/Li-Cl cluster within the periodic simulation cell, sampled across concentrations from 0.5 M through 25 M and compared through bootstrap resampling of trajectory frames.",
     "experiment_results": {
-      "high_resolution_0p5M_stability_ordering": {
+      "predicted_solubility_limit_298K_M": {
+        "type": "float",
+        "description": "The LiCl concentration at which the corrected SCOPE free-energy ordering indicates the aggregate family becomes the lowest-free-energy family at 298 K.",
+        "result": 20.0
+      },
+      "dominant_microstate_near_solubility_298K": {
         "type": "categorical",
-        "description": "Corrected free-energy ordering of resolved dilute-solution LiCl(aq) solvation classes from most stable to less stable.",
-        "result": "isolated_solvated_ion_greater_than_solvent_separated_or_contact_ion_pair_greater_than_bridge",
+        "description": "The lowest-free-energy Li-Cl aggregate microstate identified near the 298 K solubility regime.",
+        "result": "LiCl3",
         "allowed_categorial_values": [
-          "isolated_solvated_ion_greater_than_solvent_separated_or_contact_ion_pair_greater_than_bridge",
-          "contact_ion_pair_greater_than_solvent_separated_ion_pair_greater_than_bridge",
-          "bridge_greater_than_contact_ion_pair_greater_than_isolated_solvated_ion"
+          "LiCl3",
+          "LiCl[H2O]7",
+          "LiCl3[H2O]2",
+          "LiCl[H2O]3",
+          "Li2Cl3[H2O]3"
         ]
       },
-      "dominant_geometry_within_LiClH2O9": {
+      "dominant_microstate_25M_298K": {
         "type": "categorical",
-        "description": "More stable local geometry within the fixed LiCl[H2O]9 composition under the resolved 0.5 M classification.",
+        "description": "The lowest-free-energy larger aggregate microstate identified for LiCl(aq) beyond the 298 K solubility regime at 25 M.",
+        "result": "Li2Cl5",
+        "allowed_categorial_values": [
+          "Li2Cl5",
+          "LiCl3",
+          "LiCl2[H2O]",
+          "Li3Cl6[H2O]",
+          "Li2Cl3[H2O]3"
+        ]
+      },
+      "aggregate_family_lowest_at_298K_solubility": {
+        "type": "bool",
+        "description": "Whether the aggregate family is the lowest-free-energy solvation family at the concentration assigned as the 298 K solubility regime by the corrected SCOPE analysis.",
+        "result": true
+      }
+    }
+  },
+  {
+    "experiment_description": "Use SCOPE to determine temperature-dependent solubility limits of LiCl(aq) by comparing corrected aggregate free energies with other Li-centered solvation families across temperature. The central concept is that the same enhanced-sampling, reweighting, and water-activity-corrected finite-reservoir framework can turn molecular dynamics trajectories into a predictive free-energy spectrum for concentrated electrolytes. Simulate LiCl(aq) in LAMMPS with SPC/E water and AMBER Li+/Cl- ion parameters under periodic boundary conditions at three temperatures: 283 K over 0.5 M to 23 M, 298 K over 0.5 M to 25 M, and 313 K over 0.5 M to 26 M. Use a 10 Å Lennard-Jones cutoff and 10 Å short-range electrostatic cutoff, PPPM electrostatics with convergence tolerance 1e-5, conjugate-gradient minimization to 1e-4 kcal/(mol Å) force tolerance and 1e-4 kcal/mol energy tolerance, NVT annealing through 400 K for 10 ps and back to the target temperature with a Nose-Hoover thermostat relaxation time of 100 fs, 1 ns NPT equilibration at 1 atm with a Nose-Hoover barostat relaxation time of 2 ps, 1 fs integration timestep, equilibrium-cell averaging over the final 250 ps, 100 ps deformation to the averaged cell, 500 ps NVT equilibration, and 5 ns NVT production. For enhanced sampling at each temperature and concentration, use 10-walker metadynamics initialized from equilibrated MD snapshots, biasing one central Li+ with Li-O, Li-Cl, and Li-Li coordination-number collective variables bounded from 0.0 to 7.0 with cutoff distances 2.65 Å, 2.95 Å, and 5 Å. Use grid spacing 0.1, Gaussian hills every 1000 steps, hill weight 0.6 kcal/mol, hill width 1.25, and walker communication every 25 ps. Extract Li-centered clusters using Li-O = 2.65 Å and Li-Cl = 3.05 Å cutoffs, reweight biased trajectories to unbiased probabilities, compute relative Helmholtz free energies in kBT, and correct for finite water reservoir effects using activity coefficients and free water counted within a 12 Å sphere about the biased Li+ ion. The spatial scope is the local first-shell and multi-ion cluster environment around one biased Li+ per periodic simulation box, compared over the full concentration sweeps and bootstrap-resampled trajectory frames at each temperature.",
+    "experiment_results": {
+      "predicted_solubility_limit_283K_M": {
+        "type": "float",
+        "description": "The LiCl concentration at which the corrected SCOPE free-energy ordering assigns aggregate microstates as the lowest-free-energy family at 283 K.",
+        "result": 17.0
+      },
+      "predicted_solubility_limit_298K_M": {
+        "type": "float",
+        "description": "The LiCl concentration at which the corrected SCOPE free-energy ordering assigns aggregate microstates as the lowest-free-energy family at 298 K.",
+        "result": 20.0
+      },
+      "predicted_solubility_limit_313K_M": {
+        "type": "float",
+        "description": "The LiCl concentration at which the corrected SCOPE free-energy ordering assigns aggregate microstates as the lowest-free-energy family at 313 K.",
+        "result": 21.0
+      },
+      "aggregate_family_lowest_at_each_temperature_solubility": {
+        "type": "bool",
+        "description": "Whether the aggregate family is the lowest-free-energy family at the SCOPE-assigned solubility concentration for each of the three simulated temperatures.",
+        "result": true
+      }
+    }
+  },
+  {
+    "experiment_description": "Evaluate the finite-reservoir chemical-potential correction within SCOPE for concentrated LiCl(aq), focusing on whether the local definition of free water and finite simulation-box size affect the concentration at which aggregates become the lowest-free-energy family. The central mechanism under test is that biased finite simulation boxes can distort cluster free energies when the free-water reservoir is limited, and that a water-activity-based correction restores bulk-relevant water chemical potential around the biased ion. Use the same LAMMPS/SPC-E/AMBER LiCl(aq) simulation and metadynamics protocol as the main SCOPE analysis: periodic cells; 10 Å van der Waals and short-range electrostatic cutoffs; PPPM electrostatics at 1e-5 tolerance; minimization to 1e-4 kcal/(mol Å) and 1e-4 kcal/mol; NVT annealing through 400 K for 10 ps; 1 ns NPT at 1 atm; 1 fs timestep; 100 ps deformation to the averaged cell; 500 ps NVT equilibration; 5 ns NVT production; 10-walker metadynamics on one Li+ ion using Li-O, Li-Cl, and Li-Li coordination-number collective variables from 0.0 to 7.0 with cutoffs 2.65 Å, 2.95 Å, and 5 Å; grid spacing 0.1; Gaussian hills every 1000 steps with 0.6 kcal/mol weight and 1.25 width; and walker communication every 25 ps. Identify microstates from Li-centered clusters using Li-O = 2.65 Å and Li-Cl = 3.05 Å cutoffs, reweight biased probabilities, and compute relative Helmholtz free energies. For the correction test, define free water for the chemical-potential term inside a sphere centered on the biased Li+ ion and vary the sphere radius from 10 Å to 14 Å around the nominal 12 Å choice. Separately compare finite-size behavior by repeating the corrected analysis for varied simulation-box dimensions. The spatial scope is the chemically local neighborhood around the biased Li+ ion, explicitly parameterized by the 10-14 Å free-water-counting sphere, and the comparison of cluster-stability trends across box dimensions.",
+    "experiment_results": {
+      "crossover_concentration_changed_by_10_to_14A_free_water_radius": {
+        "type": "bool",
+        "description": "Whether varying the local free-water-counting radius over the tested range changes the aggregate-stability crossover concentration.",
+        "result": false
+      },
+      "activity_correction_damps_box_size_bias": {
+        "type": "bool",
+        "description": "Whether applying the water-activity-based correction reduces simulation-box-size dependence in the computed aggregate cluster stability.",
+        "result": true
+      }
+    }
+  },
+  {
+    "experiment_description": "Perform a higher-resolution dilute-solution SCOPE classification test for 0.5 M LiCl(aq) to assess whether solvent-separated ion pairs are hidden inside the coarse solvated-ion category used in the main workflow. The central methodological issue is that the main SCOPE extraction is Li+-centered and groups non-contact Li+-Cl- configurations into a coarse solvated-ion family; this test adds Cl-centered connectivity to resolve solvent-separated and isolated solvated states while retaining the same enhanced-sampling and reweighting framework. Simulate 0.5 M LiCl(aq) with the same LAMMPS molecular dynamics protocol: SPC/E water, AMBER Li+/Cl- parameters, periodic boundary conditions, 10 Å Lennard-Jones and short-range electrostatic cutoffs, PPPM electrostatics with 1e-5 tolerance, conjugate-gradient minimization to 1e-4 kcal/(mol Å) and 1e-4 kcal/mol, annealing through 400 K for 10 ps, target-temperature equilibration at 298 K, NPT at 1 atm for 1 ns, 1 fs timestep, final-cell averaging over 250 ps, 100 ps deformation, 500 ps NVT equilibration, and 5 ns NVT production. Use the same single-Li+ 10-walker metadynamics settings: Li-O, Li-Cl, and Li-Li coordination-number collective variables bounded from 0.0 to 7.0 with cutoffs of 2.65 Å, 2.95 Å, and 5 Å; free-energy grid spacing 0.1; Gaussian hills every 1000 steps with 0.6 kcal/mol weight and 1.25 width; and walker communication every 25 ps. For the alternative extraction, include both Li+-centered and Cl--centered clusters and add a Cl-H distance cutoff of 2.85 Å. Divide the coarse solvated-ion family into solvent-separated ion pairs, defined as Li+ and Cl- separated by exactly one water molecule, and isolated solvated ions, defined as Li+ and Cl- separated by two or more water molecules. For composition-specific geometry analysis of LiCl[H2O]9, classify geometries with a simple Li+-Cl- distance cutoff of 3.2 Å to distinguish contact-ion-pair-like and solvent-separated-ion-pair-like motifs. The spatial scope is the local ion-water-ion connectivity network around Li+ and Cl- within the specified Li-O, Li-Cl, Cl-H, and Li-Cl-distance cutoffs, compared across bootstrap samples from the biased dilute-solution trajectory.",
+    "experiment_results": {
+      "lowest_free_energy_class_0p5M_high_resolution": {
+        "type": "categorical",
+        "description": "The lowest-free-energy solvation class obtained when the dilute 0.5 M LiCl(aq) SCOPE extraction explicitly separates isolated solvated ions from solvent-separated ion pairs.",
+        "result": "isolated_solvated_ion",
+        "allowed_categorial_values": [
+          "isolated_solvated_ion",
+          "solvent_separated_ion_pair",
+          "contact_ion_pair",
+          "bridging_motif",
+          "aggregate"
+        ]
+      },
+      "dominant_geometry_within_LiCl_H2O9": {
+        "type": "categorical",
+        "description": "The more populated local geometry class within the fixed LiCl[H2O]9 composition under the high-resolution dilute-solution classification.",
         "result": "solvent_separated_ion_pair",
         "allowed_categorial_values": [
           "solvent_separated_ion_pair",
           "contact_ion_pair"
         ]
+      },
+      "ssip_more_stable_than_cip_within_LiCl_H2O9": {
+        "type": "bool",
+        "description": "Whether the solvent-separated-ion-pair-like geometry has lower free energy than the contact-ion-pair-like geometry within the fixed LiCl[H2O]9 composition.",
+        "result": true
       }
     }
   }

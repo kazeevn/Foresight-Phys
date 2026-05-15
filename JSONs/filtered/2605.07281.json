@@ -1,76 +1,166 @@
 [
   {
-    "experiment_description": "A liquid-crystal-integrated Mach-Zehnder interferometer (LC-MZI) was fabricated on a silicon-nitride-on-insulator photonic platform for classical optical characterization. The photonic layer was LPCVD SiN with 300 nm height, fully etched through 300 nm, patterned into 1 µm-wide waveguides and covered by a 2 µm PECVD SiO2 upper cladding. The LC interaction region consisted of a trench opened in the SiO2 cladding above the waveguide, with trench width 3 µm and modulator length L = 500 µm. The trench was filled with nematic liquid crystal E7 after assembly of SU-8 microfluidic walls and a rubbed-polyimide-coated quartz lid; Cr/Au electrodes supplied an AC square-wave voltage to reorient the LC molecules. Both balanced and unbalanced MZI layouts were made from two 2×2 multimode interferometers. Static spectra were measured by wavelength sweep: for the unbalanced MZI, output port S42 was monitored over 1500–1600 nm while the LC drive amplitude was varied from zero until a half-wave phase shift of the interference fringe was obtained; for the balanced MZI, output port S32 was monitored over 1540–1580 nm while the voltage was swept through the optical switching transition. The half-wave voltage Vπ was extracted from the voltage-induced fringe shift. The extinction ratio was extracted from the balanced-MZI maximum-to-minimum transmission contrast. Dynamic modulation was measured on the unbalanced MZI at fixed wavelength 1549.2 nm, corresponding to a constructive interference condition before voltage application, using a 1 kHz square-wave drive with amplitude equal to the extracted switching voltage; rise and fall times were read from the optical transient.",
+    "experiment_description": "The central device concept is a silicon-nitride Mach-Zehnder interferometer (MZI) whose relative optical phase is tuned by reorienting a nematic liquid-crystal (LC) layer above a waveguide, targeting compact low-voltage reconfigurable quantum interference. For the electron-beam-defined devices used in the quantum measurements, fabricate the structure on a SiO2-on-Si wafer carrying a 300 nm LPCVD SiN layer. Define the LC-MZI waveguide pattern by electron-beam lithography using a JEOL JBX-8100FS, form 1 µm-wide fully etched SiN waveguides with 300 nm etch depth by reactive-ion etching, and deposit a 2 µm PECVD SiO2 upper cladding. Open a 3 µm-wide, 500 µm-long trench in the SiO2 cladding above the phase-shifter waveguide using 405 nm maskless lithography followed by reactive-ion etching. Deposit Cr/Au electrodes by e-beam evaporation and lift-off, pattern SU-8 microfluidic walls around the LC trench, dice a quartz lid to match the SU-8 structure, spin-coat and rub a polyimide alignment layer on the quartz to define the LC molecular orientation, align and bond the quartz lid to the SU-8 with UV-curable epoxy, and inject Merck E7 nematic liquid crystal into the sealed cavity by capillary action. Assess whether the target LC-integrated MZI structure is formed using an optical microscope image over the assembled circuit with a 2 mm scale reference, a cross-sectional SEM image of the LC trench/waveguide region before LC injection with a 1 µm scale reference, and crossed-polarized optical microscopy over the waveguide/electrode region with a 200 µm scale reference for rubbing directions parallel to and 45° relative to the polarizer. The goal is to determine whether the fabrication-and-assembly procedure produces the intended LC-filled, aligned SiN MZI phase-modulator geometry needed for voltage-controlled quantum interference, without using the downstream optical or quantum measurements as the criterion.",
     "experiment_results": {
-      "unbalanced_mzi_half_wave_voltage_v": {
+      "ebeam_lc_mzi_target_structure_formed": {
+        "type": "bool",
+        "description": "Whether the electron-beam-defined LC-integrated SiN MZI fabrication and assembly procedure produced the intended device structure under optical and SEM inspection.",
+        "result": true
+      },
+      "lc_alignment_in_waveguide_region_detected": {
+        "type": "bool",
+        "description": "Whether crossed-polarized optical microscopy detected LC alignment in the waveguide/electrode region of the assembled electron-beam-defined device.",
+        "result": true
+      }
+    }
+  },
+  {
+    "experiment_description": "To test the operating mechanism of the LC phase shifter used for the reconfigurable SiN quantum-interference circuit, examine the LC-filled phase-modulator region by crossed-polarized optical microscopy while applying an AC square-wave voltage to the electrodes. Use the Merck E7 nematic liquid crystal in the trench above the SiN waveguide, with ordinary and extraordinary refractive indices specified for the design as no = 1.500 and ne = 1.685 at 1550 nm. Avoid DC driving; use an AC square wave in the approximately 500 Hz to 1 kHz range to reduce ionic-current screening. Configure the crossed polarizer/analyzer microscope so that the optical transmission through the LC region is sensitive to birefringence-induced polarization rotation. Compare the same phase-modulator region, imaged with a 30 µm scale reference near the waveguide and electrodes, at VLC = 0 V and at VLC = 3 V. The goal is to determine whether the electric field from the electrodes changes the LC molecular orientation in the waveguide-overlap region, which is the physical mechanism intended to tune the guided-mode effective index and hence the MZI phase.",
+    "experiment_results": {
+      "field_induced_lc_reorientation_detected": {
+        "type": "bool",
+        "description": "Whether crossed-polarized optical microscopy detected voltage-induced LC reorientation in the phase-modulator region.",
+        "result": true
+      }
+    }
+  },
+  {
+    "experiment_description": "Characterize the static electro-optic phase-shifting performance of the electron-beam-fabricated LC-MZI, which implements voltage-controlled phase tuning for quantum interference by changing the LC-clad SiN waveguide effective index. Use MZIs composed of two 2×2 multimode-interference couplers and an LC phase-modulator section inside SU-8 walls. The SiN waveguide cross section is 300 nm high and 1 µm wide, the SiO2 upper cladding is 2 µm thick outside the LC trench, and the LC interaction trench over the waveguide is 3 µm wide and 500 µm long. Apply an AC square-wave voltage to the LC electrodes in the approximately 500 Hz to 1 kHz range. For the unbalanced MZI, measure the S42 optical transmission spectrum by sweeping wavelength from 1500 nm to 1600 nm at VLC = 0 V and at a voltage selected to shift the interferometric fringe by a half period. For the balanced MZI with the same 500 µm modulator length, measure the S32 optical transmission spectrum over 1540 nm to 1580 nm at five applied voltages spanning 0 V to the switching-voltage range. Define Vpi as the voltage required to produce a π optical phase shift in the LC phase shifter, and define Vpi·L as Vpi multiplied by the LC modulator length L expressed in millimetres. Determine the extinction ratio of the balanced MZI from the maximum-to-minimum transmission contrast in the voltage-tuned spectral response. The measurement targets CMOS-compatible, low-voltage phase modulation in the LC-integrated SiN MZI, not thermal phase tuning.",
+    "experiment_results": {
+      "unbalanced_mzi_vpi_V": {
         "type": "float",
-        "description": "Measured voltage required to induce a π phase shift in the 500 µm LC phase modulator of the unbalanced LC-MZI.",
+        "description": "The measured voltage required for a π phase shift in the 500 µm LC phase shifter of the unbalanced electron-beam-fabricated MZI.",
         "result": 1.35
       },
-      "unbalanced_mzi_vpi_length_product_v_mm": {
+      "unbalanced_mzi_vpi_length_product_V_mm": {
         "type": "float",
-        "description": "Half-wave voltage-length product for the 500 µm unbalanced LC-MZI phase modulator, derived from the measured half-wave voltage and modulator length.",
+        "description": "The measured Vpi·L modulation-efficiency product for the 500 µm LC phase shifter in the unbalanced electron-beam-fabricated MZI.",
         "result": 0.675
       },
-      "balanced_mzi_half_wave_voltage_v": {
+      "balanced_mzi_vpi_V": {
         "type": "float",
-        "description": "Measured voltage required to switch the balanced LC-MZI by a π phase shift using the 500 µm LC phase modulator.",
+        "description": "The measured voltage required for a π phase shift in the 500 µm LC phase shifter of the balanced electron-beam-fabricated MZI.",
         "result": 1.4
       },
-      "balanced_mzi_extinction_ratio_db": {
+      "balanced_mzi_extinction_ratio_dB": {
         "type": "float",
-        "description": "Measured maximum-to-minimum optical transmission contrast of the balanced LC-MZI during voltage-controlled phase tuning.",
+        "description": "The measured optical extinction ratio between maximum and minimum transmissions of the voltage-tuned balanced LC-MZI.",
         "result": 20.0
-      },
-      "rise_time_ms": {
+      }
+    }
+  },
+  {
+    "experiment_description": "Measure the temporal switching response of the electron-beam-fabricated LC-MZI phase modulator to determine whether the LC-based SiN platform is suitable for circuit reconfiguration and active phase stabilization in quantum photonic circuits. Use the unbalanced LC-MZI consisting of two 2×2 multimode-interference couplers and a 500 µm-long LC phase-modulator trench over a 300 nm-high, 1 µm-wide SiN waveguide. Drive the LC electrodes with a 1 kHz AC square-wave voltage whose amplitude is set to the Vpi condition obtained from the static wavelength-sweep calibration. Monitor the S32 optical output at a fixed wavelength of 1549.2 nm, selected from the unpowered interferometer spectrum for high sensitivity to phase changes. Record the time-dependent optical power during the electrical transition and define the rise time and fall time from the optical transition in the time trace using the convention applied in the plotted transient measurement. The spatial scope is the same LC interaction region used for the static phase-modulation characterization, bounded by the SU-8 LC cell and electrodes.",
+    "experiment_results": {
+      "lc_mzi_rise_time_ms": {
         "type": "float",
-        "description": "Measured optical rise time of the LC-MZI transmission transient under a 1 kHz square-wave drive at the switching-voltage amplitude.",
+        "description": "The measured optical rise time of the LC-MZI output in response to the 1 kHz Vpi square-wave drive.",
         "result": 8.6
       },
-      "fall_time_ms": {
+      "lc_mzi_fall_time_ms": {
         "type": "float",
-        "description": "Measured optical fall time of the LC-MZI transmission transient under a 1 kHz square-wave drive at the switching-voltage amplitude.",
+        "description": "The measured optical fall time of the LC-MZI output in response to the 1 kHz Vpi square-wave drive.",
         "result": 11.8
       }
     }
   },
   {
-    "experiment_description": "Two-photon quantum interference was measured using an electron-beam-defined LC-MZI chip with the same SiN/SiO2/E7 liquid-crystal phase-shifter platform: 300 nm-thick fully etched SiN waveguides of 1 µm width, a 3 µm-wide LC trench above the waveguide, a 500 µm LC modulation length, SU-8 LC cell walls, a rubbed-polyimide quartz lid, and AC voltage drive applied to Cr/Au electrodes. Photon pairs were generated by spontaneous parametric down-conversion in a 7 mm-long type-II periodically poled potassium titanyl phosphate crystal pumped by a 780 nm continuous-wave tunable diode laser. The orthogonally polarized photons were separated by a polarizing beam splitter; residual pump light was removed with long-pass filters; polarization in each arm was prepared with half-wave and quarter-wave plates. A translation stage in one arm controlled the relative photon delay. Photons were coupled into and out of the integrated LC-MZI using four lensed fibers, with polarization controllers used to optimize collection. Output photons were detected by superconducting nanowire single-photon detectors, and arrival times were recorded with a quTAG time-to-digital converter for time-correlated single-photon-counting coincidence analysis. First, photon-pair indistinguishability was checked using a fiber beam splitter by scanning the relative delay and computing Hong-Ou-Mandel visibility after accidental-coincidence correction. For the on-chip experiment, photon pairs were injected into both LC-MZI inputs; the voltage-dependent two-photon coincidence was measured at zero relative path delay τ = 0 while sweeping the LC voltage. Full delay-line sweeps were then performed with the LC drive held fixed at 1.06 V, 1.22 V, and 1.40 V to extract voltage-dependent two-photon interference visibility from the coincidence dip depth.",
+    "experiment_description": "Before using the integrated LC-MZI for on-chip quantum interference, benchmark the indistinguishability of the photon-pair source with a fiber beam splitter. Generate photon pairs by spontaneous parametric down-conversion in a 7 mm-long type-II periodically poled potassium titanyl phosphate crystal pumped by a 780 nm continuous-wave tunable diode laser (Toptica TA Pro). Separate the pair with a polarizing beam splitter, reject residual pump light using long-pass filters, and independently prepare the polarization in each arm using a half-wave plate and a quarter-wave plate. Use a translation stage in one path to sweep the relative arrival delay through the Hong-Ou-Mandel interference region. Couple the photons through fiber optics to a fiber beam splitter and detect the outputs with superconducting nanowire single-photon detectors. Record photon arrival times with a quTAG time-to-digital converter for time-correlated single-photon counting. Compute the accidental-corrected Hong-Ou-Mandel visibility as V = (Cmax - Cmin)/(Cmax + Cmin), where Cmax is the coincidence rate away from temporal overlap and Cmin is the coincidence rate at the interference minimum after accidental-coincidence correction. This control experiment targets the source quality required for later voltage-controlled two-photon interference in the LC-integrated SiN circuit.",
     "experiment_results": {
-      "fiber_beam_splitter_hom_visibility_percent": {
+      "fiber_hom_visibility_percent": {
         "type": "float",
-        "description": "Accidental-corrected Hong-Ou-Mandel visibility of the photon-pair source measured before injection into the integrated chip using a fiber beam splitter.",
+        "description": "The accidental-corrected Hong-Ou-Mandel visibility measured for the photon-pair source using a fiber beam splitter.",
         "result": 97.5
-      },
-      "on_chip_two_photon_visibility_at_1p06_v_percent": {
+      }
+    }
+  },
+  {
+    "experiment_description": "Test voltage-controlled on-chip two-photon interference in the electron-beam-fabricated LC-MZI, the central demonstration that LC phase tuning in a SiN circuit preserves quantum coherence while reconfiguring the two-photon output state. Generate photon pairs in a 7 mm-long type-II PPKTP crystal pumped by a 780 nm continuous-wave tunable diode laser, separate them with a polarizing beam splitter, reject pump light with long-pass filters, set polarization with half-wave and quarter-wave plates, and use a translation stage to control the relative delay. Couple the two photons into the two input ports of the LC-MZI with lensed fibers and collect both output ports with lensed fibers. Use polarization controllers to optimize collection, superconducting nanowire single-photon detectors for detection, and a quTAG time-to-digital converter for time-correlated coincidence counting. The on-chip device contains two 2×2 multimode-interference couplers and a 500 µm-long LC phase shifter in one MZI arm; the LC is driven by an AC square-wave voltage in the approximately 500 Hz to 1 kHz range. First set the relative delay to zero path difference, τ = 0, so that the photons arrive simultaneously at the interferometer, and sweep the LC voltage over the plotted modulation range to compare the voltage dependence of two-photon coincidences with the single-photon cross-port transmission. Then perform full delay-line sweeps at fixed LC voltages including 1.06 V, 1.22 V, and 1.40 V. Define the two-photon interference visibility using the same normalized coincidence-contrast convention V = (Cmax - Cmin)/(Cmax + Cmin), with Cmax and Cmin taken from the fitted delay-dependent coincidence curve at each fixed voltage. The measurement scope is the integrated MZI active region between input ports 1 and 2 and output ports 3 and 4, with the two-photon interaction occurring at the on-chip interferometer while phase is tuned by the LC layer.",
+    "experiment_results": {
+      "two_photon_coincidence_voltage_oscillation_relative_frequency": {
         "type": "float",
-        "description": "Two-photon interference visibility measured on the LC-MZI from a full delay-line sweep with the LC phase-shifter voltage held at 1.06 V.",
+        "description": "The measured oscillation frequency of the zero-delay two-photon coincidence signal as a multiple of the single-photon transmission oscillation frequency under the LC voltage sweep.",
+        "result": 2.0
+      },
+      "on_chip_two_photon_visibility_at_1p06V_percent": {
+        "type": "float",
+        "description": "The fitted two-photon interference visibility measured from the on-chip delay sweep at fixed LC voltage of 1.06 V.",
         "result": 98.5
       },
-      "on_chip_two_photon_visibility_at_1p22_v_percent": {
+      "on_chip_two_photon_visibility_at_1p22V_percent": {
         "type": "float",
-        "description": "Two-photon interference visibility measured on the LC-MZI from a full delay-line sweep with the LC phase-shifter voltage held at 1.22 V.",
+        "description": "The fitted two-photon interference visibility measured from the on-chip delay sweep at fixed LC voltage of 1.22 V.",
         "result": 44.0
       },
-      "on_chip_two_photon_visibility_at_1p40_v_percent": {
+      "on_chip_two_photon_visibility_at_1p40V_percent": {
         "type": "float",
-        "description": "Two-photon interference visibility measured on the LC-MZI from a full delay-line sweep with the LC phase-shifter voltage held at 1.40 V.",
+        "description": "The fitted two-photon interference visibility measured from the on-chip delay sweep at fixed LC voltage of 1.40 V.",
         "result": 0.0
       }
     }
   },
   {
-    "experiment_description": "A wafer-scale version of the LC-integrated SiN photonic platform was fabricated on a 4-inch wafer using i-line stepper lithography rather than electron-beam lithography. SiN waveguides were formed by reactive-ion etching and covered with PECVD SiO2 cladding; an LC trench was opened above the waveguide, Cr/Au electrodes were defined, SU-8 walls formed the LC cell, and a rubbed-polyimide quartz lid was bonded before capillary injection of nematic E7 liquid crystal. In this scalable design, the electrode structures were physically isolated from the LC trench to reduce electrical shorts and material degradation. Electro-optic characterization was performed on an unbalanced MZI fabricated by this stepper process. The tested device had an LC modulator length of 2000 µm and an electrode gap of 5 µm. Transmission spectra were recorded by sweeping wavelength from 1500 to 1600 nm at zero applied voltage and under LC drive, and the switching behavior was also monitored as normalized transmitted power versus voltage at a fixed wavelength of 1557 nm while the voltage was swept over the switching range. The half-wave voltage was extracted from the voltage required to shift the MZI transmission by one π phase condition.",
+    "experiment_description": "Demonstrate scalability of the LC-integrated SiN photonic-circuit concept by replacing electron-beam waveguide patterning with wafer-scale i-line stepper lithography and by using a device architecture that physically separates the LC trench from the electrodes. Start from a SiO2-on-Si wafer with an LPCVD SiN layer and pattern LC-MZI waveguides on a 4-inch wafer using a Nikon NSR-2005i10C i-line stepper. Form the SiN waveguides by reactive-ion etching, deposit the PECVD SiO2 upper cladding, open the LC trench above the waveguide using 405 nm maskless lithography and reactive-ion etching, deposit Cr/Au electrodes by e-beam evaporation and lift-off with a layout in which the electrodes are not in direct contact with the LC trench region, and pattern SU-8 microfluidic walls. Dice devices, prepare a rubbed-polyimide-coated quartz lid, bond it to the SU-8 structure using UV-curable epoxy, and inject Merck E7 LC by capillary action. Inspect the wafer-scale patterning over the 4-inch wafer before LC injection using an image with a 1 inch scale reference, inspect a diced/bonded/injected chip using an image with a 1 cm scale reference, and inspect the LC trench/electrode/waveguide cross section by SEM using a 2 µm scale reference. The goal is to determine whether the scalable process forms the target LC-MZI structures with electrode-LC separation appropriate for robust large-scale production, independently of any electro-optic tuning result.",
     "experiment_results": {
-      "stepper_device_half_wave_voltage_v_2000um_length_5um_gap": {
-        "type": "float",
-        "description": "Measured half-wave voltage for the stepper-lithography LC-MZI with 2000 µm LC modulation length and 5 µm electrode gap.",
-        "result": 2.73
+      "stepper_4inch_wafer_lc_mzi_structures_formed": {
+        "type": "bool",
+        "description": "Whether the stepper-lithography wafer-scale process produced LC-MZI structures across a 4-inch wafer under wafer-level and chip-level inspection.",
+        "result": true
       },
-      "stepper_device_vpi_length_product_v_mm_2000um_length_5um_gap": {
+      "stepper_device_electrode_lc_physical_isolation_confirmed": {
+        "type": "bool",
+        "description": "Whether SEM inspection of the stepper-fabricated architecture confirmed physical separation between the LC trench region and the electrodes.",
+        "result": true
+      }
+    }
+  },
+  {
+    "experiment_description": "Quantify the electro-optic phase-shifting performance of the stepper-lithography LC-MZI platform, which is intended to scale the low-voltage LC-integrated SiN reconfigurable quantum-photonic architecture beyond individual electron-beam-written devices. Use unbalanced MZIs fabricated on the 4-inch wafer by i-line stepper lithography, with LC phase-modulator lengths L = 500 µm, 1000 µm, and 2000 µm and electrode gaps g = 5 µm, 6 µm, and 7 µm. The process uses SiN waveguides on SiO2/Si, PECVD SiO2 cladding, opened LC trenches, Cr/Au electrodes physically isolated from the LC region, SU-8 walls, a rubbed-polyimide quartz lid, and capillary-injected Merck E7 LC. For spectral tuning, measure the unbalanced-MZI transmission by sweeping wavelength from 1500 nm to 1600 nm, including a representative device with L = 2000 µm and g = 5 µm at 0 V and at the π-phase-shift voltage. For voltage tuning, measure normalized transmission versus applied voltage at 1557 nm. Extract Vpi, defined as the voltage required for a π optical phase shift, for each electrode-gap and modulator-length combination from the voltage-dependent transmission or the spectral fringe shift. The spatial scope is the LC trench/electrode region of each MZI geometry on the stepper-fabricated wafer-scale platform; comparisons are made across the nine specified L and g design combinations.",
+    "experiment_results": {
+      "stepper_vpi_L500um_g5um_V": {
         "type": "float",
-        "description": "Voltage-length product derived from the measured half-wave voltage of the stepper-lithography LC-MZI with 2000 µm modulation length and 5 µm electrode gap.",
-        "result": 5.46
+        "description": "The measured π-phase-shift voltage for a stepper-fabricated LC-MZI with 500 µm LC modulator length and 5 µm electrode gap.",
+        "result": 6.3
+      },
+      "stepper_vpi_L500um_g6um_V": {
+        "type": "float",
+        "description": "The measured π-phase-shift voltage for a stepper-fabricated LC-MZI with 500 µm LC modulator length and 6 µm electrode gap.",
+        "result": 8.0
+      },
+      "stepper_vpi_L500um_g7um_V": {
+        "type": "float",
+        "description": "The measured π-phase-shift voltage for a stepper-fabricated LC-MZI with 500 µm LC modulator length and 7 µm electrode gap.",
+        "result": 10.2
+      },
+      "stepper_vpi_L1000um_g5um_V": {
+        "type": "float",
+        "description": "The measured π-phase-shift voltage for a stepper-fabricated LC-MZI with 1000 µm LC modulator length and 5 µm electrode gap.",
+        "result": 4.6
+      },
+      "stepper_vpi_L1000um_g6um_V": {
+        "type": "float",
+        "description": "The measured π-phase-shift voltage for a stepper-fabricated LC-MZI with 1000 µm LC modulator length and 6 µm electrode gap.",
+        "result": 6.3
+      },
+      "stepper_vpi_L1000um_g7um_V": {
+        "type": "float",
+        "description": "The measured π-phase-shift voltage for a stepper-fabricated LC-MZI with 1000 µm LC modulator length and 7 µm electrode gap.",
+        "result": 7.8
+      },
+      "stepper_vpi_L2000um_g5um_V": {
+        "type": "float",
+        "description": "The measured π-phase-shift voltage for a stepper-fabricated LC-MZI with 2000 µm LC modulator length and 5 µm electrode gap.",
+        "result": 2.7
+      },
+      "stepper_vpi_L2000um_g6um_V": {
+        "type": "float",
+        "description": "The measured π-phase-shift voltage for a stepper-fabricated LC-MZI with 2000 µm LC modulator length and 6 µm electrode gap.",
+        "result": 3.7
+      },
+      "stepper_vpi_L2000um_g7um_V": {
+        "type": "float",
+        "description": "The measured π-phase-shift voltage for a stepper-fabricated LC-MZI with 2000 µm LC modulator length and 7 µm electrode gap.",
+        "result": 4.6
       }
     }
   }

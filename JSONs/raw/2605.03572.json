@@ -1,61 +1,112 @@
 [
   {
-    "experiment_description": "A reduced coherent detector blinding attack was performed on a real locally generated local-oscillator continuous-variable quantum key distribution (CV-QKD) receiver, with the transmitter omitted and the exploitation stage emulated by an incoherent optical noise source. The target receiver used an Aerodiode 1550 nm DFB Model 5 laser as the local oscillator, driven by a Wavelength Electronics MPL250 laser driver and PTC2.5K-CH temperature controller. The LO path and signal path each contained an Agiltron LightBend 1x1 optical switch, allowing acquisition of thermal-noise data with both paths closed, shot-noise data with only the LO path open, and noisy data with both paths open. In the polarization-diverse receiver, the LO was split by a polarizing beam splitter with its fast axis shifted by 45 degrees relative to the LO polarization so that half the LO power went to each 50/50 polarization-maintaining beamsplitter. The incoming signal/noise path was split by a second PBS and mixed with the LO components in the two 50/50 beamsplitters. The two balanced detector outputs were measured using Wieserlabs WL-BPD1GA balanced optical receivers with 1.6 GHz bandwidth and AC cutoff below 300 kHz, digitized by a Texas Instruments ADC12DJ3200EVM at 3.2 GHz, and processed on a PC. The reduced DSP downconverted the region around 400 MHz to baseband by multiplying the time-domain signal by exp(-i 2 pi 400e6 t), filtered both polarization components with a root-raised-cosine filter with roll-off factor 0.95 and symbol rate 153.6 MBaud, combined the two polarizations using a polarization-drift-recovery method assuming equal distribution between receiver arms, and computed the recovered-signal variance. Noise was reported in shot-noise units (SNU), where SNU is defined as Var[shot] - Var[thermal], Var[shot] is the DSP variance when only the LO path is open, and Var[thermal] is the DSP variance when both optical paths are closed. For a noisy acquisition, sigma_tilde_squared = Var[noisy]/SNU, epsilon_th = Var[thermal]/SNU, and the estimated excess noise in SNU was computed as epsilon_tilde = (sigma_tilde_squared - 1 - epsilon_th)/(eta*T), with receiver efficiency eta = 0.90 and assumed channel transmission T = 0.5, corresponding to 15 km of standard single-mode fibre; no finite-size effects were included. The incoherent noise source used a Thorlabs EDFA100S erbium-doped fibre amplifier with no input signal, exploiting amplified spontaneous emission, followed by a Thorlabs V1550A voltage-controlled variable optical attenuator driven by a UNI-T UDP3305S supply under PC serial control. The noise was combined through a WBC-2x2-13/15-10/90 90/10 beamsplitter, with optical power monitored on the 90% output by an OZ-Optics POM-300 and corrected to the 10% injected-output value. During the attack demonstration, the noise source was held at five constant corrected optical noise powers: -27.0 dBm, -28.3 dBm, -29.9 dBm, -30.8 dBm, and -31.8 dBm. The blinding source used a Sumitomo Electric Industries SLV5410 diode emitting at 1344 nm, current-driven by a Rigol DG1032 function generator and temperature-controlled by a Thorlabs TED200C. The diode was directly modulated with a 10 MHz square-wave pattern to bypass the receiver AC coupling. The blinding beam passed through a Thorlabs V1550A VOA controlled by a UNI-T UDP3305S, then through a Thorlabs TD1315R5F1 dual-window 1310/1550 nm 50/50 beamsplitter, with one output monitored by an OZ Optics POM-600 and the other combined with the signal/noise path in a Thorlabs WD1350B wavelength-division multiplexer. A polarization controller adjusted the 1344 nm blinding polarization so that both balanced receiver arms received approximately equal blinding amplitude, as judged by the balanced-detector outputs. For each fixed noise-source power, the 1344 nm blinding power was swept from -15.64536 dBm to -12.53858 dBm. The criterion for hiding the attack was that the receiver-estimated excess noise fall below the maximum tolerable excess noise for positive secret-key rate for a probabilistically shaped 64-QAM CV-QKD protocol using a Maxwell-Boltzmann distribution, channel transmission T = 0.5, and the asymptotic security proof of Denys, Brown, and Leverrier.",
+    "experiment_description": "Central concept: a controlled wideband incoherent optical-noise source is used to emulate the excess-noise signature that a collective eavesdropping attack would add to a continuous-variable quantum key distribution (CV-QKD) receiver, so that a later coherent detector-blinding stage can be tested against a known injected-noise baseline. The experiment uses only the Bob-side receiver of a polarization-diverse local-local-oscillator CV-QKD system. The receiver local oscillator is an Aerodiode 1550 nm DFB Model 5 laser driven by a Wavelength Electronics MPL250 laser driver and stabilized by a Wavelength Electronics PTC2.5K-CH temperature controller; its output passes through an optical isolator and an Agiltron LightBend 1x1 PM optical switch into a polarization-diverse receiver. The signal input passes through an Agiltron LightBend 1x1 optical switch and then a PBS that separates polarization components into two polarization-maintaining 50/50 beam splitters. The LO PBS is oriented with its fast axis shifted by 45 degrees relative to the LO polarization so that both receiver arms are illuminated. The two balanced detector channels are Wieserlabs WL-BPD1GA balanced optical receivers with 1.6 GHz bandwidth and DC cut-off below 300 kHz, digitized by a Texas Instruments ADC12DJ3200EVM at 3.2 GHz. The digital processing applied to each acquired horizontal and vertical polarization trace consists of downconversion around 400 MHz to baseband by multiplication with exp(-i 2 pi 400e6 t), root-raised-cosine filtering with roll-off factor 0.95 at 153.6 MBaud, polarization-drift recovery by combining the two polarization components assuming equal distribution between receiver arms, and variance computation. Thermal, shot, and noisy traces are acquired by controlling the receiver optical switches: both paths closed for Var[thermal], LO path open and signal path closed for Var[shot], and both paths open for Var[noisy]. Shot-noise units are defined as SNU = Var[shot] - Var[thermal]. The inferred noise variance is sigma_tilde_squared = Var[noisy]/SNU, the receiver thermal noise is epsilon_th = Var[thermal]/SNU, and the inferred excess noise is epsilon_tilde = (sigma_tilde_squared - 1 - epsilon_th)/(eta*T), using receiver efficiency eta = 0.90 and assumed channel transmission T = 0.5, corresponding to 15 km of standard single-mode fibre. The noise source consists of a Thorlabs EDFA100S erbium-doped fibre amplifier operated without input signal so that its amplified spontaneous emission supplies the incoherent optical noise; this output is attenuated by a Thorlabs V1550A voltage-controlled variable optical attenuator driven by a UNI-T UDP3305S power supply under PC serial control, and then combined through a WBC-2x2-13/15-10/90 90/10 beam splitter. The 90% splitter output is monitored by an OZ-Optics POM-300 optical power meter, with readings converted to the 10% port power using the known splitting ratio. The calibration/reproducibility measurement consists of four independent optical-power sweeps over the noise-source setting, varying the monitored noise power from -13.6 dBm to -51.25 dBm with smaller steps at higher attenuation. The spatial/geometric scope is the full two-arm polarization-diverse receiver input and both balanced-detector outputs after digital polarization recombination; reproducibility is assessed by comparing all four repeated sweeps over the same optical path and receiver processing chain. The measurement is configured to determine whether the ASE source provides a reproducible mapping from optical noise power to inferred CV-QKD excess noise in SNU.",
     "experiment_results": {
-      "maximum_tolerable_excess_noise_for_positive_key_rate_snu": {
-        "type": "float",
-        "description": "Security-analysis threshold for the described probabilistically shaped 64-QAM CV-QKD operating point; receiver-estimated excess noise below this value would lead the system to report a positive key rate. Units are shot-noise units relative to the measured vacuum shot-noise variance.",
-        "result": 0.126
+      "noise_source_reproducible_over_four_power_sweeps": {
+        "type": "bool",
+        "description": "Whether repeated optical-power sweeps of the ASE noise source produced the same receiver-inferred excess-noise calibration curve within the resolution reported in the paper.",
+        "result": true
       },
-      "hidden_excess_noise_level_1_snu": {
+      "calibrated_excess_noise_snu_at_noise_power_minus_31_8_dBm": {
         "type": "float",
-        "description": "One experimentally introduced excess-noise level that the blinding attack could hide, expressed in shot-noise units relative to the receiver shot-noise calibration.",
+        "description": "The receiver-inferred excess noise in shot-noise units for the specified corrected noise-source optical power before applying detector blinding.",
         "result": 0.86
       },
-      "blinding_power_to_hide_excess_noise_level_1_dBm": {
+      "calibrated_excess_noise_snu_at_noise_power_minus_30_8_dBm": {
         "type": "float",
-        "description": "Minimum reported 1344 nm square-wave-modulated blinding optical power sufficient to reduce the receiver-estimated excess noise for hidden_excess_noise_level_1_snu below the positive-key-rate excess-noise threshold.",
-        "result": -13.33
-      },
-      "hidden_excess_noise_level_2_snu": {
-        "type": "float",
-        "description": "One experimentally introduced excess-noise level that the blinding attack could hide, expressed in shot-noise units relative to the receiver shot-noise calibration.",
+        "description": "The receiver-inferred excess noise in shot-noise units for the specified corrected noise-source optical power before applying detector blinding.",
         "result": 1.05
       },
-      "blinding_power_to_hide_excess_noise_level_2_dBm": {
+      "calibrated_excess_noise_snu_at_noise_power_minus_29_9_dBm": {
         "type": "float",
-        "description": "Minimum reported 1344 nm square-wave-modulated blinding optical power sufficient to reduce the receiver-estimated excess noise for hidden_excess_noise_level_2_snu below the positive-key-rate excess-noise threshold.",
-        "result": -13.24
-      },
-      "hidden_excess_noise_level_3_snu": {
-        "type": "float",
-        "description": "One experimentally introduced excess-noise level that the blinding attack could hide, expressed in shot-noise units relative to the receiver shot-noise calibration.",
+        "description": "The receiver-inferred excess noise in shot-noise units for the specified corrected noise-source optical power before applying detector blinding.",
         "result": 1.33
       },
-      "blinding_power_to_hide_excess_noise_level_3_dBm": {
+      "calibrated_excess_noise_snu_at_noise_power_minus_28_3_dBm": {
         "type": "float",
-        "description": "Minimum reported 1344 nm square-wave-modulated blinding optical power sufficient to reduce the receiver-estimated excess noise for hidden_excess_noise_level_3_snu below the positive-key-rate excess-noise threshold.",
-        "result": -12.86
-      },
-      "hidden_excess_noise_level_4_snu": {
-        "type": "float",
-        "description": "One experimentally introduced excess-noise level that the blinding attack could hide, expressed in shot-noise units relative to the receiver shot-noise calibration.",
+        "description": "The receiver-inferred excess noise in shot-noise units for the specified corrected noise-source optical power before applying detector blinding.",
         "result": 1.84
       },
-      "blinding_power_to_hide_excess_noise_level_4_dBm": {
+      "calibrated_excess_noise_snu_at_noise_power_minus_27_0_dBm": {
         "type": "float",
-        "description": "Minimum reported 1344 nm square-wave-modulated blinding optical power sufficient to reduce the receiver-estimated excess noise for hidden_excess_noise_level_4_snu below the positive-key-rate excess-noise threshold.",
+        "description": "The receiver-inferred excess noise in shot-noise units for the specified corrected noise-source optical power before applying detector blinding.",
+        "result": 2.49
+      }
+    }
+  },
+  {
+    "experiment_description": "Central concept: a coherent detector-blinding source is built to force an AC-coupled balanced detector in a real CV-QKD receiver into a nonlinear or clipped response regime. The attack concept uses a detuned optical field to exploit wavelength-dependent imbalance in the receiver optics and uses temporal modulation to pass through the balanced detector AC coupling, rather than relying on a constant optical blinding level. The tested receiver is the same polarization-diverse CV-QKD Bob receiver described in the paper: an Aerodiode 1550 nm DFB local oscillator, PBS splitting into two polarization-maintaining 50/50 beam splitters, two Wieserlabs WL-BPD1GA balanced optical receivers with 1.6 GHz bandwidth and low-frequency cut-off below 300 kHz, and a Texas Instruments ADC12DJ3200EVM digitizer sampling at 3.2 GHz with 12-bit precision. The blinding source consists of a Sumitomo Electric Industries SLV5410 laser diode emitting at 1344 nm. The diode current is supplied by a Rigol DG1032 function generator, enabling direct square-wave optical modulation at 10 MHz, and the diode temperature is controlled with a Thorlabs TED200C temperature controller. The modulated blinding field passes through a Thorlabs V1550A voltage-controlled variable optical attenuator driven by a UNI-T UDP3305S power supply under PC serial control. The attenuated light enters a Thorlabs TD1315R5F1 50/50 dual-window 1310/1550 nm beam splitter; one output is monitored by an OZ Optics POM-600 optical power meter and the other is combined with the signal fibre through a Thorlabs WD1350B wavelength-division multiplexer. A fibre polarization controller after the multiplexer is adjusted while monitoring both balanced-detector outputs so that the blinding-field amplitude delivered to the two polarization receiver arms is matched. For the standalone blinding-response measurement, the horizontal balanced-detector arm is monitored in the time domain while the blinding optical power is swept from -15 dBm to -13 dBm. The measurement scope is the horizontal polarization receiver arm and its ADC output over repeated cycles of the 10 MHz blinding modulation; the two-arm balance of the injected blinding field is checked by comparing the output amplitudes of both balanced receivers during polarization adjustment. The measurement is configured to identify the receiver stage that limits the response and to determine the blinding level at which the horizontal-channel digitized output reaches full-scale clipping.",
+    "experiment_results": {
+      "receiver_limiting_stage_under_blinding": {
+        "type": "categorical",
+        "description": "The receiver component identified as the stage that limits the digitized response under the modulated 1344 nm blinding field.",
+        "result": "adc_clipping",
+        "allowed_categorial_values": [
+          "photodiode_saturation",
+          "tia_saturation",
+          "adc_clipping",
+          "not_identified"
+        ]
+      },
+      "blinding_power_for_full_scale_adc_clipping_dBm": {
+        "type": "float",
+        "description": "The monitored blinding optical power at which the horizontal receiver output reaches full-scale digitized clipping under the specified square-wave blinding modulation.",
+        "result": -13.0
+      },
+      "full_scale_adc_minimum_count_under_blinding": {
+        "type": "integer",
+        "description": "The lower digitized ADC count reached by the horizontal receiver output during full-scale clipping under the specified blinding condition.",
+        "result": -2048
+      },
+      "full_scale_adc_maximum_count_under_blinding": {
+        "type": "integer",
+        "description": "The upper digitized ADC count reached by the horizontal receiver output during full-scale clipping under the specified blinding condition.",
+        "result": 2048
+      }
+    }
+  },
+  {
+    "experiment_description": "Central concept: the complete coherent detector-blinding attack is tested on a real CV-QKD receiver by combining an ASE noise source, representing the excess-noise impact of a collective attack, with a modulated detuned blinding source that drives the receiver out of its normal linear operating regime. The apparatus is a reduced Bob-only implementation of the attack scenario: the exploitation stage is represented by the calibrated EDFA-based incoherent-noise source and the enabling stage is represented by the 1344 nm modulated blinding source. The receiver is the polarization-diverse local-local-oscillator CV-QKD receiver with Aerodiode 1550 nm DFB LO, Agiltron optical switches for thermal/shot/noisy acquisitions, PBS-based polarization splitting, two polarization-maintaining 50/50 beam splitters, two Wieserlabs WL-BPD1GA balanced optical receivers with 1.6 GHz bandwidth and 300 kHz low-frequency cut-off, and a Texas Instruments ADC12DJ3200EVM digitizer at 3.2 GHz. Digital processing consists of 400 MHz frequency recovery, root-raised-cosine filtering with roll-off 0.95 and 153.6 MBaud symbol rate, two-polarization combination for polarization-drift recovery, and variance computation. Shot-noise units are defined as SNU = Var[shot] - Var[thermal], with epsilon_tilde = (Var[noisy]/SNU - 1 - Var[thermal]/SNU)/(eta*T), eta = 0.90, and assumed channel transmission T = 0.5. The noise source is the Thorlabs EDFA100S ASE source attenuated by a Thorlabs V1550A VOA and injected through the 90/10 splitter path; the fixed corrected noise powers used in the attack measurement are -27.0 dBm, -28.3 dBm, -29.9 dBm, -30.8 dBm, and -31.8 dBm. The blinding source is the Sumitomo Electric Industries SLV5410 1344 nm diode directly square-wave modulated at 10 MHz by a Rigol DG1032, temperature controlled by a Thorlabs TED200C, attenuated by a Thorlabs V1550A VOA, monitored after a Thorlabs TD1315R5F1 50/50 beam splitter with an OZ Optics POM-600 optical power meter, and injected through a Thorlabs WD1350B wavelength-division multiplexer followed by a polarization controller adjusted to balance the blinding amplitudes in the receiver arms. The independent blinding-power sweep spans -15.64536 dBm to -12.53858 dBm for each fixed noise-source setting. The measurement scope is the complete two-balanced-detector polarization-diverse receiver after digital polarization recombination, with five independent fixed injected-noise conditions compared across the same blinding-power sweep. For evaluating whether a blinded receiver would accept a key, the receiver-estimated excess noise is compared with the positive-key-rate excess-noise threshold computed using the Denys-Brown-Leverrier arbitrary-modulation security proof for a probabilistically shaped 64-QAM constellation with Maxwell-Boltzmann-distributed constellation points at T = 0.5. The reported hiding metric is the minimum blinding optical power at which the receiver-estimated excess noise for a given calibrated injected excess noise falls below that positive-key-rate threshold.",
+    "experiment_results": {
+      "positive_key_rate_excess_noise_threshold_snu": {
+        "type": "float",
+        "description": "The excess-noise threshold in shot-noise units used as the comparison level for whether the receiver would report a positive asymptotic key rate under the stated probabilistically shaped 64-QAM security analysis.",
+        "result": 0.126
+      },
+      "minimum_blinding_power_dBm_to_hide_0_86_snu_excess_noise": {
+        "type": "float",
+        "description": "The lowest monitored blinding optical power in the sweep that makes the receiver-estimated excess noise fall below the positive-key-rate threshold for the specified calibrated injected excess noise.",
+        "result": -13.33
+      },
+      "minimum_blinding_power_dBm_to_hide_1_05_snu_excess_noise": {
+        "type": "float",
+        "description": "The lowest monitored blinding optical power in the sweep that makes the receiver-estimated excess noise fall below the positive-key-rate threshold for the specified calibrated injected excess noise.",
+        "result": -13.24
+      },
+      "minimum_blinding_power_dBm_to_hide_1_33_snu_excess_noise": {
+        "type": "float",
+        "description": "The lowest monitored blinding optical power in the sweep that makes the receiver-estimated excess noise fall below the positive-key-rate threshold for the specified calibrated injected excess noise.",
+        "result": -12.86
+      },
+      "minimum_blinding_power_dBm_to_hide_1_84_snu_excess_noise": {
+        "type": "float",
+        "description": "The lowest monitored blinding optical power in the sweep that makes the receiver-estimated excess noise fall below the positive-key-rate threshold for the specified calibrated injected excess noise.",
         "result": -12.73
       },
-      "hidden_excess_noise_level_5_snu": {
+      "minimum_blinding_power_dBm_to_hide_2_49_snu_excess_noise": {
         "type": "float",
-        "description": "Largest experimentally introduced excess-noise level explicitly reported as hidden by the blinding attack, expressed in shot-noise units relative to the receiver shot-noise calibration.",
+        "description": "The lowest monitored blinding optical power in the sweep that makes the receiver-estimated excess noise fall below the positive-key-rate threshold for the specified calibrated injected excess noise.",
+        "result": -12.69
+      },
+      "maximum_hidden_calibrated_excess_noise_snu": {
+        "type": "float",
+        "description": "The largest calibrated injected excess-noise level for which the receiver-estimated excess noise is made to fall below the positive-key-rate threshold within the applied blinding-power sweep.",
         "result": 2.49
       },
-      "blinding_power_to_hide_excess_noise_level_5_dBm": {
-        "type": "float",
-        "description": "Minimum reported 1344 nm square-wave-modulated blinding optical power sufficient to reduce the receiver-estimated excess noise for hidden_excess_noise_level_5_snu below the positive-key-rate excess-noise threshold.",
-        "result": -12.69
+      "noise_settings_with_negative_estimated_excess_noise_at_maximum_blinding": {
+        "type": "integer",
+        "description": "The number of fixed injected-noise conditions for which the receiver-estimated excess noise becomes negative at the largest applied blinding power in the sweep.",
+        "result": 4
       }
     }
   }

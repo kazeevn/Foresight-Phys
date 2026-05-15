@@ -1,1 +1,122 @@
-[]
+[
+  {
+    "experiment_description": "Central concept tested: feedback-directed quantum dynamics in random superconducting-qubit circuits, where spatially structured mid-circuit measurements are promoted from passive readout to real-time classical control signals. The experiment compares whether measurement alone or measurement-conditioned feedback creates directional information flow in an otherwise statistically symmetric random circuit, distinct from non-Hermitian skin-effect implementations with built-in asymmetric couplers. The hardware platform is the IBM Quantum superconducting processor “marrakesh” using native single-qubit RX rotations and CZ gates on a 1D chain of L = 20 qubits. Each circuit layer consists of a random scrambling unitary Urand built from alternating even- and odd-bond nearest-neighbor CZ gates plus independent random RX rotations RX_j(theta_j), with theta_j sampled in the strong-scrambling regime used in the main text. The initial computational-basis state contains six occupied qubits localized near the center of the 20-qubit chain. The layer index i is swept from 1 to 10. Four architectures are executed and compared over 10 independent random circuit realizations: (1) a purely unitary random circuit Uunitary(i) = [Urand]^i; (2) a random circuit with pure mid-circuit computational-basis measurements after each random layer, each qubit x measured with probability f(x) = (L - x)g using g = 0.01 and no feedback; (3) a conditional-X feedback circuit in which a measured outcome 0 triggers an X gate on the same qubit, with the same f(x) = (L - x)g and g = 0.01; and (4) a conditional-SWAP feedback circuit in which a measured outcome 0 on qubit x triggers a SWAP between x and x+1 with spatially uniform application probability pSWAP = 0.3. The measured local density is n_x = |0_x><0_x|, and the reported transport observable is the normalized center of mass Nc(i) = [sum_x x <n_x(i)>]/[sum_x <n_x(i)>], plotted in the paper in dimensionless chain-coordinate units. The spatial scope is the full 20-site chain; the local density profiles are resolved at every qubit and every circuit layer, and the center-of-mass values are averaged over the 10 random circuit realizations with standard-deviation error bars.",
+    "experiment_results": {
+      "layer10_center_of_mass_unitary_dimensionless": {
+        "type": "float",
+        "description": "Approximate final-layer normalized center of mass for the purely unitary random circuit measured on the 20-qubit IBM Quantum chain.",
+        "result": 0.47
+      },
+      "layer10_center_of_mass_pure_measurement_dimensionless": {
+        "type": "float",
+        "description": "Approximate final-layer normalized center of mass for the random circuit with position-dependent mid-circuit measurements but no feedback measured on the 20-qubit IBM Quantum chain.",
+        "result": 0.47
+      },
+      "layer10_center_of_mass_conditional_x_dimensionless": {
+        "type": "float",
+        "description": "Approximate final-layer normalized center of mass for the position-dependent mid-circuit measurement circuit with conditional-X feedback measured on the 20-qubit IBM Quantum chain.",
+        "result": 0.6
+      },
+      "layer10_center_of_mass_conditional_swap_dimensionless": {
+        "type": "float",
+        "description": "Approximate final-layer normalized center of mass for the conditional-SWAP feedback circuit measured on the 20-qubit IBM Quantum chain.",
+        "result": 0.56
+      }
+    }
+  },
+  {
+    "experiment_description": "Central concept tested: scalability of feedback-directed non-unitary control in large random superconducting-qubit circuits. The experiment quantifies whether conditional-X feedback, driven by a spatially dependent mid-circuit measurement record, produces a center-of-mass displacement on a 100-qubit IBM Quantum chain, and compares it against two controls that lack feedback-directed dynamics. The hardware is the IBM Quantum processor “marrakesh,” with a 100-qubit low-noise 1D chain selected from the device layout. Each layer uses the same random scrambling block Urand composed of alternating nearest-neighbor CZ gates and random RX rotations, followed where applicable by a measurement layer. The initial state contains six occupied qubits. Two spatial placements are tested: six occupied qubits at the chain center and six occupied qubits near the right edge. The layer index i is swept from 1 to 10. The three circuit classes are: a purely unitary random circuit; a random circuit with position-dependent mid-circuit computational-basis measurements only; and a conditional-X feedback circuit in which qubit x is measured with probability f(x) = g(L - x), with g = 0.15/L, and outcome 0 triggers an X gate on that qubit. The measured density operator is n_x = |0_x><0_x|. The reported observable is the net center-of-mass shift delta_Nc(i) = L[Nc(i) - Nc(1)], where Nc(i) = [sum_x x <n_x(i)>]/[sum_x <n_x(i)>] and L = 100. The spatial scope is the full 100-qubit chain; the observable is computed from qubit-resolved final readout over all sites, and the plotted curves compare independent random circuit realizations averaged as in the main-text large-scale measurements.",
+    "experiment_results": {
+      "center_initial_layer10_delta_center_of_mass_unitary_sites": {
+        "type": "float",
+        "description": "Approximate final-layer net center-of-mass shift for a center-initialized 100-qubit chain evolved with the purely unitary random circuit.",
+        "result": 5.0
+      },
+      "center_initial_layer10_delta_center_of_mass_pure_measurement_sites": {
+        "type": "float",
+        "description": "Approximate final-layer net center-of-mass shift for a center-initialized 100-qubit chain evolved with position-dependent mid-circuit measurements but no feedback.",
+        "result": 5.0
+      },
+      "center_initial_layer10_delta_center_of_mass_conditional_x_sites": {
+        "type": "float",
+        "description": "Approximate final-layer net center-of-mass shift for a center-initialized 100-qubit chain evolved with position-dependent mid-circuit measurements and conditional-X feedback.",
+        "result": 19.0
+      },
+      "right_edge_initial_layer10_delta_center_of_mass_unitary_sites": {
+        "type": "float",
+        "description": "Approximate final-layer net center-of-mass shift for a right-edge-initialized 100-qubit chain evolved with the purely unitary random circuit.",
+        "result": -17.0
+      },
+      "right_edge_initial_layer10_delta_center_of_mass_pure_measurement_sites": {
+        "type": "float",
+        "description": "Approximate final-layer net center-of-mass shift for a right-edge-initialized 100-qubit chain evolved with position-dependent mid-circuit measurements but no feedback.",
+        "result": -4.0
+      },
+      "right_edge_initial_layer10_delta_center_of_mass_conditional_x_sites": {
+        "type": "float",
+        "description": "Approximate final-layer net center-of-mass shift for a right-edge-initialized 100-qubit chain evolved with position-dependent mid-circuit measurements and conditional-X feedback.",
+        "result": -2.0
+      }
+    }
+  },
+  {
+    "experiment_description": "Central concept tested: tunability of feedback-directed pumping by the strength of the spatially structured mid-circuit measurement-and-feedback channel. The experiment uses the conditional-X architecture on the IBM Quantum superconducting processor “marrakesh” to determine how the net center-of-mass displacement changes when the measurement gradient is varied. The circuit is a 1D chain of L = 50 qubits initialized with six occupied qubits at the center. Each layer consists of a random scrambling unitary Urand formed from alternating nearest-neighbor CZ gates and random RX rotations, followed by position-dependent computational-basis mid-circuit measurements. Qubit x is measured with probability f(x) = g(L - x), and a measurement outcome 0 triggers a conditional X gate on the same qubit. The gradient g is swept over the plotted values g = 0.002, 0.004, 0.006, and 0.008; circuit depth i is swept to 5 layers. The density operator is n_x = |0_x><0_x|, and the reported observable is delta_Nc(i) = L[Nc(i) - Nc(1)], with Nc(i) = [sum_x x <n_x(i)>]/[sum_x <n_x(i)>] and L = 50. The spatial scope is the full 50-qubit chain, with all qubit positions contributing to the center-of-mass estimate; error bars in the plotted data represent variation over independent random circuit realizations.",
+    "experiment_results": {
+      "g_0p002_layer5_delta_center_of_mass_sites": {
+        "type": "float",
+        "description": "Approximate net center-of-mass shift at the final plotted layer for the conditional-X circuit at the specified measurement-gradient setting.",
+        "result": 0.8
+      },
+      "g_0p004_layer5_delta_center_of_mass_sites": {
+        "type": "float",
+        "description": "Approximate net center-of-mass shift at the final plotted layer for the conditional-X circuit at the specified measurement-gradient setting.",
+        "result": 1.8
+      },
+      "g_0p006_layer5_delta_center_of_mass_sites": {
+        "type": "float",
+        "description": "Approximate net center-of-mass shift at the final plotted layer for the conditional-X circuit at the specified measurement-gradient setting.",
+        "result": 3.5
+      },
+      "g_0p008_layer5_delta_center_of_mass_sites": {
+        "type": "float",
+        "description": "Approximate net center-of-mass shift at the final plotted layer for the conditional-X circuit at the specified measurement-gradient setting.",
+        "result": 5.3
+      }
+    }
+  },
+  {
+    "experiment_description": "Central concept tested: a boundary-to-boundary polarization diagnostic for detecting feedback-directed transport in large random circuits when local bulk density profiles are noisy or spatially broad. The experiment runs large-scale IBM Quantum simulations on the superconducting processor “marrakesh” for L = 50, 80, and 100 qubit chains. Each chain is initialized with six occupied qubits at the center. The layer index i is swept from 1 to 10. Two circuit classes are compared: a purely unitary random circuit made from alternating nearest-neighbor CZ gates and random RX rotations, and a conditional-X feedback circuit with the same random scrambling layers followed by position-dependent mid-circuit computational-basis measurements. For the feedback circuit, qubit x is measured with probability f(x) = g(L - x), using the size-scaled gradient g = 0.18/L, and outcome 0 triggers an X gate on the measured qubit. The measured operator is n_x = |0_x><0_x|. The reported end-to-end polarization is Jc(i) = [<n_{L-1}(i)> - <n_0(i)>]/[sum_x <n_x(i)>], directly comparing the two ends of the full chain while normalizing by the total measured population. The spatial scope consists of the full chain for normalization and the two endpoint qubits for the numerator; each data set is averaged over 10 random circuit realizations with mean-deviation error bars and fitted solid curves.",
+    "experiment_results": {
+      "unitary_L50_layer10_end_to_end_polarization_dimensionless": {
+        "type": "float",
+        "description": "Approximate final-layer end-to-end polarization for the purely unitary random circuit at the specified system size.",
+        "result": -0.05
+      },
+      "unitary_L80_layer10_end_to_end_polarization_dimensionless": {
+        "type": "float",
+        "description": "Approximate final-layer end-to-end polarization for the purely unitary random circuit at the specified system size.",
+        "result": 0.0
+      },
+      "unitary_L100_layer10_end_to_end_polarization_dimensionless": {
+        "type": "float",
+        "description": "Approximate final-layer end-to-end polarization for the purely unitary random circuit at the specified system size.",
+        "result": 0.06
+      },
+      "conditional_x_L50_layer10_end_to_end_polarization_dimensionless": {
+        "type": "float",
+        "description": "Approximate final-layer end-to-end polarization for the conditional-X feedback circuit at the specified system size.",
+        "result": 0.22
+      },
+      "conditional_x_L80_layer10_end_to_end_polarization_dimensionless": {
+        "type": "float",
+        "description": "Approximate final-layer end-to-end polarization for the conditional-X feedback circuit at the specified system size.",
+        "result": 0.39
+      },
+      "conditional_x_L100_layer10_end_to_end_polarization_dimensionless": {
+        "type": "float",
+        "description": "Approximate final-layer end-to-end polarization for the conditional-X feedback circuit at the specified system size.",
+        "result": 0.56
+      }
+    }
+  }
+]

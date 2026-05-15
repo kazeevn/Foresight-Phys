@@ -1,61 +1,106 @@
 [
   {
-    "experiment_description": "Room-temperature inelastic x-ray scattering (IXS) was performed on covalently bonded diamond at Sector 9-ID of the Advanced Photon Source. The instrument used a liquid-nitrogen-cooled Si(111) primary monochromator and a Si(333) secondary channel-cut monochromator. Diamond spectra were collected with incident photon energy 8981.8 eV using a Ge(733) backscattering analyzer, giving 0.3 eV energy resolution. Momentum transfer was along q ∥ (1, -1, 0), with momentum resolution Δq ≈ 0.15 Å^-1; spectra were measured over approximately q = 0.32–4.55 Å^-1 and energy loss 0–100 eV by scanning incident energy. The quasi-elastic scattering contribution below about 3 eV was removed, and the electronic response was treated as vanishing below the diamond electronic gap used for the analysis. The measured photon-count spectra were converted to the density response χ''(q,ω) using the partial f-sum rule with cutoff Ω = 100 eV, including the four valence electrons per carbon atom, i.e. eight effective electrons per primitive unit cell, primitive lattice constant a = 2.52 Å, and negligible high-energy background screening ε∞ ≈ 1. For momenta where spectral weight persisted above 100 eV, the spectrum was extrapolated as I(q,ℏω>Ω)=c(q)Ω^3/(ℏω)^3, where c(q) is the average intensity between 94 and 100 eV. The four lowest-q points were excluded from the f-sum scaling fit. From the scaled χ''(q,ω), the Bures metric and quantum Fisher information density were obtained by frequency integration, and the dimensionless longitudinal quantum weight aK(q) was computed from the resulting density-response quantum geometry. The static electronic dielectric function ε(q) was obtained by Kramers-Kronig evaluation of χ'(q,ω) at a small nonzero frequency inside the gap, and its large-q decay was fit over q ≥ 2.5 Å^-1 to ε(q)=1+exp(-α q), where α is the fitted electronic-response decay length.",
+    "experiment_description": "Central concept: inelastic x-ray scattering (IXS) is used as a direct density-response probe from which the quantum Fisher information density f_Q, Bures metric g_q, and longitudinal quantum weight K(q) of insulating solids can be obtained, enabling comparison of quantum-information delocalization in covalently bonded diamond and ionically bonded LiF. The experiment uses room-temperature IXS at Sector 9-ID of the Advanced Photon Source. A liquid-nitrogen-cooled Si(111) primary monochromator and Si(333) secondary channel-cut prepare the incident beam. For diamond, spectra are collected at incident photon energy 8981.8 eV using a Ge(733) backscattering analyzer with 0.3 eV energy resolution and momentum transfer q parallel to crystallographic direction (1,-1,0). For LiF, spectra are collected at incident photon energy 6482.5 eV using a Ge(531) analyzer with 140 meV energy resolution and q parallel to (1,0,0). The nominal momentum resolution is about 0.15 Å^-1. Energy-loss scans are obtained by scanning the incident energy over electronic excitations up to 100 eV; the plotted momentum-transfer sequence spans approximately q = 0.32 to 4.55 Å^-1. The quasi-elastic contribution below about 3 eV is removed, and the remaining spectra are treated as the dynamic structure factor/density response for electronic excitations above the band gaps. The spatial sampling area, beam footprint, number of probed sample positions, and sample mosaic/defect mapping are not specified in the text; the geometric scope explicitly reported is the reciprocal-space direction and momentum-resolution window. The spectra are converted to χ''(q,ω) in physical units by enforcing the f-sum rule after extrapolating intensity above the 100 eV cutoff as I(q,ℏω>Ω)=c(q)Ω^3/(ℏω)^3, where Ω=100 eV and c(q) is the average spectral intensity from 94 to 100 eV at fixed q. The partial f-sum normalization uses eight active electrons per primitive diamond unit cell with primitive lattice constant 2.52 Å and ten active electrons per LiF primitive unit cell with primitive lattice constant 2.84 Å. The analysis computes g_q=-(ℏ/π)∫_0^∞dω tanh(βω/2)χ''(q,ω) and f_Q=4g_q at room temperature, with β the inverse thermal energy; for the high-energy electronic spectrum the Bose factor is effectively unity.",
     "experiment_results": {
-      "static_dielectric_decay_length_alpha_A": {
+      "lif_small_q_qfi_power_law_exponent": {
         "type": "float",
-        "description": "Electronic-response decay length α obtained by fitting the experimentally extracted large-q static electronic dielectric function of diamond to ε(q)=1+exp(-α q).",
-        "result": 0.72
+        "description": "The approximate exponent of the small-momentum power-law decrease of the quantum Fisher information density in LiF as a function of q.",
+        "result": 2.0
       },
-      "dimensionless_quantum_weight_aK_at_q_1_58_A_inv": {
-        "type": "float",
-        "description": "Approximate dimensionless longitudinal quantum weight aK(q) for diamond read from the plotted IXS-derived values at q ≈ 1.58 Å^-1.",
-        "result": 1.03
-      },
-      "dimensionless_quantum_weight_aK_at_q_2_51_A_inv": {
-        "type": "float",
-        "description": "Approximate dimensionless longitudinal quantum weight aK(q) for diamond read from the plotted IXS-derived values at q ≈ 2.51 Å^-1.",
-        "result": 0.66
-      },
-      "dimensionless_quantum_weight_aK_at_q_3_70_A_inv": {
-        "type": "float",
-        "description": "Approximate dimensionless longitudinal quantum weight aK(q) for diamond read from the plotted IXS-derived values at q ≈ 3.70 Å^-1.",
-        "result": 0.5
-      },
-      "dimensionless_quantum_weight_aK_at_q_4_55_A_inv": {
-        "type": "float",
-        "description": "Approximate dimensionless longitudinal quantum weight aK(q) for diamond read from the plotted IXS-derived values at q ≈ 4.55 Å^-1.",
-        "result": 0.33
+      "diamond_qfi_relative_to_lif_over_measured_q": {
+        "type": "categorical",
+        "description": "The material ordering of the quantum Fisher information density when comparing diamond and LiF over the common measured momentum-transfer range.",
+        "result": "diamond_greater_than_lif",
+        "allowed_categorial_values": [
+          "diamond_greater_than_lif",
+          "lif_greater_than_diamond",
+          "approximately_equal"
+        ]
       }
     }
   },
   {
-    "experiment_description": "Room-temperature inelastic x-ray scattering (IXS) was performed on ionically bonded LiF at Sector 9-ID of the Advanced Photon Source. The instrument used a liquid-nitrogen-cooled Si(111) primary monochromator and a Si(333) secondary channel-cut monochromator. LiF spectra were collected with incident photon energy 6482.5 eV using a Ge(531) analyzer, giving 140 meV energy resolution. Momentum transfer was along q ∥ (1, 0, 0), with momentum resolution Δq ≈ 0.15 Å^-1; spectra were measured over approximately q = 0.32–3.70 Å^-1 and energy loss 0–100 eV by scanning incident energy. The quasi-elastic scattering contribution below about 3 eV was removed, and the electronic response was treated as vanishing below the LiF electronic gap used for the analysis. The measured photon-count spectra were converted to the density response χ''(q,ω) using the partial f-sum rule with cutoff Ω = 100 eV, including seven fluorine valence electrons plus two lithium valence electrons and one shallow lithium core electron, i.e. ten effective electrons per primitive unit cell, primitive lattice constant a = 2.84 Å, and negligible high-energy background screening ε∞ ≈ 1. For momenta where spectral weight persisted above 100 eV, the spectrum was extrapolated as I(q,ℏω>Ω)=c(q)Ω^3/(ℏω)^3, where c(q) is the average intensity between 94 and 100 eV. The three lowest-q points were excluded from the f-sum scaling fit. From the scaled χ''(q,ω), the Bures metric and quantum Fisher information density were obtained by frequency integration, and the dimensionless longitudinal quantum weight aK(q) was computed from the resulting density-response quantum geometry. The static electronic dielectric function ε(q) was obtained by Kramers-Kronig evaluation of χ'(q,ω) at a small nonzero frequency inside the gap, and its large-q decay was fit over q ≥ 2.5 Å^-1 to ε(q)=1+exp(-α q), where α is the fitted electronic-response decay length.",
+    "experiment_description": "Central concept: the same IXS-derived density response can be Kramers-Kronig transformed to obtain the static electronic longitudinal dielectric response needed to test quantum-geometric electrostatic bounds. The experiment uses the room-temperature IXS spectra of diamond and LiF described for the quantum-Fisher-information measurement, with elastic scattering removed and spectra scaled by the f-sum rule using the finite 100 eV electronic window and the ω^-3 high-energy extrapolation. The real part χ'(q,ω) is computed from χ''(q,ω) using the Kramers-Kronig relation χ'(q,ω)=(2/π)P∫_0^∞ dω' [ω'χ''(q,ω')/(ω'^2-ω^2)], where P denotes the principal value. The static electronic dielectric function is then obtained from ε(q,ω)^-1 = 1 + V(q)χ(q,ω), with V(q)=4πe^2/q^2, evaluated at a small nonzero energy inside the electronic gap; the figure caption specifies extraction below the gap at 4.5 eV. Momentum transfers are along (1,-1,0) for diamond and (1,0,0) for LiF, with momentum resolution about 0.15 Å^-1. The high-q spatial-frequency regime is analyzed by fitting the extracted ε(q) for q approximately greater than 2.5 Å^-1 to the short-wavelength screening form ε(q)=1+exp(-αq), where q is in Å^-1 and α is the fitted real-space decay length in Å associated with atomic-scale electronic polarization. The beam footprint, number of real-space locations, and independent sample count are not specified; homogeneity is assessed only through the reciprocal-space q-dependent dielectric response extracted from the spectra.",
     "experiment_results": {
-      "static_dielectric_decay_length_alpha_A": {
+      "diamond_dielectric_high_q_decay_length_A": {
         "type": "float",
-        "description": "Electronic-response decay length α obtained by fitting the experimentally extracted large-q static electronic dielectric function of LiF to ε(q)=1+exp(-α q).",
+        "description": "The fitted decay length α of the high-momentum electronic dielectric response of diamond using ε(q)=1+exp(-αq).",
+        "result": 0.72
+      },
+      "lif_dielectric_high_q_decay_length_A": {
+        "type": "float",
+        "description": "The fitted decay length α of the high-momentum electronic dielectric response of LiF using ε(q)=1+exp(-αq).",
         "result": 0.65
+      }
+    }
+  },
+  {
+    "experiment_description": "Central concept: the IXS-derived Bures metric is converted into the dimensionless longitudinal quantum weight aK(q), a reciprocal-space measure of electronic localization and quantum-information sharing in insulating bonds, to compare a covalent insulator, diamond, against an ionic insulator, LiF. The analysis uses the same room-temperature IXS density-response spectra, elastic-line removal, f-sum normalization, ω^-3 extrapolation above 100 eV, and q directions as in the QFI measurement: diamond at 8981.8 eV with Ge(733) analyzer, 0.3 eV energy resolution, q parallel to (1,-1,0); LiF at 6482.5 eV with Ge(531) analyzer, 140 meV energy resolution, q parallel to (1,0,0); momentum resolution about 0.15 Å^-1. The measured q range used for the quantum-weight plot is the finite-q electronic-response range shown in the paper, approximately q≈1.5–4.6 Å^-1 for diamond and q≈1.3–3.8 Å^-1 for LiF. The quantity compared is aK(q)=-(πa/2q^2)f_Q, equivalently proportional to a g_q/q^2, where a is the primitive lattice constant, q is the magnitude of the momentum transfer, f_Q is the quantum Fisher information density, and g_q is the Bures metric obtained from χ''(q,ω). The interpretation is that aK(q) below or above unity in the small-q limit distinguishes charge fluctuations largely confined within one primitive unit cell from fluctuations extending over multiple primitive unit cells. The real-space beam footprint, scan area, number of sample locations, and defect/edge exclusion criteria are not specified; the reported homogeneity context is the reproducibility of the q-dependent reciprocal-space trend after applying the stated spectral normalization and elastic removal.",
+    "experiment_results": {
+      "diamond_small_q_dimensionless_quantum_weight_category": {
+        "type": "categorical",
+        "description": "The inferred small-momentum category of the dimensionless quantum weight aK(q) for diamond relative to unity.",
+        "result": "greater_than_one",
+        "allowed_categorial_values": [
+          "less_than_one",
+          "approximately_one",
+          "greater_than_one"
+        ]
       },
-      "dimensionless_quantum_weight_aK_at_q_1_27_A_inv": {
-        "type": "float",
-        "description": "Approximate dimensionless longitudinal quantum weight aK(q) for LiF read from the plotted IXS-derived values at q ≈ 1.27 Å^-1.",
-        "result": 0.62
+      "lif_small_q_dimensionless_quantum_weight_category": {
+        "type": "categorical",
+        "description": "The inferred small-momentum category of the dimensionless quantum weight aK(q) for LiF relative to unity.",
+        "result": "less_than_one",
+        "allowed_categorial_values": [
+          "less_than_one",
+          "approximately_one",
+          "greater_than_one"
+        ]
       },
-      "dimensionless_quantum_weight_aK_at_q_2_20_A_inv": {
-        "type": "float",
-        "description": "Approximate dimensionless longitudinal quantum weight aK(q) for LiF read from the plotted IXS-derived values at q ≈ 2.20 Å^-1.",
-        "result": 0.53
+      "small_q_dimensionless_quantum_weight_material_ordering": {
+        "type": "categorical",
+        "description": "The inferred material ordering of the small-momentum dimensionless quantum weight aK(q).",
+        "result": "diamond_greater_than_lif",
+        "allowed_categorial_values": [
+          "diamond_greater_than_lif",
+          "lif_greater_than_diamond",
+          "approximately_equal"
+        ]
+      }
+    }
+  },
+  {
+    "experiment_description": "Central concept: the experimentally extracted dimensionless quantum weight aK(q) is tested against wavevector-dependent electrostatic bounds that constrain the possible quantum geometry of density fluctuations in an insulator. The test uses room-temperature IXS spectra of diamond and LiF scaled by the f-sum rule, extrapolated above Ω=100 eV as ω^-3, converted to χ''(q,ω), integrated to obtain f_Q and g_q, and combined with ε(q) extracted from the Kramers-Kronig procedure. Diamond is measured with q parallel to (1,-1,0), incident energy 8981.8 eV, Ge(733) analyzer, and 0.3 eV energy resolution; LiF is measured with q parallel to (1,0,0), incident energy 6482.5 eV, Ge(531) analyzer, and 140 meV energy resolution; both use momentum resolution about 0.15 Å^-1 and room-temperature electronic energy-loss scans up to 100 eV. The bounds evaluated are (1-ε(q)^-1)E_g ≤ 4e^2K(q) ≤ sqrt(1-ε(q)^-1)ℏω_p, with the dimensionless plotted quantity multiplied by the primitive lattice constant a. Here ε(q) is the electronic static longitudinal dielectric function extracted from IXS, E_g is the smallest electronic excitation gap used for the material, ω_p=sqrt(4πne^2/m) is the plasma frequency defined using the effective electron density n from the partial f-sum rule, e is the elementary charge, m is the bare electron mass, and K(q) is the longitudinal quantum weight derived from the Bures metric. The q-dependent comparison is made over the same finite momentum ranges as the aK(q) extraction. The spatial/geometric scope is reciprocal-space only; beam footprint, real-space scan area, and number of independently measured sample positions are not specified.",
+    "experiment_results": {
+      "diamond_quantum_weight_within_q_dependent_electrostatic_bounds": {
+        "type": "bool",
+        "description": "Whether the measured finite-q dimensionless quantum weight values for diamond satisfy the experimentally evaluated q-dependent electrostatic bounds.",
+        "result": true
       },
-      "dimensionless_quantum_weight_aK_at_q_3_11_A_inv": {
-        "type": "float",
-        "description": "Approximate dimensionless longitudinal quantum weight aK(q) for LiF read from the plotted IXS-derived values at q ≈ 3.11 Å^-1.",
-        "result": 0.39
+      "lif_quantum_weight_within_q_dependent_electrostatic_bounds": {
+        "type": "bool",
+        "description": "Whether the measured finite-q dimensionless quantum weight values for LiF satisfy the experimentally evaluated q-dependent electrostatic bounds.",
+        "result": true
       },
-      "dimensionless_quantum_weight_aK_at_q_3_70_A_inv": {
-        "type": "float",
-        "description": "Approximate dimensionless longitudinal quantum weight aK(q) for LiF read from the plotted IXS-derived values at q ≈ 3.70 Å^-1.",
-        "result": 0.34
+      "diamond_zero_q_bound_position_category": {
+        "type": "categorical",
+        "description": "The qualitative position approached by the inferred small-q diamond quantum weight within the zero-wavevector electrostatic bound interval.",
+        "result": "near_upper_bound",
+        "allowed_categorial_values": [
+          "near_lower_bound",
+          "near_middle_of_bounds",
+          "near_upper_bound"
+        ]
+      },
+      "lif_zero_q_bound_position_category": {
+        "type": "categorical",
+        "description": "The qualitative position approached by the inferred small-q LiF quantum weight within the zero-wavevector electrostatic bound interval.",
+        "result": "near_middle_of_bounds",
+        "allowed_categorial_values": [
+          "near_lower_bound",
+          "near_middle_of_bounds",
+          "near_upper_bound"
+        ]
       }
     }
   }

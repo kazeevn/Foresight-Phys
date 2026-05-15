@@ -1,56 +1,106 @@
 [
   {
-    "experiment_description": "A room-temperature thermal-background vapor-cell magneto-optical trap for 87Rb was operated without any additional slowing technique. The baseline trap used three non-retroreflected pairs of counter-propagating Gaussian MOT beams with approximately 38 mm diameter, 1/e^2 radius w about 15 mm, and truncation radius about 19 mm. The single-frequency trapping/cooling light was tuned about -20 MHz from the 87Rb D2 F = 2 -> F' = 3 transition, and repumper light was tuned on resonance with the F = 1 -> F' = 2 transition. Typical per-beam powers were about 20 mW for the Gaussian trapping light and about 18 mW for the repumper. For the multi-frequency implementation, an additional ring-shaped cooling beam produced by a pair of axicon lenses was overlapped with the standard MOT beams. The ring beam contained several additional red-detuned optical frequency components, approximately spanning -25 MHz to -45 MHz from the F = 2 -> F' = 3 transition, with typical cooling power about 45 mW per beam. The multi-frequency spectrum was generated using acousto-optic modulation so that the frequency components were single-sided and negligibly blue-detuned with respect to the cooling transition. Anti-Helmholtz coils supplied the quadrupole magnetic field, with axial magnetic-field gradients available up to about 22 G cm^-1. Atom number was measured by absorption imaging using a resonant probe pulse of duration about 35 microseconds on the F = 2 -> F' = 3 transition, applied after about 15 ms free fall following switch-off of the trapping/cooling beams and magnetic field. At the end of loading, about 20 ms of single-frequency-only trapping light was applied before imaging. Loading curves were obtained by varying MOT load time and fitting the measured atom number to N = R*tau*(1 - exp(-t/tau)), allowing a time-axis offset; here N is atom number at load time t, R is the loading rate, tau is the characteristic MOT loading time, and the steady-state atom number is Nss = R*tau. The reported maxima were obtained from parameter scans of the same apparatus comparing single-frequency and multi-frequency operation.",
+    "experiment_description": "Central concept: implement a practical multi-frequency 87Rb magneto-optical trap (MOT) in which additional red-detuned cooling frequencies are confined primarily to an annular beam surrounding the trapped cloud, so that incident thermal atoms can be slowed over a wider Doppler range while minimizing overlap of far-red cooling light with already trapped atoms. The optical-field generation procedure uses a double-passed acousto-optic modulator driven simultaneously with multiple radio-frequency tones; a lens places the retroreflecting mirror in a geometry that recombines the different AOM deflection angles into one spatially overlapped beam, and a tapered amplifier boosts the resulting multi-frequency output. A second AOM partially cancels the large carrier frequency shift so that the optical components lie at the desired detunings relative to the 87Rb D2 F=2 to F'=3 cooling transition. The resulting multi-frequency beam is transformed from an initially Gaussian beam into an annular cooling beam with a pair of axicon lenses, with an upstream iris controlling the central hole. The conventional trapping light is a Gaussian component near the usual MOT detuning, while the additional cooling components are intended to be further red-detuned and present only in the axicon-produced ring beam. Characterization consists of measuring the optical frequency spectrum with a Fabry–Perot interferometric analyzer over the relevant detuning range relative to the F=2 to F'=3 transition, and imaging the transverse cooling-beam intensity profile across the full beam cross-section after the axicon pair. The spatial characterization targets the entire transverse annular beam profile over the MOT-beam scale; the paper reports a normalized cross-section through the profile but does not report averaging over multiple beam locations or repeated assemblies.",
     "experiment_results": {
-      "maximum_multi_frequency_steady_state_atom_number_atoms": {
-        "type": "float",
-        "description": "Largest steady-state number of trapped 87Rb atoms obtained from fitted MOT loading curves in the multi-frequency MOT configuration.",
-        "result": 10000000000.0
+      "single_sided_red_detuned_multifrequency_spectrum_produced": {
+        "type": "bool",
+        "description": "Whether the optical generation procedure produced a spectrum with multiple cooling components on the red-detuned side of the 87Rb cooling transition rather than a symmetric phase-modulation spectrum.",
+        "result": true
       },
-      "maximum_multi_frequency_loading_rate_s_inv": {
-        "type": "float",
-        "description": "Largest fitted rate at which 87Rb atoms were loaded into the multi-frequency MOT from the thermal background vapor.",
-        "result": 130000000000.0
-      },
-      "shortest_characteristic_loading_time_s": {
-        "type": "float",
-        "description": "Smallest characteristic MOT loading time constant obtained from exponential loading-curve fits.",
-        "result": 0.1
-      },
-      "steady_state_atom_number_enhancement_factor_vs_single_frequency": {
-        "type": "float",
-        "description": "Ratio of the multi-frequency steady-state atom number to the corresponding conventional single-frequency MOT steady-state atom number under comparable operating conditions.",
-        "result": 2.0
-      },
-      "loading_rate_enhancement_factor_vs_single_frequency": {
-        "type": "float",
-        "description": "Ratio of the multi-frequency MOT loading rate to the corresponding conventional single-frequency MOT loading rate under comparable operating conditions.",
-        "result": 4.0
+      "annular_cooling_beam_profile_produced": {
+        "type": "bool",
+        "description": "Whether the axicon-lens beam-shaping procedure produced the intended hollow annular transverse cooling-beam geometry for the multi-frequency light.",
+        "result": true
       }
     }
   },
   {
-    "experiment_description": "The same six-beam 87Rb MOT apparatus was used to compare conventional single-frequency operation with multi-frequency operation while sweeping the axial magnetic-field gradient. The standard Gaussian MOT beams had about 38 mm physical diameter, about 15 mm 1/e^2 radius, and about 19 mm truncation radius, with trapping light tuned about -20 MHz from the D2 F = 2 -> F' = 3 transition and repumper light resonant with F = 1 -> F' = 2. The additional multi-frequency cooling light was supplied only in an axicon-generated hollow ring beam overlapping the MOT region and containing red-detuned frequency components relative to the F = 2 -> F' = 3 transition, with no intentionally blue-detuned components. The axial magnetic-field gradient was swept over the experimentally shown range of roughly 2 to 22 G cm^-1 under otherwise fixed optical conditions. For each magnetic-field-gradient value, the MOT loading time was varied, the atom number was measured by resonant absorption imaging after switch-off and short free fall, and the loading curve was fitted to N = R*tau*(1 - exp(-t/tau)), where N is atom number, t is load time, R is loading rate, tau is the characteristic loading time, and Nss = R*tau is the steady-state atom number. Error bars were obtained from the covariance matrix of the loading-curve fits.",
+    "experiment_description": "Central concept: map the atom-capture landscape of a dual-frequency version of the 87Rb MOT to distinguish frequency regimes associated with enhanced loading. The apparatus is a six-beam vapor-cell 87Rb magneto-optical trap without additional Zeeman slower, 2D-MOT source, or atomic beam slowing stage. The measurement uses two cooling optical frequencies near the 87Rb D2 F=2 to F'=3 transition and records the number of atoms loaded after a fixed 5 s MOT loading time while sweeping both the fundamental cooler detuning and the frequency difference between the two cooling components. The plotted scan covers fundamental cooler detunings from approximately -15 MHz to -20 MHz relative to the cooling transition and dual-frequency spacings from 0 MHz to about 25 MHz. Atom number is obtained by absorption imaging: after switching off cooling/trapping beams and magnetic field, an approximately 35 microsecond probe pulse resonant with F=2 to F'=3 is applied after an approximately 15 ms fall time; the optical-depth image is fit to a two-dimensional Gaussian and rescaled to account for the cloud extending beyond the imaging-beam field of view, then integrated over the whole MOT cloud. The scan probes the full trapped cloud at the six-beam intersection for each frequency setting; the paper presents an interpolated surface over the swept parameter plane and does not report independent spatial subregions within the cloud.",
     "experiment_results": {
-      "multi_frequency_loading_rate_at_12_0_G_cm_s_inv": {
+      "dual_frequency_enhanced_loading_regime_count": {
+        "type": "integer",
+        "description": "The number of distinct enhanced-loading regimes identified in the dual-frequency atom-number landscape.",
+        "result": 2
+      },
+      "dual_frequency_loading_trough_spacing_MHz": {
         "type": "float",
-        "description": "Fitted MOT loading rate for the multi-frequency configuration at the specified axial magnetic-field gradient.",
+        "description": "The frequency spacing between the two cooling components at which the atom-number landscape contains a pronounced loading trough.",
+        "result": 7.0
+      },
+      "global_enhancement_regime_frequency_spacing_MHz": {
+        "type": "float",
+        "description": "The dual-frequency spacing associated with the global enhanced-loading regime in the atom-number landscape.",
+        "result": 20.0
+      }
+    }
+  },
+  {
+    "experiment_description": "Central concept: compare a conventional single-frequency 87Rb MOT with the proposed multi-frequency MOT, where additional red-detuned cooling components are applied in an annular axicon beam to increase capture velocity from a thermal background while avoiding strong overlap with the trapped cloud. The MOT uses three orthogonal pairs of counter-propagating, non-retroreflected beams. The conventional Gaussian trapping beams have diameter about 38 mm, 1/e^2 radius approximately 15 mm, are truncated at about 19 mm radius, and contain cooling light detuned near -20 MHz from the 87Rb D2 F=2 to F'=3 transition plus repumper light resonant with F=1 to F'=2. Typical per-beam powers are about 20 mW in the trapping light and about 18 mW in the repumper. The multi-frequency condition adds an overlapping axicon-generated annular cooling beam containing about five additional further red-detuned optical components spanning approximately -25 MHz to -45 MHz from F=2 to F'=3, with typical cooling power about 45 mW per beam. Anti-Helmholtz coils provide the MOT quadrupole magnetic field, and the axial magnetic-field gradient is swept over the experimentally accessible range up to about 22 G cm^-1. For each magnetic-field-gradient setting and each optical configuration, MOT load time is varied; at the end of loading an approximately 20 ms interval with only single-frequency trapping light is applied before imaging. Absorption imaging uses an approximately 35 microsecond resonant F=2 to F'=3 probe after about 15 ms free fall, and the complete cloud optical-depth projection is fit to a two-dimensional Gaussian, rescaled to the physical cloud extent, and integrated. Each reported loading rate R and steady-state atom number N_ss is extracted from a fit of the whole-cloud atom number versus load time to N = R*tau*(1 - exp(-t/tau)), where N is atom number, R is the MOT loading rate, tau is the characteristic MOT loading time, and t is the MOT load time; a time-axis offset is allowed in the fit to account for shutter timing. The spatial scope is the entire trapped atom cloud at the beam intersection for each load curve; the paper does not report atom-number averages over separate cloud subregions, but each data point comes from a load-time scan under fixed beam and field conditions.",
+    "experiment_results": {
+      "maximum_multifrequency_loading_rate_s_inv": {
+        "type": "float",
+        "description": "The largest MOT loading rate extracted from load-curve fits using the multi-frequency annular cooling configuration.",
+        "result": 130000000000.0
+      },
+      "maximum_multifrequency_steady_state_atom_number_atoms": {
+        "type": "float",
+        "description": "The largest steady-state MOT atom number extracted from load-curve fits using the multi-frequency annular cooling configuration.",
+        "result": 10000000000.0
+      },
+      "maximum_loading_rate_enhancement_factor_over_single_frequency": {
+        "type": "float",
+        "description": "The largest ratio of multi-frequency MOT loading rate to conventional single-frequency MOT loading rate under otherwise comparable conditions.",
+        "result": 4.0
+      },
+      "steady_state_atom_number_enhancement_factor_over_single_frequency": {
+        "type": "float",
+        "description": "The approximate ratio of multi-frequency steady-state atom number to conventional single-frequency steady-state atom number under comparable conditions.",
+        "result": 2.0
+      },
+      "shortest_characteristic_loading_time_s": {
+        "type": "float",
+        "description": "The shortest characteristic MOT loading time constant obtained from load-curve fits in the multi-frequency configuration.",
+        "result": 0.1
+      }
+    }
+  },
+  {
+    "experiment_description": "Central concept: determine the loading performance of the proposed multi-frequency 87Rb MOT at specific magnetic-field-gradient operating points and compare it with the conventional single-frequency MOT using the same six-beam geometry. The trap uses three orthogonal counter-propagating beam pairs; Gaussian trapping light is tuned near -20 MHz from the 87Rb D2 F=2 to F'=3 transition and repumper light is resonant with F=1 to F'=2, while the multi-frequency condition additionally uses an axicon-generated annular cooling beam with several further red-detuned components between roughly -25 MHz and -45 MHz relative to F=2 to F'=3. The Gaussian beams have approximately 38 mm diameter and about 15 mm 1/e^2 radius with truncation near 19 mm radius; typical per-beam powers are about 20 mW trapping, about 18 mW repumping, and about 45 mW in the annular multi-frequency cooling light. At fixed axial magnetic-field gradients, load time is swept, a final approximately 20 ms single-frequency-only interval is applied, and the full MOT cloud is measured by resonant absorption imaging after about 15 ms fall time with an approximately 35 microsecond probe. Whole-cloud atom number is extracted by optical-depth imaging, two-dimensional Gaussian fitting, rescaling to the physical cloud extent, and integration. Loading curves are fit to N = R*tau*(1 - exp(-t/tau)), where N is atom number, R is loading rate, tau is characteristic loading time, and t is load time. The figure-captioned operating points correspond to fixed axial magnetic-field gradients of 12.0 G cm^-1 for one multi-frequency loading-rate fit and 12.9 G cm^-1 for one multi-frequency steady-state atom-number fit; each value represents one complete load-time scan over the full cloud rather than a local-density measurement.",
+    "experiment_results": {
+      "multifrequency_loading_rate_at_12_0_G_cm_s_inv": {
+        "type": "float",
+        "description": "The MOT loading rate extracted from the multi-frequency load-curve fit at an axial magnetic-field gradient of 12.0 G cm^-1.",
         "result": 85000000000.0
       },
-      "multi_frequency_steady_state_atom_number_at_12_9_G_cm_atoms": {
+      "multifrequency_steady_state_atom_number_at_12_9_G_cm_atoms": {
         "type": "float",
-        "description": "Fitted steady-state trapped atom number for the multi-frequency configuration at the specified axial magnetic-field gradient.",
+        "description": "The steady-state atom number extracted from the multi-frequency load-curve fit at an axial magnetic-field gradient of 12.9 G cm^-1.",
         "result": 8200000000.0
       }
     }
   },
   {
-    "experiment_description": "A dual-frequency 87Rb MOT loading scan was performed in the same vapor-cell MOT platform by using two cooling-frequency components rather than the full multi-frequency spectrum. The atom source was a room-temperature thermal 87Rb background vapor with no additional slowing beam. The MOT used the standard rubidium D2 cooling transition F = 2 -> F' = 3 with repumping on F = 1 -> F' = 2. The experimental control variables were the fundamental cooling-frequency detuning, swept over approximately -20 MHz to -15 MHz relative to the F = 2 -> F' = 3 transition, and the spacing between the two cooling-frequency components, swept over approximately 0 MHz to 25 MHz. For each point in this two-dimensional frequency scan, the MOT was loaded for a fixed 5 s duration and the loaded atom number was measured by absorption imaging of the atomic cloud. The reported value is read from the plotted atom-number surface for the maximum of the measured dual-frequency loading landscape.",
+    "experiment_description": "Central concept: test how the performance advantage of annular multi-frequency cooling depends on the physical beam diameter, using beam truncation as a controlled way to vary the available capture volume and deceleration distance in a 87Rb MOT. The same six-beam vapor-cell MOT geometry is used, with single-frequency Gaussian trapping light and resonant repumping as in a conventional 87Rb MOT, and with the comparison configuration adding the axicon-generated annular multi-frequency cooling light. The axial magnetic-field gradient is held at 12.9 G cm^-1. Adjustable irises are inserted in well-collimated beam regions and centered on the beam axes; only the iris aperture is varied. The quoted beam diameter is the physically truncated beam diameter measured immediately before the chamber, not the Gaussian 1/e^2 waist. The underlying Gaussian trapping beam has about 15 mm 1/e^2 radius and the full untruncated experimental diameter is about 38 mm; the scan reduces the aperture to smaller diameters while keeping the beam profiles otherwise unchanged and without power re-normalization. For each beam diameter and for both single-frequency and multi-frequency configurations, MOT load time is swept and the atom number is obtained by resonant absorption imaging of the whole cloud after switch-off, with a two-dimensional Gaussian fit, rescaling for the cloud extent, and integration. Loading rate and steady-state atom number are extracted from fits to N = R*tau*(1 - exp(-t/tau)), where N is atom number, R is loading rate, tau is characteristic loading time, and t is load time. The spatial scope of each measurement is the complete trapped cloud within the truncated six-beam capture region; horizontal uncertainty reflects the beam truncation measurement, and the paper does not report independent local measurements across the beam aperture.",
     "experiment_results": {
-      "maximum_loaded_atom_number_after_5_s_atoms": {
+      "multifrequency_loading_rate_at_largest_tested_truncated_diameter_s_inv": {
         "type": "float",
-        "description": "Largest 87Rb atom number loaded after the fixed-duration dual-frequency MOT loading sequence over the scanned two-frequency detuning landscape.",
-        "result": 4000000000.0
+        "description": "The approximate loading rate read from the beam-diameter scan for the multi-frequency configuration at the largest experimentally tested truncated beam diameter.",
+        "result": 60000000000.0
+      },
+      "single_frequency_loading_rate_at_largest_tested_truncated_diameter_s_inv": {
+        "type": "float",
+        "description": "The approximate loading rate read from the beam-diameter scan for the single-frequency configuration at the largest experimentally tested truncated beam diameter.",
+        "result": 20000000000.0
+      },
+      "multifrequency_steady_state_atom_number_at_largest_tested_truncated_diameter_atoms": {
+        "type": "float",
+        "description": "The approximate steady-state atom number read from the beam-diameter scan for the multi-frequency configuration at the largest experimentally tested truncated beam diameter.",
+        "result": 8000000000.0
+      },
+      "single_frequency_steady_state_atom_number_at_largest_tested_truncated_diameter_atoms": {
+        "type": "float",
+        "description": "The approximate steady-state atom number read from the beam-diameter scan for the single-frequency configuration at the largest experimentally tested truncated beam diameter.",
+        "result": 5500000000.0
       }
     }
   }

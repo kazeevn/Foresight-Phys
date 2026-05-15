@@ -1,1 +1,306 @@
-[]
+[
+  {
+    "experiment_description": "Numerical Floquet simulation of the two-rotor kicked-rotor model used to illustrate the paper's symmetry-selection mechanism connecting wavepacket spreading and entanglement. The kicking potential is V(theta_1,theta_2)=k_1 cos(theta_1)+k_2 cos(theta_2)+xi cos(theta_1-theta_2), with k_1=0.1, k_2=0.2, and xi=1. Rotor 1 is set at the principal quantum resonance tau_1=4*pi and rotor 2 at the secondary quantum resonance tau_2=2*pi; hbar=T=1. The initial state is the product momentum eigenstate |p_1=0> tensor |p_2=0>. The bipartition for entanglement is rotor 1 versus rotor 2, and linear entropy is S_lin=1-Tr(rho_1^2). The simulation evaluates <p_1^2(t)> over kick steps shown on a logarithmic time axis up to t=1000, and <p_2^2(t)> and S_lin(t) over kick steps up to t=100. The central concept tested is that the partial π translation of the secondary-resonant rotor makes the rotor-1 effective potential mixed-symmetry, the rotor-2 effective potential antisymmetric, and the inter-rotor coupling antisymmetric, so the measured quantities target hybrid, anti-resonant, and entanglement-oscillatory responses respectively.",
+    "experiment_results": {
+      "p1_variance_quadratic_coefficient_lambda_1_plus": {
+        "type": "float",
+        "description": "The coefficient of the quadratic component of the rotor-1 momentum variance.",
+        "result": 0.005
+      },
+      "p1_variance_odd_step_oscillation_magnitude_lambda_1_minus": {
+        "type": "float",
+        "description": "The magnitude of the odd-step oscillatory component in the rotor-1 momentum variance.",
+        "result": 0.5
+      },
+      "p1_wavepacket_dynamical_regime": {
+        "type": "categorical",
+        "description": "The classified dynamical regime of the rotor-1 wavepacket variance.",
+        "result": "hybrid",
+        "allowed_categorial_values": [
+          "quadratic_growth",
+          "period_2_oscillation",
+          "hybrid",
+          "linear_growth_then_saturation"
+        ]
+      },
+      "p2_variance_odd_step_oscillation_magnitude_lambda_2_minus": {
+        "type": "float",
+        "description": "The odd-step oscillation magnitude of the rotor-2 momentum variance.",
+        "result": 0.52
+      },
+      "p2_wavepacket_dynamical_regime": {
+        "type": "categorical",
+        "description": "The classified dynamical regime of the rotor-2 wavepacket variance.",
+        "result": "period_2_oscillation",
+        "allowed_categorial_values": [
+          "quadratic_growth",
+          "period_2_oscillation",
+          "hybrid",
+          "linear_growth_then_saturation"
+        ]
+      },
+      "odd_step_linear_entropy": {
+        "type": "float",
+        "description": "The odd-kick value of the period-2 oscillating bipartite linear entropy.",
+        "result": 0.58
+      },
+      "linear_entropy_dynamical_regime": {
+        "type": "categorical",
+        "description": "The classified dynamical regime of bipartite linear entropy.",
+        "result": "period_2_oscillation",
+        "allowed_categorial_values": [
+          "quadratic_growth_then_saturation",
+          "period_2_oscillation",
+          "hybrid_then_saturation",
+          "linear_growth_then_saturation"
+        ]
+      }
+    }
+  },
+  {
+    "experiment_description": "Numerical Floquet simulation of the same two-rotor kicked-rotor potential V(theta_1,theta_2)=k_1 cos(theta_1)+k_2 cos(theta_2)+xi cos(theta_1-theta_2), now with k_1=2, k_2=3, and xi=0.1. Both rotors are tuned to the secondary quantum resonance tau_1=tau_2=2*pi, with hbar=T=1. The initial state is |p_1=0> tensor |p_2=0>, and the entanglement bipartition is rotor 1 versus rotor 2 with linear entropy S_lin=1-Tr(rho_1^2). The wavepacket variances <p_1^2(t)> and <p_2^2(t)> and the linear entropy are evaluated over integer kick steps up to t=1000. This setup tests the central claim that when both rotors undergo the partial π translation, the single-rotor effective potentials have mixed symmetry while the inter-rotor coupling is symmetric, producing mixed wavepacket spreading but initially quadratic entanglement growth before saturation.",
+    "experiment_results": {
+      "p1_variance_quadratic_coefficient_lambda_1_plus": {
+        "type": "float",
+        "description": "The coefficient of the quadratic component of the rotor-1 momentum variance.",
+        "result": 0.005
+      },
+      "p2_variance_quadratic_coefficient_lambda_2_plus": {
+        "type": "float",
+        "description": "The coefficient of the quadratic component of the rotor-2 momentum variance.",
+        "result": 0.005
+      },
+      "p1_variance_odd_step_oscillation_magnitude_lambda_1_minus": {
+        "type": "float",
+        "description": "The odd-step oscillation magnitude of the rotor-1 momentum variance.",
+        "result": 2.0
+      },
+      "p2_variance_odd_step_oscillation_magnitude_lambda_2_minus": {
+        "type": "float",
+        "description": "The odd-step oscillation magnitude of the rotor-2 momentum variance.",
+        "result": 4.5
+      },
+      "p1_wavepacket_dynamical_regime": {
+        "type": "categorical",
+        "description": "The classified dynamical regime of the rotor-1 wavepacket variance.",
+        "result": "hybrid",
+        "allowed_categorial_values": [
+          "quadratic_growth",
+          "period_2_oscillation",
+          "hybrid",
+          "linear_growth_then_saturation"
+        ]
+      },
+      "p2_wavepacket_dynamical_regime": {
+        "type": "categorical",
+        "description": "The classified dynamical regime of the rotor-2 wavepacket variance.",
+        "result": "hybrid",
+        "allowed_categorial_values": [
+          "quadratic_growth",
+          "period_2_oscillation",
+          "hybrid",
+          "linear_growth_then_saturation"
+        ]
+      },
+      "short_time_linear_entropy_quadratic_coefficient": {
+        "type": "float",
+        "description": "The coefficient multiplying t squared in the short-time bipartite linear entropy.",
+        "result": 0.01
+      },
+      "linear_entropy_crossover_time_steps": {
+        "type": "float",
+        "description": "The predicted crossover kick number separating early quadratic entanglement growth from saturation.",
+        "result": 7.1
+      },
+      "linear_entropy_dynamical_regime": {
+        "type": "categorical",
+        "description": "The classified dynamical regime of bipartite linear entropy.",
+        "result": "quadratic_growth_then_saturation",
+        "allowed_categorial_values": [
+          "quadratic_growth_then_saturation",
+          "period_2_oscillation",
+          "hybrid_then_saturation",
+          "linear_growth_then_saturation"
+        ]
+      }
+    }
+  },
+  {
+    "experiment_description": "Numerical Floquet simulation of a symmetry-broken variant of the two-rotor kicked-rotor model. The baseline potential is V(theta_1,theta_2)=k_1 cos(theta_1)+k_2 cos(theta_2)+xi cos(theta_1-theta_2) with k_1=2, k_2=3, and xi=0.1, and an additional inter-rotor term cos(2*theta_1-theta_2) is included in the kicking potential. Both rotors are at the secondary resonance tau_1=tau_2=2*pi, with hbar=T=1. The initial state is |p_1=0> tensor |p_2=0>, the bipartition is rotor 1 versus rotor 2, and S_lin=1-Tr(rho_1^2) is evaluated for kick steps up to t=1000. The setup targets the paper's central mixed-symmetry mechanism by adding an interaction component that is neither purely symmetric nor purely antisymmetric under the partial π translation.",
+    "experiment_results": {
+      "linear_entropy_dynamical_regime": {
+        "type": "categorical",
+        "description": "The classified dynamical regime of bipartite linear entropy under the added symmetry-breaking interaction.",
+        "result": "hybrid_then_saturation",
+        "allowed_categorial_values": [
+          "quadratic_growth_then_saturation",
+          "period_2_oscillation",
+          "hybrid_then_saturation",
+          "linear_growth_then_saturation"
+        ]
+      }
+    }
+  },
+  {
+    "experiment_description": "Numerical Floquet simulation of an extended two-rotor kicked-rotor model containing higher angular harmonics, used to test that the central symmetry mechanism does not depend on the specific low-harmonic potential form. The kicking potential is V(theta_1,theta_2)=k_1 cos(2*theta_1)+k_2 cos(2*theta_2)+xi cos(2*theta_1-theta_2), with k_1=k_2=0.1 and xi=1. Both rotors are tuned to the secondary resonance tau_1=tau_2=2*pi, hbar=T=1, and the initial state is |p_1=0> tensor |p_2=0>. The bipartition for entanglement is rotor 1 versus rotor 2, and linear entropy is S_lin=1-Tr(rho_1^2). The simulation evaluates <p_1^2(t)> and <p_2^2(t)> up to t=100 and S_lin(t) up to t=100. Under the partial π translation, the coupling term is antisymmetric while each rotor effective potential is mixed-symmetry, so the setup targets simultaneous hybrid wavepacket spreading and period-2 entanglement dynamics.",
+    "experiment_results": {
+      "p1_variance_quadratic_coefficient_lambda_1_plus": {
+        "type": "float",
+        "description": "The coefficient of the quadratic component of the rotor-1 momentum variance.",
+        "result": 0.02
+      },
+      "p2_variance_quadratic_coefficient_lambda_2_plus": {
+        "type": "float",
+        "description": "The coefficient of the quadratic component of the rotor-2 momentum variance.",
+        "result": 0.02
+      },
+      "p1_variance_odd_step_oscillation_magnitude_lambda_1_minus": {
+        "type": "float",
+        "description": "The odd-step oscillation magnitude of the rotor-1 momentum variance.",
+        "result": 2.0
+      },
+      "p2_variance_odd_step_oscillation_magnitude_lambda_2_minus": {
+        "type": "float",
+        "description": "The odd-step oscillation magnitude of the rotor-2 momentum variance.",
+        "result": 0.5
+      },
+      "p1_wavepacket_dynamical_regime": {
+        "type": "categorical",
+        "description": "The classified dynamical regime of the rotor-1 wavepacket variance.",
+        "result": "hybrid",
+        "allowed_categorial_values": [
+          "quadratic_growth",
+          "period_2_oscillation",
+          "hybrid",
+          "linear_growth_then_saturation"
+        ]
+      },
+      "p2_wavepacket_dynamical_regime": {
+        "type": "categorical",
+        "description": "The classified dynamical regime of the rotor-2 wavepacket variance.",
+        "result": "hybrid",
+        "allowed_categorial_values": [
+          "quadratic_growth",
+          "period_2_oscillation",
+          "hybrid",
+          "linear_growth_then_saturation"
+        ]
+      },
+      "odd_step_linear_entropy": {
+        "type": "float",
+        "description": "The odd-kick value of the period-2 oscillating bipartite linear entropy.",
+        "result": 0.58
+      },
+      "linear_entropy_dynamical_regime": {
+        "type": "categorical",
+        "description": "The classified dynamical regime of bipartite linear entropy.",
+        "result": "period_2_oscillation",
+        "allowed_categorial_values": [
+          "quadratic_growth_then_saturation",
+          "period_2_oscillation",
+          "hybrid_then_saturation",
+          "linear_growth_then_saturation"
+        ]
+      }
+    }
+  },
+  {
+    "experiment_description": "Numerical Floquet simulations of higher-order-resonance two-rotor kicked-rotor models without imposing the special translational potential symmetry needed for the analytic high-order solution. The potential is V(theta_1,theta_2)=k_1 cos(theta_1)+k_2 cos(theta_2)+xi cos(theta_1-theta_2), with k_1=9, k_2=10, and xi=0.1. The initial state is |p_1=0> tensor |p_2=0>, hbar=T=1, and the bipartition is rotor 1 versus rotor 2 with linear entropy S_lin=1-Tr(rho_1^2). Three resonance-order pairs are simulated: tau_1=4*pi/3 with tau_2=4*pi/5, tau_1=4*pi/13 with tau_2=4*pi/15, and tau_1=4*pi/19 with tau_2=4*pi/21. The time sweep covers integer kicks up to t=1000. This setup characterizes how the central quantum-resonance wavepacket mechanism persists while entanglement changes when wavepacket splitting, proliferation, and interference occur in higher-order resonances.",
+    "experiment_results": {
+      "p1_variance_time_exponent": {
+        "type": "float",
+        "description": "The power-law exponent of the rotor-1 momentum variance growth versus kick number in the simulated higher-order resonances.",
+        "result": 2.0
+      },
+      "p2_variance_time_exponent": {
+        "type": "float",
+        "description": "The power-law exponent of the rotor-2 momentum variance growth versus kick number in the simulated higher-order resonances.",
+        "result": 2.0
+      },
+      "linear_entropy_initial_time_exponent": {
+        "type": "float",
+        "description": "The power-law exponent of the initial bipartite linear entropy growth before saturation in the simulated higher-order resonances.",
+        "result": 1.0
+      },
+      "linear_entropy_dynamical_regime": {
+        "type": "categorical",
+        "description": "The classified dynamical regime of bipartite linear entropy for the high-order-resonance simulations.",
+        "result": "linear_growth_then_saturation",
+        "allowed_categorial_values": [
+          "quadratic_growth_then_saturation",
+          "period_2_oscillation",
+          "hybrid_then_saturation",
+          "linear_growth_then_saturation"
+        ]
+      }
+    }
+  },
+  {
+    "experiment_description": "Robustness numerical simulations for the central resonance-controlled dynamics under weak detuning away from exact quantum resonance. The two-rotor potential is V(theta_1,theta_2)=k_1 cos(theta_1)+k_2 cos(theta_2)+xi cos(theta_1-theta_2), with k_1=2, k_2=3, and xi=0.1. The exact-resonance reference has rotor 1 at tau_1=4*pi and rotor 2 at tau_2=2*pi; detuned simulations use tau_1=4*pi+delta_tau_1 and tau_2=2*pi+delta_tau_2, where the offsets are incommensurate with 4*pi. The initial state is |p_1=0> tensor |p_2=0>, hbar=T=1, and linear entropy is computed for the rotor-1/rotor-2 bipartition. For the direct comparison, delta_tau_1=delta_tau_2=10^-3 and <p_1^2(t)>, <p_2^2(t)>, and S_lin(t) are compared to the exact-resonance trajectories up to t=100. For the scaling analysis, delta_tau_1=delta_tau_2=delta_tau is swept over 10^-3, 5*10^-4, 10^-4, 5*10^-5, and 10^-5. The deviation measure is Delta_1=|<p_1^2>_0-<p_1^2>|/<p_1^2>_0, where <p_1^2>_0 is the exact-resonance value. The agreement time t_D is defined as the kick number at which Delta_1 reaches a 1% threshold.",
+    "experiment_results": {
+      "agreement_time_steps_for_delta_tau_1e_minus_3": {
+        "type": "float",
+        "description": "The approximate kick number up to which the detuned and exact-resonance trajectories remain in agreement for equal detunings of 10^-3.",
+        "result": 20.0
+      },
+      "relative_deviation_time_exponent": {
+        "type": "float",
+        "description": "The power-law exponent of the time growth of the rotor-1 relative deviation over the early detuning-sensitive interval.",
+        "result": 4.0
+      },
+      "agreement_time_detuning_scaling_exponent": {
+        "type": "float",
+        "description": "The fitted exponent relating the 1% agreement time to equal detuning strength.",
+        "result": -0.5
+      },
+      "undetuned_odd_step_linear_entropy": {
+        "type": "float",
+        "description": "The odd-kick value of the exact-resonance period-2 bipartite linear entropy for the reference system.",
+        "result": 0.0099
+      }
+    }
+  },
+  {
+    "experiment_description": "Numerical simulation of the many-body kicked-top counterpart introduced to test whether the kicked-rotor central mechanism transfers to finite spherical phase space. The model contains two quantum tops with total angular momentum quantum number j_tot=50. The kick operator is U_k=exp[-i sum_{n=1}^2 beta_n J_{nz}^2/(2*j_tot)], and the between-kick Hamiltonian is H_f=alpha_1 J_{1x}+alpha_2 J_{2x}+(alpha_12/j_tot) J_{1x}J_{2x}+(alpha_122/j_tot^2) J_{1x}J_{2x}^2. The parameters are alpha_1=0.0001, alpha_2=0.02, alpha_12=0.005, and alpha_122=0.0005. Top 1 is at the principal kicked-top resonance beta_1=4*pi*j_tot, and top 2 is at the secondary resonance beta_2=2*pi*j_tot. The initial state is |J_{1z}=0> tensor |J_{2z}=0>. The bipartition is top 1 versus top 2, and linear entropy is S_lin=1-Tr(rho_1^2). The simulation tracks the normalized variances <J_{1z}^2>/j_tot^2 and <J_{2z}^2>/j_tot^2 and S_lin over kick numbers up to about 10^4. The setup targets the kicked-top analogue of the mixed-symmetry resonance mechanism, while accounting for the finite spherical phase-space bound on wavepacket spreading.",
+    "experiment_results": {
+      "j1z_wavepacket_dynamical_regime": {
+        "type": "categorical",
+        "description": "The classified dynamical regime of the top-1 angular-momentum variance before finite-phase-space saturation.",
+        "result": "hybrid",
+        "allowed_categorial_values": [
+          "quadratic_growth",
+          "period_2_oscillation",
+          "hybrid",
+          "linear_growth_then_saturation"
+        ]
+      },
+      "j2z_wavepacket_dynamical_regime": {
+        "type": "categorical",
+        "description": "The classified dynamical regime of the top-2 angular-momentum variance before finite-phase-space saturation.",
+        "result": "hybrid",
+        "allowed_categorial_values": [
+          "quadratic_growth",
+          "period_2_oscillation",
+          "hybrid",
+          "linear_growth_then_saturation"
+        ]
+      },
+      "linear_entropy_dynamical_regime": {
+        "type": "categorical",
+        "description": "The classified dynamical regime of bipartite linear entropy in the kicked-top simulation.",
+        "result": "hybrid_then_saturation",
+        "allowed_categorial_values": [
+          "quadratic_growth_then_saturation",
+          "period_2_oscillation",
+          "hybrid_then_saturation",
+          "linear_growth_then_saturation"
+        ]
+      },
+      "wavepacket_variance_saturation_scale_formula": {
+        "type": "formula",
+        "description": "The finite spherical phase-space scale at which kicked-top wavepacket variance ceases unbounded growth.",
+        "result": "sigma_{nz}^2 ~ j_tot^2"
+      }
+    }
+  }
+]
