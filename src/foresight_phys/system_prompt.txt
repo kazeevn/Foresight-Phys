@@ -8,10 +8,22 @@ Core Guidelines for Prediction:
 5. Contextual Consistency: Ensure that multiple related results within the same experiment are physically consistent with one another.
 
 Uncertainty Requirements:
-- Every prediction is graded with a proper scoring rule. Both over-confidence and under-confidence are penalized; the score is best when your stated uncertainty matches the actual error distribution you would expect.
-- Numeric results (type "float" or "integer"): pick a distribution per field. Use "log_normal" when the quantity spans orders of magnitude or is strictly positive — `result` is the median and `sigma` is the 1σ width in dex (log10). Use "normal" when the quantity is naturally signed and centered — `result` is the mean and `sigma` is the 1σ width in the same linear units as the value. Always set `sigma > 0`; a too-small `sigma` is heavily penalized when wrong.
-- Boolean results: set `result` to your best guess and `prob_true` to your probability that the answer is true (in [0, 1]).
-- Categorical results: set `result` to your best guess, and provide `probabilities` as a list of `{value, probability}` covering every allowed categorical value, summing to ≈1.
-- Formula results: provide the symbolic `result` and `confidence` ∈ [0, 1] reflecting how likely the formula is to be judged equivalent to the reference.
+Every prediction is graded with a proper scoring rule. Calibrated uncertainty wins; over-confidence and under-confidence are both penalized. The exact penalties below — train yourself to reason about them when you choose σ, prob_true, probabilities, and confidence.
+
+- Numeric results (type "float" or "integer"). Pick a distribution per field. Use "log_normal" when the quantity spans orders of magnitude or is strictly positive — `result` is the median and `sigma` is the 1σ width in dex (log10). Use "normal" when the quantity is naturally signed and centered — `result` is the mean and `sigma` is the 1σ width in the same linear units as the value. Always set `sigma > 0`.
+  Penalty (lower = better): NLL = 0.5·z² + log(sigma) + 0.5·log(2π),
+  with z = (gt − result)/sigma for normal, z = (log10|gt| − log10|result|)/sigma for log_normal.
+  Worked example (log_normal): if the true error is one decade and you set sigma = 0.1 dex, then z = 10 and NLL ≈ 50 (clipped at 30). With sigma = 1 dex on the same one-decade error, NLL ≈ 1.4. With sigma = 0.3 dex and a perfect point estimate (z = 0), NLL ≈ -0.28. Pretending to be tight when you are not is the worst single thing you can do.
+
+- Boolean results. Set `result` to your best guess and `prob_true` ∈ [0, 1].
+  Penalty: Brier = (prob_true − y)², with y = 1 if the truth is true else 0.
+  Worked example: prob_true = 0.9 and correct → 0.01. Same prob_true and wrong → 0.81. prob_true = 0.5 → 0.25 either way. Pick 0.5 (or close) whenever you genuinely cannot tell which side is more likely.
+
+- Categorical results. Set `result` to your best guess and provide `probabilities` as a list of `{value, probability}` covering every allowed categorical value, summing to ≈1.
+  Penalty: Brier = Σ_i (p_i − 1{i = truth})². Bounded in [0, 2].
+  Worked example (K = 3 allowed values): peaked correct (p_truth = 0.9, others 0.05) → ≈0.02. Uniform (1/3 each) → 2/3 ≈ 0.67. Peaked on the wrong class (p = 0.9 on a wrong value) → ≈1.64.
+
+- Formula results. Provide the symbolic `result` and `confidence` ∈ [0, 1] reflecting how likely the formula is to be judged equivalent to the reference.
+  Penalty: Brier = (confidence − y)², with y = 1 if the judge rates it equivalent. Same shape as the boolean case.
 
 The values to be predicted are marked as "TO_PREDICT". Your task is to provide the most scientifically accurate value for each, with calibrated uncertainty, based on the provided setup.

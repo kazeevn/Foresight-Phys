@@ -60,12 +60,11 @@ class ScoreNumericTests(unittest.TestCase):
 
 
 class ScoreBoolTests(unittest.TestCase):
-    def test_uniform_prediction_gives_log2_log_loss(self) -> None:
+    def test_uniform_prediction_has_brier_one_quarter(self) -> None:
         score = score_bool(
             expected_value=True,
             actual_meta={"result": True, "prob_true": 0.5},
         )
-        self.assertAlmostEqual(score["log_loss"], math.log(2.0))
         self.assertAlmostEqual(score["brier"], 0.25)
         self.assertAlmostEqual(score["quality"], 0.75)
 
@@ -75,11 +74,20 @@ class ScoreBoolTests(unittest.TestCase):
             actual_meta={"result": True, "prob_true": 0.9},
         )
         self.assertTrue(score["correct"])
+        self.assertAlmostEqual(score["brier"], 0.01)
         self.assertGreater(score["quality"], 0.9)
+
+    def test_confident_wrong_is_catastrophic(self) -> None:
+        score = score_bool(
+            expected_value=False,
+            actual_meta={"result": True, "prob_true": 0.9},
+        )
+        self.assertFalse(score["correct"])
+        self.assertAlmostEqual(score["brier"], 0.81)
 
 
 class ScoreCategoricalTests(unittest.TestCase):
-    def test_peaked_at_truth_has_low_log_loss(self) -> None:
+    def test_peaked_at_truth_has_low_brier(self) -> None:
         score = score_categorical(
             expected_value="phase_A",
             expected_meta={"allowed_categorial_values": ["phase_A", "phase_B", "phase_C"]},
@@ -89,9 +97,9 @@ class ScoreCategoricalTests(unittest.TestCase):
             },
         )
         self.assertTrue(score["correct"])
-        self.assertAlmostEqual(score["log_loss"], -math.log(0.9), places=6)
+        self.assertAlmostEqual(score["brier"], (0.9 - 1.0) ** 2 + 2 * 0.05 ** 2, places=6)
 
-    def test_uniform_distribution_log_loss_is_log_k(self) -> None:
+    def test_uniform_distribution_brier_is_k_minus_one_over_k(self) -> None:
         score = score_categorical(
             expected_value="phase_A",
             expected_meta={"allowed_categorial_values": ["phase_A", "phase_B", "phase_C"]},
@@ -100,7 +108,8 @@ class ScoreCategoricalTests(unittest.TestCase):
                 "probabilities": {"phase_A": 1.0, "phase_B": 1.0, "phase_C": 1.0},
             },
         )
-        self.assertAlmostEqual(score["log_loss"], math.log(3.0), places=6)
+        # Uniform 1/3 each, truth one-hot at phase_A: (1/3-1)² + 2*(1/3)² = 6/9 = 2/3.
+        self.assertAlmostEqual(score["brier"], 2.0 / 3.0, places=6)
 
     def test_list_shape_probabilities_are_accepted(self) -> None:
         score = score_categorical(
@@ -114,7 +123,7 @@ class ScoreCategoricalTests(unittest.TestCase):
                 ],
             },
         )
-        self.assertAlmostEqual(score["log_loss"], -math.log(0.8), places=6)
+        self.assertAlmostEqual(score["brier"], (0.8 - 1.0) ** 2 + 0.2 ** 2, places=6)
 
 
 class ScoreFormulaTests(unittest.TestCase):
@@ -204,8 +213,11 @@ class ComputeFileMetricsTests(unittest.TestCase):
         self.assertAlmostEqual(metrics["numeric_quality"], 1.0)
         self.assertAlmostEqual(metrics["coverage_1sigma"], 1.0)
         self.assertAlmostEqual(metrics["coverage_2sigma"], 1.0)
-        self.assertAlmostEqual(metrics["bool_log_loss"], -math.log(0.9))
-        self.assertAlmostEqual(metrics["categorical_log_loss"], -math.log(0.8))
+        self.assertAlmostEqual(metrics["bool_brier"], (0.9 - 1.0) ** 2)
+        self.assertAlmostEqual(
+            metrics["categorical_brier"],
+            (0.8 - 1.0) ** 2 + 0.2 ** 2,
+        )
         self.assertAlmostEqual(metrics["formula_accuracy"], 1.0)
         self.assertAlmostEqual(metrics["formula_quality"], 1.0 - (1.0 - 0.7) ** 2)
         self.assertEqual(metrics["result_count"], 4)
@@ -217,8 +229,8 @@ class ComputeFileMetricsTests(unittest.TestCase):
 
     def test_aggregates_across_experiments_with_equal_weight(self) -> None:
         # Two experiments. Experiment A has four near-perfect bools (p=0.9),
-        # experiment B has one bool where p=0.5. The paper-level mean log-loss
-        # must be the experiment-level mean: 0.5 * (-log(0.9) + log(2)).
+        # experiment B has one bool where p=0.5. The paper-level mean Brier is
+        # the experiment-level mean.
         def _bool(value: bool, prob: float) -> dict:
             return {"type": "bool", "result": value, "prob_true": prob}
 
@@ -258,10 +270,10 @@ class ComputeFileMetricsTests(unittest.TestCase):
         ]
 
         metrics = compute_file_metrics(expected_json, actual_json)
-        self.assertAlmostEqual(
-            metrics["bool_log_loss"],
-            0.5 * (-math.log(0.9) + math.log(2.0)),
-        )
+        # Exp A: four bools at p=0.9, all true → Brier = 0.01 each, mean 0.01.
+        # Exp B: one bool at p=0.5 → Brier = 0.25.
+        # Paper-level mean of experiment-level means: (0.01 + 0.25) / 2 = 0.13.
+        self.assertAlmostEqual(metrics["bool_brier"], 0.5 * (0.01 + 0.25))
 
     def test_missing_numeric_prediction_counts_as_zero_quality(self) -> None:
         expected_json = {

@@ -381,8 +381,8 @@ def write_human_readable_report(
             ("Numeric NLL", "numeric_nll"),
             ("Coverage @1σ", "coverage_1sigma"),
             ("Coverage @2σ", "coverage_2sigma"),
-            ("Bool log-loss", "bool_log_loss"),
-            ("Categorical log-loss", "categorical_log_loss"),
+            ("Bool Brier", "bool_brier"),
+            ("Categorical Brier", "categorical_brier"),
             ("Bool/Categorical Accuracy", "bool_categorical_accuracy"),
             ("Formula Accuracy", "formula_accuracy"),
         )
@@ -612,8 +612,8 @@ def write_human_readable_report(
         <div class="meta">Aggregate numeric NLL: {format_metric_value(summary.get('aggregate_numeric_nll'))}</div>
         <div class="meta">Aggregate coverage @1σ: {format_metric_value(summary.get('aggregate_coverage_1sigma'))}</div>
         <div class="meta">Aggregate coverage @2σ: {format_metric_value(summary.get('aggregate_coverage_2sigma'))}</div>
-        <div class="meta">Aggregate bool log-loss: {format_metric_value(summary.get('aggregate_bool_log_loss'))}</div>
-        <div class="meta">Aggregate categorical log-loss: {format_metric_value(summary.get('aggregate_categorical_log_loss'))}</div>
+        <div class="meta">Aggregate bool Brier: {format_metric_value(summary.get('aggregate_bool_brier'))}</div>
+        <div class="meta">Aggregate categorical Brier: {format_metric_value(summary.get('aggregate_categorical_brier'))}</div>
         <div class="meta">Aggregate bool/categorical accuracy: {format_metric_value(summary.get('aggregate_bool_categorical_accuracy'))}</div>
         <div class="meta">Aggregate formula accuracy: {format_metric_value(summary.get('aggregate_formula_accuracy'))}</div>
     </div>

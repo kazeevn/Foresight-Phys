@@ -177,15 +177,15 @@ def main() -> None:
     _print("Aggregate numeric NLL", "aggregate_numeric_nll")
     _print("Aggregate coverage @1σ", "aggregate_coverage_1sigma")
     _print("Aggregate coverage @2σ", "aggregate_coverage_2sigma")
-    _print("Aggregate bool log-loss", "aggregate_bool_log_loss")
-    _print("Aggregate categorical log-loss", "aggregate_categorical_log_loss")
+    _print("Aggregate bool Brier", "aggregate_bool_brier")
+    _print("Aggregate categorical Brier", "aggregate_categorical_brier")
     _print("Aggregate bool/categorical accuracy", "aggregate_bool_categorical_accuracy")
     if summary.get('aggregate_formula_accuracy') is not None:
         print(
             f"Aggregate formula accuracy ({summary['formula_judge_model']} judge): "
             f"{summary['aggregate_formula_accuracy']:.4f}"
         )
-    _print("Aggregate formula log-loss", "aggregate_formula_log_loss")
+    _print("Aggregate formula Brier", "aggregate_formula_brier")
 
 
 if __name__ == '__main__':

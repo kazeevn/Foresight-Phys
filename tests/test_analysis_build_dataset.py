@@ -69,7 +69,7 @@ class BuildDatasetTests(unittest.TestCase):
                         "probabilities_json": None,
                         "confidence": None,
                         "equivalent": None,
-                        "log_loss": None,
+                        "brier": None,
                     },
                     {
                         "run_name": "run-one",
@@ -94,7 +94,7 @@ class BuildDatasetTests(unittest.TestCase):
                         "probabilities_json": None,
                         "confidence": None,
                         "equivalent": None,
-                        "log_loss": 1.2,
+                        "brier": 0.49,
                     },
                 ]
             ).to_parquet(paths.predictions_parquet, index=False)

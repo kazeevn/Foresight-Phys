@@ -7,12 +7,11 @@ from .formula_judging import FormulaJudge, FormulaJudgment
 from .json_payloads import get_at_path, iter_result_paths
 
 
-# Cap NLL / log-loss at this value so individual catastrophic predictions don't
+# Cap NLL at this value so individual catastrophic numeric predictions don't
 # swamp the run aggregates and infinities don't propagate.
 NLL_CAP = 30.0
-# Floor for sigma and probabilities to keep log/division stable.
+# Floor for sigma to keep log/division stable.
 SIGMA_FLOOR = 1e-9
-PROB_FLOOR = 1e-9
 LN10 = math.log(10.0)
 LOG_2PI = math.log(2.0 * math.pi)
 
@@ -212,7 +211,6 @@ def score_bool(
         "prob_true": None,
         "argmax": None,
         "correct": False,
-        "log_loss": NLL_CAP,
         "brier": 1.0,
         "quality": 0.0,
         "missing": actual_meta is None,
@@ -238,10 +236,7 @@ def score_bool(
     result["correct"] = argmax_bool == expected_bool
 
     y = 1.0 if expected_bool else 0.0
-    p = min(max(prob_true, PROB_FLOOR), 1.0 - PROB_FLOOR)
-    log_loss = -(y * math.log(p) + (1.0 - y) * math.log(1.0 - p))
     brier = (prob_true - y) ** 2
-    result["log_loss"] = _clip_nll(log_loss)
     result["brier"] = brier
     result["quality"] = 1.0 - brier
     return result
@@ -296,8 +291,7 @@ def score_categorical(
         "probabilities": None,
         "argmax": None,
         "correct": False,
-        "log_loss": NLL_CAP,
-        "brier": 1.0,
+        "brier": 2.0,
         "quality": 0.0,
         "missing": actual_meta is None,
     }
@@ -329,9 +323,6 @@ def score_categorical(
     if isinstance(argmax_meta, str) and argmax_meta in probabilities:
         argmax_value = argmax_meta
 
-    prob_truth = probabilities.get(expected_str, 0.0)
-    clipped_p = min(max(prob_truth, PROB_FLOOR), 1.0)
-    log_loss = -math.log(clipped_p)
     brier = sum(
         (probabilities.get(value, 0.0) - (1.0 if value == expected_str else 0.0)) ** 2
         for value in (set(probabilities) | {expected_str})
@@ -340,7 +331,6 @@ def score_categorical(
     result["probabilities"] = probabilities
     result["argmax"] = argmax_value
     result["correct"] = argmax_value == expected_str
-    result["log_loss"] = _clip_nll(log_loss)
     result["brier"] = brier
     result["quality"] = max(0.0, 1.0 - 0.5 * brier)
     return result
@@ -402,7 +392,6 @@ def score_formula(
         "confidence": None,
         "equivalent": False,
         "explanation": "",
-        "log_loss": NLL_CAP,
         "brier": 1.0,
         "quality": 0.0,
         "missing": actual_meta is None,
@@ -435,10 +424,7 @@ def score_formula(
     result["confidence"] = confidence
 
     y = 1.0 if judgment.equivalent else 0.0
-    p = min(max(confidence, PROB_FLOOR), 1.0 - PROB_FLOOR)
-    log_loss = -(y * math.log(p) + (1.0 - y) * math.log(1.0 - p))
     brier = (confidence - y) ** 2
-    result["log_loss"] = _clip_nll(log_loss)
     result["brier"] = brier
     result["quality"] = 1.0 - brier
     return result
@@ -458,13 +444,13 @@ METRIC_KEYS = (
     "numeric_nll",
     "coverage_1sigma",
     "coverage_2sigma",
-    "bool_log_loss",
+    "bool_brier",
     "bool_quality",
     "bool_categorical_accuracy",
-    "categorical_log_loss",
+    "categorical_brier",
     "categorical_quality",
     "formula_accuracy",
-    "formula_log_loss",
+    "formula_brier",
     "formula_quality",
 )
 
@@ -504,7 +490,7 @@ def _format_bool_status(score: dict[str, Any]) -> tuple[str, str, str]:
     pct = score["prob_true"] * 100.0 if score["prob_true"] is not None else float("nan")
     text = f"P(true) = {pct:.0f}% ({'match' if correct else 'mismatch'})"
     return text, ("status-match" if correct else "status-mismatch"), (
-        f"log-loss = {score['log_loss']:.3f}; brier = {score['brier']:.3f}"
+        f"brier = {score['brier']:.3f}"
     )
 
 
@@ -519,7 +505,7 @@ def _format_categorical_status(score: dict[str, Any]) -> tuple[str, str, str]:
     return (
         f"P({truth}) = {prob_truth * 100.0:.0f}% ({'match' if correct else 'mismatch'})",
         "status-match" if correct else "status-mismatch",
-        f"log-loss = {score['log_loss']:.3f}; brier = {score['brier']:.3f}",
+        f"brier = {score['brier']:.3f}",
     )
 
 
@@ -570,17 +556,17 @@ def build_experiment_report(
     numeric_nll_values: list[float] = []
     coverage_1sigma_hits: list[float] = []
     coverage_2sigma_hits: list[float] = []
-    bool_log_loss_values: list[float] = []
+    bool_brier_values: list[float] = []
     bool_quality_values: list[float] = []
     classification_total = 0
     classification_correct = 0
     bool_count = 0
     categorical_count = 0
-    categorical_log_loss_values: list[float] = []
+    categorical_brier_values: list[float] = []
     categorical_quality_values: list[float] = []
     formula_count = 0
     formula_correct = 0
-    formula_log_loss_values: list[float] = []
+    formula_brier_values: list[float] = []
     formula_quality_values: list[float] = []
     missing = 0
     numeric_count = 0
@@ -642,7 +628,7 @@ def build_experiment_report(
                 formula_judge=formula_judge,
             )
             quality_values.append(score["quality"])
-            formula_log_loss_values.append(score["log_loss"])
+            formula_brier_values.append(score["brier"])
             formula_quality_values.append(score["quality"])
             if score["equivalent"]:
                 formula_correct += 1
@@ -651,7 +637,7 @@ def build_experiment_report(
                 {
                     "confidence": score["confidence"],
                     "equivalent": score["equivalent"],
-                    "log_loss": score["log_loss"],
+                    "brier": score["brier"],
                     "quality": score["quality"],
                 }
             )
@@ -663,7 +649,7 @@ def build_experiment_report(
                 actual_meta=actual_meta_dict,
             )
             quality_values.append(score["quality"])
-            bool_log_loss_values.append(score["log_loss"])
+            bool_brier_values.append(score["brier"])
             bool_quality_values.append(score["quality"])
             if score["correct"]:
                 classification_correct += 1
@@ -671,7 +657,7 @@ def build_experiment_report(
             row.update(
                 {
                     "prob_true": score["prob_true"],
-                    "log_loss": score["log_loss"],
+                    "brier": score["brier"],
                     "quality": score["quality"],
                 }
             )
@@ -684,7 +670,7 @@ def build_experiment_report(
                 actual_meta=actual_meta_dict,
             )
             quality_values.append(score["quality"])
-            categorical_log_loss_values.append(score["log_loss"])
+            categorical_brier_values.append(score["brier"])
             categorical_quality_values.append(score["quality"])
             if score["correct"]:
                 classification_correct += 1
@@ -692,7 +678,7 @@ def build_experiment_report(
             row.update(
                 {
                     "probabilities": score["probabilities"],
-                    "log_loss": score["log_loss"],
+                    "brier": score["brier"],
                     "quality": score["quality"],
                 }
             )
@@ -737,9 +723,9 @@ def build_experiment_report(
             if coverage_2sigma_hits
             else None
         ),
-        "bool_log_loss": (
-            sum(bool_log_loss_values) / len(bool_log_loss_values)
-            if bool_log_loss_values
+        "bool_brier": (
+            sum(bool_brier_values) / len(bool_brier_values)
+            if bool_brier_values
             else None
         ),
         "bool_quality": (
@@ -750,9 +736,9 @@ def build_experiment_report(
         "bool_categorical_accuracy": (
             classification_correct / classification_total if classification_total else None
         ),
-        "categorical_log_loss": (
-            sum(categorical_log_loss_values) / len(categorical_log_loss_values)
-            if categorical_log_loss_values
+        "categorical_brier": (
+            sum(categorical_brier_values) / len(categorical_brier_values)
+            if categorical_brier_values
             else None
         ),
         "categorical_quality": (
@@ -763,9 +749,9 @@ def build_experiment_report(
         "formula_accuracy": (
             formula_correct / formula_count if formula_count else None
         ),
-        "formula_log_loss": (
-            sum(formula_log_loss_values) / len(formula_log_loss_values)
-            if formula_log_loss_values
+        "formula_brier": (
+            sum(formula_brier_values) / len(formula_brier_values)
+            if formula_brier_values
             else None
         ),
         "formula_quality": (

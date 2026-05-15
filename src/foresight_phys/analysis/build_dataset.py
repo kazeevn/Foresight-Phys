@@ -6,7 +6,7 @@ Produces a long dataframe with one row per (model, file, experiment, key). Adds:
 - ``correct`` (per-field quality >= ``CORRECT_THRESHOLD``)
 - ``likely_unit_off`` (factor 1e3/1e6 ratio between pred and gt)
 
-Field-level scoring (``quality``, ``nll``, ``z``, ``log_loss`` …) is computed
+Field-level scoring (``quality``, ``nll``, ``z``, ``brier`` …) is computed
 upstream in ``foresight_phys.metrics`` and merely passed through here.
 """
 from __future__ import annotations

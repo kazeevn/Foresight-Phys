@@ -149,8 +149,10 @@ computes:
 - `coverage_1sigma`, `coverage_2sigma`: fraction of numeric predictions with
   `|z| < 1` and `|z| < 2`. With well-calibrated uncertainty these target
   ≈0.68 and ≈0.95.
-- `bool_log_loss`, `categorical_log_loss`, `formula_log_loss`: average
-  log-loss of the predicted probability against the realised outcome.
+- `bool_brier`, `categorical_brier`, `formula_brier`: mean Brier score of the
+  predicted probability against the realised outcome. Bounded in [0, 1] for
+  bool / formula and [0, 2] for categorical. Brier is a proper scoring rule
+  that, unlike log-loss, stays finite under catastrophic overconfidence.
 - `bool_categorical_accuracy`: argmax accuracy over boolean and categorical
   fields (sanity check; not a proper score).
 - `formula_accuracy`: fraction of formula fields judged equivalent.

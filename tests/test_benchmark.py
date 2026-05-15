@@ -240,8 +240,8 @@ class ReportingTests(unittest.TestCase):
             "aggregate_numeric_nll": -0.3,
             "aggregate_coverage_1sigma": 1.0,
             "aggregate_coverage_2sigma": 1.0,
-            "aggregate_bool_log_loss": None,
-            "aggregate_categorical_log_loss": None,
+            "aggregate_bool_brier": None,
+            "aggregate_categorical_brier": None,
             "aggregate_bool_categorical_accuracy": None,
             "aggregate_formula_accuracy": None,
             "per_file": [
@@ -252,8 +252,8 @@ class ReportingTests(unittest.TestCase):
                     "numeric_nll": -0.3,
                     "coverage_1sigma": 1.0,
                     "coverage_2sigma": 1.0,
-                    "bool_log_loss": None,
-                    "categorical_log_loss": None,
+                    "bool_brier": None,
+                    "categorical_brier": None,
                     "bool_categorical_accuracy": None,
                     "formula_accuracy": None,
                     "report_experiments": [

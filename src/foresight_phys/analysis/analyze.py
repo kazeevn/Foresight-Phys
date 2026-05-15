@@ -103,7 +103,7 @@ def _per_model_summary(scored: pd.DataFrame) -> list[dict]:
         .assign(correct_f=lambda d: d["correct"].astype(float))
     )
     disc_macro = _paper_macro(disc_df, "correct_f")
-    disc_log_loss_macro = _paper_macro(disc_df, "log_loss")
+    disc_brier_macro = _paper_macro(disc_df, "brier")
 
     rows: list[dict] = []
     for m, sub in scored.groupby("model"):
@@ -122,9 +122,9 @@ def _per_model_summary(scored: pd.DataFrame) -> list[dict]:
             "bool_categorical_accuracy": (
                 float(disc_macro.get(m, float("nan"))) if m in disc_macro.index else None
             ),
-            "bool_categorical_log_loss": (
-                float(disc_log_loss_macro.get(m, float("nan")))
-                if m in disc_log_loss_macro.index
+            "bool_categorical_brier": (
+                float(disc_brier_macro.get(m, float("nan")))
+                if m in disc_brier_macro.index
                 else None
             ),
         }

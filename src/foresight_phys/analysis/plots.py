@@ -309,15 +309,15 @@ def fig_nll_bars(scored: pd.DataFrame) -> plt.Figure:
         }
 
     nll = macro(scored["type"].isin(NUMERIC_TYPES), "nll")
-    bool_ll = macro(scored["type"] == "bool", "log_loss")
-    cat_ll = macro(scored["type"] == "categorical", "log_loss")
-    form_ll = macro(scored["type"] == "formula", "log_loss")
+    bool_br = macro(scored["type"] == "bool", "brier")
+    cat_br = macro(scored["type"] == "categorical", "brier")
+    form_br = macro(scored["type"] == "formula", "brier")
 
     metrics = {
         "Numeric\nNLL": [nll[m] for m in models],
-        "Bool\nlog-loss": [bool_ll[m] for m in models],
-        "Categorical\nlog-loss": [cat_ll[m] for m in models],
-        "Formula\nlog-loss": [form_ll[m] for m in models],
+        "Bool\nBrier": [bool_br[m] for m in models],
+        "Categorical\nBrier": [cat_br[m] for m in models],
+        "Formula\nBrier": [form_br[m] for m in models],
     }
 
     fig, ax = plt.subplots(figsize=(8.5, 4.5))

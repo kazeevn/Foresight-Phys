@@ -82,7 +82,7 @@ def parse_summary(model: str, run_name: str, summary: dict[str, Any]) -> list[di
                     "probabilities_json": _serialize_optional_mapping(row.get("probabilities")),
                     "confidence": row.get("confidence"),
                     "equivalent": row.get("equivalent"),
-                    "log_loss": row.get("log_loss"),
+                    "brier": row.get("brier"),
                 })
     return rows
 

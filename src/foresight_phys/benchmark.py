@@ -71,13 +71,13 @@ def run_benchmark(args: argparse.Namespace) -> dict[str, Any]:
         'numeric_nll',
         'coverage_1sigma',
         'coverage_2sigma',
-        'bool_log_loss',
+        'bool_brier',
         'bool_quality',
         'bool_categorical_accuracy',
-        'categorical_log_loss',
+        'categorical_brier',
         'categorical_quality',
         'formula_accuracy',
-        'formula_log_loss',
+        'formula_brier',
         'formula_quality',
     )
     aggregates = {f'aggregate_{key}': average_metric(rows, key) for key in aggregate_keys}

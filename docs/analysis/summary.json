@@ -1,145 +1,95 @@
 {
-  "n_models": 4,
+  "n_models": 2,
   "n_papers": 20,
-  "n_fields": 347,
+  "n_fields": 375,
   "aggregation": "paper-macro of experiment-macro (matches per-run aggregate_*)",
   "per_model": [
     {
-      "model": "gpt-5.4",
-      "n_fields": 347,
-      "n_papers": 20,
-      "mean_score": 0.7151904454228297,
-      "mean_correct": 0.7772516534391534,
-      "numeric_log_accuracy_mean": 0.3408323057924388,
-      "bool_categorical_accuracy": 0.9703703703703704
-    },
-    {
       "model": "gpt-5.4-mini",
-      "n_fields": 347,
+      "n_fields": 375,
       "n_papers": 20,
-      "mean_score": 0.6221147532910591,
-      "mean_correct": 0.65413458994709,
-      "numeric_log_accuracy_mean": 0.39954170768606956,
-      "bool_categorical_accuracy": 0.9314814814814815
+      "mean_quality": 0.41254084185529855,
+      "mean_correct": 0.38402408185496417,
+      "numeric_quality": 0.3752286325917579,
+      "numeric_nll": 8.813566731260215,
+      "bool_categorical_accuracy": 0.8888888888888888,
+      "bool_categorical_log_loss": 0.4148285827059901,
+      "frac_within_1sigma": 0.34262392091339455,
+      "frac_within_2sigma": 0.473423141186299,
+      "frac_within_3sigma": 0.6160192147034252
     },
     {
       "model": "gpt-5.4-nano",
-      "n_fields": 347,
+      "n_fields": 375,
       "n_papers": 20,
-      "mean_score": 0.6245720049987872,
-      "mean_correct": 0.6739097222222222,
-      "numeric_log_accuracy_mean": 0.39374007409536915,
-      "bool_categorical_accuracy": 0.8851851851851852
-    },
-    {
-      "model": "gpt-5.5",
-      "n_fields": 347,
-      "n_papers": 20,
-      "mean_score": 0.7607007604023658,
-      "mean_correct": 0.7921193783068783,
-      "numeric_log_accuracy_mean": 0.26336172743426034,
-      "bool_categorical_accuracy": 0.9425925925925926
+      "mean_quality": 0.43537075921296,
+      "mean_correct": 0.44258415032679743,
+      "numeric_quality": 0.35154911183182436,
+      "numeric_nll": 8.060461071382184,
+      "bool_categorical_accuracy": 0.9537037037037037,
+      "bool_categorical_log_loss": 0.5201853952582574,
+      "frac_within_1sigma": 0.2783138401559454,
+      "frac_within_2sigma": 0.5328313840155946,
+      "frac_within_3sigma": 0.6097841826789195
     }
   ],
-  "numeric_thresholds": [
-    {
-      "model": "gpt-5.4",
-      "n_fields": 299,
-      "n_papers": 19,
-      "frac_within_0.1_log_acc": 0.4752568922305765,
-      "frac_within_factor_2": 0.6743198273461432,
-      "frac_within_factor_3": 0.8185025062656642,
-      "frac_within_factor_10": 0.9240601503759398,
-      "median_abs_log10_ratio": 0.3211407486490651
-    },
+  "numeric_calibration": [
     {
       "model": "gpt-5.4-mini",
-      "n_fields": 297,
+      "n_fields": 318,
       "n_papers": 19,
-      "frac_within_0.1_log_acc": 0.3773078529657477,
-      "frac_within_factor_2": 0.6194340016708438,
-      "frac_within_factor_3": 0.7077130325814537,
-      "frac_within_factor_10": 0.8859377610693401,
-      "median_abs_log10_ratio": 0.3647125792079031
+      "numeric_nll": 8.813566731260215,
+      "numeric_quality": 0.3752286325917579,
+      "frac_within_1sigma": 0.34262392091339455,
+      "frac_within_2sigma": 0.473423141186299,
+      "frac_within_3sigma": 0.6160192147034252
     },
     {
       "model": "gpt-5.4-nano",
-      "n_fields": 299,
+      "n_fields": 318,
       "n_papers": 19,
-      "frac_within_0.1_log_acc": 0.40578529657477025,
-      "frac_within_factor_2": 0.6223224728487886,
-      "frac_within_factor_3": 0.7493065998329156,
-      "frac_within_factor_10": 0.8903028404344194,
-      "median_abs_log10_ratio": 0.3738459308843206
-    },
-    {
-      "model": "gpt-5.5",
-      "n_fields": 298,
-      "n_papers": 19,
-      "frac_within_0.1_log_acc": 0.5215747702589808,
-      "frac_within_factor_2": 0.6905816624895572,
-      "frac_within_factor_3": 0.8048485797827902,
-      "frac_within_factor_10": 0.9384711779448622,
-      "median_abs_log10_ratio": 0.24528320874385573
-    },
-    {
-      "model": "_constant_baseline_",
-      "n_fields": 300,
-      "n_papers": 19,
-      "constant_value": 1.2,
-      "frac_within_0.1_log_acc": 0.20770676691729326,
-      "frac_within_factor_2": 0.3094193817878028,
-      "frac_within_factor_3": 0.4398565859092175,
-      "frac_within_factor_10": 0.5914863547758284
+      "numeric_nll": 8.060461071382184,
+      "numeric_quality": 0.35154911183182436,
+      "frac_within_1sigma": 0.2783138401559454,
+      "frac_within_2sigma": 0.5328313840155946,
+      "frac_within_3sigma": 0.6097841826789195
     }
   ],
   "difficulty_distribution_overall": {
-    "trivial (all correct)": 177,
-    "easy (1 wrong)": 72,
-    "intractable (none correct)": 38,
-    "discriminative": 35,
-    "hard (1 right)": 25
+    "intractable (none correct)": 212,
+    "easy (1 wrong)": 90,
+    "trivial (all correct)": 73
   },
   "difficulty_by_type": [
     {
       "type": "bool",
-      "discriminative": 3,
-      "easy (1 wrong)": 1,
-      "hard (1 right)": 1,
-      "intractable (none correct)": 0,
-      "trivial (all correct)": 14
+      "easy (1 wrong)": 2,
+      "intractable (none correct)": 3,
+      "trivial (all correct)": 27
     },
     {
       "type": "categorical",
-      "discriminative": 2,
-      "easy (1 wrong)": 2,
-      "hard (1 right)": 0,
-      "intractable (none correct)": 0,
-      "trivial (all correct)": 14
+      "easy (1 wrong)": 0,
+      "intractable (none correct)": 1,
+      "trivial (all correct)": 17
     },
     {
       "type": "float",
-      "discriminative": 27,
-      "easy (1 wrong)": 69,
-      "hard (1 right)": 22,
-      "intractable (none correct)": 36,
-      "trivial (all correct)": 142
+      "easy (1 wrong)": 83,
+      "intractable (none correct)": 203,
+      "trivial (all correct)": 24
     },
     {
       "type": "formula",
-      "discriminative": 2,
-      "easy (1 wrong)": 0,
-      "hard (1 right)": 2,
+      "easy (1 wrong)": 4,
       "intractable (none correct)": 2,
       "trivial (all correct)": 1
     },
     {
       "type": "integer",
-      "discriminative": 1,
-      "easy (1 wrong)": 0,
-      "hard (1 right)": 0,
-      "intractable (none correct)": 0,
-      "trivial (all correct)": 6
+      "easy (1 wrong)": 1,
+      "intractable (none correct)": 3,
+      "trivial (all correct)": 4
     }
   ],
   "categorical_random_baseline": 0.3111111111111111,
