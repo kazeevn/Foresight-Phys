@@ -194,6 +194,117 @@ def fig_aggregate_per_field(scored: pd.DataFrame) -> plt.Figure:
     )
 
 
+# Single-column variants (paper-friendly): bigger fonts, no in-figure titles
+# (the LaTeX caption already labels them), figure sized close to a two-column
+# layout's column width so font-to-figure ratio stays legible after scaling.
+
+COLUMN_RCPARAMS = {
+    "font.size": 11,
+    "axes.titlesize": 12,
+    "axes.labelsize": 11,
+    "legend.fontsize": 9,
+    "xtick.labelsize": 10,
+    "ytick.labelsize": 10,
+}
+
+
+def fig_aggregate_paper_macro_column(scored: pd.DataFrame) -> plt.Figure:
+    with plt.rc_context(COLUMN_RCPARAMS):
+        models = _model_order(scored)
+        palette = _model_palette(models)
+
+        score_macro = _paper_macro_score(scored, "score")
+        norm_log = _paper_macro_score(
+            scored.assign(
+                _nls=np.where(scored["type"].isin(NUMERIC_TYPES),
+                              scored["normalized_log_accuracy_score"], np.nan)
+            ),
+            "_nls",
+        )
+        disc_macro = _paper_macro_score(
+            scored.assign(
+                _correct=np.where(scored["type"].isin(DISC_TYPES),
+                                  scored["correct"].astype(float), np.nan)
+            ),
+            "_correct",
+        )
+        formula_macro = _paper_macro_score(
+            scored.assign(
+                _correct=np.where(scored["type"] == "formula",
+                                  scored["correct"].astype(float), np.nan)
+            ),
+            "_correct",
+        )
+
+        def get(series: pd.Series, m: str) -> float:
+            return float(series.get(m, float("nan"))) if m in series.index else float("nan")
+
+        metrics = {
+            "Overall": [get(score_macro, m) for m in models],
+            "Numeric": [get(norm_log, m) for m in models],
+            "Bool/cat.": [get(disc_macro, m) for m in models],
+            "Formula": [get(formula_macro, m) for m in models],
+        }
+
+        fig, ax = plt.subplots(figsize=(3.4, 2.6))
+        x = np.arange(len(metrics))
+        width = 0.8 / max(len(models), 1)
+        for i, m in enumerate(models):
+            vals = [metrics[k][i] for k in metrics]
+            ax.bar(x + (i - (len(models) - 1) / 2) * width, vals, width,
+                   label=_nice_label(m), color=palette[m])
+        ax.set_xticks(x, list(metrics.keys()))
+        ax.set_ylim(0, 1)
+        ax.set_ylabel("score / accuracy")
+        ax.legend(loc="lower center", bbox_to_anchor=(0.5, 1.0),
+                  ncol=len(models), handlelength=1.0, columnspacing=1.0,
+                  borderpad=0.3, handletextpad=0.4, frameon=False)
+        fig.tight_layout()
+        return fig
+
+
+def fig_log_ratio_cdf_column(scored: pd.DataFrame) -> plt.Figure:
+    with plt.rc_context(COLUMN_RCPARAMS):
+        num = scored[
+            scored["type"].isin(NUMERIC_TYPES)
+            & scored["numeric_gt"].notna()
+            & scored["numeric_pred"].notna()
+            & (scored["numeric_gt"] != 0)
+            & (scored["numeric_pred"] != 0)
+        ]
+        models = _model_order(scored)
+        palette = _model_palette(models)
+        gt = num.drop_duplicates(["file_id", "experiment", "key"])["numeric_gt"].to_numpy()
+        baseline = float(np.exp(np.median(np.log(np.abs(gt))))) if len(gt) else 1.0
+
+        fig, ax = plt.subplots(figsize=(3.4, 2.8))
+        for m in models:
+            sub = num[num.model == m]
+            r = np.sort(sub.log_accuracy.to_numpy())
+            cdf = np.arange(1, len(r) + 1) / len(r)
+            ax.plot(r, cdf, label=_nice_label(m), color=palette[m], lw=1.6)
+        r = np.sort(np.abs(np.log10(np.abs(baseline / gt))))
+        cdf = np.arange(1, len(r) + 1) / len(r)
+        ax.plot(r, cdf, "--", color="grey", lw=1.2,
+                label=f"const baseline ({baseline:.2f})")
+        for x_, label in (
+            (np.log10(2), r"$\times 2$"),
+            (np.log10(3), r"$\times 3$"),
+            (1.0, "1 dex"),
+        ):
+            ax.axvline(x_, color="k", lw=0.5, ls=":")
+            ax.text(x_ - 0.04, 0.98, label, rotation=90, fontsize=9,
+                    va="top", ha="right")
+        ax.set_xlabel(r"$|\log_{10}(\hat y / y)|$")
+        ax.set_ylabel("cumulative fraction")
+        ax.set_xlim(0, 3)
+        ax.set_ylim(0, 1)
+        ax.legend(loc="lower right", handlelength=1.5, borderpad=0.3,
+                  handletextpad=0.4, framealpha=0.9)
+        fig.tight_layout()
+        return fig
+
+
 def fig_difficulty(wide: pd.DataFrame) -> plt.Figure:
     counts = wide["difficulty"].value_counts().reindex(DIFFICULTY_ORDER).fillna(0)
     by_type = (
@@ -504,6 +615,9 @@ def _figure_specs() -> list[tuple[str, PlotFactory, tuple[str, ...]]]:
         ("numeric_log_ratio_cdf", fig_log_ratio_cdf, ("scored",)),
         ("numeric_scatter", fig_numeric_scatter, ("scored",)),
         ("model_agreement", fig_model_agreement, ("wide",)),
+        # Column-width variants for two-column papers.
+        ("aggregate_paper_macro_column", fig_aggregate_paper_macro_column, ("scored",)),
+        ("numeric_log_ratio_cdf_column", fig_log_ratio_cdf_column, ("scored",)),
     ]
 
 

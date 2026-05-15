@@ -1,121 +1,311 @@
 [
   {
-    "experiment_description": "A large-area Hall-bar device was fabricated from mica-assisted assembly of a hexagonal-boron-nitride-encapsulated single-layer graphene stack on a SiO2/Si substrate. The Hall-bar active region had lateral dimensions of approximately 20 µm by 14 µm. Low-temperature electronic transport was measured in a multiterminal non-local bend-resistance geometry: current was driven between a source and drain contact and the voltage was detected on non-local probe terminals across the Hall bar. The device was held at T = 1.7 K. The perpendicular magnetic field B was swept over approximately −0.3 T to +0.3 T, and the carrier density n was gate-tuned over approximately −1.5 × 10^12 cm^-2 to +1.0 × 10^12 cm^-2. The electron mobility was extracted from the density-dependent conductivity of the same graphene Hall bar away from the charge-neutrality point.",
+    "experiment_description": "Central concept: a polymer-free deterministic van der Waals assembly method replaces conventional PC/PPC polymer transfer layers with thin muscovite mica crystals, using temperature-tunable mica/2D-material adhesion to pick up, stack, and release 2D layers while avoiding organic residues and strain. AFM-grade muscovite mica crystals were mechanically exfoliated onto adhesive tape to obtain optically transparent few-hundred-nanometer-thick mica sheets. For the membrane geometry, a mica membrane was suspended over a 5–6 mm hole punched in Nitto ELP BT-50E-FR or multilayer Scotch Magic adhesive tape, then mounted over a rectangular PDMS block on a microscope glass slide so that the PDMS tensioned the mica. For the cantilever geometry, triangular mica pieces of similar thickness were cleaved at the edge of adhesive tape and mounted on an angled metal support on a glass slide, giving a reproducible contact angle and optical access. Source mica crystals and prepared stamps were stored under inert gas or dry vacuum; assembly was performed in argon glovebox or in air with relative humidity below about 50%. For hBN/graphene/hBN assembly, Si/SiO2 substrates carrying exfoliated flakes were heated to 50–90 °C for pickup. A mica stamp or cantilever was brought into optical contact using the transfer-stage z axis; the contact front was steered by z displacement or by changing substrate temperature within about ±10 °C. The mica was placed in full contact with the target hBN flake to pick it up, then subsequent graphene and other 2D layers were contacted and picked up using the hBN-on-mica surface. For release, the target bottom hBN flake on Si/SiO2 was heated to 120–180 °C; the assembled stack was brought into contact with it, and the contact front was swept across the heterostructure by temperature control while leaving part of the bottom hBN outside the mica contact area to avoid pickup of the bottom flake. The process-success criterion was deterministic formation and release of the intended polymer-free vdW heterostructure stack with unneeded picked-up flakes remaining on the mica stamp when selective release was used.",
     "experiment_results": {
-      "maximum_electron_mobility_cm2_V_s": {
-        "type": "float",
-        "description": "Maximum electron mobility extracted for the hBN-encapsulated single-layer graphene Hall bar at high carrier density and low temperature.",
-        "result": 4000000.0
-      },
-      "ballistic_nonlocal_transport_at_zero_field": {
+      "polymer_free_hbn_graphene_hbn_assembly_success": {
         "type": "bool",
-        "description": "Whether the non-local bend-resistance measurement exhibited the negative zero-field non-local resistance signature of ballistic electron transport across the Hall-bar width.",
+        "description": "Whether the mica membrane/cantilever recipe produced deterministic pickup, stacking, and selective release of hBN/graphene/hBN-type vdW heterostructures without using a polymer transfer layer in contact with the 2D materials.",
         "result": true
       },
-      "magnetic_electron_focusing_oscillations_observed": {
+      "selective_release_success": {
         "type": "bool",
-        "description": "Whether rapidly decaying magnetic electron focusing oscillations were observed in the non-local resistance upon applying perpendicular magnetic field.",
+        "description": "Whether only the intended stack region could be released onto the bottom hBN while other picked-up flakes remained on the mica support.",
         "result": true
       }
     }
   },
   {
-    "experiment_description": "A more complex Hall-bar device was fabricated by mica-assisted assembly from a seven-layer van der Waals heterostructure consisting of hBN-encapsulated large-angle twisted trilayer graphene with graphite and hBN gate layers. The three graphene sheets were intentionally misaligned by high twist angles of about 20° so that the layers were momentum-space mismatched. The device was patterned as a Hall bar on a SiO2/Si substrate and measured at low temperature in a non-local bend-transport geometry. For the non-local magnetotransport map, total carrier density n was swept over approximately −1.0 × 10^12 cm^-2 to +0.5 × 10^12 cm^-2 while perpendicular magnetic field B was swept over approximately 0 T to 0.4 T; the plotted measurement used an applied displacement field D = −0.5 V/nm. A separate double-gate resistance map was recorded at fixed B = 50 mT while sweeping total carrier density n over approximately −0.2 × 10^12 cm^-2 to +0.2 × 10^12 cm^-2 and displacement field D over approximately −0.2 V/nm to +0.2 V/nm. The onset field for Landau quantization was determined from the appearance of Landau fan features in the magnetotransport data.",
+    "experiment_description": "Central concept: the mica-assisted polymer-free transfer is intended to yield atomically flat, contamination-free vdW interfaces without annealing or solvent cleaning. A single-layer graphene device fully encapsulated between top and bottom hBN was assembled by mica-cantilever transfer and released by the standard mica release route onto a SiO2/Si substrate. The working region was selected optically away from visible edges and contamination pockets. Contact-mode AFM was used immediately after release, with no post-transfer annealing, solvent immersion, or additional cleaning. The AFM image covered the active encapsulated graphene region shown inside the optical working area; the roughness was extracted from a central clean rectangular AFM subregion within the encapsulated stack, away from the flake perimeter and away from visible bubbles or blisters. The roughness metrics are root-mean-square height variation and peak-to-peak height variation of the top surface in that AFM subregion.",
     "experiment_results": {
+      "surface_rms_roughness_pm": {
+        "type": "float",
+        "description": "Root-mean-square topographic roughness of the clean AFM subregion on the mica-cantilever-assembled hBN-encapsulated single-layer graphene stack.",
+        "result": 109
+      },
+      "surface_peak_to_peak_roughness_pm": {
+        "type": "float",
+        "description": "Peak-to-peak topographic roughness of the same clean AFM subregion on the mica-cantilever-assembled hBN-encapsulated single-layer graphene stack.",
+        "result": 267
+      }
+    }
+  },
+  {
+    "experiment_description": "Central concept: mica cantilevers can also be used as an inorganic support that remains in the final stack, enabling bottom-up assembly without a separate bottom hBN release flake while preserving clean vdW interfaces. A single-layer graphene flake was encapsulated in hBN on a graphite gate electrode using mica-cantilever-assisted assembly. Instead of the standard release, the cantilever was flipped and deliberately broken off so that the mica remained as the bottom support. The released heterostructure comprised hBN-encapsulated single-layer graphene on graphite, supported by mica. Contact-mode AFM was performed without annealing, solvent immersion, or further cleaning. The scan targeted the optically defined active hBN/graphene/hBN/graphite region, and roughness was calculated inside a clean central AFM window away from the stack edges and visible defects. The reported metrics are RMS and peak-to-peak topographic roughness of the top vdW surface.",
+    "experiment_results": {
+      "surface_rms_roughness_pm": {
+        "type": "float",
+        "description": "Root-mean-square topographic roughness of the clean AFM window on the hBN-encapsulated single-layer graphene/graphite stack released by breaking off the mica cantilever.",
+        "result": 82
+      },
+      "surface_peak_to_peak_roughness_pm": {
+        "type": "float",
+        "description": "Peak-to-peak topographic roughness of the same clean AFM window on the hBN-encapsulated single-layer graphene/graphite stack released by breaking off the mica cantilever.",
+        "result": 201
+      }
+    }
+  },
+  {
+    "experiment_description": "Central concept: the polymer-free mica membrane method is proposed to assemble more complex multilayer vdW devices with pristine interfaces and controlled layer orientation. A seven-layer heterostructure was assembled by mica-membrane transfer with the sequence hBN/twisted trilayer graphene/hBN/graphite/hBN; the three graphene layers in the trilayer were intentionally misaligned from one another by large twist angles of about 20° so that the layers were electronically decoupled. The mica membrane was used following the same pickup and release recipe as for hBN/graphene stacks, with pickup on heated Si/SiO2 source substrates and release onto the target bottom hBN/SiO2/Si region. After release, with no annealing, solvent exposure, or cleaning, contact-mode AFM was performed over the optically selected multilayer stack region. The AFM roughness was evaluated over a clean interface/top-surface area exceeding 100 µm², away from edges and visible contamination pockets. RMS and peak-to-peak height roughness were obtained from the AFM topography.",
+    "experiment_results": {
+      "surface_rms_roughness_pm": {
+        "type": "float",
+        "description": "Root-mean-square topographic roughness of the clean area of the seven-layer mica-membrane-assembled hBN/twisted-trilayer-graphene/hBN/graphite/hBN heterostructure.",
+        "result": 63
+      },
+      "surface_peak_to_peak_roughness_pm": {
+        "type": "float",
+        "description": "Peak-to-peak topographic roughness of the same clean area of the seven-layer mica-membrane-assembled multilayer heterostructure.",
+        "result": 145
+      }
+    }
+  },
+  {
+    "experiment_description": "Central concept: because mica transfer leaves an atomically flat polymer-free top surface, it should enable direct scanning-probe access to moiré ferroelectric superlattices without residue screening. A marginally twisted hBN/hBN stack was fabricated by picking up a piece of a cracked hBN flake with a mica membrane and releasing it back onto the same hBN flake at 50 °C, creating a near-zero-angle twisted hBN interface. The stack was examined by AFM height imaging and Kelvin probe force microscopy under ambient scanning-probe conditions. The KPFM scan covered the top hBN flake over hundreds of square micrometres and included both domain interiors and a localized submicron bubble defect; the purpose was to map surface potential variations from triangular ferroelectric moiré domains and assess whether the moiré pattern remained visible over the entire transferred flake. For process statistics, the criterion for a fabricated hBN moiré ferroelectric structure was observing the expected triangular ferroelectric moiré contrast in KPFM over the aligned hBN region, with yield limited by identifying the even/odd layer number of the chosen flake.",
+    "experiment_results": {
+      "moire_ferroelectric_pattern_observed": {
+        "type": "bool",
+        "description": "Whether KPFM resolved the triangular ferroelectric moiré domain pattern in the mica-assembled marginally twisted hBN/hBN stack.",
+        "result": true
+      },
+      "moire_pattern_coverage_area_um2": {
+        "type": "float",
+        "description": "Area of the top hBN flake over which the ferroelectric moiré superlattice domains extended in the KPFM characterization.",
+        "result": 600
+      },
+      "hbn_moire_fabrication_yield_fraction": {
+        "type": "float",
+        "description": "Approximate fabrication yield for mica-assembled hBN-based moiré ferroelectric superlattice structures using this protocol and the stated success criterion.",
+        "result": 0.5
+      }
+    }
+  },
+  {
+    "experiment_description": "Central concept: polymer-free mica assembly is compared against PC-assisted assembly to test whether polymer residues screen scanning-probe access to ferroelectric moiré potentials. A moiré ferroelectric hBN/hBN stack of the same type as the mica-assembled marginally twisted hBN/hBN structure was assembled using a standard polycarbonate-based transfer process. After assembly, most of the PC was dissolved in dichloromethane for several hours. KPFM height and potential scans were then taken over a several-micrometre region containing areas with remaining PC residue and a region mechanically cleaned by contact-mode AFM. The comparison assessed moiré potential visibility at the top surface in residue-covered versus contact-AFM-cleaned areas.",
+    "experiment_results": {
+      "moire_potential_screened_by_pc_residue": {
+        "type": "bool",
+        "description": "Whether residual PC contamination on the hBN/hBN stack screened the ferroelectric moiré potential from KPFM detection before local mechanical cleaning.",
+        "result": true
+      },
+      "moire_potential_visible_after_contact_afm_cleaning": {
+        "type": "bool",
+        "description": "Whether the ferroelectric moiré KPFM contrast became visible in the area mechanically cleaned by contact-mode AFM.",
+        "result": true
+      }
+    }
+  },
+  {
+    "experiment_description": "Central concept: mica pickup at modest temperature should preserve the twist angle of a pre-assembled moiré heterostructure, avoiding thermally induced angular drift associated with polymer methods. A marginally aligned single-layer graphene/hBN heterostructure was first assembled on SiO2/Si by a PC method and characterized by peak-force microscopy. The PFM scan was taken at a marked interior location on the graphene/hBN overlap, between visible traces of PC residue, and resolved the local hexagonal moiré topographic/indentation modulation. The same aligned SLG/hBN heterostructure was then picked up using a mica membrane at 50 °C and placed on the mica membrane support. The identical moiré region was rescanned using the same AFM cantilever. Moiré wavelength was obtained from line profiles along marked lines in the PFM images before and after pickup, comparing the period on SiO2/Si with that on mica.",
+    "experiment_results": {
+      "moire_wavelength_on_sio2_nm": {
+        "type": "float",
+        "description": "Moiré wavelength of the marginally aligned SLG/hBN heterostructure measured by PFM before mica pickup while the stack was on SiO2/Si.",
+        "result": 11.6
+      },
+      "moire_wavelength_on_mica_nm": {
+        "type": "float",
+        "description": "Moiré wavelength of the same SLG/hBN heterostructure measured by PFM after pickup onto the mica membrane.",
+        "result": 11.6
+      },
+      "twist_angle_preserved_after_mica_pickup": {
+        "type": "bool",
+        "description": "Whether the PFM moiré wavelength comparison showed preservation of the SLG/hBN twist alignment through mica pickup.",
+        "result": true
+      }
+    }
+  },
+  {
+    "experiment_description": "Central concept: residue-free mica assembly enables exposed conductive moiré 2D layers suitable for high-resolution cAFM or STM without post-treatment. Marginal-angle twisted bilayer graphene samples were fabricated by mica-membrane assembly with sub-1° twist angles deliberately set during stacking and placed on thick graphite flakes to provide a conductive support. Conductive AFM was performed in ambient air under standard laboratory conditions with relative humidity below 56% using a Bruker Dimension Icon AFM with Nanoscope VII controller and PFTUNA current module. Pt-coated Si CONTV-PT tips with approximately 25 nm radius and spring constant about 0.2 N/m were used in contact mode at 0.5–1 Hz scan rate. For the nominal 0.8° TBG sample, the cAFM map was acquired at room temperature with 1 mV sample bias, -0.1 V deflection setpoint, and 256×256 pixel resolution over a tens-of-nanometres field of view, with current maps flattened by first-order processing. The measurement quantified the local current modulation period of the exposed TBG moiré lattice across a clean, uniform scan area.",
+    "experiment_results": {
+      "tbg_moire_period_for_0p8deg_nm": {
+        "type": "float",
+        "description": "Hexagonal moiré superlattice period measured by high-resolution cAFM on the nominally 0.8° twisted bilayer graphene sample.",
+        "result": 17.1
+      },
+      "uniform_hexagonal_moire_observed": {
+        "type": "bool",
+        "description": "Whether the cAFM current map resolved a spatially uniform hexagonal moiré superlattice on the exposed TBG surface.",
+        "result": true
+      }
+    }
+  },
+  {
+    "experiment_description": "Central concept: mica-assisted polymer-free assembly should produce electronic devices with quality comparable to state-of-the-art graphene heterostructures while maintaining clean interfaces. A large-area hBN/single-layer-graphene/hBN Hall-bar device was assembled by mica-assisted transfer on a SiO2/Si substrate and patterned in a bubble-free region of the heterostructure. The Hall bar had an optically defined rectangular active region of about 20 µm by 14 µm. Low-temperature multiterminal transport was performed at liquid-helium temperature, with a non-local bend-resistance geometry in which current was applied between one source and one drain contact and voltage was measured across separate probe terminals. Carrier density was swept around the charge-neutrality point and magnetic field was swept over the low-field range shown for the bend-resistance map. Electron mobility was extracted as a function of carrier density at T = 1.7 K; the relevant reported value is the high-density mobility where transport is limited by the device dimensions. Ballisticity was assessed from the sign of non-local resistance at zero magnetic field and from magnetic focusing oscillations at finite field.",
+    "experiment_results": {
+      "high_density_electron_mobility_cm2_V_s": {
+        "type": "float",
+        "description": "Electron mobility extracted at high carrier density in the hBN-encapsulated single-layer graphene Hall bar on SiO2/Si.",
+        "result": 4000000
+      },
+      "ballistic_nonlocal_transport_observed": {
+        "type": "bool",
+        "description": "Whether low-temperature non-local bend-resistance measurements showed signatures of ballistic electron transport across the Hall-bar width.",
+        "result": true
+      },
+      "magnetic_focusing_oscillations_observed": {
+        "type": "bool",
+        "description": "Whether the low-field non-local resistance exhibited magnetic electron focusing oscillations characteristic of ballistic transport.",
+        "result": true
+      }
+    }
+  },
+  {
+    "experiment_description": "Central concept: the mica method is tested on a complex multilayer high-angle twisted trilayer graphene device to determine whether it preserves ultra-low disorder and ballisticity in demanding graphene heterostructures. A Hall bar was fabricated from the seven-layer mica-assembled hBN/twisted-trilayer-graphene/hBN/graphite/hBN stack, where the graphene layers were intentionally misaligned by large angles so the three layers were effectively decoupled in momentum space. The device was patterned on SiO2/Si and measured at low temperature in a non-local bend-resistance geometry. Magnetic field and total carrier density were swept to obtain a Landau-fan map, and a separate double-gate resistance map was measured at a fixed low magnetic field of 50 mT while sweeping carrier density and out-of-plane displacement field. Ballisticity was evaluated from negative non-local resistance near zero magnetic field; disorder was evaluated from the magnetic-field onset of Landau quantization; the number of separately resolvable Landau levels at the fixed field was counted across the top, middle, and bottom graphene-layer fans.",
+    "experiment_results": {
+      "ballistic_nonlocal_transport_observed": {
+        "type": "bool",
+        "description": "Whether the twisted-trilayer graphene Hall bar showed negative non-local resistance at zero magnetic field, indicating ballistic transport.",
+        "result": true
+      },
       "landau_quantization_onset_mT": {
         "type": "float",
-        "description": "Perpendicular magnetic field at which Landau quantization became detectable in the large-angle twisted trilayer graphene Hall-bar device.",
-        "result": 5.0
+        "description": "Low magnetic-field onset of Landau quantization in the high-angle twisted trilayer graphene Hall-bar device.",
+        "result": 5
       },
       "landau_quantization_onset_uncertainty_mT": {
         "type": "float",
-        "description": "Reported uncertainty of the Landau-quantization onset field in the large-angle twisted trilayer graphene Hall-bar device.",
-        "result": 1.0
+        "description": "Reported uncertainty in the Landau-quantization onset field for the high-angle twisted trilayer graphene device.",
+        "result": 1
       },
-      "ballistic_nonlocal_transport_at_zero_field": {
+      "minimum_distinct_landau_levels_at_50mT": {
+        "type": "integer",
+        "description": "Minimum number of distinct Landau levels resolved in the double-gate resistance map at 50 mT.",
+        "result": 20
+      }
+    }
+  },
+  {
+    "experiment_description": "Central concept: keeping mica as the final inorganic support should still allow high-quality graphene transport and avoid the hysteresis often observed in graphene-on-mica devices. A hBN-encapsulated single-layer graphene Hall-bar device was made from a mica-cantilever-assembled stack containing bottom graphite as a gate; the heterostructure was released by flipping and breaking off the mica cantilever, so the several-hundred-nanometre-thick mica remained in the final substrate stack. The graphene was contacted using a standard nanofabrication workflow with metal leads routed over the mica support, and Ti/Au was used as a top gate while the graphite acted as a bottom gate. Longitudinal resistivity was measured while sweeping gate voltage upward and downward at 300 K, then measured again after cooling to 1.5 K. Mean free path was extracted from the 1.5 K transport data as a function of carrier density and compared to the optically defined Hall-bar width.",
+    "experiment_results": {
+      "room_temperature_gate_hysteresis_observed": {
         "type": "bool",
-        "description": "Whether the non-local bend-transport map showed negative zero-field resistance associated with ballistic transport.",
+        "description": "Whether ascending and descending gate-voltage sweeps at 300 K showed measurable hysteresis in the graphene Hall bar on mica.",
+        "result": false
+      },
+      "mean_free_path_limited_by_hall_bar_width": {
+        "type": "bool",
+        "description": "Whether the extracted low-temperature carrier mean free path was limited by the Hall-bar width, indicating ballistic-size-limited transport.",
         "result": true
       }
     }
   },
   {
-    "experiment_description": "A marginally aligned single-layer graphene on hBN heterostructure was first assembled by a polycarbonate-based method on a SiO2/Si substrate and characterized by peak-force atomic force microscopy to visualize the graphene/hBN moiré superlattice. The pre-assembled single-layer graphene/hBN stack was then picked up with a mica membrane at 50 °C and re-imaged using the same AFM cantilever with the mica membrane acting as the substrate. Peak-force microscopy line profiles were compared before and after pickup along the indicated moiré-period directions. The measured quantity was the moiré wavelength λ_m of the single-layer graphene/hBN superlattice, in nanometres, obtained from the spatial period of the peak-force microscopy contrast.",
+    "experiment_description": "Central concept: because mica transfer avoids polymer residues and post-transfer liquids, it can fabricate clean suspended 2D heterostructure membranes for nanomechanics. A single-layer graphene/hBN heterostructure was assembled by mica membrane transfer and suspended over a circular hole etched in the bottom hBN on a SiO2/Si substrate, forming a circular heterostructure membrane with diameter d = 3 µm. Peak-force/AFM height imaging confirmed the surface quality of the suspended region. A static AFM nanoindentation force-deflection experiment was then performed at the membrane center: the AFM tip pressed into the suspended membrane while force and deflection were recorded over the plotted force range up to the high-hundreds of nN and deflection range up to tens of nm. The force-deflection curve was fitted to the standard continuum mechanics model for a clamped circular 2D membrane, extracting the in-plane Young’s modulus and built-in pre-tension. The measurement area was the central suspended membrane, away from the clamped edge and away from visible tears or residues.",
     "experiment_results": {
-      "slg_hbn_moire_wavelength_nm": {
+      "youngs_modulus_GPa": {
         "type": "float",
-        "description": "Moiré wavelength of the marginally aligned single-layer graphene/hBN heterostructure measured by peak-force microscopy; the same wavelength was reported before and after pickup onto mica.",
-        "result": 11.6
+        "description": "Young’s modulus extracted by fitting the AFM force-deflection curve of the suspended SLG/hBN circular membrane to the continuum membrane model.",
+        "result": 851
       },
-      "detectable_moire_wavelength_change_after_mica_pickup": {
-        "type": "bool",
-        "description": "Whether mica pickup produced a detectable change in the measured single-layer graphene/hBN moiré wavelength.",
-        "result": false
-      }
-    }
-  },
-  {
-    "experiment_description": "Marginal-angle twisted bilayer graphene samples were fabricated by the mica-membrane method and placed on thick graphite flakes. The twist angle of the bilayer graphene was deterministically set below 1°. High-resolution conductive atomic force microscopy was performed at room temperature in ambient air using a Bruker Dimension Icon AFM with a Nanoscope VII controller and PFTUNA tunnelling-current module. Contact-mode scans used a Pt-coated Si CONTV-PT tip with radius about 25 nm and spring constant about 0.2 N/m. For the sample with nominal twist angle 0.8°, the conductive-AFM current map was acquired using sample bias 1 mV, deflection setpoint −0.1 V, scan rate 0.5–1 Hz, and 256 × 256 pixel resolution. The displayed current map was first-order flattened in NanoScope Analysis 3.00. The moiré period was extracted from the spatial periodicity of the conductive-AFM tip-sample current variation map.",
-    "experiment_results": {
-      "tbg_moire_period_for_0p8deg_twist_nm": {
+      "youngs_modulus_uncertainty_GPa": {
         "type": "float",
-        "description": "Measured moiré superlattice period of the approximately 0.8° twisted bilayer graphene sample from conductive atomic force microscopy.",
-        "result": 17.1
-      }
-    }
-  },
-  {
-    "experiment_description": "A suspended circular van der Waals heterostructure membrane was fabricated by mica-assisted transfer of a single-layer graphene/hBN stack over a pre-etched circular cavity in a bottom hBN layer on a SiO2 substrate. The suspended membrane diameter was d = 3 µm. Static nanomechanical characterization was performed by an atomic-force-microscopy force-deflection indentation experiment at the membrane center. The force-deflection curve covered approximately 0–50 nm central deflection and approximately 0–900 nN applied force. The resulting force-deflection data were fitted with the standard continuum-mechanics model for a circular membrane, with the effective Young’s modulus and built-in pretension treated as fit parameters.",
-    "experiment_results": {
-      "effective_youngs_modulus_GPa": {
-        "type": "float",
-        "description": "Effective Young’s modulus obtained from fitting the AFM force-deflection response of the suspended single-layer graphene/hBN circular membrane.",
-        "result": 851.0
+        "description": "Fit uncertainty of the Young’s modulus from the AFM force-deflection analysis.",
+        "result": 4
       },
-      "effective_youngs_modulus_uncertainty_GPa": {
+      "pre_tension_N_m": {
         "type": "float",
-        "description": "Reported uncertainty of the fitted effective Young’s modulus for the suspended single-layer graphene/hBN membrane.",
-        "result": 4.0
+        "description": "Built-in membrane pre-tension extracted from the AFM force-deflection fit.",
+        "result": 1.3
+      },
+      "pre_tension_uncertainty_N_m": {
+        "type": "float",
+        "description": "Fit uncertainty of the built-in membrane pre-tension.",
+        "result": 0.2
       }
     }
   },
   {
-    "experiment_description": "The same type of suspended single-layer graphene/hBN circular membrane was dynamically characterized as a nanomechanical resonator. The sample was mounted on an xy positioning stage in an Attocube attoDRY800 optical cryostat connected to a laser interferometry setup. Measurements were performed in high vacuum at base temperature T = 4 K. A power-modulated blue diode laser with wavelength 450 nm was used to drive membrane motion, and a HeNe red laser with wavelength 633 nm was used to read out the displacement interferometrically. The laser spot size was on the order of 1 µm, and incident laser powers were below 1 µW. The response was processed by a vector network analyser while sweeping frequency over the resonance region, approximately 23.4–24.2 MHz. The resonance peak was fitted to a linear damped harmonic oscillator model to extract the fundamental-mode resonance frequency and quality factor.",
+    "experiment_description": "Central concept: the residue-free suspended SLG/hBN membrane produced by mica transfer should function as a nanomechanical resonator. The same circular suspended single-layer graphene/hBN membrane of diameter d = 3 µm was mounted on an xy stage inside an Attocube attoDRY800 optical cryostat and cooled to T = 4 K under high vacuum. A power-modulated blue diode laser with wavelength 450 nm drove the membrane motion, while a HeNe red laser with wavelength 633 nm read out displacement interferometrically. The optical spot size was about 1 µm, incident laser powers were below 1 µW, and the detected motion signal was processed by a vector network analyzer while frequency was swept over the resonance band around the fundamental mode. The measured amplitude-vs-frequency trace was fitted with a linear damped harmonic oscillator model to obtain the fundamental resonance frequency and mechanical quality factor.",
     "experiment_results": {
       "fundamental_resonance_frequency_MHz": {
         "type": "float",
-        "description": "Fundamental mechanical resonance frequency of the suspended single-layer graphene/hBN membrane obtained from the damped-harmonic-oscillator fit.",
+        "description": "Fundamental mechanical resonance frequency of the suspended SLG/hBN membrane obtained from the damped-harmonic-oscillator fit.",
         "result": 23.884
       },
       "fundamental_resonance_frequency_uncertainty_MHz": {
         "type": "float",
-        "description": "Reported uncertainty of the fitted fundamental mechanical resonance frequency.",
+        "description": "Fit uncertainty of the fundamental resonance frequency.",
         "result": 0.005
       },
       "mechanical_quality_factor": {
         "type": "float",
-        "description": "Mechanical quality factor of the fundamental vibrational mode extracted from the damped-harmonic-oscillator fit.",
-        "result": 314.0
+        "description": "Mechanical quality factor of the fundamental vibrational mode obtained from the damped-harmonic-oscillator fit.",
+        "result": 314
       },
       "mechanical_quality_factor_uncertainty": {
         "type": "float",
-        "description": "Reported uncertainty of the fitted mechanical quality factor.",
-        "result": 3.0
+        "description": "Fit uncertainty of the mechanical quality factor.",
+        "result": 3
       }
     }
   },
   {
-    "experiment_description": "An uncapped monolayer MoS2 flake was transferred onto an hBN substrate using the mica-assisted dry-transfer procedure. For 2D materials other than hBN, the mica surface could be mildly UV/O3 treated at 60 °C for 12 min to improve adhesion before transfer. The resulting MoS2-on-hBN heterostructure was characterized in ambient air at room temperature. Photoluminescence spectroscopy was collected over the visible spectral range shown from about 550 nm to 750 nm, corresponding to photon energies of about 2.254 eV to 1.653 eV. The emission peak energy and full width at half maximum were extracted from the room-temperature photoluminescence spectrum.",
+    "experiment_description": "Central concept: mica-assisted transfer can suspend not only generic 2D heterostructures but also aligned moiré superlattices, enabling substrate-free scanning-probe and nanomechanical studies. An aligned single-layer graphene/hBN heterostructure, with hBN thickness of about 1–2 layers in the moiré region, was assembled and transferred by the mica method over a pre-etched circular cavity in hBN with diameter d = 0.5 µm. The suspended membrane was characterized by peak-force microscopy in adhesion/indentation contrast over the full suspended circular area. The scan field included the entire membrane and its clamped perimeter, with nanoscale resolution sufficient to resolve the moiré modulation. The success criterion was a continuous suspended membrane whose PFM adhesion map displayed the hexagonal SLG/hBN moiré pattern across the suspended region.",
     "experiment_results": {
-      "monolayer_mos2_pl_peak_energy_eV": {
+      "suspended_moire_membrane_fabrication_success": {
+        "type": "bool",
+        "description": "Whether the mica method produced a suspended aligned SLG/hBN membrane spanning the cavity with the moiré pattern visible over the membrane.",
+        "result": true
+      },
+      "hexagonal_moire_pattern_across_membrane_observed": {
+        "type": "bool",
+        "description": "Whether PFM adhesion mapping resolved the hexagonal SLG/hBN moiré superlattice over the suspended membrane surface.",
+        "result": true
+      }
+    }
+  },
+  {
+    "experiment_description": "Central concept: the mica cantilever approach should extend beyond graphene and hBN to other vdW crystals, enabling clean folded ferroelectric structures. A large 3R-MoS2 flake was manipulated using a mica cantilever: part of the flake was picked up, folded onto itself, then delaminated and released by sliding the flake off the cantilever while moving parallel to the substrate surface. The target structure was a folded 3R-MoS2 region forming a mirror-twin-boundary ferroelectric geometry, with both folded and unfolded regions left exposed for characterization. AFM was performed on both the folded and adjacent unfolded MoS2 areas, with roughness assessed on clean interior regions away from the fold edge, flake boundary, and obvious defects. Peak-to-peak height roughness was extracted separately for the folded and unfolded regions.",
+    "experiment_results": {
+      "folded_region_peak_to_peak_roughness_pm": {
         "type": "float",
-        "description": "Room-temperature photoluminescence emission peak energy of uncapped monolayer MoS2 transferred onto hBN.",
+        "description": "Peak-to-peak AFM surface roughness of the folded 3R-MoS2 region produced by mica-cantilever folding and sliding release.",
+        "result": 244
+      },
+      "unfolded_region_peak_to_peak_roughness_pm": {
+        "type": "float",
+        "description": "Peak-to-peak AFM surface roughness of the adjacent unfolded 3R-MoS2 region in the same device.",
+        "result": 182
+      }
+    }
+  },
+  {
+    "experiment_description": "Central concept: mica-assisted polymer-free transfer should fabricate open, residue-free optical heterostructures terminated by monolayer transition-metal dichalcogenides. A monolayer MoS2 flake was transferred onto an hBN substrate by the mica-assisted procedure; for non-hBN top 2D materials, mild UV/O3 treatment of mica at 60 °C for 12 min was used when needed to improve adhesion. The final structure was uncapped monolayer MoS2 on hBN, exposed to air and not covered by polymer. AFM height imaging was performed on the monolayer flake interior to quantify surface roughness, away from edges and visible contaminants. Room-temperature photoluminescence was then measured in air from the monolayer MoS2 region over the visible spectral range spanning the emission peak; the PL spectrum was fitted/read to obtain the emission energy and full width at half maximum.",
+    "experiment_results": {
+      "mos2_on_hbn_surface_rms_roughness_pm": {
+        "type": "float",
+        "description": "Root-mean-square AFM roughness of the uncapped monolayer MoS2 flake transferred onto hBN by mica-assisted assembly.",
+        "result": 136
+      },
+      "room_temperature_pl_peak_energy_eV": {
+        "type": "float",
+        "description": "Photoluminescence peak energy of the uncapped monolayer MoS2 on hBN measured in air at room temperature.",
         "result": 1.882
       },
-      "monolayer_mos2_pl_fwhm_meV": {
+      "room_temperature_pl_fwhm_meV": {
         "type": "float",
-        "description": "Full width at half maximum of the room-temperature photoluminescence peak from uncapped monolayer MoS2 on hBN.",
-        "result": 49.0
+        "description": "Full width at half maximum of the room-temperature monolayer MoS2 photoluminescence peak.",
+        "result": 49
+      }
+    }
+  },
+  {
+    "experiment_description": "Central concept: the mica method is presented as broadly compatible with robust and air-sensitive vdW materials, including structures with exposed conductive or magnetic layers. Using the same polymer-free mica-assisted pickup, stacking, and release strategy, and using mild UV/O3 treatment of mica at 60 °C for 12 min when required to improve adhesion to non-hBN top layers, the authors fabricated additional heterostructures: a large-area uncapped single-layer graphene flake on hBN, an hBN-encapsulated few-layer CrBr3 stack, and a few-layer FePS3 flake on hBN. Optical microscopy was used over the visible flake areas, with layer outlines identified by contrast, to assess whether the transferred flakes remained continuous and positioned on the intended hBN support or encapsulated between hBN layers. The success criterion was fabrication of the intended heterostructure geometry without polymer-contact transfer residues being required in the recipe.",
+    "experiment_results": {
+      "uncapped_slg_on_hbn_transfer_success": {
+        "type": "bool",
+        "description": "Whether the mica-assisted method produced an uncapped single-layer graphene-on-hBN heterostructure.",
+        "result": true
+      },
+      "hbn_encapsulated_few_layer_crbr3_transfer_success": {
+        "type": "bool",
+        "description": "Whether the mica-assisted method produced an hBN-encapsulated few-layer CrBr3 heterostructure.",
+        "result": true
+      },
+      "few_layer_feps3_on_hbn_transfer_success": {
+        "type": "bool",
+        "description": "Whether the mica-assisted method produced a few-layer FePS3-on-hBN heterostructure.",
+        "result": true
       }
     }
   }
