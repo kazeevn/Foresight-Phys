@@ -6,78 +6,78 @@
   "per_model": [
     {
       "model": "gpt-5.4-mini",
-      "n_fields": 375,
+      "n_fields": 377,
       "n_papers": 20,
-      "mean_quality": 0.41254084185529855,
-      "mean_correct": 0.38402408185496417,
-      "numeric_quality": 0.3752286325917579,
-      "numeric_crps": 8.813566731260215,
-      "bool_categorical_accuracy": 0.8888888888888888,
-      "bool_categorical_brier": null,
-      "frac_within_1sigma": 0.34262392091339455,
-      "frac_within_2sigma": 0.473423141186299,
-      "frac_within_3sigma": 0.6160192147034252
+      "mean_quality": 0.43036678098476094,
+      "mean_correct": 0.38501488095238096,
+      "numeric_quality": 0.38944220131448987,
+      "numeric_crps": 6.390443068814434,
+      "bool_categorical_accuracy": 0.8265432098765433,
+      "bool_categorical_brier": 0.23262123456790126,
+      "frac_within_1sigma": 0.2676332926332926,
+      "frac_within_2sigma": 0.6013865861234282,
+      "frac_within_3sigma": 0.7082129468971574
     },
     {
       "model": "gpt-5.4-nano",
-      "n_fields": 1502,
+      "n_fields": 377,
       "n_papers": 20,
-      "mean_quality": 0.45063982536013925,
-      "mean_correct": 0.4741230709876543,
-      "numeric_quality": 0.3650955620097056,
-      "numeric_crps": 5.691702321707013,
-      "bool_categorical_accuracy": 0.9214506172839507,
-      "bool_categorical_brier": 0.27500654614932396,
-      "frac_within_1sigma": 0.3125498039971724,
-      "frac_within_2sigma": 0.5294375592730856,
-      "frac_within_3sigma": 0.6367508478363741
+      "mean_quality": 0.4551070247231997,
+      "mean_correct": 0.5040972222222222,
+      "numeric_quality": 0.3488263752367388,
+      "numeric_crps": 5.017721981402619,
+      "bool_categorical_accuracy": 0.9469135802469135,
+      "bool_categorical_brier": 0.24308435185185184,
+      "frac_within_1sigma": 0.3077204228520018,
+      "frac_within_2sigma": 0.4912469207206049,
+      "frac_within_3sigma": 0.6357192125613178
     }
   ],
   "numeric_calibration": [
     {
       "model": "gpt-5.4-mini",
-      "n_fields": 318,
+      "n_fields": 317,
       "n_papers": 19,
-      "numeric_crps": 8.813566731260215,
-      "numeric_quality": 0.3752286325917579,
-      "frac_within_1sigma": 0.34262392091339455,
-      "frac_within_2sigma": 0.473423141186299,
-      "frac_within_3sigma": 0.6160192147034252
+      "numeric_crps": 6.390443068814434,
+      "numeric_quality": 0.38944220131448987,
+      "frac_within_1sigma": 0.2676332926332926,
+      "frac_within_2sigma": 0.6013865861234282,
+      "frac_within_3sigma": 0.7082129468971574
     },
     {
       "model": "gpt-5.4-nano",
-      "n_fields": 1269,
+      "n_fields": 316,
       "n_papers": 19,
-      "numeric_crps": 5.6221908555765,
-      "numeric_quality": 0.36705727951669315,
-      "frac_within_1sigma": 0.31445038879249404,
-      "frac_within_2sigma": 0.53184983997484,
-      "frac_within_3sigma": 0.6392362279533332
+      "numeric_crps": 4.886542829379305,
+      "numeric_quality": 0.350917111606568,
+      "frac_within_1sigma": 0.30918241115609535,
+      "frac_within_2sigma": 0.4956328856328856,
+      "frac_within_3sigma": 0.6401051774735985
     }
   ],
   "difficulty_distribution_overall": {
-    "intractable (none correct)": 213,
-    "easy (1 wrong)": 110,
-    "trivial (all correct)": 54
+    "intractable (none correct)": 202,
+    "easy (1 wrong)": 91,
+    "trivial (all correct)": 84
   },
   "difficulty_by_type": [
     {
       "type": "bool",
-      "easy (1 wrong)": 22,
-      "intractable (none correct)": 2,
-      "trivial (all correct)": 11
+      "easy (1 wrong)": 3,
+      "intractable (none correct)": 3,
+      "trivial (all correct)": 29
     },
     {
       "type": "categorical",
-      "easy (1 wrong)": 1,
-      "intractable (none correct)": 1,
+      "easy (1 wrong)": 0,
+      "intractable (none correct)": 2,
       "trivial (all correct)": 16
     },
     {
       "type": "float",
-      "easy (1 wrong)": 79,
-      "intractable (none correct)": 208,
-      "trivial (all correct)": 22
+      "easy (1 wrong)": 81,
+      "intractable (none correct)": 192,
+      "trivial (all correct)": 36
     },
     {
       "type": "formula",
@@ -87,9 +87,9 @@
     },
     {
       "type": "integer",
-      "easy (1 wrong)": 2,
-      "intractable (none correct)": 2,
-      "trivial (all correct)": 4
+      "easy (1 wrong)": 1,
+      "intractable (none correct)": 5,
+      "trivial (all correct)": 2
     }
   ],
   "categorical_random_baseline": 0.3111111111111111,
