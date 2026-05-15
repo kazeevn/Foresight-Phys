@@ -1,7 +1,7 @@
 {
   "n_models": 2,
   "n_papers": 20,
-  "n_fields": 375,
+  "n_fields": 377,
   "aggregation": "paper-macro of experiment-macro (matches per-run aggregate_*)",
   "per_model": [
     {
@@ -20,17 +20,17 @@
     },
     {
       "model": "gpt-5.4-nano",
-      "n_fields": 1125,
+      "n_fields": 1502,
       "n_papers": 20,
-      "mean_quality": 0.4493347382168212,
-      "mean_correct": 0.4641829546633468,
-      "numeric_quality": 0.3697745064887065,
-      "numeric_crps": 5.932512756031038,
-      "bool_categorical_accuracy": 0.9123456790123456,
-      "bool_categorical_brier": 0.2913408333333333,
-      "frac_within_1sigma": 0.31285157337788916,
-      "frac_within_2sigma": 0.5420247377703519,
-      "frac_within_3sigma": 0.635804325628887
+      "mean_quality": 0.45063982536013925,
+      "mean_correct": 0.4741230709876543,
+      "numeric_quality": 0.3650955620097056,
+      "numeric_crps": 5.691702321707013,
+      "bool_categorical_accuracy": 0.9214506172839507,
+      "bool_categorical_brier": 0.27500654614932396,
+      "frac_within_1sigma": 0.3125498039971724,
+      "frac_within_2sigma": 0.5294375592730856,
+      "frac_within_3sigma": 0.6367508478363741
     }
   ],
   "numeric_calibration": [
@@ -46,26 +46,26 @@
     },
     {
       "model": "gpt-5.4-nano",
-      "n_fields": 953,
+      "n_fields": 1269,
       "n_papers": 19,
-      "numeric_crps": 5.882591227169859,
-      "numeric_quality": 0.37167283281585356,
-      "frac_within_1sigma": 0.3148008911166806,
-      "frac_within_2sigma": 0.5439740555091432,
-      "frac_within_3sigma": 0.6377536433676784
+      "numeric_crps": 5.6221908555765,
+      "numeric_quality": 0.36705727951669315,
+      "frac_within_1sigma": 0.31445038879249404,
+      "frac_within_2sigma": 0.53184983997484,
+      "frac_within_3sigma": 0.6392362279533332
     }
   ],
   "difficulty_distribution_overall": {
     "intractable (none correct)": 213,
-    "easy (1 wrong)": 93,
-    "trivial (all correct)": 69
+    "easy (1 wrong)": 110,
+    "trivial (all correct)": 54
   },
   "difficulty_by_type": [
     {
       "type": "bool",
-      "easy (1 wrong)": 4,
+      "easy (1 wrong)": 22,
       "intractable (none correct)": 2,
-      "trivial (all correct)": 26
+      "trivial (all correct)": 11
     },
     {
       "type": "categorical",
@@ -75,7 +75,7 @@
     },
     {
       "type": "float",
-      "easy (1 wrong)": 80,
+      "easy (1 wrong)": 79,
       "intractable (none correct)": 208,
       "trivial (all correct)": 22
     },
