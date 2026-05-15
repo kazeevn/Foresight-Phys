@@ -7,6 +7,16 @@ from .formula_judging import FormulaJudge, FormulaJudgment
 from .json_payloads import get_at_path, iter_result_paths
 
 
+# Cap NLL / log-loss at this value so individual catastrophic predictions don't
+# swamp the run aggregates and infinities don't propagate.
+NLL_CAP = 30.0
+# Floor for sigma and probabilities to keep log/division stable.
+SIGMA_FLOOR = 1e-9
+PROB_FLOOR = 1e-9
+LN10 = math.log(10.0)
+LOG_2PI = math.log(2.0 * math.pi)
+
+
 def coerce_bool(value: Any) -> tuple[bool, bool]:
     if isinstance(value, bool):
         return True, value
@@ -46,14 +56,6 @@ def values_match(expected_value: Any, actual_value: Any) -> bool:
         ok, actual_bool = coerce_bool(actual_value)
         return ok and actual_bool == expected_value
     return normalize_comparison_value(expected_value) == normalize_comparison_value(actual_value)
-
-
-def compute_log_accuracy(expected_numeric: float, actual_numeric: float) -> float:
-    if actual_numeric == 0.0:
-        return float("inf")
-    # We use abs() on both to handle potential negative physical quantities,
-    # though they are typically positive in this benchmark.
-    return abs(math.log10(abs(actual_numeric) / abs(expected_numeric)))
 
 
 def normalize_formula_text(value: str) -> str:
@@ -112,6 +114,238 @@ def is_bool_or_categorical_result(result_type: str | None, expected_value: Any) 
     )
 
 
+def is_bool_result(result_type: str | None, expected_value: Any) -> bool:
+    return result_type in {"bool", "boolean"} or (
+        result_type is None and isinstance(expected_value, bool)
+    )
+
+
+def is_categorical_result(result_type: str | None, expected_value: Any) -> bool:
+    return result_type == "categorical" or (
+        result_type is None
+        and isinstance(expected_value, str)
+        and not isinstance(expected_value, bool)
+    )
+
+
+def _clip_nll(value: float) -> float:
+    if not math.isfinite(value):
+        return NLL_CAP
+    return min(max(value, -NLL_CAP), NLL_CAP)
+
+
+def score_numeric(
+    *,
+    expected_value: Any,
+    actual_meta: dict[str, Any] | None,
+) -> dict[str, Any]:
+    """Score a numeric prediction under the model's chosen normal / log_normal."""
+    expected_ok, expected_value_f = coerce_numeric(expected_value)
+    result: dict[str, Any] = {
+        "expected_ok": expected_ok,
+        "expected_value": expected_value_f if expected_ok else None,
+        "predicted_value": None,
+        "distribution": None,
+        "sigma": None,
+        "z": None,
+        "nll": NLL_CAP,
+        "quality": 0.0,
+        "within_1sigma": None,
+        "within_2sigma": None,
+        "missing": actual_meta is None,
+    }
+    if not expected_ok or actual_meta is None:
+        return result
+
+    distribution = actual_meta.get("distribution")
+    if distribution not in {"normal", "log_normal"}:
+        # Treat malformed predictions as missing-uncertainty: maximum penalty.
+        return result
+
+    pred_ok, predicted_value = coerce_numeric(actual_meta.get("result"))
+    if not pred_ok:
+        return result
+
+    sigma_raw = actual_meta.get("sigma")
+    try:
+        sigma = float(sigma_raw)
+    except (TypeError, ValueError):
+        return result
+    if not math.isfinite(sigma) or sigma <= 0.0:
+        return result
+    sigma = max(sigma, SIGMA_FLOOR)
+
+    result["predicted_value"] = predicted_value
+    result["distribution"] = distribution
+    result["sigma"] = sigma
+
+    if distribution == "log_normal":
+        # Log-normal is undefined at zero in either argument; treat as max-penalty.
+        if expected_value_f == 0.0 or predicted_value == 0.0:
+            return result
+        # Sign mismatch is also undefined under log_normal; treat as max-penalty.
+        if (expected_value_f > 0) != (predicted_value > 0):
+            return result
+        z = (math.log10(abs(expected_value_f)) - math.log10(abs(predicted_value))) / sigma
+    else:  # normal
+        z = (expected_value_f - predicted_value) / sigma
+
+    nll = 0.5 * z * z + math.log(sigma) + 0.5 * LOG_2PI
+    quality = math.exp(-0.5 * z * z)
+    result["z"] = z
+    result["nll"] = _clip_nll(nll)
+    result["quality"] = quality
+    result["within_1sigma"] = bool(abs(z) < 1.0)
+    result["within_2sigma"] = bool(abs(z) < 2.0)
+    return result
+
+
+def score_bool(
+    *,
+    expected_value: Any,
+    actual_meta: dict[str, Any] | None,
+) -> dict[str, Any]:
+    expected_ok, expected_bool = coerce_bool(expected_value)
+    result: dict[str, Any] = {
+        "expected_ok": expected_ok,
+        "expected_value": expected_bool if expected_ok else None,
+        "prob_true": None,
+        "argmax": None,
+        "correct": False,
+        "log_loss": NLL_CAP,
+        "brier": 1.0,
+        "quality": 0.0,
+        "missing": actual_meta is None,
+    }
+    if not expected_ok or actual_meta is None:
+        return result
+
+    prob_raw = actual_meta.get("prob_true")
+    try:
+        prob_true = float(prob_raw)
+    except (TypeError, ValueError):
+        return result
+    if not math.isfinite(prob_true):
+        return result
+    prob_true = min(max(prob_true, 0.0), 1.0)
+
+    argmax_ok, argmax_bool = coerce_bool(actual_meta.get("result"))
+    if not argmax_ok:
+        argmax_bool = prob_true >= 0.5
+
+    result["prob_true"] = prob_true
+    result["argmax"] = argmax_bool
+    result["correct"] = argmax_bool == expected_bool
+
+    y = 1.0 if expected_bool else 0.0
+    p = min(max(prob_true, PROB_FLOOR), 1.0 - PROB_FLOOR)
+    log_loss = -(y * math.log(p) + (1.0 - y) * math.log(1.0 - p))
+    brier = (prob_true - y) ** 2
+    result["log_loss"] = _clip_nll(log_loss)
+    result["brier"] = brier
+    result["quality"] = 1.0 - brier
+    return result
+
+
+def _coerce_probability_map(value: Any) -> dict[str, float] | None:
+    """Accept either {value: prob} or [{value, probability}] shapes."""
+    if isinstance(value, dict):
+        out: dict[str, float] = {}
+        for k, v in value.items():
+            try:
+                out[str(k)] = float(v)
+            except (TypeError, ValueError):
+                return None
+        return out
+    if isinstance(value, list):
+        out = {}
+        for entry in value:
+            if not isinstance(entry, dict):
+                return None
+            key = entry.get("value")
+            prob = entry.get("probability")
+            if key is None or prob is None:
+                return None
+            try:
+                out[str(key)] = float(prob)
+            except (TypeError, ValueError):
+                return None
+        return out
+    return None
+
+
+def score_categorical(
+    *,
+    expected_value: Any,
+    expected_meta: dict[str, Any],
+    actual_meta: dict[str, Any] | None,
+) -> dict[str, Any]:
+    expected_str = str(expected_value) if expected_value is not None else None
+    allowed = expected_meta.get("allowed_categorial_values")
+    if isinstance(allowed, list) and allowed:
+        allowed_values = [str(v) for v in allowed]
+    elif expected_str is not None:
+        allowed_values = [expected_str]
+    else:
+        allowed_values = []
+
+    result: dict[str, Any] = {
+        "expected_ok": expected_str is not None,
+        "expected_value": expected_str,
+        "allowed_values": allowed_values,
+        "probabilities": None,
+        "argmax": None,
+        "correct": False,
+        "log_loss": NLL_CAP,
+        "brier": 1.0,
+        "quality": 0.0,
+        "missing": actual_meta is None,
+    }
+    if expected_str is None or actual_meta is None:
+        return result
+
+    prob_map = _coerce_probability_map(actual_meta.get("probabilities"))
+    if prob_map is None:
+        return result
+
+    if allowed_values:
+        # Restrict to allowed values; missing entries get a tiny probability.
+        probabilities = {
+            value: max(float(prob_map.get(value, 0.0)), 0.0) for value in allowed_values
+        }
+    else:
+        probabilities = {k: max(float(v), 0.0) for k, v in prob_map.items()}
+
+    total = sum(probabilities.values())
+    if total <= 0.0:
+        # No useful information; treat as uniform.
+        n = max(len(probabilities), 1)
+        probabilities = {k: 1.0 / n for k in probabilities}
+    else:
+        probabilities = {k: v / total for k, v in probabilities.items()}
+
+    argmax_value = max(probabilities, key=lambda k: probabilities[k])
+    argmax_meta = actual_meta.get("result")
+    if isinstance(argmax_meta, str) and argmax_meta in probabilities:
+        argmax_value = argmax_meta
+
+    prob_truth = probabilities.get(expected_str, 0.0)
+    clipped_p = min(max(prob_truth, PROB_FLOOR), 1.0)
+    log_loss = -math.log(clipped_p)
+    brier = sum(
+        (probabilities.get(value, 0.0) - (1.0 if value == expected_str else 0.0)) ** 2
+        for value in (set(probabilities) | {expected_str})
+    )
+
+    result["probabilities"] = probabilities
+    result["argmax"] = argmax_value
+    result["correct"] = argmax_value == expected_str
+    result["log_loss"] = _clip_nll(log_loss)
+    result["brier"] = brier
+    result["quality"] = max(0.0, 1.0 - 0.5 * brier)
+    return result
+
+
 def judge_formula_values(
     *,
     expected_formula: Any,
@@ -153,38 +387,61 @@ def judge_formula_values(
     )
 
 
-def judge_formula_result(
-    expected_payload: Any,
-    actual_payload: Any,
-    result_path: tuple[Any, ...],
+def score_formula(
     *,
+    expected_value: Any,
+    expected_meta: dict[str, Any],
+    actual_meta: dict[str, Any] | None,
+    experiment_description: str,
+    result_key: str,
     formula_judge: FormulaJudge | None = None,
-) -> FormulaJudgment:
-    expected_found, expected_value = get_at_path(expected_payload, result_path)
-    actual_found, actual_value = get_at_path(actual_payload, result_path)
-    if not expected_found:
-        return FormulaJudgment(
-            equivalent=False,
-            explanation="Reference formula path was not found.",
-        )
-    if not actual_found:
-        return FormulaJudgment(
-            equivalent=False,
-            explanation="Predicted formula path was not found.",
-        )
+) -> dict[str, Any]:
+    result: dict[str, Any] = {
+        "expected_value": expected_value,
+        "predicted_value": None,
+        "confidence": None,
+        "equivalent": False,
+        "explanation": "",
+        "log_loss": NLL_CAP,
+        "brier": 1.0,
+        "quality": 0.0,
+        "missing": actual_meta is None,
+    }
 
-    metadata = get_result_metadata(expected_payload, result_path)
-    result_key = str(result_path[-2]) if len(result_path) >= 2 else "formula"
-    result_description = str(metadata.get("description", ""))
-    experiment_description = get_experiment_description(expected_payload, result_path)
-    return judge_formula_values(
+    actual_value = actual_meta.get("result") if isinstance(actual_meta, dict) else None
+    result["predicted_value"] = actual_value
+
+    judgment = judge_formula_values(
         expected_formula=expected_value,
         actual_formula=actual_value,
         experiment_description=experiment_description,
         result_key=result_key,
-        result_description=result_description,
+        result_description=str(expected_meta.get("description", "")),
         formula_judge=formula_judge,
     )
+    result["equivalent"] = judgment.equivalent
+    result["explanation"] = judgment.explanation
+
+    if actual_meta is None:
+        return result
+
+    try:
+        confidence = float(actual_meta.get("confidence"))
+    except (TypeError, ValueError):
+        confidence = 0.5 if judgment.equivalent else 0.5
+    if not math.isfinite(confidence):
+        confidence = 0.5
+    confidence = min(max(confidence, 0.0), 1.0)
+    result["confidence"] = confidence
+
+    y = 1.0 if judgment.equivalent else 0.0
+    p = min(max(confidence, PROB_FLOOR), 1.0 - PROB_FLOOR)
+    log_loss = -(y * math.log(p) + (1.0 - y) * math.log(1.0 - p))
+    brier = (confidence - y) ** 2
+    result["log_loss"] = _clip_nll(log_loss)
+    result["brier"] = brier
+    result["quality"] = 1.0 - brier
+    return result
 
 
 def has_bool_or_categorical_targets(payload: Any) -> bool:
@@ -197,19 +454,25 @@ def has_bool_or_categorical_targets(payload: Any) -> bool:
 
 METRIC_KEYS = (
     "prediction_quality",
-    "log_accuracy",
-    "normalized_log_accuracy_score",
+    "numeric_quality",
+    "numeric_nll",
+    "coverage_1sigma",
+    "coverage_2sigma",
+    "bool_log_loss",
+    "bool_quality",
     "bool_categorical_accuracy",
+    "categorical_log_loss",
+    "categorical_quality",
     "formula_accuracy",
+    "formula_log_loss",
+    "formula_quality",
 )
 
 COUNT_KEYS = (
     "result_count",
     "numeric_count",
-    "nonzero_numeric_count",
-    "zero_reference_numeric_count",
-    "log_accuracy_count",
-    "normalized_log_accuracy_count",
+    "bool_count",
+    "categorical_count",
     "bool_categorical_count",
     "formula_count",
     "missing_predictions",
@@ -217,22 +480,61 @@ COUNT_KEYS = (
 
 
 def _empty_experiment_metrics() -> dict[str, Any]:
-    return {
-        "prediction_quality": None,
-        "log_accuracy": None,
-        "normalized_log_accuracy_score": None,
-        "bool_categorical_accuracy": None,
-        "formula_accuracy": None,
-        "result_count": 0,
-        "numeric_count": 0,
-        "nonzero_numeric_count": 0,
-        "zero_reference_numeric_count": 0,
-        "log_accuracy_count": 0,
-        "normalized_log_accuracy_count": 0,
-        "bool_categorical_count": 0,
-        "formula_count": 0,
-        "missing_predictions": 0,
-    }
+    return {key: None for key in METRIC_KEYS} | {key: 0 for key in COUNT_KEYS}
+
+
+def _format_numeric_status(score: dict[str, Any]) -> tuple[str, str, str]:
+    if score["missing"]:
+        return "missing prediction", "status-mismatch", ""
+    if score["distribution"] is None:
+        return "no uncertainty", "status-mismatch", ""
+    if score["z"] is None:
+        return "incomparable", "status-mismatch", "Reference or prediction undefined under log_normal."
+    return (
+        f"z = {score['z']:+.2f} (σ = {score['sigma']:.3g} {score['distribution']})",
+        "status-numeric",
+        f"NLL = {score['nll']:.3f}; quality = {score['quality']:.3f}",
+    )
+
+
+def _format_bool_status(score: dict[str, Any]) -> tuple[str, str, str]:
+    if score["missing"]:
+        return "missing prediction", "status-mismatch", ""
+    correct = score["correct"]
+    pct = score["prob_true"] * 100.0 if score["prob_true"] is not None else float("nan")
+    text = f"P(true) = {pct:.0f}% ({'match' if correct else 'mismatch'})"
+    return text, ("status-match" if correct else "status-mismatch"), (
+        f"log-loss = {score['log_loss']:.3f}; brier = {score['brier']:.3f}"
+    )
+
+
+def _format_categorical_status(score: dict[str, Any]) -> tuple[str, str, str]:
+    if score["missing"]:
+        return "missing prediction", "status-mismatch", ""
+    correct = score["correct"]
+    truth = score["expected_value"]
+    prob_truth = (
+        score["probabilities"].get(truth, 0.0) if score["probabilities"] and truth else 0.0
+    )
+    return (
+        f"P({truth}) = {prob_truth * 100.0:.0f}% ({'match' if correct else 'mismatch'})",
+        "status-match" if correct else "status-mismatch",
+        f"log-loss = {score['log_loss']:.3f}; brier = {score['brier']:.3f}",
+    )
+
+
+def _format_formula_status(score: dict[str, Any]) -> tuple[str, str, str]:
+    if score["missing"]:
+        return "missing prediction", "status-mismatch", ""
+    confidence = score["confidence"] if score["confidence"] is not None else 0.5
+    text = (
+        f"{'match' if score['equivalent'] else 'mismatch'} (conf {confidence:.2f})"
+    )
+    return (
+        text,
+        "status-match" if score["equivalent"] else "status-mismatch",
+        score["explanation"],
+    )
 
 
 def build_experiment_report(
@@ -263,137 +565,220 @@ def build_experiment_report(
             "metrics": _empty_experiment_metrics(),
         }
 
-    raw_log_accuracy_values: list[float] = []
-    normalized_log_accuracy_scores: list[float] = []
+    quality_values: list[float] = []
+    numeric_quality_values: list[float] = []
+    numeric_nll_values: list[float] = []
+    coverage_1sigma_hits: list[float] = []
+    coverage_2sigma_hits: list[float] = []
+    bool_log_loss_values: list[float] = []
+    bool_quality_values: list[float] = []
     classification_total = 0
     classification_correct = 0
-    formula_total = 0
+    bool_count = 0
+    categorical_count = 0
+    categorical_log_loss_values: list[float] = []
+    categorical_quality_values: list[float] = []
+    formula_count = 0
     formula_correct = 0
+    formula_log_loss_values: list[float] = []
+    formula_quality_values: list[float] = []
     missing = 0
-    total_prediction_quality = 0.0
-    total_results = 0
     numeric_count = 0
-    nonzero_numeric_count = 0
-    zero_reference_numeric_count = 0
     result_rows: list[dict[str, Any]] = []
 
     for field_name, expected_meta in expected_results.items():
-        total_results += 1
         expected_meta_dict = expected_meta if isinstance(expected_meta, dict) else {}
         field_description = str(expected_meta_dict.get("description", ""))
         field_type = str(expected_meta_dict.get("type", "")).strip().lower()
         expected_value = expected_meta_dict.get("result")
 
-        actual_meta = actual_results.get(field_name, {}) if isinstance(actual_results, dict) else {}
-        actual_meta_dict = actual_meta if isinstance(actual_meta, dict) else {}
-        actual_value = actual_meta_dict.get("result")
-        field_found = isinstance(actual_results, dict) and field_name in actual_results
-        if not field_found:
+        actual_present = isinstance(actual_results, dict) and field_name in actual_results
+        actual_meta_raw = actual_results.get(field_name) if actual_present else None
+        actual_meta_dict = actual_meta_raw if isinstance(actual_meta_raw, dict) else None
+        actual_value = actual_meta_dict.get("result") if actual_meta_dict else None
+
+        if not actual_present:
             missing += 1
 
-        is_numeric_expected = is_numeric_result(field_type, expected_value)
-        status_title = ""
+        row: dict[str, Any] = {
+            "result_key": str(field_name),
+            "description": field_description,
+            "type": field_type,
+            "ground_truth": expected_value,
+            "predicted": actual_value,
+        }
 
-        if is_numeric_expected:
-            expected_ok, expected_numeric = coerce_numeric(expected_value)
-            if expected_ok:
-                numeric_count += 1
-            actual_ok, actual_numeric = (
-                coerce_numeric(actual_value) if field_found else (False, 0.0)
+        if is_numeric_result(field_type, expected_value):
+            numeric_count += 1
+            score = score_numeric(
+                expected_value=expected_value,
+                actual_meta=actual_meta_dict,
             )
-
-            if expected_ok and expected_numeric == 0.0:
-                zero_reference_numeric_count += 1
-                zero_match = actual_ok and actual_numeric == 0.0
-                if zero_match:
-                    total_prediction_quality += 1.0
-                status_text = 'zero match' if zero_match else 'zero mismatch'
-                status_class = 'status-match' if zero_match else 'status-mismatch'
-            elif expected_ok:
-                nonzero_numeric_count += 1
-                if actual_ok:
-                    log_acc = compute_log_accuracy(expected_numeric, actual_numeric)
-                    normalized_score = 1.0 - min(log_acc, 1.0)
-                    raw_log_accuracy_values.append(log_acc)
-                    normalized_log_accuracy_scores.append(normalized_score)
-                    total_prediction_quality += normalized_score
-                    status_text = f'Log-Acc {log_acc:.4f}'
-                    status_class = 'status-numeric'
-                else:
-                    normalized_log_accuracy_scores.append(0.0)
-                    status_text = 'Log-Acc n/a'
-                    status_class = 'status-mismatch'
-            else:
-                match = values_match(expected_value, actual_value)
-                if match:
-                    total_prediction_quality += 1.0
-                status_text = 'match' if match else 'mismatch'
-                status_class = 'status-match' if match else 'status-mismatch'
+            quality_values.append(score["quality"])
+            numeric_quality_values.append(score["quality"])
+            numeric_nll_values.append(score["nll"])
+            if score["within_1sigma"] is not None:
+                coverage_1sigma_hits.append(1.0 if score["within_1sigma"] else 0.0)
+            if score["within_2sigma"] is not None:
+                coverage_2sigma_hits.append(1.0 if score["within_2sigma"] else 0.0)
+            status_text, status_class, status_title = _format_numeric_status(score)
+            row.update(
+                {
+                    "distribution": score["distribution"],
+                    "sigma": score["sigma"],
+                    "z": score["z"],
+                    "nll": score["nll"],
+                    "quality": score["quality"],
+                }
+            )
         elif is_formula_result(field_type):
-            formula_total += 1
-            formula_judgment = judge_formula_values(
-                expected_formula=expected_value,
-                actual_formula=actual_value,
+            formula_count += 1
+            score = score_formula(
+                expected_value=expected_value,
+                expected_meta=expected_meta_dict,
+                actual_meta=actual_meta_dict,
                 experiment_description=expected_desc,
                 result_key=str(field_name),
-                result_description=field_description,
                 formula_judge=formula_judge,
             )
-            if formula_judgment.equivalent:
+            quality_values.append(score["quality"])
+            formula_log_loss_values.append(score["log_loss"])
+            formula_quality_values.append(score["quality"])
+            if score["equivalent"]:
                 formula_correct += 1
-                total_prediction_quality += 1.0
-            status_text = 'formula match' if formula_judgment.equivalent else 'formula mismatch'
-            status_class = 'status-match' if formula_judgment.equivalent else 'status-mismatch'
-            status_title = formula_judgment.explanation
+            status_text, status_class, status_title = _format_formula_status(score)
+            row.update(
+                {
+                    "confidence": score["confidence"],
+                    "equivalent": score["equivalent"],
+                    "log_loss": score["log_loss"],
+                    "quality": score["quality"],
+                }
+            )
+        elif is_bool_result(field_type, expected_value):
+            bool_count += 1
+            classification_total += 1
+            score = score_bool(
+                expected_value=expected_value,
+                actual_meta=actual_meta_dict,
+            )
+            quality_values.append(score["quality"])
+            bool_log_loss_values.append(score["log_loss"])
+            bool_quality_values.append(score["quality"])
+            if score["correct"]:
+                classification_correct += 1
+            status_text, status_class, status_title = _format_bool_status(score)
+            row.update(
+                {
+                    "prob_true": score["prob_true"],
+                    "log_loss": score["log_loss"],
+                    "quality": score["quality"],
+                }
+            )
+        elif is_categorical_result(field_type, expected_value):
+            categorical_count += 1
+            classification_total += 1
+            score = score_categorical(
+                expected_value=expected_value,
+                expected_meta=expected_meta_dict,
+                actual_meta=actual_meta_dict,
+            )
+            quality_values.append(score["quality"])
+            categorical_log_loss_values.append(score["log_loss"])
+            categorical_quality_values.append(score["quality"])
+            if score["correct"]:
+                classification_correct += 1
+            status_text, status_class, status_title = _format_categorical_status(score)
+            row.update(
+                {
+                    "probabilities": score["probabilities"],
+                    "log_loss": score["log_loss"],
+                    "quality": score["quality"],
+                }
+            )
         else:
-            match = field_found and values_match(expected_value, actual_value)
-            if match:
-                total_prediction_quality += 1.0
+            # Unknown type: fall back to argmax-only match scoring.
+            match = actual_present and values_match(expected_value, actual_value)
+            quality = 1.0 if match else 0.0
+            quality_values.append(quality)
+            status_text = "match" if match else "mismatch"
+            status_class = "status-match" if match else "status-mismatch"
+            status_title = ""
+            row.update({"quality": quality})
 
-            if is_bool_or_categorical_result(field_type, expected_value):
-                classification_total += 1
-                if match:
-                    classification_correct += 1
+        row["status_text"] = status_text
+        row["status_class"] = status_class
+        row["status_title"] = status_title or None
+        result_rows.append(row)
 
-            status_text = 'match' if match else 'mismatch'
-            status_class = 'status-match' if match else 'status-mismatch'
-
-        result_rows.append(
-            {
-                "result_key": str(field_name),
-                "description": field_description,
-                "ground_truth": expected_value,
-                "predicted": actual_value,
-                "status_text": status_text,
-                "status_class": status_class,
-                "status_title": status_title or None,
-            }
-        )
-
+    total_results = len(result_rows)
+    bool_categorical_count = bool_count + categorical_count
     metrics = {
-        "prediction_quality": total_prediction_quality / total_results if total_results else None,
-        "log_accuracy": (
-            sum(raw_log_accuracy_values) / len(raw_log_accuracy_values)
-            if raw_log_accuracy_values
+        "prediction_quality": (
+            sum(quality_values) / len(quality_values) if quality_values else None
+        ),
+        "numeric_quality": (
+            sum(numeric_quality_values) / len(numeric_quality_values)
+            if numeric_quality_values
             else None
         ),
-        "normalized_log_accuracy_score": (
-            sum(normalized_log_accuracy_scores) / len(normalized_log_accuracy_scores)
-            if normalized_log_accuracy_scores
+        "numeric_nll": (
+            sum(numeric_nll_values) / len(numeric_nll_values)
+            if numeric_nll_values
+            else None
+        ),
+        "coverage_1sigma": (
+            sum(coverage_1sigma_hits) / len(coverage_1sigma_hits)
+            if coverage_1sigma_hits
+            else None
+        ),
+        "coverage_2sigma": (
+            sum(coverage_2sigma_hits) / len(coverage_2sigma_hits)
+            if coverage_2sigma_hits
+            else None
+        ),
+        "bool_log_loss": (
+            sum(bool_log_loss_values) / len(bool_log_loss_values)
+            if bool_log_loss_values
+            else None
+        ),
+        "bool_quality": (
+            sum(bool_quality_values) / len(bool_quality_values)
+            if bool_quality_values
             else None
         ),
         "bool_categorical_accuracy": (
             classification_correct / classification_total if classification_total else None
         ),
-        "formula_accuracy": formula_correct / formula_total if formula_total else None,
+        "categorical_log_loss": (
+            sum(categorical_log_loss_values) / len(categorical_log_loss_values)
+            if categorical_log_loss_values
+            else None
+        ),
+        "categorical_quality": (
+            sum(categorical_quality_values) / len(categorical_quality_values)
+            if categorical_quality_values
+            else None
+        ),
+        "formula_accuracy": (
+            formula_correct / formula_count if formula_count else None
+        ),
+        "formula_log_loss": (
+            sum(formula_log_loss_values) / len(formula_log_loss_values)
+            if formula_log_loss_values
+            else None
+        ),
+        "formula_quality": (
+            sum(formula_quality_values) / len(formula_quality_values)
+            if formula_quality_values
+            else None
+        ),
         "result_count": total_results,
         "numeric_count": numeric_count,
-        "nonzero_numeric_count": nonzero_numeric_count,
-        "zero_reference_numeric_count": zero_reference_numeric_count,
-        "log_accuracy_count": len(raw_log_accuracy_values),
-        "normalized_log_accuracy_count": len(normalized_log_accuracy_scores),
-        "bool_categorical_count": classification_total,
-        "formula_count": formula_total,
+        "bool_count": bool_count,
+        "categorical_count": categorical_count,
+        "bool_categorical_count": bool_categorical_count,
+        "formula_count": formula_count,
         "missing_predictions": missing,
     }
     return {
@@ -404,12 +789,6 @@ def build_experiment_report(
 
 
 def _experiments_for_aggregation(payload: Any) -> list[Any]:
-    """Return the list of experiment objects in a benchmark payload.
-
-    Top-level payloads are either a list of experiments or a single
-    experiment dict. Anything else collapses to a single-element list so
-    `compute_experiment_metrics` can still walk its result paths.
-    """
     if isinstance(payload, list):
         return list(payload)
     return [payload]
@@ -421,7 +800,6 @@ def compute_experiment_metrics(
     *,
     formula_judge: FormulaJudge | None = None,
 ) -> dict[str, Any]:
-    """Compute metrics for a single experiment (one element of the payload list)."""
     return build_experiment_report(
         expected_experiment,
         actual_experiment,
@@ -477,7 +855,6 @@ def compute_file_metrics(
     *,
     formula_judge: FormulaJudge | None = None,
 ) -> dict[str, Any]:
-    """Aggregate per-experiment metrics into per-paper metrics."""
     report_data = build_file_report_data(
         expected_json,
         actual_json,

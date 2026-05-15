@@ -55,10 +55,9 @@ def write_runs_index(*, docs_dir: Path, latest_run_name: str | None = None) -> N
                 'model': summary.get('model'),
                 'files_evaluated': summary.get('files_evaluated'),
                 'aggregate_prediction_quality': summary.get('aggregate_prediction_quality'),
-                'aggregate_log_accuracy': summary.get('aggregate_log_accuracy'),
-                'aggregate_normalized_log_accuracy_score': summary.get(
-                    'aggregate_normalized_log_accuracy_score'
-                ),
+                'aggregate_numeric_nll': summary.get('aggregate_numeric_nll'),
+                'aggregate_coverage_1sigma': summary.get('aggregate_coverage_1sigma'),
+                'aggregate_coverage_2sigma': summary.get('aggregate_coverage_2sigma'),
                 'summary_href': f'{run_dir.name}/benchmark_results.json' if summary_path.exists() else None,
                 'report_href': f'{run_dir.name}/benchmark_human_readable_report.html' if report_path.exists() else None,
                 'updated_at': max(timestamps),
@@ -107,10 +106,12 @@ def write_runs_index(*, docs_dir: Path, latest_run_name: str | None = None) -> N
                     f'<dd>{html.escape(files_text)}</dd></div>',
                     '<div><dt>Prediction Quality</dt>'
                     f'<dd>{html.escape(format_metric_value(run["aggregate_prediction_quality"]))}</dd></div>',
-                    '<div><dt>Log-Accuracy</dt>'
-                    f'<dd>{html.escape(format_metric_value(run["aggregate_log_accuracy"]))}</dd></div>',
-                    '<div><dt>Normalized Log-Accuracy</dt>'
-                    f'<dd>{html.escape(format_metric_value(run["aggregate_normalized_log_accuracy_score"]))}</dd></div>',
+                    '<div><dt>Numeric NLL</dt>'
+                    f'<dd>{html.escape(format_metric_value(run["aggregate_numeric_nll"]))}</dd></div>',
+                    '<div><dt>Coverage @1σ</dt>'
+                    f'<dd>{html.escape(format_metric_value(run["aggregate_coverage_1sigma"]))}</dd></div>',
+                    '<div><dt>Coverage @2σ</dt>'
+                    f'<dd>{html.escape(format_metric_value(run["aggregate_coverage_2sigma"]))}</dd></div>',
                     '<div><dt>Updated</dt>'
                     f'<dd>{html.escape(format_timestamp(run["updated_at"]))}</dd></div>',
                     '</dl>',
@@ -345,24 +346,53 @@ def write_human_readable_report(
             return value
         return json.dumps(value, ensure_ascii=False)
 
+    def format_uncertainty(row: dict[str, Any]) -> str:
+        field_type = str(row.get('type', '')).strip().lower()
+        if field_type in {'float', 'integer'}:
+            distribution = row.get('distribution')
+            sigma = row.get('sigma')
+            if distribution is None or sigma is None:
+                return 'n/a'
+            unit = 'dex' if distribution == 'log_normal' else 'linear'
+            return f'σ = {sigma:.3g} ({distribution}, {unit})'
+        if field_type in {'bool', 'boolean'}:
+            prob_true = row.get('prob_true')
+            if prob_true is None:
+                return 'n/a'
+            return f'P(true) = {prob_true * 100.0:.1f}%'
+        if field_type == 'categorical':
+            probabilities = row.get('probabilities') or {}
+            if not probabilities:
+                return 'n/a'
+            top_items = sorted(probabilities.items(), key=lambda kv: kv[1], reverse=True)[:3]
+            return ', '.join(f'{k}={v * 100.0:.0f}%' for k, v in top_items)
+        if field_type == 'formula':
+            confidence = row.get('confidence')
+            if confidence is None:
+                return 'n/a'
+            return f'confidence = {confidence:.2f}'
+        return 'n/a'
+
     def collect_file_section(item_summary: dict[str, Any]) -> str:
         section_parts: list[str] = []
         section_parts.append('<div class="paper-metrics">')
-        section_parts.append(
-            f'<div class="metric-chip"><span class="metric-label">Prediction Quality</span><span class="metric-value">{html.escape(format_metric_value(item_summary.get("prediction_quality")))}</span></div>'
+        chips = (
+            ("Prediction Quality", "prediction_quality"),
+            ("Numeric NLL", "numeric_nll"),
+            ("Coverage @1σ", "coverage_1sigma"),
+            ("Coverage @2σ", "coverage_2sigma"),
+            ("Bool log-loss", "bool_log_loss"),
+            ("Categorical log-loss", "categorical_log_loss"),
+            ("Bool/Categorical Accuracy", "bool_categorical_accuracy"),
+            ("Formula Accuracy", "formula_accuracy"),
         )
-        section_parts.append(
-            f'<div class="metric-chip"><span class="metric-label">Log-Accuracy</span><span class="metric-value">{html.escape(format_metric_value(item_summary.get("log_accuracy")))}</span></div>'
-        )
-        section_parts.append(
-            f'<div class="metric-chip"><span class="metric-label">Normalized Log-Accuracy Score</span><span class="metric-value">{html.escape(format_metric_value(item_summary.get("normalized_log_accuracy_score")))}</span></div>'
-        )
-        section_parts.append(
-            f'<div class="metric-chip"><span class="metric-label">Bool/Categorical Accuracy</span><span class="metric-value">{html.escape(format_metric_value(item_summary.get("bool_categorical_accuracy")))}</span></div>'
-        )
-        section_parts.append(
-            f'<div class="metric-chip"><span class="metric-label">Formula Accuracy</span><span class="metric-value">{html.escape(format_metric_value(item_summary.get("formula_accuracy")))}</span></div>'
-        )
+        for label, key in chips:
+            section_parts.append(
+                '<div class="metric-chip">'
+                f'<span class="metric-label">{html.escape(label)}</span>'
+                f'<span class="metric-value">{html.escape(format_metric_value(item_summary.get(key)))}</span>'
+                '</div>'
+            )
         section_parts.append('</div>')
 
         report_experiments = item_summary.get('report_experiments', [])
@@ -389,7 +419,7 @@ def write_human_readable_report(
 
             section_parts.append('<div class="table-wrap">')
             section_parts.append(
-                '<table><thead><tr><th>Result</th><th>Description</th><th>Ground Truth</th><th>Predicted</th><th>Status</th></tr></thead><tbody>'
+                '<table><thead><tr><th>Result</th><th>Description</th><th>Ground Truth</th><th>Predicted</th><th>Uncertainty</th><th>Status</th></tr></thead><tbody>'
             )
 
             for row in result_rows:
@@ -405,6 +435,7 @@ def write_human_readable_report(
                 status_title_attr = ''
                 if isinstance(status_title, str) and status_title:
                     status_title_attr = f' title="{html.escape(status_title, quote=True)}"'
+                uncertainty_cell = format_uncertainty(row)
 
                 section_parts.append(
                     '<tr>'
@@ -412,6 +443,7 @@ def write_human_readable_report(
                     f'<td>{html.escape(field_description)}</td>'
                     f'<td>{html.escape(format_value(expected_value))}</td>'
                     f'<td>{html.escape(format_value(actual_value))}</td>'
+                    f'<td>{html.escape(uncertainty_cell)}</td>'
                     f'<td><span class="{status_class}"{status_title_attr}>{status_text}</span></td>'
                     '</tr>'
                 )
@@ -577,8 +609,11 @@ def write_human_readable_report(
         <div class="meta">Generated: {html.escape(generated_at_utc)}</div>
         <div class="meta">Files: {len(items)}</div>
         <div class="meta">Aggregate prediction quality: {format_metric_value(summary.get('aggregate_prediction_quality'))}</div>
-        <div class="meta">Aggregate log-accuracy: {format_metric_value(summary.get('aggregate_log_accuracy'))}</div>
-        <div class="meta">Aggregate normalized log-accuracy score: {format_metric_value(summary.get('aggregate_normalized_log_accuracy_score'))}</div>
+        <div class="meta">Aggregate numeric NLL: {format_metric_value(summary.get('aggregate_numeric_nll'))}</div>
+        <div class="meta">Aggregate coverage @1σ: {format_metric_value(summary.get('aggregate_coverage_1sigma'))}</div>
+        <div class="meta">Aggregate coverage @2σ: {format_metric_value(summary.get('aggregate_coverage_2sigma'))}</div>
+        <div class="meta">Aggregate bool log-loss: {format_metric_value(summary.get('aggregate_bool_log_loss'))}</div>
+        <div class="meta">Aggregate categorical log-loss: {format_metric_value(summary.get('aggregate_categorical_log_loss'))}</div>
         <div class="meta">Aggregate bool/categorical accuracy: {format_metric_value(summary.get('aggregate_bool_categorical_accuracy'))}</div>
         <div class="meta">Aggregate formula accuracy: {format_metric_value(summary.get('aggregate_formula_accuracy'))}</div>
     </div>

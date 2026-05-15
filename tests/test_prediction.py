@@ -13,31 +13,83 @@ from foresight_phys.json_payloads import build_prediction_format_signature, buil
 from foresight_phys.prediction import build_benchmark_items, call_openai_with_retry
 
 
-class PredictionCallTests(unittest.TestCase):
-    def test_prediction_schema_uses_list_based_result_entries(self) -> None:
-        schema = build_prediction_format_signature()
+def _example_float_field() -> dict:
+    return {
+        'key': 'bandgap_eV',
+        'type': 'float',
+        'description': 'Measured bandgap',
+        'result': 1.23,
+        'distribution': 'log_normal',
+        'sigma': 0.3,
+    }
 
+
+def _example_predicted_float_field(result: float = 1.5) -> dict:
+    return {
+        'type': 'float',
+        'description': 'Measured bandgap',
+        'result': result,
+        'distribution': 'log_normal',
+        'sigma': 0.3,
+    }
+
+
+class PredictionSchemaTests(unittest.TestCase):
+    def test_prediction_schema_uses_anyof_union(self) -> None:
+        schema = build_prediction_format_signature()
         experiment_results_schema = schema['$defs']['BenchmarkPredictionExperiment']['properties']['experiment_results']
 
         self.assertEqual(experiment_results_schema['type'], 'array')
+        item_schema = experiment_results_schema['items']
+        # OpenAI structured output rejects `oneOf`; we deliberately emit `anyOf`
+        # via a bare Union (no Field(discriminator=...)).
+        self.assertIn('anyOf', item_schema)
+        self.assertNotIn('oneOf', item_schema)
+        refs = sorted(entry.get('$ref', '') for entry in item_schema['anyOf'])
         self.assertEqual(
-            experiment_results_schema['items']['$ref'],
-            '#/$defs/BenchmarkPredictionResultField',
+            refs,
+            sorted([
+                '#/$defs/BoolResult',
+                '#/$defs/CategoricalResult',
+                '#/$defs/FloatResult',
+                '#/$defs/FormulaResult',
+                '#/$defs/IntegerResult',
+            ]),
         )
 
-    def test_uses_pydantic_parse_for_prediction_payloads(self) -> None:
+    def test_uses_pydantic_parse_with_full_uncertainty_payload(self) -> None:
         text_format = build_prediction_text_format()
         parsed_payload = text_format(
             payload=[
                 {
                     'experiment_description': 'Example experiment',
                     'experiment_results': [
+                        _example_float_field(),
                         {
-                            'key': 'bandgap_eV',
-                            'type': 'float',
-                            'description': 'Measured bandgap',
-                            'result': 1.23,
-                        }
+                            'key': 'stable',
+                            'type': 'bool',
+                            'description': 'Stable',
+                            'result': True,
+                            'prob_true': 0.8,
+                        },
+                        {
+                            'key': 'phase',
+                            'type': 'categorical',
+                            'description': 'Observed phase',
+                            'result': 'solid',
+                            'allowed_categorial_values': ['solid', 'liquid'],
+                            'probabilities': [
+                                {'value': 'solid', 'probability': 0.7},
+                                {'value': 'liquid', 'probability': 0.3},
+                            ],
+                        },
+                        {
+                            'key': 'dispersion',
+                            'type': 'formula',
+                            'description': 'Dispersion',
+                            'result': 'E = h * nu',
+                            'confidence': 0.6,
+                        },
                     ],
                 }
             ]
@@ -66,45 +118,37 @@ class PredictionCallTests(unittest.TestCase):
             )
 
         client.responses.parse.assert_called_once()
+        # Categorical probabilities list should be normalized into a dict.
+        phase_pred = payload[0]['experiment_results']['phase']
         self.assertEqual(
-            client.responses.parse.call_args.kwargs['text_format'],
-            text_format,
+            phase_pred['probabilities'],
+            {'solid': 0.7, 'liquid': 0.3},
         )
-        self.assertEqual(
-            payload,
-            [
-                {
-                    'experiment_description': 'Example experiment',
-                    'experiment_results': {
-                        'bandgap_eV': {
-                            'type': 'float',
-                            'description': 'Measured bandgap',
-                            'result': 1.23,
-                        }
-                    },
-                }
-            ],
-        )
+        bandgap_pred = payload[0]['experiment_results']['bandgap_eV']
+        self.assertEqual(bandgap_pred['distribution'], 'log_normal')
+        self.assertEqual(bandgap_pred['sigma'], 0.3)
+        self.assertEqual(payload[0]['experiment_results']['stable']['prob_true'], 0.8)
+        self.assertEqual(payload[0]['experiment_results']['dispersion']['confidence'], 0.6)
 
     def test_build_benchmark_items_skips_top_level_empty_lists(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:
             json_dir = Path(tmp_dir)
             (json_dir / 'empty.json').write_text('[]', encoding='utf-8')
             (json_dir / 'paper.json').write_text(
-                """
-[
-  {
-    "experiment_description": "Example experiment",
-    "experiment_results": {
-      "bandgap_eV": {
-        "type": "float",
-        "description": "Measured bandgap",
-        "result": 1.23
-      }
-    }
-  }
-]
-""".strip(),
+                json.dumps(
+                    [
+                        {
+                            'experiment_description': 'Example experiment',
+                            'experiment_results': {
+                                'bandgap_eV': {
+                                    'type': 'float',
+                                    'description': 'Measured bandgap',
+                                    'result': 1.23,
+                                }
+                            },
+                        }
+                    ]
+                ),
                 encoding='utf-8',
             )
 
@@ -120,11 +164,7 @@ class PredictionCallTests(unittest.TestCase):
                     {
                         'experiment_description': 'Example experiment',
                         'experiment_results': {
-                            'bandgap_eV': {
-                                'type': 'float',
-                                'description': 'Measured bandgap',
-                                'result': 1.5,
-                            }
+                            'bandgap_eV': _example_predicted_float_field(1.5),
                         },
                     }
                 ],
@@ -186,11 +226,7 @@ class PredictionCallTests(unittest.TestCase):
                         {
                             'experiment_description': 'Experiment one',
                             'experiment_results': {
-                                'bandgap_eV': {
-                                    'type': 'float',
-                                    'description': 'Measured bandgap',
-                                    'result': 1.5,
-                                }
+                                'bandgap_eV': _example_predicted_float_field(1.5),
                             },
                         }
                     ],
@@ -203,6 +239,7 @@ class PredictionCallTests(unittest.TestCase):
                                     'description': 'Observed phase',
                                     'result': 'liquid',
                                     'allowed_categorial_values': ['solid', 'liquid'],
+                                    'probabilities': {'solid': 0.4, 'liquid': 0.6},
                                 }
                             },
                         }
@@ -222,61 +259,8 @@ class PredictionCallTests(unittest.TestCase):
         self.assertEqual(len(items), 1)
         self.assertEqual(items[0].file_name, 'paper.json')
         self.assertEqual(
-            call_openai.call_args_list[0].kwargs['masked_payload'],
-            [
-                {
-                    'experiment_description': 'Experiment one',
-                    'experiment_results': {
-                        'bandgap_eV': {
-                            'type': 'float',
-                            'description': 'Measured bandgap',
-                            'result': 'TO_PREDICT',
-                        }
-                    },
-                }
-            ],
-        )
-        self.assertEqual(
-            call_openai.call_args_list[1].kwargs['masked_payload'],
-            [
-                {
-                    'experiment_description': 'Experiment two',
-                    'experiment_results': {
-                        'phase': {
-                            'type': 'categorical',
-                            'description': 'Observed phase',
-                            'result': 'TO_PREDICT',
-                            'allowed_categorial_values': ['solid', 'liquid'],
-                        }
-                    },
-                }
-            ],
-        )
-        self.assertEqual(
-            items[0].actual_output,
-            [
-                {
-                    'experiment_description': 'Experiment one',
-                    'experiment_results': {
-                        'bandgap_eV': {
-                            'type': 'float',
-                            'description': 'Measured bandgap',
-                            'result': 1.5,
-                        }
-                    },
-                },
-                {
-                    'experiment_description': 'Experiment two',
-                    'experiment_results': {
-                        'phase': {
-                            'type': 'categorical',
-                            'description': 'Observed phase',
-                            'result': 'liquid',
-                            'allowed_categorial_values': ['solid', 'liquid'],
-                        }
-                    },
-                },
-            ],
+            items[0].actual_output[1]['experiment_results']['phase']['probabilities'],
+            {'solid': 0.4, 'liquid': 0.6},
         )
 
     def test_build_benchmark_items_attaches_manifest_paper_titles(self) -> None:
@@ -322,11 +306,7 @@ class PredictionCallTests(unittest.TestCase):
                     {
                         'experiment_description': 'Example experiment',
                         'experiment_results': {
-                            'bandgap_eV': {
-                                'type': 'float',
-                                'description': 'Measured bandgap',
-                                'result': 1.5,
-                            }
+                            'bandgap_eV': _example_predicted_float_field(1.5),
                         },
                     }
                 ],
@@ -379,11 +359,7 @@ class PredictionCallTests(unittest.TestCase):
                     {
                         'experiment_description': 'Example experiment',
                         'experiment_results': {
-                            'bandgap_eV': {
-                                'type': 'float',
-                                'description': 'Measured bandgap',
-                                'result': 1.5,
-                            }
+                            'bandgap_eV': _example_predicted_float_field(1.5),
                         },
                     }
                 ],

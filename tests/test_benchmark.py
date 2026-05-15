@@ -56,6 +56,7 @@ class RunBenchmarkTests(unittest.TestCase):
                         "type": "categorical",
                         "description": "Observed phase",
                         "result": "solid",
+                        "allowed_categorial_values": ["solid", "liquid"],
                     },
                     "dispersion": {
                         "type": "formula",
@@ -69,18 +70,20 @@ class RunBenchmarkTests(unittest.TestCase):
                 "experiment_results": {
                     "temperature": {
                         "type": "float",
-                        "description": "Measured temperature",
                         "result": 10.0,
+                        "distribution": "log_normal",
+                        "sigma": 0.3,
                     },
                     "phase": {
                         "type": "categorical",
-                        "description": "Observed phase",
                         "result": "solid",
+                        "allowed_categorial_values": ["solid", "liquid"],
+                        "probabilities": {"solid": 0.9, "liquid": 0.1},
                     },
                     "dispersion": {
                         "type": "formula",
-                        "description": "Dispersion relation",
                         "result": "E=mc^2",
+                        "confidence": 0.95,
                     },
                 },
             },
@@ -108,13 +111,14 @@ class RunBenchmarkTests(unittest.TestCase):
                 "experiment_results": {
                     "temperature": {
                         "type": "float",
-                        "description": "Measured temperature",
-                        "result": 0.0,
+                        "result": 10.0,
+                        "distribution": "log_normal",
+                        "sigma": 0.3,
                     },
                     "stable": {
                         "type": "bool",
-                        "description": "System remains stable",
                         "result": True,
+                        "prob_true": 0.6,
                     },
                 },
             },
@@ -150,18 +154,21 @@ class RunBenchmarkTests(unittest.TestCase):
                 written_summary = json.loads(output_path.read_text(encoding="utf-8"))
 
         self.assertEqual(summary["files_evaluated"], 2)
-        self.assertAlmostEqual(summary["aggregate_prediction_quality"], 0.5)
-        self.assertEqual(summary["aggregate_log_accuracy"], float("inf"))
-        self.assertAlmostEqual(summary["aggregate_normalized_log_accuracy_score"], 0.5)
-        self.assertAlmostEqual(summary["aggregate_bool_categorical_accuracy"], 0.5)
+        # Numeric quality is 1.0 on both papers; bool/cat hit at high prob; formula matches.
+        self.assertGreater(summary["aggregate_prediction_quality"], 0.7)
+        self.assertAlmostEqual(summary["aggregate_numeric_quality"], 1.0)
+        self.assertAlmostEqual(summary["aggregate_coverage_1sigma"], 1.0)
         self.assertAlmostEqual(summary["aggregate_formula_accuracy"], 1.0)
+        # Paper one has only categorical+formula+numeric, paper two has bool+numeric.
+        # bool_categorical_accuracy paper-macro: paper one (cat correct -> 1.0), paper two (bool wrong -> 0.0).
+        self.assertAlmostEqual(summary["aggregate_bool_categorical_accuracy"], 0.5)
 
         self.assertEqual(
             written_summary["aggregate_prediction_quality"],
             summary["aggregate_prediction_quality"],
         )
         self.assertEqual(
-            written_summary["aggregate_log_accuracy"], summary["aggregate_log_accuracy"]
+            written_summary["aggregate_numeric_nll"], summary["aggregate_numeric_nll"]
         )
 
     def test_run_benchmark_updates_docs_index(self) -> None:
@@ -230,8 +237,11 @@ class ReportingTests(unittest.TestCase):
             "generated_at_utc": "2026-01-01T00:00:00+00:00",
             "model": "gpt-5.4-nano",
             "aggregate_prediction_quality": 1.0,
-            "aggregate_log_accuracy": 0.0,
-            "aggregate_normalized_log_accuracy_score": 1.0,
+            "aggregate_numeric_nll": -0.3,
+            "aggregate_coverage_1sigma": 1.0,
+            "aggregate_coverage_2sigma": 1.0,
+            "aggregate_bool_log_loss": None,
+            "aggregate_categorical_log_loss": None,
             "aggregate_bool_categorical_accuracy": None,
             "aggregate_formula_accuracy": None,
             "per_file": [
@@ -239,8 +249,11 @@ class ReportingTests(unittest.TestCase):
                     "file": "paper-one.json",
                     "paper_title": "Visible Paper Title",
                     "prediction_quality": 1.0,
-                    "log_accuracy": 0.0,
-                    "normalized_log_accuracy_score": 1.0,
+                    "numeric_nll": -0.3,
+                    "coverage_1sigma": 1.0,
+                    "coverage_2sigma": 1.0,
+                    "bool_log_loss": None,
+                    "categorical_log_loss": None,
                     "bool_categorical_accuracy": None,
                     "formula_accuracy": None,
                     "report_experiments": [
@@ -251,9 +264,12 @@ class ReportingTests(unittest.TestCase):
                                 {
                                     "result_key": "temperature",
                                     "description": "Measured temperature",
+                                    "type": "float",
                                     "ground_truth": 10.0,
                                     "predicted": 10.0,
-                                    "status_text": "Log-Acc 0.0000",
+                                    "distribution": "log_normal",
+                                    "sigma": 0.3,
+                                    "status_text": "z = +0.00",
                                     "status_class": "status-numeric",
                                     "status_title": None,
                                 }
@@ -295,8 +311,9 @@ class ReportingTests(unittest.TestCase):
                 "experiment_results": {
                     "temperature": {
                         "type": "float",
-                        "description": "Measured temperature",
                         "result": 10.0,
+                        "distribution": "log_normal",
+                        "sigma": 0.3,
                     },
                 },
             },
@@ -352,8 +369,9 @@ class ReportingTests(unittest.TestCase):
                         "model": "gpt-5.4-nano",
                         "files_evaluated": 3,
                         "aggregate_prediction_quality": 0.625,
-                        "aggregate_log_accuracy": 0.75,
-                        "aggregate_normalized_log_accuracy_score": 0.25,
+                        "aggregate_numeric_nll": 0.75,
+                        "aggregate_coverage_1sigma": 0.5,
+                        "aggregate_coverage_2sigma": 0.9,
                     }
                 ),
                 encoding="utf-8",
@@ -372,8 +390,9 @@ class ReportingTests(unittest.TestCase):
                         "model": "gpt-5.4-mini",
                         "files_evaluated": 5,
                         "aggregate_prediction_quality": 0.875,
-                        "aggregate_log_accuracy": 0.125,
-                        "aggregate_normalized_log_accuracy_score": 0.875,
+                        "aggregate_numeric_nll": 0.125,
+                        "aggregate_coverage_1sigma": 0.7,
+                        "aggregate_coverage_2sigma": 0.95,
                     }
                 ),
                 encoding="utf-8",

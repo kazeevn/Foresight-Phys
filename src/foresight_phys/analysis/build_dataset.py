@@ -1,11 +1,13 @@
 """Join parsed benchmark predictions with ground-truth JSON metadata.
 
 Produces a long dataframe with one row per (model, file, experiment, key). Adds:
-- ``result_type`` from the ground truth JSON
-- ``numeric_gt`` / ``numeric_pred`` (when parseable as floats)
-- ``log_accuracy`` / ``normalized_log_accuracy_score`` / ``score`` (correctness in [0, 1])
-- ``correct`` (binary at the same 0.5 threshold the analysis uses)
+- ``result_type`` / ``gt_value`` from the ground truth JSON
+- ``numeric_gt`` / ``numeric_pred`` (when parseable as floats; used for scatter)
+- ``correct`` (per-field quality >= ``CORRECT_THRESHOLD``)
 - ``likely_unit_off`` (factor 1e3/1e6 ratio between pred and gt)
+
+Field-level scoring (``quality``, ``nll``, ``z``, ``log_loss`` …) is computed
+upstream in ``foresight_phys.metrics`` and merely passed through here.
 """
 from __future__ import annotations
 
@@ -35,7 +37,7 @@ def _load_ground_truth(paths: AnalysisPaths) -> pd.DataFrame:
                     "file_id": jp.stem,
                     "experiment": ei,
                     "key": k,
-                    "type": v.get("type"),
+                    "gt_type": v.get("type"),
                     "gt_value": v.get("result"),
                     "result_description": v.get("description", ""),
                     "experiment_description": exp_desc,
@@ -67,31 +69,6 @@ def _parse_numeric(value) -> float | None:
             return None
 
 
-def _compute_log_accuracy(a, b) -> float | None:
-    if a is None or b is None:
-        return None
-    if a == 0:
-        return None
-    if b == 0:
-        return float("inf")
-    # We use abs() on both to handle potential negative physical quantities.
-    return abs(math.log10(abs(b) / abs(a)))
-
-
-def _score_row(row) -> float | None:
-    """Replicate the per-field scoring logic in :func:`metrics.compute_experiment_metrics`."""
-    t = row["type"]
-    if t in NUMERIC_TYPES or (t is None and isinstance(row["gt_value"], (int, float))):
-        if row["numeric_gt"] is None:
-            return None
-        if row["numeric_gt"] == 0.0:
-            return 1.0 if row["numeric_pred"] == 0.0 else 0.0
-        if row["numeric_pred"] is None:
-            return 0.0
-        return 1.0 - min(row["log_accuracy"], 1.0)
-    return 1.0 if row["status_class"] == "status-match" else 0.0
-
-
 def _unit_off(row) -> bool:
     gt = row["numeric_gt"]
     pr = row["numeric_pred"]
@@ -113,7 +90,7 @@ def build_scored_dataset(paths: AnalysisPaths | None = None) -> pd.DataFrame:
 
     df = predictions.merge(
         ground_truth[[
-            "file_id", "experiment", "key", "type", "gt_value",
+            "file_id", "experiment", "key", "gt_type", "gt_value",
             "result_description", "experiment_description",
         ]],
         on=["file_id", "experiment", "key"],
@@ -121,23 +98,22 @@ def build_scored_dataset(paths: AnalysisPaths | None = None) -> pd.DataFrame:
         suffixes=("_parsed", ""),
     )
 
+    # Prefer the ground-truth type tag; fall back to the parquet's row type when
+    # absent (e.g., for legacy fixtures without an explicit `type` column).
+    df["type"] = df["gt_type"].fillna(df["type"]) if "type" in df.columns else df["gt_type"]
+    df = df.drop(columns=["gt_type"])
+
     df["numeric_gt"] = df["gt_value"].apply(_parse_numeric)
     df["numeric_pred"] = df["pred"].apply(_parse_numeric)
-    df["log_accuracy"] = [
-        _compute_log_accuracy(a, b) for a, b in zip(df.numeric_gt, df.numeric_pred)
-    ]
-    df["normalized_log_accuracy_score"] = df.log_accuracy.apply(
-        lambda x: None if x is None else 1.0 - min(x, 1.0)
-    )
-    df["score"] = df.apply(_score_row, axis=1)
     df["likely_unit_off"] = df.apply(_unit_off, axis=1)
-    df["correct"] = df.apply(
-        lambda r: (r["score"] is not None and r["score"] >= CORRECT_THRESHOLD),
-        axis=1,
+
+    if "quality" not in df.columns:
+        df["quality"] = None
+    df["correct"] = df["quality"].apply(
+        lambda v: (v is not None and not pd.isna(v) and float(v) >= CORRECT_THRESHOLD)
     )
 
-    # gt_value may contain mixed types (str / int / float / bool); serialize
-    # it so we can write parquet without per-row dtype headaches.
+    # gt_value may contain mixed types; serialize so we can write parquet.
     df["gt_value"] = df["gt_value"].apply(lambda v: json.dumps(v, ensure_ascii=False))
 
     df.to_parquet(paths.scored_parquet, index=False)

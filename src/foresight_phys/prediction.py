@@ -43,11 +43,22 @@ def normalize_prediction_payload(parsed: BenchmarkPredictionEnvelope) -> list[di
                 raise ValueError(
                     f"Structured prediction output repeated result key: {result_field.key}"
                 )
-            experiment_results[result_field.key] = result_field.model_dump(
+            dumped = result_field.model_dump(
                 mode='json',
                 exclude_none=True,
                 exclude={'key'},
             )
+            # Flatten the categorical probability list into a dict for storage
+            # and downstream scoring; OpenAI structured output requires a list,
+            # but {value: prob} is friendlier for analysis.
+            probabilities_list = dumped.get('probabilities')
+            if isinstance(probabilities_list, list):
+                dumped['probabilities'] = {
+                    entry['value']: entry['probability']
+                    for entry in probabilities_list
+                    if isinstance(entry, dict) and 'value' in entry
+                }
+            experiment_results[result_field.key] = dumped
 
         payload.append(
             {
@@ -155,20 +166,30 @@ def call_openai_with_retry(
     system_prompt: str,
     masked_payload: Any,
     text_format: type[BaseModel],
+    service_tier: str = 'flex',
 ) -> Any:
     client = OpenAI()
     user_prompt = (
-        "Fill all TO_PREDICT values with your best predictions. "
+        "Fill all TO_PREDICT values with your best predictions and calibrated uncertainty. "
         "Return the completed JSON in exactly the required schema under the key 'payload'. "
         "Return exactly one experiment in payload. "
-        "For that experiment, return experiment_results as a list of result objects with "
-        "the fields key, type, description, result, and allowed_categorial_values. "
-        "Use null for allowed_categorial_values when it does not apply.\n\n"
+        "For that experiment, return experiment_results as a list of result objects, each with "
+        "key, type, description, and the per-type fields below.\n"
+        "- type 'float' or 'integer': set 'result' (median for log_normal, mean for normal), "
+        "'distribution' ('normal' or 'log_normal'), and 'sigma' (>0; in dex for log_normal, "
+        "in linear units for normal).\n"
+        "- type 'bool': set 'result' (true/false) and 'prob_true' (probability of true, in [0,1]).\n"
+        "- type 'categorical': set 'result' to your best-guess value, 'allowed_categorial_values' "
+        "to the list given, and 'probabilities' as a list of {value, probability} covering every "
+        "allowed value (summing to ~1).\n"
+        "- type 'formula': set 'result' (the symbolic expression) and 'confidence' in [0,1].\n"
+        "Predictions are scored with proper scoring rules, so calibrate your uncertainty.\n\n"
         f"{json.dumps(masked_payload, ensure_ascii=False, indent=2)}"
     )
 
     response = client.responses.parse(
         model=model,
+        service_tier=service_tier,
         input=[
             {"role": "system", "content": [{"type": "input_text", "text": system_prompt}]},
             {"role": "user", "content": [{"type": "input_text", "text": user_prompt}]},
@@ -197,6 +218,7 @@ def build_benchmark_items(
     max_files: int | None,
     max_workers: int,
     prediction_cache: PredictionCache,
+    service_tier: str = 'flex',
 ) -> list[BenchmarkItem]:
     benchmark_sources: list[tuple[Path, Any, Any]] = []
     for json_path in sorted(json_dir.glob("*.json")):
@@ -250,6 +272,7 @@ def build_benchmark_items(
                 executor.submit(
                     call_openai_with_retry,
                     model=model,
+                    service_tier=service_tier,
                     system_prompt=system_prompt,
                     masked_payload=[masked_experiment],
                     text_format=text_format,

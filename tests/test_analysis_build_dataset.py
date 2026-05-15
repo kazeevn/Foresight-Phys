@@ -12,7 +12,7 @@ from foresight_phys.analysis.paths import AnalysisPaths
 
 
 class BuildDatasetTests(unittest.TestCase):
-    def test_zero_reference_numeric_rows_skip_log_accuracy(self) -> None:
+    def test_quality_is_passed_through_and_drives_correctness(self) -> None:
         with TemporaryDirectory() as tmpdir:
             project_root = Path(tmpdir)
             paths = AnalysisPaths(project_root=project_root)
@@ -23,13 +23,18 @@ class BuildDatasetTests(unittest.TestCase):
                 json.dumps(
                     [
                         {
-                            "experiment_description": "Zero test",
+                            "experiment_description": "Numeric test",
                             "experiment_results": {
-                                "zero_crossing": {
+                                "bandgap_eV": {
                                     "type": "float",
-                                    "description": "Zero-valued observable",
-                                    "result": 0.0,
-                                }
+                                    "description": "Bandgap",
+                                    "result": 1.5,
+                                },
+                                "stable": {
+                                    "type": "bool",
+                                    "description": "Stable",
+                                    "result": True,
+                                },
                             },
                         }
                     ],
@@ -45,25 +50,68 @@ class BuildDatasetTests(unittest.TestCase):
                         "run_name": "run-one",
                         "model": "gpt-5.4-nano",
                         "file": "paper.json",
-                        "paper_title": "Zero Test",
+                        "paper_title": "Numeric Test",
                         "experiment": 0,
-                        "experiment_description": "Zero test",
-                        "key": "zero_crossing",
-                        "description": "Zero-valued observable",
-                        "gt": "0.0",
-                        "pred": "1.0",
-                        "status_class": "status-mismatch",
-                        "status_text": "zero mismatch",
-                    }
+                        "experiment_description": "Numeric test",
+                        "key": "bandgap_eV",
+                        "description": "Bandgap",
+                        "type": "float",
+                        "gt": "1.5",
+                        "pred": "1.6",
+                        "status_class": "status-numeric",
+                        "status_text": "z = +0.10",
+                        "distribution": "log_normal",
+                        "sigma": 0.3,
+                        "z": 0.1,
+                        "nll": 0.5,
+                        "quality": 0.95,
+                        "prob_true": None,
+                        "probabilities_json": None,
+                        "confidence": None,
+                        "equivalent": None,
+                        "log_loss": None,
+                    },
+                    {
+                        "run_name": "run-one",
+                        "model": "gpt-5.4-nano",
+                        "file": "paper.json",
+                        "paper_title": "Numeric Test",
+                        "experiment": 0,
+                        "experiment_description": "Numeric test",
+                        "key": "stable",
+                        "description": "Stable",
+                        "type": "bool",
+                        "gt": "true",
+                        "pred": "true",
+                        "status_class": "status-match",
+                        "status_text": "P(true) = 30%",
+                        "distribution": None,
+                        "sigma": None,
+                        "z": None,
+                        "nll": None,
+                        "quality": 0.3,
+                        "prob_true": 0.3,
+                        "probabilities_json": None,
+                        "confidence": None,
+                        "equivalent": None,
+                        "log_loss": 1.2,
+                    },
                 ]
             ).to_parquet(paths.predictions_parquet, index=False)
 
             df = build_scored_dataset(paths)
 
-            self.assertIsNone(df.iloc[0]["log_accuracy"])
-            self.assertIsNone(df.iloc[0]["normalized_log_accuracy_score"])
-            self.assertEqual(df.iloc[0]["score"], 0.0)
-            self.assertFalse(df.iloc[0]["correct"])
+            numeric = df[df["key"] == "bandgap_eV"].iloc[0]
+            self.assertAlmostEqual(numeric["quality"], 0.95)
+            self.assertTrue(numeric["correct"])
+            self.assertAlmostEqual(numeric["numeric_gt"], 1.5)
+            self.assertAlmostEqual(numeric["numeric_pred"], 1.6)
+            self.assertEqual(numeric["type"], "float")
+
+            bool_row = df[df["key"] == "stable"].iloc[0]
+            self.assertAlmostEqual(bool_row["quality"], 0.3)
+            self.assertFalse(bool_row["correct"])
+            self.assertEqual(bool_row["type"], "bool")
 
 
 if __name__ == "__main__":

@@ -1,13 +1,12 @@
 """Generate analysis figures, one PDF per figure under ``docs/analysis/plots/``.
 
-The figures are split into a per-paper-macro view (``aggregate_paper_macro``,
-``per_paper``, ``paper_dominance``) and a per-field-micro view
-(``aggregate_per_field``, ``difficulty_distribution``, ``model_agreement``,
-the numeric-threshold / scatter / CDF plots). The per-paper view is the one
-that matches the per-run ``aggregate_*`` numbers and the public report.
+After the move to forecasts-with-uncertainty, numeric figures focus on
+calibration (CDF of |z|, coverage bars) rather than raw point-prediction
+log-accuracy.
 """
 from __future__ import annotations
 
+import math
 from pathlib import Path
 from typing import Callable
 
@@ -29,12 +28,8 @@ DIFFICULTY_ORDER = (
 )
 DIFFICULTY_COLORS = ("#b3261e", "#e8842a", "#e6c200", "#83b14f", "#0b7d2b")
 
-# Multi-threshold cutoffs (must stay in lockstep with analyze.NUMERIC_THRESHOLDS).
-THRESHOLD_LABELS = ("within 0.1 dex", "within ×2", "within ×3", "within ×10")
-THRESHOLD_CUTOFFS = (0.1, float(np.log10(2)), float(np.log10(3)), 1.0)
-
-
-# ----------------------------------------------------------------------- helpers
+COVERAGE_LABELS = ("|z| < 1σ", "|z| < 2σ", "|z| < 3σ")
+COVERAGE_CUTOFFS = (1.0, 2.0, 3.0)
 
 
 def _setup_matplotlib() -> None:
@@ -53,7 +48,6 @@ def _setup_matplotlib() -> None:
 
 
 def _paper_macro_score(scored: pd.DataFrame, value_col: str) -> pd.Series:
-    """Replicates ``analyze._paper_macro`` so the plots match the JSON summary."""
     valid = scored[scored[value_col].notna()]
     if valid.empty:
         return pd.Series(dtype=float)
@@ -63,8 +57,7 @@ def _paper_macro_score(scored: pd.DataFrame, value_col: str) -> pd.Series:
 
 
 def _model_order(scored: pd.DataFrame) -> list[str]:
-    """Order models by paper-macro score ascending — strongest model rendered last."""
-    macro = _paper_macro_score(scored, "score")
+    macro = _paper_macro_score(scored, "quality")
     if macro.empty:
         return sorted(scored["model"].unique())
     return macro.sort_values().index.tolist()
@@ -83,14 +76,10 @@ def _nice_label(model_name: str) -> str:
 
 
 def _largest_paper(scored: pd.DataFrame) -> str | None:
-    """File with the most fields — useful for the 'one paper dominates' panel."""
     counts = scored.groupby("file_id").size()
     if counts.empty:
         return None
     return counts.idxmax()
-
-
-# ------------------------------------------------------------------------ plots
 
 
 def _aggregate_bars(
@@ -99,62 +88,59 @@ def _aggregate_bars(
     title: str,
     weighting: str,
 ) -> plt.Figure:
-    """Shared bar layout for the paper-macro and per-field-micro headline figures."""
     models = _model_order(scored)
     palette = _model_palette(models)
 
     if weighting == "paper-macro":
-        score_macro = _paper_macro_score(scored, "score")
-        norm_log = _paper_macro_score(
+        quality_macro = _paper_macro_score(scored, "quality")
+        numeric_quality_macro = _paper_macro_score(
             scored.assign(
-                _nls=np.where(scored["type"].isin(NUMERIC_TYPES),
-                              scored["normalized_log_accuracy_score"], np.nan)
+                _nq=np.where(scored["type"].isin(NUMERIC_TYPES), scored["quality"], np.nan)
             ),
-            "_nls",
+            "_nq",
         )
-        disc = scored.assign(
-            _correct=np.where(scored["type"].isin(DISC_TYPES),
-                              scored["correct"].astype(float), np.nan)
+        disc_quality_macro = _paper_macro_score(
+            scored.assign(
+                _dq=np.where(scored["type"].isin(DISC_TYPES), scored["quality"], np.nan)
+            ),
+            "_dq",
         )
-        disc_macro = _paper_macro_score(disc, "_correct")
-        formula = scored.assign(
-            _correct=np.where(scored["type"] == "formula",
-                              scored["correct"].astype(float), np.nan)
+        formula_quality_macro = _paper_macro_score(
+            scored.assign(
+                _fq=np.where(scored["type"] == "formula", scored["quality"], np.nan)
+            ),
+            "_fq",
         )
-        formula_macro = _paper_macro_score(formula, "_correct")
 
         def get(series: pd.Series, m: str) -> float:
             return float(series.get(m, float("nan"))) if m in series.index else float("nan")
 
         metrics = {
-            "Overall score\n(prediction_quality)": [get(score_macro, m) for m in models],
-            "Numeric normalized\nlog-accuracy score": [get(norm_log, m) for m in models],
-            "Bool / categorical\naccuracy": [get(disc_macro, m) for m in models],
-            "Formula accuracy\n(judged)": [get(formula_macro, m) for m in models],
+            "Overall\nquality": [get(quality_macro, m) for m in models],
+            "Numeric\nquality": [get(numeric_quality_macro, m) for m in models],
+            "Bool/cat.\nquality": [get(disc_quality_macro, m) for m in models],
+            "Formula\nquality": [get(formula_quality_macro, m) for m in models],
         }
     else:  # per-field micro
         metrics = {
-            "Overall score\n(prediction_quality)": [
-                scored.loc[scored.model == m, "score"].mean() for m in models
+            "Overall\nquality": [
+                scored.loc[scored.model == m, "quality"].mean() for m in models
             ],
-            "Numeric normalized\nlog-accuracy score": [
+            "Numeric\nquality": [
                 scored.loc[
-                    (scored.model == m) & scored["type"].isin(NUMERIC_TYPES),
-                    "normalized_log_accuracy_score",
+                    (scored.model == m) & scored["type"].isin(NUMERIC_TYPES), "quality"
                 ].mean()
                 for m in models
             ],
-            "Bool / categorical\naccuracy": [
+            "Bool/cat.\nquality": [
                 scored.loc[
-                    (scored.model == m) & scored["type"].isin(DISC_TYPES),
-                    "correct",
+                    (scored.model == m) & scored["type"].isin(DISC_TYPES), "quality"
                 ].mean()
                 for m in models
             ],
-            "Formula accuracy\n(judged)": [
+            "Formula\nquality": [
                 scored.loc[
-                    (scored.model == m) & (scored["type"] == "formula"),
-                    "correct",
+                    (scored.model == m) & (scored["type"] == "formula"), "quality"
                 ].mean()
                 for m in models
             ],
@@ -169,7 +155,7 @@ def _aggregate_bars(
                label=_nice_label(m), color=palette[m])
     ax.set_xticks(x, list(metrics.keys()))
     ax.set_ylim(0, 1)
-    ax.set_ylabel("score / accuracy")
+    ax.set_ylabel("quality (proper-scoring-rule)")
     ax.set_title(title)
     ax.legend(title="model", loc="upper right")
     fig.tight_layout()
@@ -179,7 +165,7 @@ def _aggregate_bars(
 def fig_aggregate_paper_macro(scored: pd.DataFrame) -> plt.Figure:
     return _aggregate_bars(
         scored,
-        title="Aggregate benchmark performance by model — paper-macro\n"
+        title="Aggregate quality by model — paper-macro\n"
               "(one paper = one vote; matches per-run aggregate_*)",
         weighting="paper-macro",
     )
@@ -188,121 +174,165 @@ def fig_aggregate_paper_macro(scored: pd.DataFrame) -> plt.Figure:
 def fig_aggregate_per_field(scored: pd.DataFrame) -> plt.Figure:
     return _aggregate_bars(
         scored,
-        title="Aggregate benchmark performance by model — per-field micro\n"
+        title="Aggregate quality by model — per-field micro\n"
               "(one field = one vote; over-weights papers with many redundant fields)",
         weighting="per-field",
     )
 
 
-# Single-column variants (paper-friendly): bigger fonts, no in-figure titles
-# (the LaTeX caption already labels them), figure sized close to a two-column
-# layout's column width so font-to-figure ratio stays legible after scaling.
+def fig_coverage_bars(scored: pd.DataFrame) -> plt.Figure:
+    """Per-model fraction of numeric predictions with |z| inside each σ bucket."""
+    num = scored[scored["type"].isin(NUMERIC_TYPES) & scored["z"].notna()].copy()
+    num["abs_z"] = num["z"].abs()
+    models = _model_order(scored)
+    palette = _model_palette(models)
 
-COLUMN_RCPARAMS = {
-    "font.size": 11,
-    "axes.titlesize": 12,
-    "axes.labelsize": 11,
-    "legend.fontsize": 9,
-    "xtick.labelsize": 10,
-    "ytick.labelsize": 10,
-}
+    bars: dict[str, list[float]] = {}
+    for label, cutoff in zip(COVERAGE_LABELS, COVERAGE_CUTOFFS):
+        col = f"_within_{label}"
+        num[col] = (num["abs_z"] < cutoff).astype(float)
+    for m in models:
+        bars[m] = [
+            float(_paper_macro_score(num[num.model == m], f"_within_{label}").get(m, np.nan))
+            for label in COVERAGE_LABELS
+        ]
+
+    fig, ax = plt.subplots(figsize=(8.5, 4.5))
+    x = np.arange(len(COVERAGE_LABELS))
+    width = 0.8 / max(len(models), 1)
+    for i, m in enumerate(models):
+        ax.bar(x + (i - (len(models) - 1) / 2) * width, bars[m], width,
+               label=_nice_label(m), color=palette[m])
+    # Ideal calibration reference: Gaussian fractions inside 1, 2, 3 σ.
+    ideal = [math.erf(c / math.sqrt(2)) for c in COVERAGE_CUTOFFS]
+    for cutoff, value in zip(x, ideal):
+        ax.hlines(value, cutoff - 0.4, cutoff + 0.4, colors="k", linestyles="--",
+                  linewidth=1.0, label="_nolegend_")
+    ax.set_xticks(x, list(COVERAGE_LABELS))
+    ax.set_ylim(0, 1)
+    ax.set_ylabel("paper-macro fraction inside σ bucket")
+    ax.set_title("Numeric calibration: coverage vs. ideal Gaussian (dashed)")
+    ax.legend(loc="upper left", ncol=3)
+    fig.tight_layout()
+    return fig
 
 
-def fig_aggregate_paper_macro_column(scored: pd.DataFrame) -> plt.Figure:
-    with plt.rc_context(COLUMN_RCPARAMS):
-        models = _model_order(scored)
-        palette = _model_palette(models)
+def fig_abs_z_cdf(scored: pd.DataFrame) -> plt.Figure:
+    """CDF of |z| per model vs. the ideal half-normal CDF."""
+    num = scored[scored["type"].isin(NUMERIC_TYPES) & scored["z"].notna()]
+    models = _model_order(scored)
+    palette = _model_palette(models)
 
-        score_macro = _paper_macro_score(scored, "score")
-        norm_log = _paper_macro_score(
-            scored.assign(
-                _nls=np.where(scored["type"].isin(NUMERIC_TYPES),
-                              scored["normalized_log_accuracy_score"], np.nan)
-            ),
-            "_nls",
+    fig, ax = plt.subplots(figsize=(7, 5))
+    for m in models:
+        sub = num[num.model == m]
+        r = np.sort(np.abs(sub.z.to_numpy()))
+        if len(r) == 0:
+            continue
+        cdf = np.arange(1, len(r) + 1) / len(r)
+        ax.plot(r, cdf, label=_nice_label(m), color=palette[m], lw=2)
+    # Ideal: half-normal CDF = erf(z / sqrt(2))
+    zs = np.linspace(0, 4, 200)
+    ax.plot(zs, np.array([math.erf(z / math.sqrt(2)) for z in zs]), "--",
+            color="grey", lw=1.5, label="ideal (Gaussian)")
+    for x_, label in (
+        (1.0, "1σ"),
+        (2.0, "2σ"),
+        (3.0, "3σ"),
+    ):
+        ax.axvline(x_, color="k", lw=0.6, ls=":")
+        ax.text(x_ + 0.02, 0.04, label, rotation=90)
+    ax.set_xlabel("|z| = |gt − pred| / σ (linear or dex, per chosen distribution)")
+    ax.set_ylabel("cumulative fraction of numeric predictions")
+    ax.set_xlim(0, 4)
+    ax.set_ylim(0, 1)
+    ax.set_title("Calibration: CDF of |z| vs. ideal Gaussian (dashed)")
+    ax.legend(loc="lower right")
+    fig.tight_layout()
+    return fig
+
+
+def fig_reliability(scored: pd.DataFrame) -> plt.Figure:
+    """Reliability diagram for bool predictions (and categorical top-class)."""
+    df = scored[scored["type"].isin(DISC_TYPES) & scored["prob_true"].notna()].copy()
+    if df.empty:
+        # Fall back to using probabilities for categorical via parquet json.
+        df = scored[scored["type"].isin(DISC_TYPES) & scored["quality"].notna()].copy()
+        # Approximate p as max(probabilities) for categorical; for bool use 1-quality...
+        # Keep it simple: only plot when prob_true present.
+    models = _model_order(scored)
+    palette = _model_palette(models)
+
+    fig, ax = plt.subplots(figsize=(6.5, 5.5))
+    ax.plot([0, 1], [0, 1], "--", color="grey", lw=1.0, label="perfect")
+    bins = np.linspace(0, 1, 11)
+    for m in models:
+        sub = df[df.model == m]
+        if sub.empty:
+            continue
+        # Group bool predictions: prob_true bucket -> mean correctness.
+        sub = sub.copy()
+        sub["bin"] = np.clip(np.digitize(sub["prob_true"], bins) - 1, 0, len(bins) - 2)
+        agg = sub.groupby("bin").agg(
+            mean_p=("prob_true", "mean"),
+            mean_correct=("correct", "mean"),
+            n=("correct", "size"),
         )
-        disc_macro = _paper_macro_score(
-            scored.assign(
-                _correct=np.where(scored["type"].isin(DISC_TYPES),
-                                  scored["correct"].astype(float), np.nan)
-            ),
-            "_correct",
-        )
-        formula_macro = _paper_macro_score(
-            scored.assign(
-                _correct=np.where(scored["type"] == "formula",
-                                  scored["correct"].astype(float), np.nan)
-            ),
-            "_correct",
-        )
+        ax.plot(agg["mean_p"], agg["mean_correct"], "o-",
+                color=palette[m], label=f"{_nice_label(m)} (n={int(sub.shape[0])})")
+    ax.set_xlim(0, 1); ax.set_ylim(0, 1)
+    ax.set_xlabel("predicted probability")
+    ax.set_ylabel("empirical fraction correct")
+    ax.set_title("Reliability diagram (boolean predictions)")
+    ax.legend(loc="lower right")
+    fig.tight_layout()
+    return fig
 
-        def get(series: pd.Series, m: str) -> float:
-            return float(series.get(m, float("nan"))) if m in series.index else float("nan")
 
-        metrics = {
-            "Overall": [get(score_macro, m) for m in models],
-            "Numeric": [get(norm_log, m) for m in models],
-            "Bool/cat.": [get(disc_macro, m) for m in models],
-            "Formula": [get(formula_macro, m) for m in models],
+def fig_nll_bars(scored: pd.DataFrame) -> plt.Figure:
+    """Per-model mean NLL across numeric / bool / categorical / formula."""
+    models = _model_order(scored)
+    palette = _model_palette(models)
+
+    def macro(mask: pd.Series, value_col: str) -> dict[str, float]:
+        sub = scored[mask].copy()
+        if sub.empty:
+            return {m: float("nan") for m in models}
+        macro_series = _paper_macro_score(sub, value_col)
+        return {
+            m: (
+                float(macro_series.get(m, float("nan")))
+                if m in macro_series.index
+                else float("nan")
+            )
+            for m in models
         }
 
-        fig, ax = plt.subplots(figsize=(3.4, 2.6))
-        x = np.arange(len(metrics))
-        width = 0.8 / max(len(models), 1)
-        for i, m in enumerate(models):
-            vals = [metrics[k][i] for k in metrics]
-            ax.bar(x + (i - (len(models) - 1) / 2) * width, vals, width,
-                   label=_nice_label(m), color=palette[m])
-        ax.set_xticks(x, list(metrics.keys()))
-        ax.set_ylim(0, 1)
-        ax.set_ylabel("score / accuracy")
-        ax.legend(loc="lower center", bbox_to_anchor=(0.5, 1.0),
-                  ncol=len(models), handlelength=1.0, columnspacing=1.0,
-                  borderpad=0.3, handletextpad=0.4, frameon=False)
-        fig.tight_layout()
-        return fig
+    nll = macro(scored["type"].isin(NUMERIC_TYPES), "nll")
+    bool_ll = macro(scored["type"] == "bool", "log_loss")
+    cat_ll = macro(scored["type"] == "categorical", "log_loss")
+    form_ll = macro(scored["type"] == "formula", "log_loss")
 
+    metrics = {
+        "Numeric\nNLL": [nll[m] for m in models],
+        "Bool\nlog-loss": [bool_ll[m] for m in models],
+        "Categorical\nlog-loss": [cat_ll[m] for m in models],
+        "Formula\nlog-loss": [form_ll[m] for m in models],
+    }
 
-def fig_log_ratio_cdf_column(scored: pd.DataFrame) -> plt.Figure:
-    with plt.rc_context(COLUMN_RCPARAMS):
-        num = scored[
-            scored["type"].isin(NUMERIC_TYPES)
-            & scored["numeric_gt"].notna()
-            & scored["numeric_pred"].notna()
-            & (scored["numeric_gt"] != 0)
-            & (scored["numeric_pred"] != 0)
-        ]
-        models = _model_order(scored)
-        palette = _model_palette(models)
-        gt = num.drop_duplicates(["file_id", "experiment", "key"])["numeric_gt"].to_numpy()
-        baseline = float(np.exp(np.median(np.log(np.abs(gt))))) if len(gt) else 1.0
-
-        fig, ax = plt.subplots(figsize=(3.4, 2.8))
-        for m in models:
-            sub = num[num.model == m]
-            r = np.sort(sub.log_accuracy.to_numpy())
-            cdf = np.arange(1, len(r) + 1) / len(r)
-            ax.plot(r, cdf, label=_nice_label(m), color=palette[m], lw=1.6)
-        r = np.sort(np.abs(np.log10(np.abs(baseline / gt))))
-        cdf = np.arange(1, len(r) + 1) / len(r)
-        ax.plot(r, cdf, "--", color="grey", lw=1.2,
-                label=f"const baseline ({baseline:.2f})")
-        for x_, label in (
-            (np.log10(2), r"$\times 2$"),
-            (np.log10(3), r"$\times 3$"),
-            (1.0, "1 dex"),
-        ):
-            ax.axvline(x_, color="k", lw=0.5, ls=":")
-            ax.text(x_ - 0.04, 0.98, label, rotation=90, fontsize=9,
-                    va="top", ha="right")
-        ax.set_xlabel(r"$|\log_{10}(\hat y / y)|$")
-        ax.set_ylabel("cumulative fraction")
-        ax.set_xlim(0, 3)
-        ax.set_ylim(0, 1)
-        ax.legend(loc="lower right", handlelength=1.5, borderpad=0.3,
-                  handletextpad=0.4, framealpha=0.9)
-        fig.tight_layout()
-        return fig
+    fig, ax = plt.subplots(figsize=(8.5, 4.5))
+    x = np.arange(len(metrics))
+    width = 0.8 / max(len(models), 1)
+    for i, m in enumerate(models):
+        vals = [metrics[k][i] for k in metrics]
+        ax.bar(x + (i - (len(models) - 1) / 2) * width, vals, width,
+               label=_nice_label(m), color=palette[m])
+    ax.set_xticks(x, list(metrics.keys()))
+    ax.set_ylabel("mean (lower is better)")
+    ax.set_title("Per-model proper scoring rules — paper-macro of experiment-macro")
+    ax.legend(loc="upper right")
+    fig.tight_layout()
+    return fig
 
 
 def fig_difficulty(wide: pd.DataFrame) -> plt.Figure:
@@ -336,100 +366,6 @@ def fig_difficulty(wide: pd.DataFrame) -> plt.Figure:
     fig.legend(handles, labels, loc="lower center", ncol=5,
                bbox_to_anchor=(0.5, -0.03))
     fig.suptitle("Per-field difficulty across the models (per-field micro view)", y=1.02)
-    fig.tight_layout()
-    return fig
-
-
-def fig_thresholds(scored: pd.DataFrame) -> plt.Figure:
-    num = scored[
-        scored["type"].isin(NUMERIC_TYPES)
-        & scored["numeric_gt"].notna()
-        & scored["numeric_pred"].notna()
-        & (scored["numeric_gt"] != 0)
-        & (scored["numeric_pred"] != 0)
-    ].copy()
-    models = _model_order(scored)
-    palette = _model_palette(models)
-    gt = num.drop_duplicates(["file_id", "experiment", "key"])["numeric_gt"].to_numpy()
-    baseline = float(np.exp(np.median(np.log(np.abs(gt))))) if len(gt) else 1.0
-
-    # Add per-row indicator columns and paper-macro them, so the bars match
-    # the JSON summary.
-    bars: dict[str, list[float]] = {}
-    for label, cutoff in zip(THRESHOLD_LABELS, THRESHOLD_CUTOFFS):
-        col = f"_within_{label}"
-        num[col] = (num["log_accuracy"] < cutoff).astype(float)
-    for m in models:
-        bars[m] = [
-            float(_paper_macro_score(num[num.model == m], f"_within_{label}").get(m, np.nan))
-            for label in THRESHOLD_LABELS
-        ]
-
-    base_df = num.drop_duplicates(["file_id", "experiment", "key"]).copy()
-    base_df["model"] = "_baseline_"
-    base_df["log_accuracy"] = np.abs(np.log10(np.abs(baseline / base_df["numeric_gt"])))
-    for label, cutoff in zip(THRESHOLD_LABELS, THRESHOLD_CUTOFFS):
-        base_df[f"_within_{label}"] = (base_df["log_accuracy"] < cutoff).astype(float)
-    bars["const baseline"] = [
-        float(_paper_macro_score(base_df, f"_within_{label}").iloc[0])
-        for label in THRESHOLD_LABELS
-    ]
-
-    fig, ax = plt.subplots(figsize=(9, 4.5))
-    keys = models + ["const baseline"]
-    palette = {**palette, "const baseline": "grey"}
-    x = np.arange(len(THRESHOLD_LABELS))
-    width = 0.8 / len(keys)
-    for i, k in enumerate(keys):
-        ax.bar(x + (i - (len(keys) - 1) / 2) * width, bars[k], width,
-               label=_nice_label(k), color=palette[k])
-    ax.set_xticks(x, list(THRESHOLD_LABELS))
-    ax.set_ylim(0, 1)
-    ax.set_ylabel("paper-macro fraction of numeric predictions")
-    ax.set_title("Numeric prediction accuracy at common physics-intuition thresholds\n"
-                 "(paper-macro of experiment-macro)")
-    ax.legend(loc="upper left", ncol=3)
-    fig.tight_layout()
-    return fig
-
-
-def fig_log_ratio_cdf(scored: pd.DataFrame) -> plt.Figure:
-    num = scored[
-        scored["type"].isin(NUMERIC_TYPES)
-        & scored["numeric_gt"].notna()
-        & scored["numeric_pred"].notna()
-        & (scored["numeric_gt"] != 0)
-        & (scored["numeric_pred"] != 0)
-    ]
-    models = _model_order(scored)
-    palette = _model_palette(models)
-    gt = num.drop_duplicates(["file_id", "experiment", "key"])["numeric_gt"].to_numpy()
-    baseline = float(np.exp(np.median(np.log(np.abs(gt))))) if len(gt) else 1.0
-
-    fig, ax = plt.subplots(figsize=(7, 5))
-    for m in models:
-        sub = num[num.model == m]
-        r = np.sort(sub.log_accuracy.to_numpy())
-        cdf = np.arange(1, len(r) + 1) / len(r)
-        ax.plot(r, cdf, label=_nice_label(m), color=palette[m], lw=2)
-    r = np.sort(np.abs(np.log10(np.abs(baseline / gt))))
-    cdf = np.arange(1, len(r) + 1) / len(r)
-    ax.plot(r, cdf, "--", color="grey", lw=1.5,
-            label=f"constant baseline ({baseline:.2f})")
-    for x_, label in (
-        (np.log10(2), "factor of 2"),
-        (np.log10(3), "factor of 3"),
-        (1.0, "1 decade"),
-    ):
-        ax.axvline(x_, color="k", lw=0.6, ls=":")
-        ax.text(x_ + 0.02, 0.04, label, rotation=90)
-    ax.set_xlabel("|log10(prediction / ground truth)|")
-    ax.set_ylabel("cumulative fraction of numeric predictions")
-    ax.set_xlim(0, 4)
-    ax.set_ylim(0, 1)
-    ax.set_title("How close are numeric predictions, on log scale?\n"
-                 "(per-field micro CDF)")
-    ax.legend(loc="lower right")
     fig.tight_layout()
     return fig
 
@@ -486,55 +422,27 @@ def fig_numeric_scatter(scored: pd.DataFrame) -> plt.Figure:
     return fig
 
 
-def fig_paper_dominance(scored: pd.DataFrame) -> plt.Figure:
-    big = _largest_paper(scored)
+def fig_per_paper(scored: pd.DataFrame) -> plt.Figure:
     models = _model_order(scored)
     palette = _model_palette(models)
-    if big is None:
-        fig, ax = plt.subplots(figsize=(6, 3))
-        ax.text(0.5, 0.5, "no paper data", ha="center", va="center")
-        ax.axis("off")
-        return fig
-    n_models = max(scored["model"].nunique(), 1)
-    n_total = int(scored.groupby("file_id").size().sum() / n_models)
-    n_big = int((scored.file_id == big).sum() / n_models)
 
-    macro_all = _paper_macro_score(scored, "score")
-    macro_wo = _paper_macro_score(scored[scored.file_id != big], "score")
-    micro_all = scored.groupby("model")["score"].mean()
-    micro_wo = scored[scored.file_id != big].groupby("model")["score"].mean()
+    valid = scored[scored["quality"].notna()]
+    per_exp = valid.groupby(["model", "file_id", "experiment"])["quality"].mean()
+    per_file = per_exp.groupby(["model", "file_id"]).mean().unstack("model")[models]
+    per_file["_mean"] = per_file.mean(axis=1)
+    per_file = per_file.sort_values("_mean").drop(columns="_mean")
 
-    fig, axes = plt.subplots(1, 2, figsize=(11, 4.2), sharey=True)
-    x = np.arange(len(models))
-    width = 0.4
-    for ax, (label, all_series, wo_series) in zip(
-        axes,
-        [
-            ("paper-macro (one paper = one vote)", macro_all, macro_wo),
-            ("per-field micro (one field = one vote)", micro_all, micro_wo),
-        ],
-    ):
-        ax.bar(x - width / 2,
-               [all_series.get(m, np.nan) for m in models],
-               width, color=[palette[m] for m in models],
-               label=f"all {n_total} fields / 20 papers")
-        ax.bar(x + width / 2,
-               [wo_series.get(m, np.nan) for m in models],
-               width, color=[palette[m] for m in models],
-               hatch="//", edgecolor="white",
-               label=f"excluding {big}")
-        for i, m in enumerate(models):
-            for off, val in ((-width / 2, all_series.get(m, np.nan)),
-                             (width / 2, wo_series.get(m, np.nan))):
-                if np.isfinite(val):
-                    ax.text(i + off, val + 0.01, f"{val:.2f}",
-                            ha="center", fontsize=8)
-        ax.set_xticks(x, [_nice_label(m) for m in models])
-        ax.set_ylim(0, 1)
-        ax.set_title(label)
-        ax.legend(loc="lower right", fontsize=8)
-    axes[0].set_ylabel("mean field score")
-    fig.suptitle(f"How much does {big} ({n_big} fields) move the headline?")
+    fig, ax = plt.subplots(figsize=(max(7, 0.4 * len(per_file)), 5))
+    x = np.arange(len(per_file))
+    width = 0.8 / max(len(models), 1)
+    for i, m in enumerate(models):
+        ax.bar(x + (i - (len(models) - 1) / 2) * width, per_file[m].values, width,
+               label=_nice_label(m), color=palette[m])
+    ax.set_xticks(x, per_file.index, rotation=60, fontsize=8)
+    ax.set_ylim(0, 1)
+    ax.set_ylabel("paper-level mean quality (experiment-macro within paper)")
+    ax.set_title("Per-paper quality, sorted by cross-model mean")
+    ax.legend()
     fig.tight_layout()
     return fig
 
@@ -567,57 +475,21 @@ def fig_model_agreement(wide: pd.DataFrame) -> plt.Figure:
     return fig
 
 
-def fig_per_paper(scored: pd.DataFrame) -> plt.Figure:
-    """Per-paper (file_id) view of paper-macro scores per model."""
-    models = _model_order(scored)
-    palette = _model_palette(models)
-
-    # Per (model, file): experiment-mean of score, then file-level.
-    valid = scored[scored["score"].notna()]
-    per_exp = valid.groupby(["model", "file_id", "experiment"])["score"].mean()
-    per_file = per_exp.groupby(["model", "file_id"]).mean().unstack("model")[models]
-    per_file["_mean"] = per_file.mean(axis=1)
-    per_file = per_file.sort_values("_mean").drop(columns="_mean")
-
-    fig, ax = plt.subplots(figsize=(max(7, 0.4 * len(per_file)), 5))
-    x = np.arange(len(per_file))
-    width = 0.8 / len(models)
-    for i, m in enumerate(models):
-        ax.bar(x + (i - (len(models) - 1) / 2) * width, per_file[m].values, width,
-               label=_nice_label(m), color=palette[m])
-    ax.set_xticks(x, per_file.index, rotation=60, fontsize=8)
-    ax.set_ylim(0, 1)
-    ax.set_ylabel("paper-level mean score (experiment-macro within paper)")
-    ax.set_title("Per-paper performance, sorted by cross-model mean\n"
-                 "(each bar = one paper's experiment-macro score for one model)")
-    ax.legend()
-    fig.tight_layout()
-    return fig
-
-
-# --------------------------------------------------------------------- driver
-
 PlotFactory = Callable[..., plt.Figure]
 
 
 def _figure_specs() -> list[tuple[str, PlotFactory, tuple[str, ...]]]:
-    """(filename stem, builder, required-arg names)."""
     return [
-        # Per-paper-macro view (matches summary.json / per-run aggregates).
         ("aggregate_paper_macro", fig_aggregate_paper_macro, ("scored",)),
         ("per_paper", fig_per_paper, ("scored",)),
-        ("paper_dominance", fig_paper_dominance, ("scored",)),
-        ("numeric_thresholds", fig_thresholds, ("scored",)),
-        # Per-field-micro view (one field = one vote; useful for difficulty
-        # bucketing and sanity-check CDFs but should not be the headline).
+        ("coverage_bars", fig_coverage_bars, ("scored",)),
+        ("abs_z_cdf", fig_abs_z_cdf, ("scored",)),
+        ("reliability", fig_reliability, ("scored",)),
+        ("nll_bars", fig_nll_bars, ("scored",)),
         ("aggregate_per_field", fig_aggregate_per_field, ("scored",)),
         ("difficulty_distribution", fig_difficulty, ("wide",)),
-        ("numeric_log_ratio_cdf", fig_log_ratio_cdf, ("scored",)),
         ("numeric_scatter", fig_numeric_scatter, ("scored",)),
         ("model_agreement", fig_model_agreement, ("wide",)),
-        # Column-width variants for two-column papers.
-        ("aggregate_paper_macro_column", fig_aggregate_paper_macro_column, ("scored",)),
-        ("numeric_log_ratio_cdf_column", fig_log_ratio_cdf_column, ("scored",)),
     ]
 
 

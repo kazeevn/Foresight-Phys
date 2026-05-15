@@ -2,7 +2,9 @@
 
 Each run directory under ``docs/<run-name>/`` is expected to contain a
 ``benchmark_results.json`` file. The per-field rows come from the saved
-``per_file[].report_experiments[]`` payload written by the benchmark CLI.
+``per_file[].report_experiments[]`` payload written by the benchmark CLI and
+include the per-field uncertainty / scoring values from
+``metrics.build_experiment_report``.
 """
 from __future__ import annotations
 
@@ -22,6 +24,12 @@ def _format_report_value(value: Any) -> str:
         return str(value)
     if isinstance(value, str):
         return value
+    return json.dumps(value, ensure_ascii=False)
+
+
+def _serialize_optional_mapping(value: Any) -> str | None:
+    if value is None:
+        return None
     return json.dumps(value, ensure_ascii=False)
 
 
@@ -60,10 +68,21 @@ def parse_summary(model: str, run_name: str, summary: dict[str, Any]) -> list[di
                     "experiment_description": exp_desc,
                     "key": str(row.get("result_key") or ""),
                     "description": str(row.get("description") or ""),
+                    "type": str(row.get("type") or ""),
                     "gt": _format_report_value(row.get("ground_truth")),
                     "pred": _format_report_value(row.get("predicted")),
                     "status_class": str(row.get("status_class") or "status-unknown"),
                     "status_text": str(row.get("status_text") or ""),
+                    "distribution": row.get("distribution"),
+                    "sigma": row.get("sigma"),
+                    "z": row.get("z"),
+                    "nll": row.get("nll"),
+                    "quality": row.get("quality"),
+                    "prob_true": row.get("prob_true"),
+                    "probabilities_json": _serialize_optional_mapping(row.get("probabilities")),
+                    "confidence": row.get("confidence"),
+                    "equivalent": row.get("equivalent"),
+                    "log_loss": row.get("log_loss"),
                 })
     return rows
 
@@ -80,10 +99,7 @@ def discover_run_dirs(docs_dir: Path) -> list[Path]:
 
 
 def parse_all_runs(paths: AnalysisPaths | None = None) -> pd.DataFrame:
-    """Parse every run directory found under ``docs/`` into a single dataframe.
-
-    The dataframe is also written to :pyattr:`AnalysisPaths.predictions_parquet`.
-    """
+    """Parse every run directory found under ``docs/`` into a single dataframe."""
     paths = paths or default_paths()
     paths.ensure_dirs()
 

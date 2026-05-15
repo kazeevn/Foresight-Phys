@@ -106,6 +106,11 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument('--model', default='gpt-5.4-nano', help='LLM model name.')
     parser.add_argument(
+        '--service-tier',
+        default='flex',
+        help='OpenAI Responses API service tier passed to benchmark prediction calls.',
+    )
+    parser.add_argument(
         '--max-workers',
         type=int,
         default=5,
@@ -160,28 +165,27 @@ def main() -> None:
     args = parse_args()
     summary = run_benchmark(args)
     print(json.dumps(summary, ensure_ascii=False, indent=2))
-    if summary['aggregate_prediction_quality'] is not None:
-        print(
-            f"Aggregate prediction quality: "
-            f"{summary['aggregate_prediction_quality']:.4f}"
-        )
-    if summary['aggregate_log_accuracy'] is not None:
-        print(f"Aggregate log-accuracy: {summary['aggregate_log_accuracy']:.4f}")
-    if summary['aggregate_normalized_log_accuracy_score'] is not None:
-        print(
-            f"Aggregate normalized log-accuracy score: "
-            f"{summary['aggregate_normalized_log_accuracy_score']:.4f}"
-        )
-    if summary['aggregate_bool_categorical_accuracy'] is not None:
-        print(
-            f"Aggregate bool/categorical accuracy: "
-            f"{summary['aggregate_bool_categorical_accuracy']:.4f}"
-        )
-    if summary['aggregate_formula_accuracy'] is not None:
+
+    def _print(label: str, key: str) -> None:
+        value = summary.get(key)
+        if value is None:
+            return
+        print(f"{label}: {value:.4f}")
+
+    _print("Aggregate prediction quality", "aggregate_prediction_quality")
+    _print("Aggregate numeric quality", "aggregate_numeric_quality")
+    _print("Aggregate numeric NLL", "aggregate_numeric_nll")
+    _print("Aggregate coverage @1σ", "aggregate_coverage_1sigma")
+    _print("Aggregate coverage @2σ", "aggregate_coverage_2sigma")
+    _print("Aggregate bool log-loss", "aggregate_bool_log_loss")
+    _print("Aggregate categorical log-loss", "aggregate_categorical_log_loss")
+    _print("Aggregate bool/categorical accuracy", "aggregate_bool_categorical_accuracy")
+    if summary.get('aggregate_formula_accuracy') is not None:
         print(
             f"Aggregate formula accuracy ({summary['formula_judge_model']} judge): "
             f"{summary['aggregate_formula_accuracy']:.4f}"
         )
+    _print("Aggregate formula log-loss", "aggregate_formula_log_loss")
 
 
 if __name__ == '__main__':

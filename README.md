@@ -119,24 +119,44 @@ For each JSON file, the benchmark pipeline:
 6. Compares predicted results against the reference JSON.
 7. Writes a machine-readable JSON summary and an offline HTML report.
 
+## Forecasts with uncertainty
+
+Predictions must include calibrated uncertainty per field. The model returns,
+on top of the point value `result`:
+
+- `float` / `integer`: `distribution` (`normal` or `log_normal`) plus `sigma`
+  (1σ width — in dex for log-normal, in linear units for normal). `result` is
+  the median for log-normal and the mean for normal.
+- `bool`: `prob_true ∈ [0, 1]`.
+- `categorical`: `probabilities` — a list of `{value, probability}` covering
+  every entry in `allowed_categorial_values`, summing to ≈1.
+- `formula`: `confidence ∈ [0, 1]`.
+
+The prediction cache key includes the schema, so changing this schema
+invalidates `.cache/llm_predictions.json` and the cache will be repopulated on
+the next run.
+
 ## Metrics
 
-Per file, the benchmark computes:
+Predictions are scored with proper scoring rules. Per file, the benchmark
+computes:
 
-- `prediction_quality`: average score across all result fields
-- `log_accuracy`: average `abs(log10(predicted/ground_truth))` for numeric
-	predictions with nonzero reference values
-- `normalized_log_accuracy_score`: average of `1 - min(log_accuracy, 1)` for numeric
-	predictions with nonzero reference values
-- `bool_categorical_accuracy`: accuracy over boolean and categorical fields
-- `formula_accuracy`: accuracy over formula fields, judged by `gpt-5.4-nano`
+- `prediction_quality`: mean of per-field quality across all result fields.
+  Quality is bounded in [0, 1] (`exp(-z²/2)` for numeric, `1 - brier` for
+  bool / formula, `1 - ½·brier` for categorical).
+- `numeric_nll`: mean NLL of numeric predictions under the chosen
+  distribution. `0.5 z² + log(sigma) + 0.5 log(2π)` (capped at 30).
+- `coverage_1sigma`, `coverage_2sigma`: fraction of numeric predictions with
+  `|z| < 1` and `|z| < 2`. With well-calibrated uncertainty these target
+  ≈0.68 and ≈0.95.
+- `bool_log_loss`, `categorical_log_loss`, `formula_log_loss`: average
+  log-loss of the predicted probability against the realised outcome.
+- `bool_categorical_accuracy`: argmax accuracy over boolean and categorical
+  fields (sanity check; not a proper score).
+- `formula_accuracy`: fraction of formula fields judged equivalent.
 
-Numeric results with zero-valued references still affect `prediction_quality`,
-but they are excluded from the aggregate log-accuracy calculations.
-
-The summary JSON also includes counts such as total result fields,
-classification fields, numeric fields, formula fields, and missing predictions
-for each paper.
+The summary JSON also includes counts such as total result fields, bool,
+categorical, numeric, formula fields, and missing predictions.
 
 ## Reports and outputs
 

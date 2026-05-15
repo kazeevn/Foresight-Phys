@@ -31,14 +31,16 @@ def run_benchmark(args: argparse.Namespace) -> dict[str, Any]:
     system_prompt_path = resolve_system_prompt_path(args.system_prompt)
     system_prompt = system_prompt_path.read_text(encoding='utf-8').strip()
     formula_judge = FormulaJudge(model=FORMULA_JUDGE_MODEL)
-    benchmark_items = build_benchmark_items(
-        json_dir=Path(args.json_dir),
-        system_prompt=system_prompt,
-        model=args.model,
-        max_files=args.max_files,
-        max_workers=args.max_workers,
-        prediction_cache=prediction_cache,
-    )
+    benchmark_item_kwargs: dict[str, Any] = {
+        'json_dir': Path(args.json_dir),
+        'system_prompt': system_prompt,
+        'model': args.model,
+        'service_tier': getattr(args, 'service_tier', 'flex'),
+        'max_files': args.max_files,
+        'max_workers': args.max_workers,
+        'prediction_cache': prediction_cache,
+    }
+    benchmark_items = build_benchmark_items(**benchmark_item_kwargs)
 
     rows = []
     for item in benchmark_items:
@@ -63,28 +65,31 @@ def run_benchmark(args: argparse.Namespace) -> dict[str, Any]:
             }
         )
 
-    aggregate_prediction_quality = average_metric(rows, 'prediction_quality')
-    aggregate_log_accuracy = average_metric(rows, 'log_accuracy')
-    aggregate_normalized_log_accuracy_score = average_metric(
-        rows, 'normalized_log_accuracy_score'
-    )
-    aggregate_bool_categorical_accuracy = average_metric(
-        rows,
+    aggregate_keys = (
+        'prediction_quality',
+        'numeric_quality',
+        'numeric_nll',
+        'coverage_1sigma',
+        'coverage_2sigma',
+        'bool_log_loss',
+        'bool_quality',
         'bool_categorical_accuracy',
+        'categorical_log_loss',
+        'categorical_quality',
+        'formula_accuracy',
+        'formula_log_loss',
+        'formula_quality',
     )
-    aggregate_formula_accuracy = average_metric(rows, 'formula_accuracy')
+    aggregates = {f'aggregate_{key}': average_metric(rows, key) for key in aggregate_keys}
 
     summary = {
         'generated_at_utc': __import__('datetime').datetime.now(__import__('datetime').timezone.utc).isoformat(),
         'run_name': args.run_name,
         'model': args.model,
+        'service_tier': getattr(args, 'service_tier', 'flex'),
         'max_workers': args.max_workers,
         'files_evaluated': len(rows),
-        'aggregate_prediction_quality': aggregate_prediction_quality,
-        'aggregate_log_accuracy': aggregate_log_accuracy,
-        'aggregate_normalized_log_accuracy_score': aggregate_normalized_log_accuracy_score,
-        'aggregate_bool_categorical_accuracy': aggregate_bool_categorical_accuracy,
-        'aggregate_formula_accuracy': aggregate_formula_accuracy,
+        **aggregates,
         'formula_judge_model': FORMULA_JUDGE_MODEL,
         'human_readable_report': args.html_output,
         'cache': prediction_cache.summary(),

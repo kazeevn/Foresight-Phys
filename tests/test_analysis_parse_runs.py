@@ -29,18 +29,28 @@ class ParseRunsTests(unittest.TestCase):
                                     {
                                         "result_key": "temperature",
                                         "description": "Measured temperature",
+                                        "type": "float",
                                         "ground_truth": 10.0,
                                         "predicted": 9.5,
+                                        "distribution": "log_normal",
+                                        "sigma": 0.3,
+                                        "z": 0.1,
+                                        "nll": 0.5,
+                                        "quality": 0.95,
                                         "status_class": "status-numeric",
-                                        "status_text": "Log-Acc 0.0223",
+                                        "status_text": "z = +0.10",
                                     },
                                     {
                                         "result_key": "phase",
                                         "description": "Observed phase",
+                                        "type": "categorical",
                                         "ground_truth": "solid",
                                         "predicted": "solid",
+                                        "probabilities": {"solid": 0.7, "liquid": 0.3},
+                                        "log_loss": 0.357,
+                                        "quality": 0.6,
                                         "status_class": "status-match",
-                                        "status_text": "Match",
+                                        "status_text": "P(solid) = 70%",
                                     },
                                 ],
                             }
@@ -65,9 +75,17 @@ class ParseRunsTests(unittest.TestCase):
             self.assertEqual(df.iloc[0]["paper_title"], "Test Paper")
             self.assertEqual(df.iloc[0]["experiment"], 0)
             self.assertEqual(df.iloc[0]["key"], "temperature")
-            self.assertEqual(df.iloc[0]["gt"], "10.0")
-            self.assertEqual(df.iloc[0]["pred"], "9.5")
+            self.assertEqual(df.iloc[0]["type"], "float")
+            self.assertEqual(df.iloc[0]["distribution"], "log_normal")
+            self.assertAlmostEqual(df.iloc[0]["sigma"], 0.3)
+            self.assertAlmostEqual(df.iloc[0]["z"], 0.1)
+            self.assertAlmostEqual(df.iloc[0]["nll"], 0.5)
+            self.assertAlmostEqual(df.iloc[0]["quality"], 0.95)
             self.assertEqual(df.iloc[1]["status_class"], "status-match")
+            self.assertEqual(
+                json.loads(df.iloc[1]["probabilities_json"]),
+                {"solid": 0.7, "liquid": 0.3},
+            )
             self.assertTrue(paths.predictions_parquet.exists())
 
     def test_parse_all_runs_formats_values_like_human_report(self) -> None:
@@ -89,18 +107,21 @@ class ParseRunsTests(unittest.TestCase):
                                     {
                                         "result_key": "metadata",
                                         "description": "Structured metadata",
+                                        "type": "categorical",
                                         "ground_truth": {"unit": "K"},
                                         "predicted": None,
                                         "status_class": "status-mismatch",
-                                        "status_text": "Mismatch",
+                                        "status_text": "missing prediction",
                                     },
                                     {
                                         "result_key": "stable",
                                         "description": "Stability flag",
+                                        "type": "bool",
                                         "ground_truth": True,
                                         "predicted": False,
+                                        "prob_true": 0.3,
                                         "status_class": "status-mismatch",
-                                        "status_text": "Mismatch",
+                                        "status_text": "P(true) = 30%",
                                     },
                                 ],
                             }
@@ -119,6 +140,7 @@ class ParseRunsTests(unittest.TestCase):
             self.assertEqual(df.iloc[0]["pred"], "MISSING")
             self.assertEqual(df.iloc[1]["gt"], "true")
             self.assertEqual(df.iloc[1]["pred"], "false")
+            self.assertAlmostEqual(df.iloc[1]["prob_true"], 0.3)
 
 
 if __name__ == "__main__":

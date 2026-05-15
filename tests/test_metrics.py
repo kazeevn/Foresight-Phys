@@ -1,12 +1,150 @@
 from __future__ import annotations
 
+import math
 import unittest
 
-from foresight_phys.metrics import compute_experiment_metrics, compute_file_metrics
+from foresight_phys.metrics import (
+    compute_experiment_metrics,
+    compute_file_metrics,
+    score_bool,
+    score_categorical,
+    score_formula,
+    score_numeric,
+)
+
+
+class ScoreNumericTests(unittest.TestCase):
+    def test_log_normal_perfect_prediction_has_quality_one(self) -> None:
+        score = score_numeric(
+            expected_value=1.0,
+            actual_meta={"distribution": "log_normal", "result": 1.0, "sigma": 0.3},
+        )
+        self.assertAlmostEqual(score["z"], 0.0)
+        self.assertAlmostEqual(score["quality"], 1.0)
+        # NLL of N(0, sigma) at z=0 is log(sigma) + 0.5 log(2π).
+        self.assertAlmostEqual(
+            score["nll"],
+            math.log(0.3) + 0.5 * math.log(2.0 * math.pi),
+        )
+        self.assertTrue(score["within_1sigma"])
+        self.assertTrue(score["within_2sigma"])
+
+    def test_log_normal_one_sigma_off_quality_matches_gaussian_density(self) -> None:
+        # gt is 10^sigma away from result on log10 scale.
+        score = score_numeric(
+            expected_value=2.0,
+            actual_meta={"distribution": "log_normal", "result": 1.0, "sigma": math.log10(2.0)},
+        )
+        self.assertAlmostEqual(score["z"], 1.0)
+        self.assertAlmostEqual(score["quality"], math.exp(-0.5))
+
+    def test_normal_distribution_uses_linear_residual(self) -> None:
+        score = score_numeric(
+            expected_value=10.0,
+            actual_meta={"distribution": "normal", "result": 9.0, "sigma": 0.5},
+        )
+        self.assertAlmostEqual(score["z"], 2.0)
+        self.assertAlmostEqual(score["quality"], math.exp(-2.0))
+
+    def test_missing_prediction_gives_zero_quality(self) -> None:
+        score = score_numeric(expected_value=1.0, actual_meta=None)
+        self.assertEqual(score["quality"], 0.0)
+        self.assertTrue(score["missing"])
+
+    def test_log_normal_with_zero_gt_treated_as_max_penalty(self) -> None:
+        score = score_numeric(
+            expected_value=0.0,
+            actual_meta={"distribution": "log_normal", "result": 1.0, "sigma": 0.3},
+        )
+        self.assertEqual(score["quality"], 0.0)
+
+
+class ScoreBoolTests(unittest.TestCase):
+    def test_uniform_prediction_gives_log2_log_loss(self) -> None:
+        score = score_bool(
+            expected_value=True,
+            actual_meta={"result": True, "prob_true": 0.5},
+        )
+        self.assertAlmostEqual(score["log_loss"], math.log(2.0))
+        self.assertAlmostEqual(score["brier"], 0.25)
+        self.assertAlmostEqual(score["quality"], 0.75)
+
+    def test_confident_correct_gets_high_quality(self) -> None:
+        score = score_bool(
+            expected_value=True,
+            actual_meta={"result": True, "prob_true": 0.9},
+        )
+        self.assertTrue(score["correct"])
+        self.assertGreater(score["quality"], 0.9)
+
+
+class ScoreCategoricalTests(unittest.TestCase):
+    def test_peaked_at_truth_has_low_log_loss(self) -> None:
+        score = score_categorical(
+            expected_value="phase_A",
+            expected_meta={"allowed_categorial_values": ["phase_A", "phase_B", "phase_C"]},
+            actual_meta={
+                "result": "phase_A",
+                "probabilities": {"phase_A": 0.9, "phase_B": 0.05, "phase_C": 0.05},
+            },
+        )
+        self.assertTrue(score["correct"])
+        self.assertAlmostEqual(score["log_loss"], -math.log(0.9), places=6)
+
+    def test_uniform_distribution_log_loss_is_log_k(self) -> None:
+        score = score_categorical(
+            expected_value="phase_A",
+            expected_meta={"allowed_categorial_values": ["phase_A", "phase_B", "phase_C"]},
+            actual_meta={
+                "result": "phase_A",
+                "probabilities": {"phase_A": 1.0, "phase_B": 1.0, "phase_C": 1.0},
+            },
+        )
+        self.assertAlmostEqual(score["log_loss"], math.log(3.0), places=6)
+
+    def test_list_shape_probabilities_are_accepted(self) -> None:
+        score = score_categorical(
+            expected_value="phase_A",
+            expected_meta={"allowed_categorial_values": ["phase_A", "phase_B"]},
+            actual_meta={
+                "result": "phase_A",
+                "probabilities": [
+                    {"value": "phase_A", "probability": 0.8},
+                    {"value": "phase_B", "probability": 0.2},
+                ],
+            },
+        )
+        self.assertAlmostEqual(score["log_loss"], -math.log(0.8), places=6)
+
+
+class ScoreFormulaTests(unittest.TestCase):
+    def test_equivalent_with_full_confidence_scores_perfect(self) -> None:
+        score = score_formula(
+            expected_value="E = h * nu",
+            expected_meta={"description": ""},
+            actual_meta={"result": "E = h*nu", "confidence": 1.0},
+            experiment_description="",
+            result_key="energy",
+            formula_judge=None,
+        )
+        self.assertTrue(score["equivalent"])
+        self.assertAlmostEqual(score["quality"], 1.0)
+
+    def test_equivalent_with_zero_confidence_scores_zero(self) -> None:
+        score = score_formula(
+            expected_value="E = h * nu",
+            expected_meta={"description": ""},
+            actual_meta={"result": "E = h*nu", "confidence": 0.0},
+            experiment_description="",
+            result_key="energy",
+            formula_judge=None,
+        )
+        self.assertTrue(score["equivalent"])
+        self.assertAlmostEqual(score["quality"], 0.0)
 
 
 class ComputeFileMetricsTests(unittest.TestCase):
-    def test_computes_prediction_quality_and_supporting_metrics(self) -> None:
+    def test_aggregates_proper_scoring_per_type(self) -> None:
         expected_json = {
             "experiment_description": "Reference experiment",
             "experiment_results": {
@@ -15,25 +153,21 @@ class ComputeFileMetricsTests(unittest.TestCase):
                     "description": "Measured temperature",
                     "result": 10.0,
                 },
-                "zero_crossing": {
-                    "type": "float",
-                    "description": "Zero-valued observable",
-                    "result": 0.0,
-                },
                 "phase": {
                     "type": "categorical",
                     "description": "Observed phase",
                     "result": "solid",
+                    "allowed_categorial_values": ["solid", "liquid"],
                 },
                 "stable": {
                     "type": "bool",
-                    "description": "System remains stable",
+                    "description": "Stable",
                     "result": True,
                 },
                 "dispersion": {
                     "type": "formula",
-                    "description": "Dispersion relation",
-                    "result": "E = mc^2",
+                    "description": "Dispersion",
+                    "result": "E = m c^2",
                 },
             },
         }
@@ -42,162 +176,92 @@ class ComputeFileMetricsTests(unittest.TestCase):
             "experiment_results": {
                 "temperature": {
                     "type": "float",
-                    "description": "Measured temperature",
-                    "result": 5.0,
-                },
-                "zero_crossing": {
-                    "type": "float",
-                    "description": "Zero-valued observable",
-                    "result": "0",
+                    "result": 10.0,
+                    "distribution": "log_normal",
+                    "sigma": 0.3,
                 },
                 "phase": {
                     "type": "categorical",
-                    "description": "Observed phase",
-                    "result": "liquid",
+                    "result": "solid",
+                    "allowed_categorial_values": ["solid", "liquid"],
+                    "probabilities": {"solid": 0.8, "liquid": 0.2},
                 },
                 "stable": {
                     "type": "bool",
-                    "description": "System remains stable",
-                    "result": "yes",
+                    "result": True,
+                    "prob_true": 0.9,
                 },
                 "dispersion": {
                     "type": "formula",
-                    "description": "Dispersion relation",
                     "result": "E=mc^2",
+                    "confidence": 0.7,
                 },
             },
         }
 
         metrics = compute_file_metrics(expected_json, actual_json)
 
-        self.assertAlmostEqual(metrics["prediction_quality"], 0.7397940008672037)
-        self.assertAlmostEqual(metrics["log_accuracy"], 0.3010299956639812)
-        self.assertAlmostEqual(metrics["normalized_log_accuracy_score"], 0.6989700043360188)
-        self.assertAlmostEqual(metrics["bool_categorical_accuracy"], 0.5)
+        self.assertAlmostEqual(metrics["numeric_quality"], 1.0)
+        self.assertAlmostEqual(metrics["coverage_1sigma"], 1.0)
+        self.assertAlmostEqual(metrics["coverage_2sigma"], 1.0)
+        self.assertAlmostEqual(metrics["bool_log_loss"], -math.log(0.9))
+        self.assertAlmostEqual(metrics["categorical_log_loss"], -math.log(0.8))
         self.assertAlmostEqual(metrics["formula_accuracy"], 1.0)
-        self.assertEqual(metrics["result_count"], 5)
-        self.assertEqual(metrics["numeric_count"], 2)
-        self.assertEqual(metrics["nonzero_numeric_count"], 1)
-        self.assertEqual(metrics["zero_reference_numeric_count"], 1)
-        self.assertEqual(metrics["log_accuracy_count"], 1)
-        self.assertEqual(metrics["normalized_log_accuracy_count"], 1)
+        self.assertAlmostEqual(metrics["formula_quality"], 1.0 - (1.0 - 0.7) ** 2)
+        self.assertEqual(metrics["result_count"], 4)
+        self.assertEqual(metrics["numeric_count"], 1)
+        self.assertEqual(metrics["bool_count"], 1)
+        self.assertEqual(metrics["categorical_count"], 1)
+        self.assertEqual(metrics["formula_count"], 1)
         self.assertEqual(metrics["missing_predictions"], 0)
 
     def test_aggregates_across_experiments_with_equal_weight(self) -> None:
-        # Two experiments in one paper. Experiment 1 has 4 fields (3 right, 1 wrong);
-        # experiment 2 has 1 field (wrong). The legacy per-field-mean would give
-        # 3/5 = 0.6. The intended per-experiment-then-paper mean is
-        # mean(3/4, 0/1) = 0.375.
+        # Two experiments. Experiment A has four near-perfect bools (p=0.9),
+        # experiment B has one bool where p=0.5. The paper-level mean log-loss
+        # must be the experiment-level mean: 0.5 * (-log(0.9) + log(2)).
+        def _bool(value: bool, prob: float) -> dict:
+            return {"type": "bool", "result": value, "prob_true": prob}
+
         expected_json = [
             {
-                "experiment_description": "Experiment A",
+                "experiment_description": "A",
                 "experiment_results": {
-                    "phase_a1": {"type": "categorical", "description": "", "result": "solid"},
-                    "phase_a2": {"type": "categorical", "description": "", "result": "solid"},
-                    "phase_a3": {"type": "categorical", "description": "", "result": "solid"},
-                    "phase_a4": {"type": "categorical", "description": "", "result": "solid"},
+                    "a1": {"type": "bool", "description": "", "result": True},
+                    "a2": {"type": "bool", "description": "", "result": True},
+                    "a3": {"type": "bool", "description": "", "result": True},
+                    "a4": {"type": "bool", "description": "", "result": True},
                 },
             },
             {
-                "experiment_description": "Experiment B",
+                "experiment_description": "B",
                 "experiment_results": {
-                    "phase_b1": {"type": "categorical", "description": "", "result": "solid"},
+                    "b1": {"type": "bool", "description": "", "result": True},
                 },
             },
         ]
         actual_json = [
             {
-                "experiment_description": "Experiment A",
+                "experiment_description": "A",
                 "experiment_results": {
-                    "phase_a1": {"type": "categorical", "description": "", "result": "solid"},
-                    "phase_a2": {"type": "categorical", "description": "", "result": "solid"},
-                    "phase_a3": {"type": "categorical", "description": "", "result": "solid"},
-                    "phase_a4": {"type": "categorical", "description": "", "result": "liquid"},
+                    "a1": _bool(True, 0.9),
+                    "a2": _bool(True, 0.9),
+                    "a3": _bool(True, 0.9),
+                    "a4": _bool(True, 0.9),
                 },
             },
             {
-                "experiment_description": "Experiment B",
+                "experiment_description": "B",
                 "experiment_results": {
-                    "phase_b1": {"type": "categorical", "description": "", "result": "liquid"},
+                    "b1": _bool(True, 0.5),
                 },
             },
         ]
 
         metrics = compute_file_metrics(expected_json, actual_json)
-
-        self.assertAlmostEqual(metrics["prediction_quality"], 0.375)
-        self.assertAlmostEqual(metrics["bool_categorical_accuracy"], 0.375)
-        # Count fields are sums.
-        self.assertEqual(metrics["result_count"], 5)
-        self.assertEqual(metrics["bool_categorical_count"], 5)
-
-    def test_experiments_without_a_metric_type_are_skipped_for_that_metric(self) -> None:
-        # Experiment A has only numeric fields, experiment B has only a bool
-        # field. The paper's bool/cat accuracy should be 1.0 (only experiment B
-        # contributes), not the field-level 1/3 it would have been previously.
-        expected_json = [
-            {
-                "experiment_description": "Experiment A",
-                "experiment_results": {
-                    "temperature": {"type": "float", "description": "", "result": 10.0},
-                    "pressure": {"type": "float", "description": "", "result": 1.0},
-                },
-            },
-            {
-                "experiment_description": "Experiment B",
-                "experiment_results": {
-                    "stable": {"type": "bool", "description": "", "result": True},
-                },
-            },
-        ]
-        actual_json = [
-            {
-                "experiment_description": "Experiment A",
-                "experiment_results": {
-                    "temperature": {"type": "float", "description": "", "result": 10.0},
-                    "pressure": {"type": "float", "description": "", "result": 1.0},
-                },
-            },
-            {
-                "experiment_description": "Experiment B",
-                "experiment_results": {
-                    "stable": {"type": "bool", "description": "", "result": True},
-                },
-            },
-        ]
-
-        metrics = compute_file_metrics(expected_json, actual_json)
-
-        self.assertAlmostEqual(metrics["bool_categorical_accuracy"], 1.0)
-        self.assertAlmostEqual(metrics["log_accuracy"], 0.0)
-        self.assertAlmostEqual(metrics["prediction_quality"], 1.0)
-        self.assertEqual(metrics["bool_categorical_count"], 1)
-        self.assertEqual(metrics["numeric_count"], 2)
-
-    def test_compute_experiment_metrics_matches_single_experiment_payload(self) -> None:
-        # The single-experiment file_metrics call must agree with the new
-        # per-experiment helper exactly — i.e. wrapping the same dict in a
-        # one-element list must give the same answer.
-        expected_experiment = {
-            "experiment_description": "One experiment",
-            "experiment_results": {
-                "temperature": {"type": "float", "description": "", "result": 10.0},
-                "stable": {"type": "bool", "description": "", "result": True},
-            },
-        }
-        actual_experiment = {
-            "experiment_description": "One experiment",
-            "experiment_results": {
-                "temperature": {"type": "float", "description": "", "result": 9.0},
-                "stable": {"type": "bool", "description": "", "result": True},
-            },
-        }
-
-        experiment_metrics = compute_experiment_metrics(expected_experiment, actual_experiment)
-        file_metrics_dict = compute_file_metrics(expected_experiment, actual_experiment)
-        file_metrics_list = compute_file_metrics([expected_experiment], [actual_experiment])
-        self.assertEqual(experiment_metrics, file_metrics_dict)
-        self.assertEqual(experiment_metrics, file_metrics_list)
+        self.assertAlmostEqual(
+            metrics["bool_log_loss"],
+            0.5 * (-math.log(0.9) + math.log(2.0)),
+        )
 
     def test_missing_numeric_prediction_counts_as_zero_quality(self) -> None:
         expected_json = {
@@ -210,7 +274,7 @@ class ComputeFileMetricsTests(unittest.TestCase):
                 },
                 "stable": {
                     "type": "bool",
-                    "description": "System remains stable",
+                    "description": "Stable",
                     "result": False,
                 },
             },
@@ -220,10 +284,36 @@ class ComputeFileMetricsTests(unittest.TestCase):
         metrics = compute_file_metrics(expected_json, actual_json)
 
         self.assertEqual(metrics["prediction_quality"], 0.0)
-        self.assertIsNone(metrics["log_accuracy"])
-        self.assertEqual(metrics["normalized_log_accuracy_score"], 0.0)
-        self.assertEqual(metrics["bool_categorical_accuracy"], 0.0)
+        self.assertEqual(metrics["numeric_quality"], 0.0)
+        self.assertEqual(metrics["bool_quality"], 0.0)
         self.assertEqual(metrics["missing_predictions"], 2)
+
+    def test_compute_experiment_metrics_matches_single_experiment_payload(self) -> None:
+        expected_experiment = {
+            "experiment_description": "One experiment",
+            "experiment_results": {
+                "temperature": {"type": "float", "description": "", "result": 10.0},
+                "stable": {"type": "bool", "description": "", "result": True},
+            },
+        }
+        actual_experiment = {
+            "experiment_description": "One experiment",
+            "experiment_results": {
+                "temperature": {
+                    "type": "float",
+                    "result": 10.0,
+                    "distribution": "log_normal",
+                    "sigma": 0.3,
+                },
+                "stable": {"type": "bool", "result": True, "prob_true": 0.7},
+            },
+        }
+
+        experiment_metrics = compute_experiment_metrics(expected_experiment, actual_experiment)
+        file_metrics_dict = compute_file_metrics(expected_experiment, actual_experiment)
+        file_metrics_list = compute_file_metrics([expected_experiment], [actual_experiment])
+        self.assertEqual(experiment_metrics, file_metrics_dict)
+        self.assertEqual(experiment_metrics, file_metrics_list)
 
 
 if __name__ == "__main__":
