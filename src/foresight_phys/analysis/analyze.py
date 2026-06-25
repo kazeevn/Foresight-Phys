@@ -19,6 +19,7 @@ from collections import Counter
 import numpy as np
 import pandas as pd
 
+from .decisions import load_comparison_sets, write_decisions
 from .paths import AnalysisPaths, default_paths
 
 NUMERIC_TYPES = {"float", "integer", "int", "number"}
@@ -257,6 +258,296 @@ def _quality_by_difficulty(scored: pd.DataFrame, wide: pd.DataFrame) -> list[dic
     return rows
 
 
+# Grounded centrality scale, most-central first: the objective "appears in the
+# abstract" tier on top, then the LLM-assigned levels for everything below it.
+GROUNDED_CENTRALITY_ORDER = (
+    "in_abstract",
+    "headline",
+    "key_supporting",
+    "secondary",
+    "setup_or_control",
+)
+
+
+def _quality_by_label(
+    scored: pd.DataFrame, label_col: str, order: tuple[str, ...] | None = None
+) -> list[dict]:
+    """Paper-macro quality per (annotation label, model).
+
+    Mirrors the headline aggregation so the per-label numbers are directly
+    comparable to ``per_model.mean_quality``. ``order`` sorts the rows from
+    most- to least-central. Returns ``[]`` when the dataset carries no annotation
+    for this axis.
+    """
+    if label_col not in scored.columns:
+        return []
+    labelled = scored[scored[label_col].notna()]
+    if labelled.empty:
+        return []
+    models = sorted(scored["model"].unique())
+    rows: list[dict] = []
+    for label, group in labelled.groupby(label_col):
+        macro = _paper_macro(group, "quality")
+        n_fields = int(group[["file_id", "experiment", "key"]].drop_duplicates().shape[0])
+        rows.append(
+            {
+                "label": str(label),
+                "n_fields": n_fields,
+                **{
+                    f"quality__{m}": (float(macro.get(m)) if m in macro.index else None)
+                    for m in models
+                },
+            }
+        )
+    if order is not None:
+        rank = {label: i for i, label in enumerate(order)}
+        rows.sort(key=lambda r: rank.get(r["label"], len(order)))
+    return rows
+
+
+def _abstract_grounding(scored: pd.DataFrame) -> dict:
+    """Validate and report the objective abstract-mention tier of centrality.
+
+    ``appears_in_abstract`` is a reproducible importance marker, so it heads the
+    centrality scale. We report (i) its enrichment among the LLM's headline labels
+    versus the rest---an independent cross-check of the subjective labels---and
+    (ii) per-model quality on the abstract-grounded crucial tier.
+    """
+    if "appears_in_abstract" not in scored.columns:
+        return {}
+    fields = scored.drop_duplicates(["file_id", "experiment", "key"])
+    in_abstract_field = fields["appears_in_abstract"] == True  # noqa: E712
+    if not in_abstract_field.any():
+        return {}
+    out: dict = {
+        "n_in_abstract_fields": int(in_abstract_field.sum()),
+        "n_total_fields": int(len(fields)),
+    }
+    if "is_headline" in fields.columns:
+        headline = fields["is_headline"] == True  # noqa: E712
+        out["appears_rate_headline"] = (
+            float((fields[headline]["appears_in_abstract"] == True).mean()) if headline.any() else None  # noqa: E712
+        )
+        out["appears_rate_non_headline"] = (
+            float((fields[~headline]["appears_in_abstract"] == True).mean()) if (~headline).any() else None  # noqa: E712
+        )
+    crucial = scored[scored["appears_in_abstract"] == True]  # noqa: E712
+    macro = _paper_macro(crucial, "quality")
+    out["per_model"] = [
+        {
+            "model": m,
+            "in_abstract_quality_paper_macro": (
+                float(macro.get(m)) if m in macro.index else None
+            ),
+        }
+        for m in sorted(scored["model"].unique())
+    ]
+    return out
+
+
+def _headline_summary(scored: pd.DataFrame) -> dict:
+    """Per-model quality restricted to the papers' headline findings.
+
+    This is the direct answer to "did the models get the crucial variables?":
+    quality on the small set of fields the annotation marks ``is_headline``,
+    aggregated with the same paper-macro as the overall number.
+    """
+    if "is_headline" not in scored.columns:
+        return {}
+    headline = scored[scored["is_headline"] == True]  # noqa: E712 (works for object/bool cols)
+    if headline.empty:
+        return {}
+    macro = _paper_macro(headline, "quality")
+    micro = headline.groupby("model")["quality"].mean()
+    counts = headline.groupby("model")["quality"].size()
+    n = int(headline[["file_id", "experiment", "key"]].drop_duplicates().shape[0])
+    return {
+        "n_headline_fields": n,
+        "per_model": [
+            {
+                "model": m,
+                "headline_quality_paper_macro": (
+                    float(macro.get(m)) if m in macro.index else None
+                ),
+                "headline_quality_micro": float(micro.get(m)) if m in micro.index else None,
+                "n_fields": int(counts.get(m, 0)),
+            }
+            for m in sorted(scored["model"].unique())
+        ],
+    }
+
+
+def _dataset_composition(scored: pd.DataFrame) -> dict:
+    """Field-count composition of the benchmark (what is actually being scored)."""
+    fields = scored.drop_duplicates(["file_id", "experiment", "key"])
+
+    def counts(col: str) -> dict:
+        if col not in fields.columns:
+            return {}
+        return {str(k): int(v) for k, v in fields[col].value_counts(dropna=False).items()}
+
+    per_paper = fields.groupby("file_id").size()
+    return {
+        "n_fields": int(len(fields)),
+        "by_type": counts("type"),
+        "by_centrality": counts("centrality"),
+        "by_surprise": counts("ex_ante_surprise"),
+        "fields_per_paper": {
+            "min": int(per_paper.min()),
+            "median": float(per_paper.median()),
+            "mean": float(per_paper.mean()),
+            "max": int(per_paper.max()),
+        },
+        "most_field_rich_paper": {
+            "file_id": str(per_paper.idxmax()),
+            "n_fields": int(per_paper.max()),
+        },
+    }
+
+
+def _dedup_aggregate(scored: pd.DataFrame, sets_by_file: dict[str, list[dict]]) -> list[dict]:
+    """Per-model quality after collapsing each comparison set to one trend vote.
+
+    A swept series (e.g. five spectral-weight ratios) currently contributes as
+    many fields as it has points, over-weighting the paper it lives in. Here each
+    comparison set is replaced by a single field whose quality is the mean of its
+    members, so redundant series count once. Reported next to ``mean_quality`` so
+    the inflation from redundant fields is visible.
+    """
+    member_to_set: dict[tuple[str, int, str], tuple[str, int, int]] = {}
+    for file_id, csets in sets_by_file.items():
+        for set_index, cset in enumerate(csets):
+            experiment = int(cset.get("experiment_index", -1))
+            for key in cset.get("member_keys", []):
+                member_to_set[(file_id, experiment, str(key))] = (file_id, experiment, set_index)
+
+    rows: list[dict] = []
+    for (model, file_id, experiment), group in scored.groupby(["model", "file_id", "experiment"]):
+        set_acc: dict[tuple, list[float]] = {}
+        singles: list[float] = []
+        for _, r in group.iterrows():
+            q = r["quality"]
+            if pd.isna(q):
+                continue
+            set_id = member_to_set.get((file_id, int(experiment), str(r["key"])))
+            if set_id is None:
+                singles.append(float(q))
+            else:
+                set_acc.setdefault(set_id, []).append(float(q))
+        collapsed = singles + [float(np.mean(v)) for v in set_acc.values()]
+        if collapsed:
+            rows.append({"model": model, "file_id": file_id, "exp_mean": float(np.mean(collapsed))})
+
+    if not rows:
+        return []
+    df = pd.DataFrame(rows)
+    per_model = df.groupby(["model", "file_id"])["exp_mean"].mean().groupby("model").mean()
+    return [
+        {"model": m, "dedup_quality_paper_macro": float(per_model.get(m))}
+        for m in sorted(scored["model"].unique())
+        if m in per_model.index
+    ]
+
+
+def _leakage_summary(scored: pd.DataFrame) -> dict:
+    """Quality on fields the annotation flags as determinable from the description.
+
+    ``leakage_sufficient`` fields can be answered without doing the experiment
+    (e.g. a result that restates a stated sweep range). We report the leaked count
+    and a leakage-excluded "clean" aggregate so the headline can be read net of
+    near-given fields.
+    """
+    if "leakage_sufficient" not in scored.columns:
+        return {}
+    leaked_mask = scored["leakage_sufficient"] == True  # noqa: E712
+    if not leaked_mask.any():
+        return {}
+    keys = ["file_id", "experiment", "key"]
+    n_leaked = int(scored[leaked_mask][keys].drop_duplicates().shape[0])
+    n_total = int(scored[keys].drop_duplicates().shape[0])
+    clean_macro = _paper_macro(scored[~leaked_mask], "quality")
+    leaked_macro = _paper_macro(scored[leaked_mask], "quality")
+    return {
+        "n_leaked_fields": n_leaked,
+        "n_total_fields": n_total,
+        "per_model": [
+            {
+                "model": m,
+                "clean_quality_paper_macro": (
+                    float(clean_macro.get(m)) if m in clean_macro.index else None
+                ),
+                "leaked_quality_paper_macro": (
+                    float(leaked_macro.get(m)) if m in leaked_macro.index else None
+                ),
+            }
+            for m in sorted(scored["model"].unique())
+        ],
+    }
+
+
+def _foresight_lift(full_scored: pd.DataFrame) -> list[dict]:
+    """Quality gained from the experiment description over name-only priors.
+
+    For every base model that has both a standard run and a ``name-only`` ablation
+    run, the foresight lift is the paper-macro quality difference. Lift ≈ 0 means
+    the model predicted the field from the typed key alone (a trivial/observable-type
+    prior); large positive lift means the experiment description carried real
+    predictive content. Also reported on the headline and surprising subsets.
+    """
+    if "ablation" not in full_scored.columns or "base_model" not in full_scored.columns:
+        return []
+    if not (full_scored["ablation"] == "name-only").any():
+        return []
+
+    overall = _paper_macro(full_scored, "quality")
+    headline_mask = (
+        full_scored["is_headline"] == True  # noqa: E712
+        if "is_headline" in full_scored.columns
+        else pd.Series(False, index=full_scored.index)
+    )
+    surprising_mask = (
+        full_scored["ex_ante_surprise"] == "surprising"
+        if "ex_ante_surprise" in full_scored.columns
+        else pd.Series(False, index=full_scored.index)
+    )
+    in_abstract_mask = (
+        full_scored["appears_in_abstract"] == True  # noqa: E712
+        if "appears_in_abstract" in full_scored.columns
+        else pd.Series(False, index=full_scored.index)
+    )
+    headline = _paper_macro(full_scored[headline_mask], "quality")
+    surprising = _paper_macro(full_scored[surprising_mask], "quality")
+    in_abstract = _paper_macro(full_scored[in_abstract_mask], "quality")
+
+    def _diff(series: pd.Series, full_label: str, name_label: str) -> float | None:
+        if full_label in series.index and name_label in series.index:
+            return float(series[full_label] - series[name_label])
+        return None
+
+    def _get(series: pd.Series, label: str) -> float | None:
+        return float(series[label]) if label in series.index else None
+
+    rows: list[dict] = []
+    for base_model in sorted(full_scored["base_model"].dropna().unique()):
+        full_label, name_label = base_model, f"{base_model} [name-only]"
+        if full_label not in overall.index or name_label not in overall.index:
+            continue
+        rows.append(
+            {
+                "base_model": base_model,
+                "quality_full": float(overall[full_label]),
+                "quality_name_only": float(overall[name_label]),
+                "foresight_lift": float(overall[full_label] - overall[name_label]),
+                "foresight_lift_headline": _diff(headline, full_label, name_label),
+                "foresight_lift_surprising": _diff(surprising, full_label, name_label),
+                "quality_full_in_abstract": _get(in_abstract, full_label),
+                "quality_name_only_in_abstract": _get(in_abstract, name_label),
+                "foresight_lift_in_abstract": _diff(in_abstract, full_label, name_label),
+            }
+        )
+    return rows
+
+
 def _gather_categorical_k(paths: AnalysisPaths) -> list[int]:
     cat_k: list[int] = []
     for jp in sorted(paths.json_dir.glob("*.json")):
@@ -328,7 +619,13 @@ def write_summary(paths: AnalysisPaths | None = None) -> dict:
     paths = paths or default_paths()
     paths.ensure_dirs()
 
-    scored = pd.read_parquet(paths.scored_parquet)
+    full_scored = pd.read_parquet(paths.scored_parquet)
+    # The headline analyses use only the standard (non-ablation) runs; ablation
+    # runs (e.g. name-only) are paired against them solely for the foresight lift.
+    if "ablation" in full_scored.columns:
+        scored = full_scored[full_scored["ablation"] == "none"].copy()
+    else:
+        scored = full_scored
     wide = _build_wide(scored)
     wide.to_parquet(paths.per_field_parquet, index=False)
 
@@ -350,6 +647,18 @@ def write_summary(paths: AnalysisPaths | None = None) -> dict:
         "difficulty_by_type": difficulty_by_type,
         "hard_field": _hard_field_summary(scored, wide),
         "quality_by_difficulty": _quality_by_difficulty(scored, wide),
+        "headline": _headline_summary(scored),
+        "abstract_grounding": _abstract_grounding(scored),
+        "quality_by_centrality": _quality_by_label(
+            scored, "centrality_grounded", order=GROUNDED_CENTRALITY_ORDER
+        ),
+        "quality_by_centrality_llm": _quality_by_label(scored, "centrality"),
+        "quality_by_surprise": _quality_by_label(scored, "ex_ante_surprise"),
+        "leakage": _leakage_summary(scored),
+        "dataset_composition": _dataset_composition(scored),
+        "dedup_aggregate": _dedup_aggregate(scored, load_comparison_sets(paths)),
+        "foresight_lift": _foresight_lift(full_scored),
+        "decisions": write_decisions(paths),
         "random_baselines": _random_baselines(cat_k),
         **_categorical_baseline(cat_k),
     }

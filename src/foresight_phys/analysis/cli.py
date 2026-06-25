@@ -37,6 +37,12 @@ def _run_step(step: str, paths: AnalysisPaths) -> None:
         summary = write_summary(paths)
         print(f"summary ({summary['n_fields']} fields × {summary['n_models']} models) → {paths.summary_json}")
         print(f"per-field table → {paths.per_field_parquet}")
+        decisions = summary.get("decisions", {})
+        if decisions.get("n_sets_total"):
+            print(
+                f"decisions: {decisions['n_sets_scorable']}/{decisions['n_sets_total']} "
+                f"comparison sets scorable → {paths.decisions_parquet}"
+            )
     elif step == "plots":
         written = write_all_plots(paths)
         print(f"wrote {len(written)} PDFs to {paths.plots_dir}")

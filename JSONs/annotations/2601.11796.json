@@ -1,0 +1,541 @@
+{
+  "arxiv_id": "2601.11796",
+  "paper_title": "Discovery of Van Hove Singularities: Electronic Fingerprints of 3Q Magnetic Order in a van der Waals Quantum Magnet",
+  "model": "gpt-5.5",
+  "response_id": "resp_077fd50c3dfef1af006a3cc399b234819a8b3f6ffecc146355",
+  "abstract_proxy": {
+    "title": "Discovery of Van Hove Singularities: Electronic Fingerprints of 3Q Magnetic Order in a van der Waals Quantum Magnet",
+    "abstract_chars": 1128
+  },
+  "field_annotations": [
+    {
+      "experiment_index": 0,
+      "key": "cxtas2_single_crystal_formation",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": true,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 0,
+      "key": "maximum_reported_crystal_lateral_length_cm",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 0,
+      "key": "eds_cobalt_stoichiometry_min_x",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": true,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.3333,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 0,
+      "key": "eds_cobalt_stoichiometry_max_x",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": true,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.3333,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "alpha_band_shift_along_gamma0_k0_meV",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.3333,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "alpha_band_bottom_shift_along_gamma0_m0_meV",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.25,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "beta_band_shift_at_m0_meV",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.3333,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "spin_orbit_momentum_splitting_2h_tas2_inverse_angstrom",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "spin_orbit_momentum_splitting_co0_32tas2_inverse_angstrom",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "gamma_k_band_bottom_binding_energy_approx_meV",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "gamma_m_band_extremum_binding_energy_approx_meV",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "co0_32tas2_gamma_fermi_pocket_presence",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 2,
+      "key": "gamma_band_lv_visibility",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.3333,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 2,
+      "key": "epsilon_band_lv_visibility",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.3333,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 2,
+      "key": "localized_nondispersive_band_binding_energy_eV",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 2,
+      "key": "gamma_band_dominant_orbital_character",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 2,
+      "key": "alpha_beta_band_dominant_orbital_character",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.1667,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 2,
+      "key": "epsilon_band_dominant_orbital_character",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 3,
+      "key": "alpha_beta_band_downshift_x0_29_to_x0_36_meV",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.25,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 3,
+      "key": "gamma_m_band_upturn_at_x0_36_meV",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "surprising",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.3333,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 3,
+      "key": "gamma_k_band_upturn_at_x0_36_meV",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "surprising",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.3333,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 3,
+      "key": "co_doping_band_shift_selectivity",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.5,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 4,
+      "key": "alpha_beta_downshift_after_four_k_depositions_approx_meV",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 4,
+      "key": "gamma_m_response_to_k_deposition",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 5,
+      "key": "gamma_pocket_size_trend_with_cobalt_composition",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.1667,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 5,
+      "key": "tip_to_m_spectral_weight_ratio_x0_29",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 5,
+      "key": "tip_to_m_spectral_weight_ratio_x0_32",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 5,
+      "key": "tip_to_m_spectral_weight_ratio_x0_33",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 5,
+      "key": "tip_to_m_spectral_weight_ratio_x0_34",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 5,
+      "key": "tip_to_m_spectral_weight_ratio_x0_36",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 6,
+      "key": "kF_to_m_edc_intensity_ratio_x0_29",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 6,
+      "key": "kF_to_m_edc_intensity_ratio_x0_32",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 6,
+      "key": "kF_to_m_edc_intensity_ratio_x0_33",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 6,
+      "key": "kF_to_m_edc_intensity_ratio_x0_34",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 6,
+      "key": "kF_to_m_edc_intensity_ratio_x0_36",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 6,
+      "key": "near_ef_gamma_dispersion_shape_x0_29",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "surprising",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.3333,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 6,
+      "key": "near_ef_gamma_dispersion_shape_x0_36",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.3333,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 6,
+      "key": "vhs_configuration_x0_29",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "surprising",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 6,
+      "key": "m_point_dip_presence_x0_34_x0_36",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    }
+  ],
+  "comparison_sets": [
+    {
+      "experiment_index": 1,
+      "member_keys": [
+        "alpha_band_shift_along_gamma0_k0_meV",
+        "alpha_band_bottom_shift_along_gamma0_m0_meV",
+        "beta_band_shift_at_m0_meV"
+      ],
+      "ordering_variable": "band and momentum direction for Co-intercalation-induced shift",
+      "question_type": "argmax_select",
+      "description": "Compare the Co-intercalation-induced energy shifts to decide whether the TaS2-derived bands shift rigidly or anisotropically, and which band/direction shifts most."
+    },
+    {
+      "experiment_index": 1,
+      "member_keys": [
+        "spin_orbit_momentum_splitting_2h_tas2_inverse_angstrom",
+        "spin_orbit_momentum_splitting_co0_32tas2_inverse_angstrom"
+      ],
+      "ordering_variable": "pristine versus Co-intercalated sample",
+      "question_type": "sign_vs_baseline",
+      "description": "Determine whether Co intercalation increases the Fermi-level spin-orbit momentum splitting relative to pristine 2H-TaS2."
+    },
+    {
+      "experiment_index": 2,
+      "member_keys": [
+        "gamma_band_lv_visibility",
+        "epsilon_band_lv_visibility"
+      ],
+      "ordering_variable": "band identity under LV versus LH polarization",
+      "question_type": "argmax_select",
+      "description": "Use polarization matrix-element contrast to decide which bands are suppressed or enhanced under LV light, supporting orbital assignments."
+    },
+    {
+      "experiment_index": 3,
+      "member_keys": [
+        "alpha_beta_band_downshift_x0_29_to_x0_36_meV",
+        "gamma_m_band_upturn_at_x0_36_meV",
+        "gamma_k_band_upturn_at_x0_36_meV"
+      ],
+      "ordering_variable": "band orbital class under increasing Co composition x",
+      "question_type": "argmax_select",
+      "description": "Compare Co-composition-induced shifts of TaS2-derived and Co-derived bands to decide which electronic states absorb most of the added charge."
+    },
+    {
+      "experiment_index": 4,
+      "member_keys": [
+        "alpha_beta_downshift_after_four_k_depositions_approx_meV",
+        "gamma_m_response_to_k_deposition"
+      ],
+      "ordering_variable": "band orbital class under potassium electron donation",
+      "question_type": "sign_vs_baseline",
+      "description": "Contrast TaS2-derived and Co-derived band responses to surface electron doping to decide whether the γM band is pinned while α and β shift."
+    },
+    {
+      "experiment_index": 5,
+      "member_keys": [
+        "tip_to_m_spectral_weight_ratio_x0_29",
+        "tip_to_m_spectral_weight_ratio_x0_32",
+        "tip_to_m_spectral_weight_ratio_x0_33",
+        "tip_to_m_spectral_weight_ratio_x0_34",
+        "tip_to_m_spectral_weight_ratio_x0_36"
+      ],
+      "ordering_variable": "Co composition x",
+      "question_type": "monotonic_direction",
+      "description": "Track whether Fermi-surface spectral weight transfers from the γ-pocket tip toward M as Co composition crosses the magnetic-regime boundary."
+    },
+    {
+      "experiment_index": 6,
+      "member_keys": [
+        "kF_to_m_edc_intensity_ratio_x0_29",
+        "kF_to_m_edc_intensity_ratio_x0_32",
+        "kF_to_m_edc_intensity_ratio_x0_33",
+        "kF_to_m_edc_intensity_ratio_x0_34",
+        "kF_to_m_edc_intensity_ratio_x0_36"
+      ],
+      "ordering_variable": "Co composition x",
+      "question_type": "monotonic_direction",
+      "description": "Determine how the EDC spectral-weight ratio between kF and M evolves with Co composition across the proposed 3Q-to-helical transition."
+    },
+    {
+      "experiment_index": 6,
+      "member_keys": [
+        "near_ef_gamma_dispersion_shape_x0_29",
+        "near_ef_gamma_dispersion_shape_x0_36"
+      ],
+      "ordering_variable": "low versus high Co composition / magnetic regime",
+      "question_type": "sign_vs_baseline",
+      "description": "Compare the γ-band dispersion shape below and above the critical composition to identify the inverse-Mexican-hat fingerprint of 3Q order."
+    },
+    {
+      "experiment_index": 6,
+      "member_keys": [
+        "vhs_configuration_x0_29",
+        "m_point_dip_presence_x0_34_x0_36"
+      ],
+      "ordering_variable": "low versus high Co composition / magnetic regime",
+      "question_type": "sign_vs_baseline",
+      "description": "Contrast the low-doping displaced-VHS/dip configuration with the high-doping absence of an M-point dip to assess the magnetic-order-driven reconstruction."
+    }
+  ]
+}

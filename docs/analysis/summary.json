@@ -232,6 +232,341 @@
       "quality__gpt-5.5": 0.9299384606034992
     }
   ],
+  "headline": {
+    "n_headline_fields": 95,
+    "per_model": [
+      {
+        "model": "gpt-5.4",
+        "headline_quality_paper_macro": 0.9122629616079391,
+        "headline_quality_micro": 0.8927801379798035,
+        "n_fields": 95
+      },
+      {
+        "model": "gpt-5.4-mini",
+        "headline_quality_paper_macro": 0.8313014483052263,
+        "headline_quality_micro": 0.8315549289497339,
+        "n_fields": 95
+      },
+      {
+        "model": "gpt-5.4-nano",
+        "headline_quality_paper_macro": 0.8418269795211473,
+        "headline_quality_micro": 0.8302383606771515,
+        "n_fields": 95
+      },
+      {
+        "model": "gpt-5.5",
+        "headline_quality_paper_macro": 0.9141470161853903,
+        "headline_quality_micro": 0.9060859757397324,
+        "n_fields": 95
+      }
+    ]
+  },
+  "abstract_grounding": {
+    "n_in_abstract_fields": 137,
+    "n_total_fields": 661,
+    "appears_rate_headline": 0.5052631578947369,
+    "appears_rate_non_headline": 0.15724381625441697,
+    "per_model": [
+      {
+        "model": "gpt-5.4",
+        "in_abstract_quality_paper_macro": 0.8834376867791579
+      },
+      {
+        "model": "gpt-5.4-mini",
+        "in_abstract_quality_paper_macro": 0.8142480701865258
+      },
+      {
+        "model": "gpt-5.4-nano",
+        "in_abstract_quality_paper_macro": 0.8196412737501626
+      },
+      {
+        "model": "gpt-5.5",
+        "in_abstract_quality_paper_macro": 0.9144984729087514
+      }
+    ]
+  },
+  "quality_by_centrality": [
+    {
+      "label": "in_abstract",
+      "n_fields": 137,
+      "quality__gpt-5.4": 0.8834376867791579,
+      "quality__gpt-5.4-mini": 0.8142480701865258,
+      "quality__gpt-5.4-nano": 0.8196412737501626,
+      "quality__gpt-5.5": 0.9144984729087514
+    },
+    {
+      "label": "headline",
+      "n_fields": 47,
+      "quality__gpt-5.4": 0.9369037090289003,
+      "quality__gpt-5.4-mini": 0.80753057723723,
+      "quality__gpt-5.4-nano": 0.8333787872451719,
+      "quality__gpt-5.5": 0.9221694941934562
+    },
+    {
+      "label": "key_supporting",
+      "n_fields": 332,
+      "quality__gpt-5.4": 0.8324979254401957,
+      "quality__gpt-5.4-mini": 0.8119005170819453,
+      "quality__gpt-5.4-nano": 0.7234204872274028,
+      "quality__gpt-5.5": 0.8533211650132408
+    },
+    {
+      "label": "secondary",
+      "n_fields": 71,
+      "quality__gpt-5.4": 0.8171900774189805,
+      "quality__gpt-5.4-mini": 0.7656115736429135,
+      "quality__gpt-5.4-nano": 0.7524746424934229,
+      "quality__gpt-5.5": 0.8188978534383504
+    },
+    {
+      "label": "setup_or_control",
+      "n_fields": 74,
+      "quality__gpt-5.4": 0.9049066791851816,
+      "quality__gpt-5.4-mini": 0.7644151868050136,
+      "quality__gpt-5.4-nano": 0.7799768412837226,
+      "quality__gpt-5.5": 0.8821425524056838
+    }
+  ],
+  "quality_by_centrality_llm": [
+    {
+      "label": "headline",
+      "n_fields": 95,
+      "quality__gpt-5.4": 0.9122629616079391,
+      "quality__gpt-5.4-mini": 0.8313014483052263,
+      "quality__gpt-5.4-nano": 0.8418269795211473,
+      "quality__gpt-5.5": 0.9141470161853903
+    },
+    {
+      "label": "key_supporting",
+      "n_fields": 396,
+      "quality__gpt-5.4": 0.8233941980424515,
+      "quality__gpt-5.4-mini": 0.7913452050648326,
+      "quality__gpt-5.4-nano": 0.7386902416006637,
+      "quality__gpt-5.5": 0.8540288407249926
+    },
+    {
+      "label": "secondary",
+      "n_fields": 85,
+      "quality__gpt-5.4": 0.812854750429979,
+      "quality__gpt-5.4-mini": 0.7394906035900355,
+      "quality__gpt-5.4-nano": 0.7594403146494321,
+      "quality__gpt-5.5": 0.836472375174982
+    },
+    {
+      "label": "setup_or_control",
+      "n_fields": 85,
+      "quality__gpt-5.4": 0.8874245741162097,
+      "quality__gpt-5.4-mini": 0.7897180840292706,
+      "quality__gpt-5.4-nano": 0.8155376468250131,
+      "quality__gpt-5.5": 0.8928017861549253
+    }
+  ],
+  "quality_by_surprise": [
+    {
+      "label": "implied_or_derivable",
+      "n_fields": 91,
+      "quality__gpt-5.4": 0.8685781684518344,
+      "quality__gpt-5.4-mini": 0.9053935182250055,
+      "quality__gpt-5.4-nano": 0.8832274847159349,
+      "quality__gpt-5.5": 0.9237707114806544
+    },
+    {
+      "label": "surprising",
+      "n_fields": 35,
+      "quality__gpt-5.4": 0.799695692000983,
+      "quality__gpt-5.4-mini": 0.7324670984466205,
+      "quality__gpt-5.4-nano": 0.7704464020869728,
+      "quality__gpt-5.5": 0.8554468799174607
+    },
+    {
+      "label": "uncertain",
+      "n_fields": 535,
+      "quality__gpt-5.4": 0.8529289265217895,
+      "quality__gpt-5.4-mini": 0.7675340077894878,
+      "quality__gpt-5.4-nano": 0.7492590596150086,
+      "quality__gpt-5.5": 0.870406166320391
+    }
+  ],
+  "leakage": {
+    "n_leaked_fields": 36,
+    "n_total_fields": 661,
+    "per_model": [
+      {
+        "model": "gpt-5.4",
+        "clean_quality_paper_macro": 0.8510089987365663,
+        "leaked_quality_paper_macro": 0.8956299900487967
+      },
+      {
+        "model": "gpt-5.4-mini",
+        "clean_quality_paper_macro": 0.7781818060002078,
+        "leaked_quality_paper_macro": 0.9575257768855862
+      },
+      {
+        "model": "gpt-5.4-nano",
+        "clean_quality_paper_macro": 0.7602496019009537,
+        "leaked_quality_paper_macro": 0.8996440377029508
+      },
+      {
+        "model": "gpt-5.5",
+        "clean_quality_paper_macro": 0.8713719149576771,
+        "leaked_quality_paper_macro": 0.9847022385934667
+      }
+    ]
+  },
+  "dataset_composition": {
+    "n_fields": 661,
+    "by_type": {
+      "float": 501,
+      "bool": 73,
+      "categorical": 57,
+      "integer": 21,
+      "formula": 9
+    },
+    "by_centrality": {
+      "key_supporting": 396,
+      "headline": 95,
+      "setup_or_control": 85,
+      "secondary": 85
+    },
+    "by_surprise": {
+      "uncertain": 535,
+      "implied_or_derivable": 91,
+      "surprising": 35
+    },
+    "fields_per_paper": {
+      "min": 5,
+      "median": 19.5,
+      "mean": 25.423076923076923,
+      "max": 120
+    },
+    "most_field_rich_paper": {
+      "file_id": "2602.15115",
+      "n_fields": 120
+    }
+  },
+  "dedup_aggregate": [
+    {
+      "model": "gpt-5.4",
+      "dedup_quality_paper_macro": 0.8492605419508819
+    },
+    {
+      "model": "gpt-5.4-mini",
+      "dedup_quality_paper_macro": 0.7838770152232477
+    },
+    {
+      "model": "gpt-5.4-nano",
+      "dedup_quality_paper_macro": 0.7641582519349256
+    },
+    {
+      "model": "gpt-5.5",
+      "dedup_quality_paper_macro": 0.868784705331376
+    }
+  ],
+  "foresight_lift": [
+    {
+      "base_model": "gpt-5.4-nano",
+      "quality_full": 0.7689084015371495,
+      "quality_name_only": 0.6614292134958232,
+      "foresight_lift": 0.10747918804132628,
+      "foresight_lift_headline": 0.16983342754060549,
+      "foresight_lift_surprising": 0.06689928777988496,
+      "quality_full_in_abstract": 0.8196412737501626,
+      "quality_name_only_in_abstract": 0.6702688765448384,
+      "foresight_lift_in_abstract": 0.14937239720532425
+    },
+    {
+      "base_model": "gpt-5.5",
+      "quality_full": 0.8716313206574089,
+      "quality_name_only": 0.7860036245690382,
+      "foresight_lift": 0.08562769608837073,
+      "foresight_lift_headline": 0.07565295063604771,
+      "foresight_lift_surprising": 0.07608292655577176,
+      "quality_full_in_abstract": 0.9144984729087514,
+      "quality_name_only_in_abstract": 0.7834503194154229,
+      "foresight_lift_in_abstract": 0.13104815349332855
+    }
+  ],
+  "decisions": {
+    "n_sets_total": 424,
+    "n_sets_scorable": 344,
+    "n_sets_unscorable": 80,
+    "question_type_distribution": {
+      "argmax_select": 120,
+      "sign_vs_baseline": 112,
+      "monotonic_direction": 96,
+      "order_of_magnitude": 16
+    },
+    "per_model": [
+      {
+        "model": "gpt-5.4",
+        "n_scorable_sets": 86,
+        "decision_accuracy_micro": 0.6823529411764706,
+        "decision_accuracy_paper_macro": 0.6989417989417989,
+        "selection_accuracy": 0.43333333333333335,
+        "mean_regret": 0.5136853099817618,
+        "baseline_regret": 0.5138807038036606,
+        "decision_value": 0.00019539382189876314,
+        "direction_accuracy": 0.8431372549019608,
+        "sign_brier": 0.11808289897250822,
+        "oom_set_factor3": 0.5,
+        "oom_set_decade": 0.5833333333333334,
+        "n_argmax_sets": 30,
+        "n_direction_sets": 52,
+        "n_oom_sets": 4
+      },
+      {
+        "model": "gpt-5.4-mini",
+        "n_scorable_sets": 86,
+        "decision_accuracy_micro": 0.6470588235294118,
+        "decision_accuracy_paper_macro": 0.6084656084656084,
+        "selection_accuracy": 0.43333333333333335,
+        "mean_regret": 0.3896258668396359,
+        "baseline_regret": 0.5138807038036606,
+        "decision_value": 0.12425483696402463,
+        "direction_accuracy": 0.7843137254901961,
+        "sign_brier": 0.1190122898677909,
+        "oom_set_factor3": 0.375,
+        "oom_set_decade": 0.5,
+        "n_argmax_sets": 30,
+        "n_direction_sets": 52,
+        "n_oom_sets": 4
+      },
+      {
+        "model": "gpt-5.4-nano",
+        "n_scorable_sets": 86,
+        "decision_accuracy_micro": 0.6705882352941176,
+        "decision_accuracy_paper_macro": 0.6984126984126984,
+        "selection_accuracy": 0.4666666666666667,
+        "mean_regret": 0.32106178246749223,
+        "baseline_regret": 0.5138807038036606,
+        "decision_value": 0.19281892133616824,
+        "direction_accuracy": 0.803921568627451,
+        "sign_brier": 0.13322154636149133,
+        "oom_set_factor3": 0.375,
+        "oom_set_decade": 0.5,
+        "n_argmax_sets": 30,
+        "n_direction_sets": 52,
+        "n_oom_sets": 4
+      },
+      {
+        "model": "gpt-5.5",
+        "n_scorable_sets": 86,
+        "decision_accuracy_micro": 0.7764705882352941,
+        "decision_accuracy_paper_macro": 0.8824074074074074,
+        "selection_accuracy": 0.5,
+        "mean_regret": 0.3330292591635462,
+        "baseline_regret": 0.5138807038036606,
+        "decision_value": 0.18085144464011432,
+        "direction_accuracy": 0.9607843137254902,
+        "sign_brier": 0.05108600005922712,
+        "oom_set_factor3": 0.5833333333333334,
+        "oom_set_decade": 0.8333333333333334,
+        "n_argmax_sets": 30,
+        "n_direction_sets": 52,
+        "n_oom_sets": 4
+      }
+    ]
+  },
   "random_baselines": {
     "boolean": {
       "exact": 0.5,

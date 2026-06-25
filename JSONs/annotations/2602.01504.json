@@ -1,0 +1,190 @@
+{
+  "arxiv_id": "2602.01504",
+  "paper_title": "First Experimental Demonstration of Beam Storage by Three-Dimensional Spiral Injection Scheme for Ultra-Compact Storage Rings",
+  "model": "gpt-5.5",
+  "response_id": "resp_0a209be8923c9bc1006a3cc413c4cc81988a4a24573098429b",
+  "abstract_proxy": {
+    "title": "First Experimental Demonstration of Beam Storage by Three-Dimensional Spiral Injection Scheme for Ultra-Compact Storage Rings",
+    "abstract_chars": 1099
+  },
+  "field_annotations": [
+    {
+      "experiment_index": 0,
+      "key": "beam_storage_observed_with_kicker",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.75,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 0,
+      "key": "beam_storage_observed_without_kicker",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.6,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 0,
+      "key": "stored_signal_persistence_lower_bound_us",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": true,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 0,
+      "key": "transient_signal_duration_without_kicker_ns",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "edge_point_cm_imain_8p70_iaux_5p20",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "storable_range_cm_imain_8p70_iaux_5p20",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.25,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "edge_point_cm_imain_8p82_iaux_5p67",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "storable_range_cm_imain_8p82_iaux_5p67",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.25,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "edge_point_cm_imain_9p20_iaux_7p16",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "storable_range_cm_imain_9p20_iaux_7p16",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.25,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "edge_point_cm_imain_9p60_iaux_8p72",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "storable_range_cm_imain_9p60_iaux_8p72",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.25,
+      "appears_in_abstract": false
+    }
+  ],
+  "comparison_sets": [
+    {
+      "experiment_index": 0,
+      "member_keys": [
+        "beam_storage_observed_without_kicker",
+        "beam_storage_observed_with_kicker"
+      ],
+      "ordering_variable": "kicker activation, off versus on",
+      "question_type": "sign_vs_baseline",
+      "description": "Determine whether activating the multi-turn spiral-injection kicker changes the outcome from non-storage to successful beam storage."
+    },
+    {
+      "experiment_index": 0,
+      "member_keys": [
+        "transient_signal_duration_without_kicker_ns",
+        "stored_signal_persistence_lower_bound_us"
+      ],
+      "ordering_variable": "kicker activation, off versus on",
+      "question_type": "order_of_magnitude",
+      "description": "Compare the signal-duration scale with and without the kicker to decide whether the kicker-on case persists far longer than the transient bunch-width-scale signal."
+    },
+    {
+      "experiment_index": 1,
+      "member_keys": [
+        "edge_point_cm_imain_8p70_iaux_5p20",
+        "edge_point_cm_imain_8p82_iaux_5p67",
+        "edge_point_cm_imain_9p20_iaux_7p16",
+        "edge_point_cm_imain_9p60_iaux_8p72"
+      ],
+      "ordering_variable": "weak-focusing field configuration, ordered by increasing main and auxiliary coil currents",
+      "question_type": "monotonic_direction",
+      "description": "Determine whether the measured upper edge of the stored-beam distribution shifts upward as the weak-focusing field configuration is varied."
+    },
+    {
+      "experiment_index": 1,
+      "member_keys": [
+        "storable_range_cm_imain_8p70_iaux_5p20",
+        "storable_range_cm_imain_8p82_iaux_5p67",
+        "storable_range_cm_imain_9p20_iaux_7p16",
+        "storable_range_cm_imain_9p60_iaux_8p72"
+      ],
+      "ordering_variable": "weak-focusing field configuration, ordered by increasing main and auxiliary coil currents",
+      "question_type": "monotonic_direction",
+      "description": "Determine whether the storable vertical range increases systematically with the applied weak-focusing field configuration."
+    }
+  ]
+}

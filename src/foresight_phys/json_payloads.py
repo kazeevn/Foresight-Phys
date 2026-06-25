@@ -50,6 +50,39 @@ def build_masked_payload(ground_truth: Any) -> Any:
     return masked
 
 
+# Description shown in the name-only ablation: strips all experiment-specific
+# context so the model must predict from the typed result key (with its embedded
+# units) and allowed values alone. The gap between the full-context score and this
+# baseline is the "foresight lift" — the predictive content carried by the
+# experiment description over generic observable-type priors.
+NAME_ONLY_DESCRIPTION = (
+    "No experiment context is provided. Predict each physical quantity from its "
+    "result key (which encodes the observable and its units), its type, and any "
+    "allowed values alone, using only general physics priors."
+)
+
+
+def build_name_only_payload(ground_truth: Any) -> Any:
+    """Masked payload with the experiment description and result descriptions removed.
+
+    Keeps the result keys, types, units (encoded in keys), and allowed categorical
+    values so the schema and target set are identical to the full run; only the
+    experiment-specific context is withheld.
+    """
+    masked = build_masked_payload(ground_truth)
+    experiments = masked if isinstance(masked, list) else [masked]
+    for experiment in experiments:
+        if not isinstance(experiment, dict):
+            continue
+        experiment["experiment_description"] = NAME_ONLY_DESCRIPTION
+        results = experiment.get("experiment_results")
+        if isinstance(results, dict):
+            for meta in results.values():
+                if isinstance(meta, dict) and "description" in meta:
+                    meta["description"] = ""
+    return masked
+
+
 def build_prediction_text_format() -> type[BenchmarkPredictionEnvelope]:
     return BenchmarkPredictionEnvelope
 

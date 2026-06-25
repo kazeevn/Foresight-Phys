@@ -22,6 +22,7 @@ dependencies = [
 [project.scripts]
 foresight-phys = "foresight_phys.cli:main"
 foresight-phys-extract = "foresight_phys.extract_cli:main"
+foresight-phys-annotate = "foresight_phys.annotate_cli:main"
 foresight-phys-cleanup = "foresight_phys.cleanup_jsons:main"
 foresight-phys-analysis = "foresight_phys.analysis.cli:main"
 

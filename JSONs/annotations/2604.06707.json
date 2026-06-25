@@ -1,0 +1,289 @@
+{
+  "arxiv_id": "2604.06707",
+  "paper_title": "Attosecond quantum spectroscopy with entangled photon pairs",
+  "model": "gpt-5.5",
+  "response_id": "resp_056a8c84396fbfa8006a3cc464107481988b87b76ad7196be5",
+  "abstract_proxy": {
+    "title": "Attosecond quantum spectroscopy with entangled photon pairs",
+    "abstract_chars": 1424
+  },
+  "field_annotations": [
+    {
+      "experiment_index": 0,
+      "key": "filtered_bsv_spectral_center_nm",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": true,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 0,
+      "key": "filtered_bsv_time_domain_g2_tau0",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.25,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 0,
+      "key": "filtered_bsv_average_pulse_energy_uJ",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 0,
+      "key": "filtered_bsv_photon_number_per_pulse",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.25,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 0,
+      "key": "filtered_bsv_squeezing_parameter",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "highest_detected_harmonic_order_single_mode_bsv",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": true,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.5714,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 1,
+      "key": "fourth_harmonic_g2_tau0",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.5,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 1,
+      "key": "fifth_harmonic_g2_tau0",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.5,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 1,
+      "key": "eighth_harmonic_g2_tau0",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.5,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 1,
+      "key": "tenth_harmonic_g2_tau0",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.5,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 1,
+      "key": "single_mode_bsv_harmonic_g2_order_dependence",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "surprising",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.6667,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 1,
+      "key": "single_mode_bsv_harmonic_g2_peak_order",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.6667,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 2,
+      "key": "g2_order_dependence_at_0p57_and_0p98_TW_cm2",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.5,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 3,
+      "key": "unfiltered_multimode_bsv_average_pulse_energy_uJ",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 3,
+      "key": "unfiltered_multimode_bsv_time_domain_g2_tau0",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 3,
+      "key": "unfiltered_bsv_off_diagonal_spectral_correlations_present",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.1429,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 4,
+      "key": "third_harmonic_wavelength_resolved_g2_lambda_peak_pattern",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.4286,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 4,
+      "key": "third_harmonic_off_diagonal_g2_correlations_present",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.3333,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 4,
+      "key": "third_harmonic_off_diagonal_gamma_correlations_present",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2857,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 4,
+      "key": "bep_contribution_detected_in_third_harmonic",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 5,
+      "key": "second_harmonic_off_diagonal_gamma_correlations_present",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.3333,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 5,
+      "key": "fourth_harmonic_off_diagonal_gamma_correlations_present",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2857,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 5,
+      "key": "highest_harmonic_order_with_detected_bep_contribution",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.3333,
+      "appears_in_abstract": false
+    }
+  ],
+  "comparison_sets": [
+    {
+      "experiment_index": 1,
+      "member_keys": [
+        "fourth_harmonic_g2_tau0",
+        "fifth_harmonic_g2_tau0",
+        "eighth_harmonic_g2_tau0",
+        "tenth_harmonic_g2_tau0"
+      ],
+      "ordering_variable": "harmonic order",
+      "question_type": "argmax_select",
+      "description": "Compare g2_tau0 across harmonic orders to identify which harmonic exhibits the strongest photon bunching and where the nonmonotonic trend peaks."
+    },
+    {
+      "experiment_index": 5,
+      "member_keys": [
+        "second_harmonic_off_diagonal_gamma_correlations_present",
+        "fourth_harmonic_off_diagonal_gamma_correlations_present"
+      ],
+      "ordering_variable": "harmonic order",
+      "question_type": "monotonic_direction",
+      "description": "Compare off-diagonal Gamma correlations at low versus higher harmonic order to decide whether BEP-induced spectral correlations persist or disappear after stronger up-conversion."
+    }
+  ]
+}

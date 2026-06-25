@@ -1,0 +1,210 @@
+{
+  "arxiv_id": "2602.22063",
+  "paper_title": "PAPER",
+  "model": "gpt-5.5",
+  "response_id": "resp_0a4a1d20a507539b006a3cc432bbd08198b8d3bb18c85c6f61",
+  "abstract_proxy": {
+    "title": "PAPER",
+    "abstract_chars": 1144
+  },
+  "field_annotations": [
+    {
+      "experiment_index": 0,
+      "key": "speckle_potential_distribution",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": true,
+      "annotation_filled": false,
+      "abstract_term_overlap": 1.0,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 0,
+      "key": "longitudinal_correlation_length_um",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 0,
+      "key": "transverse_correlation_length_um",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 0,
+      "key": "geometric_mean_correlation_length_um",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 0,
+      "key": "correlation_energy_hz",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.5,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 1,
+      "key": "rf_filtered_rms_energy_width_hz",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.25,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "initial_condensate_fraction",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "initial_thermal_fraction",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.5,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 1,
+      "key": "transferred_energy_distribution",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.6667,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 2,
+      "key": "experimental_mobility_edge_hz",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.3333,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 2,
+      "key": "sct_fit_alpha0_s_minus_1_3_experiment",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.25,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 2,
+      "key": "sct_fit_beta_um_s_minus_1_3_experiment",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 2,
+      "key": "transport_regime_Ef_166_hz_experiment",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.3333,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 2,
+      "key": "transport_regime_Ef_246_hz_experiment",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.3333,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 2,
+      "key": "transport_regime_Ef_366_hz_experiment",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.3333,
+      "appears_in_abstract": false
+    }
+  ],
+  "comparison_sets": [
+    {
+      "experiment_index": 0,
+      "member_keys": [
+        "longitudinal_correlation_length_um",
+        "transverse_correlation_length_um"
+      ],
+      "ordering_variable": "spatial direction in the speckle potential",
+      "question_type": "argmax_select",
+      "description": "Determine which spatial direction has the largest speckle correlation length, establishing the disorder anisotropy."
+    },
+    {
+      "experiment_index": 1,
+      "member_keys": [
+        "initial_condensate_fraction",
+        "initial_thermal_fraction"
+      ],
+      "ordering_variable": "condensed versus thermal component of the initial atomic cloud",
+      "question_type": "argmax_select",
+      "description": "Determine whether the rf-transferred energy distribution is dominated by condensed atoms or by the thermal background."
+    },
+    {
+      "experiment_index": 2,
+      "member_keys": [
+        "transport_regime_Ef_166_hz_experiment",
+        "transport_regime_Ef_246_hz_experiment",
+        "transport_regime_Ef_366_hz_experiment"
+      ],
+      "ordering_variable": "rf-selected target energy Ef/h",
+      "question_type": "monotonic_direction",
+      "description": "Determine how the observed transport regime changes as the selected energy is increased across the mobility edge."
+    }
+  ]
+}

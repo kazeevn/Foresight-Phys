@@ -16,6 +16,7 @@ from .extraction import load_response_id_manifest
 from .json_payloads import (
     build_prediction_format_signature,
     build_masked_payload,
+    build_name_only_payload,
     build_prediction_cache_key,
     build_prediction_text_format,
 )
@@ -282,15 +283,17 @@ def build_benchmark_items(
     cache_only: bool = False,
     cache_ignore_system_prompt: bool = False,
     docs_dir: Path = Path('docs'),
+    ablation: str = 'none',
 ) -> list[BenchmarkItem]:
     cache_only = cache_only or prediction_cache.cache_only
     cache_ignore_system_prompt = cache_ignore_system_prompt or prediction_cache.ignore_system_prompt
+    mask_builder = build_name_only_payload if ablation == 'name-only' else build_masked_payload
     benchmark_sources: list[tuple[Path, Any, Any]] = []
     for json_path in sorted(json_dir.glob("*.json")):
         ground_truth = json.loads(json_path.read_text(encoding='utf-8'))
         if should_skip_benchmark_payload(ground_truth):
             continue
-        benchmark_sources.append((json_path, ground_truth, build_masked_payload(ground_truth)))
+        benchmark_sources.append((json_path, ground_truth, mask_builder(ground_truth)))
 
     if max_files is not None:
         benchmark_sources = benchmark_sources[:max_files]

@@ -1,0 +1,112 @@
+{
+  "arxiv_id": "2604.06703",
+  "paper_title": "Strong-field ionization of atoms with bright squeezed vacuum light",
+  "model": "gpt-5.5",
+  "response_id": "resp_064d31ce129ae38e006a3cc45e11d4819bb8f31eb6f37ad5b6",
+  "abstract_proxy": {
+    "title": "Strong-field ionization of atoms with bright squeezed vacuum light",
+    "abstract_chars": 2092
+  },
+  "field_annotations": [
+    {
+      "experiment_index": 0,
+      "key": "bsv_driven_ati_peak_visibility",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 0,
+      "key": "bsv_driven_spider_holographic_fringe_detection",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "surprising",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.3333,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 0,
+      "key": "bsv_driven_non_spider_interference_visibility",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.3333,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 0,
+      "key": "bsv_driven_dominant_surviving_interference_channel",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.1667,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "coherent_state_g2_dimensionless",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "coherent_driven_ati_ring_visibility",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "coherent_driven_carpet_interference_visibility",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2,
+      "appears_in_abstract": false
+    }
+  ],
+  "comparison_sets": [
+    {
+      "experiment_index": 0,
+      "member_keys": [
+        "bsv_driven_ati_peak_visibility",
+        "bsv_driven_spider_holographic_fringe_detection",
+        "bsv_driven_non_spider_interference_visibility"
+      ],
+      "ordering_variable": "interference-structure type under BSV driving",
+      "question_type": "argmax_select",
+      "description": "Determine which photoelectron interference structure remains visible under BSV quantum-fluctuating illumination, distinguishing the surviving spider hologram from suppressed ATI and other non-spider structures."
+    },
+    {
+      "experiment_index": 1,
+      "member_keys": [
+        "coherent_driven_ati_ring_visibility",
+        "coherent_driven_carpet_interference_visibility"
+      ],
+      "ordering_variable": "interference-structure type under coherent-state driving",
+      "question_type": "argmax_select",
+      "description": "Establish which standard coherent-field interference structures are visible in the classical reference PMD before contrasting them with BSV-driven suppression."
+    }
+  ]
+}

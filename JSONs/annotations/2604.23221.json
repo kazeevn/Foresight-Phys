@@ -1,0 +1,210 @@
+{
+  "arxiv_id": "2604.23221",
+  "paper_title": "1",
+  "model": "gpt-5.5",
+  "response_id": "resp_01df6597ea91a61e006a3cc4d87ce4819a9c3b8b3caecf940f",
+  "abstract_proxy": {
+    "title": "1",
+    "abstract_chars": 1422
+  },
+  "field_annotations": [
+    {
+      "experiment_index": 0,
+      "key": "single_sided_red_detuned_multifrequency_spectrum_produced",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": true,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.1429,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 0,
+      "key": "annular_cooling_beam_profile_produced",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": true,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "dual_frequency_enhanced_loading_regime_count",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.3333,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "dual_frequency_loading_trough_spacing_MHz",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.4,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "global_enhancement_regime_frequency_spacing_MHz",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 2,
+      "key": "maximum_multifrequency_loading_rate_s_inv",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.5,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 2,
+      "key": "maximum_multifrequency_steady_state_atom_number_atoms",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.8,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 2,
+      "key": "maximum_loading_rate_enhancement_factor_over_single_frequency",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.8333,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 2,
+      "key": "steady_state_atom_number_enhancement_factor_over_single_frequency",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.8571,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 2,
+      "key": "shortest_characteristic_loading_time_s",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.25,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 3,
+      "key": "multifrequency_loading_rate_at_12_0_G_cm_s_inv",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.5,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 3,
+      "key": "multifrequency_steady_state_atom_number_at_12_9_G_cm_atoms",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.8,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 4,
+      "key": "multifrequency_loading_rate_at_largest_tested_truncated_diameter_s_inv",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.25,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 4,
+      "key": "single_frequency_loading_rate_at_largest_tested_truncated_diameter_s_inv",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.4444,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 4,
+      "key": "multifrequency_steady_state_atom_number_at_largest_tested_truncated_diameter_atoms",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.4444,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 4,
+      "key": "single_frequency_steady_state_atom_number_at_largest_tested_truncated_diameter_atoms",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.6,
+      "appears_in_abstract": true
+    }
+  ],
+  "comparison_sets": [
+    {
+      "experiment_index": 4,
+      "member_keys": [
+        "multifrequency_loading_rate_at_largest_tested_truncated_diameter_s_inv",
+        "single_frequency_loading_rate_at_largest_tested_truncated_diameter_s_inv"
+      ],
+      "ordering_variable": "optical configuration: multi-frequency annular cooling versus conventional single-frequency MOT",
+      "question_type": "sign_vs_baseline",
+      "description": "Determine whether adding annular multi-frequency cooling increases the MOT loading rate relative to the conventional single-frequency baseline at the largest tested beam diameter."
+    },
+    {
+      "experiment_index": 4,
+      "member_keys": [
+        "multifrequency_steady_state_atom_number_at_largest_tested_truncated_diameter_atoms",
+        "single_frequency_steady_state_atom_number_at_largest_tested_truncated_diameter_atoms"
+      ],
+      "ordering_variable": "optical configuration: multi-frequency annular cooling versus conventional single-frequency MOT",
+      "question_type": "sign_vs_baseline",
+      "description": "Determine whether adding annular multi-frequency cooling increases the steady-state atom number relative to the conventional single-frequency baseline at the largest tested beam diameter."
+    }
+  ]
+}

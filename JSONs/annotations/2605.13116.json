@@ -1,0 +1,373 @@
+{
+  "arxiv_id": "2605.13116",
+  "paper_title": "Observation of end-to-end pumping in a quasiperiodic Fibonacci-type photonic chain",
+  "model": "gpt-5.5",
+  "response_id": "resp_085df78391f8c3d6006a3cc555dd2481989b33fdce6b8c27c5",
+  "abstract_proxy": {
+    "title": "Observation of end-to-end pumping in a quasiperiodic Fibonacci-type photonic chain",
+    "abstract_chars": 1358
+  },
+  "field_annotations": [
+    {
+      "experiment_index": 0,
+      "key": "single_mode_guiding_at_780_nm",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": true,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.3333,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 0,
+      "key": "mode_field_diameter_1_over_e2_um",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 0,
+      "key": "refractive_index_modification",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 0,
+      "key": "propagation_loss_db_per_cm",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.5,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 0,
+      "key": "paired_sample_reproducibility_verified",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": true,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "coupling_distance_law_mm_inverse",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "coupling_prefactor_J_mm_inverse",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "coupling_decay_length_um",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 2,
+      "key": "configuration_1_static_output_peak_waveguide_index",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.1667,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 2,
+      "key": "configuration_2_static_output_peak_waveguide_index",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.1667,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 2,
+      "key": "localized_end_state_optical_signature_detected",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.6667,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 3,
+      "key": "defect_free_s_bend_output_peak_waveguide_index",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.1429,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 3,
+      "key": "defect_free_s_bend_end_to_end_pumping_observed",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.3333,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 4,
+      "key": "s_bend_one_dA_defect_output_peak_waveguide_index",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2857,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 4,
+      "key": "s_bend_one_dA_defect_pumping_observed",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.4,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 4,
+      "key": "s_bend_two_dA_defects_output_peak_waveguide_index",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2857,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 4,
+      "key": "s_bend_two_dA_defects_pumping_observed",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.4,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 4,
+      "key": "s_bend_one_dB_defect_output_peak_waveguide_index",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2857,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 4,
+      "key": "s_bend_one_dB_defect_pumping_observed",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.4,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 4,
+      "key": "s_bend_two_dB_defects_output_peak_waveguide_index",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2857,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 4,
+      "key": "s_bend_two_dB_defects_pumping_observed",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.4,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 5,
+      "key": "defect_free_linear_bend_output_peak_waveguide_index",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.125,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 5,
+      "key": "defect_free_linear_bend_end_to_end_pumping_observed",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2857,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 6,
+      "key": "linear_bend_one_dA_defect_output_peak_waveguide_index",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.25,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 6,
+      "key": "linear_bend_one_dA_defect_pumping_observed",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.3333,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 6,
+      "key": "linear_bend_two_dA_defects_output_peak_waveguide_index",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.25,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 6,
+      "key": "linear_bend_two_dA_defects_pumping_observed",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.3333,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 6,
+      "key": "linear_bend_one_dB_defect_output_peak_waveguide_index",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.25,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 6,
+      "key": "linear_bend_one_dB_defect_pumping_observed",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.3333,
+      "appears_in_abstract": false
+    }
+  ],
+  "comparison_sets": [
+    {
+      "experiment_index": 2,
+      "member_keys": [
+        "configuration_1_static_output_peak_waveguide_index",
+        "configuration_2_static_output_peak_waveguide_index"
+      ],
+      "ordering_variable": "phason configuration / targeted end-localized state",
+      "question_type": "monotonic_direction",
+      "description": "Compare the two static phason configurations to determine whether the localized optical signature switches from the left end to the right end."
+    },
+    {
+      "experiment_index": 4,
+      "member_keys": [
+        "s_bend_one_dA_defect_pumping_observed",
+        "s_bend_two_dA_defects_pumping_observed"
+      ],
+      "ordering_variable": "number of replaced dA bonds",
+      "question_type": "monotonic_direction",
+      "description": "Determine whether increasing the number of dA-to-dD structural defects degrades the observed S-bend end-to-end pumping."
+    },
+    {
+      "experiment_index": 4,
+      "member_keys": [
+        "s_bend_one_dB_defect_pumping_observed",
+        "s_bend_two_dB_defects_pumping_observed"
+      ],
+      "ordering_variable": "number of replaced dB bonds",
+      "question_type": "monotonic_direction",
+      "description": "Determine whether increasing the number of dB-to-dD structural defects degrades the observed S-bend end-to-end pumping."
+    },
+    {
+      "experiment_index": 6,
+      "member_keys": [
+        "linear_bend_one_dA_defect_pumping_observed",
+        "linear_bend_two_dA_defects_pumping_observed"
+      ],
+      "ordering_variable": "number of replaced dA bonds under linear bending",
+      "question_type": "monotonic_direction",
+      "description": "Determine whether increasing the number of dA-to-dD defects degrades end-to-end pumping for the linear-bend protocol."
+    }
+  ]
+}

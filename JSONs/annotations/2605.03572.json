@@ -1,0 +1,238 @@
+{
+  "arxiv_id": "2605.03572",
+  "paper_title": "[Experimental demonstration of a coherent detector blinding attack on a real CV-QKD system](https://quantum-journal.org/?s=Experimental%20demonstration%20of%20a%20coherent%20detector%20blinding%20attack%20on%20a%20real%20CV-QKD%20system&reason=title-click)",
+  "model": "gpt-5.5",
+  "response_id": "resp_04ebdcef4eac82e9006a3cc52497b08198a0411255052528c3",
+  "abstract_proxy": {
+    "title": "[Experimental demonstration of a coherent detector blinding attack on a real CV-QKD system](https://quantum-journal.org/?s=Experimental%20demonstration%20of%20a%20coherent%20detector%20blinding%20attack%20on%20a%20real%20CV-QKD%20system&reason=title-click)",
+    "abstract_chars": 1548
+  },
+  "field_annotations": [
+    {
+      "experiment_index": 0,
+      "key": "noise_source_reproducible_over_four_power_sweeps",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 0,
+      "key": "calibrated_excess_noise_snu_at_noise_power_minus_31_8_dBm",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 0,
+      "key": "calibrated_excess_noise_snu_at_noise_power_minus_30_8_dBm",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 0,
+      "key": "calibrated_excess_noise_snu_at_noise_power_minus_29_9_dBm",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 0,
+      "key": "calibrated_excess_noise_snu_at_noise_power_minus_28_3_dBm",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 0,
+      "key": "calibrated_excess_noise_snu_at_noise_power_minus_27_0_dBm",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "receiver_limiting_stage_under_blinding",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.25,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "blinding_power_for_full_scale_adc_clipping_dBm",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.1429,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "full_scale_adc_minimum_count_under_blinding",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "full_scale_adc_maximum_count_under_blinding",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 2,
+      "key": "positive_key_rate_excess_noise_threshold_snu",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 2,
+      "key": "minimum_blinding_power_dBm_to_hide_0_86_snu_excess_noise",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.1667,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 2,
+      "key": "minimum_blinding_power_dBm_to_hide_1_05_snu_excess_noise",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.1667,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 2,
+      "key": "minimum_blinding_power_dBm_to_hide_1_33_snu_excess_noise",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.1667,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 2,
+      "key": "minimum_blinding_power_dBm_to_hide_1_84_snu_excess_noise",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.1667,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 2,
+      "key": "minimum_blinding_power_dBm_to_hide_2_49_snu_excess_noise",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.1667,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 2,
+      "key": "maximum_hidden_calibrated_excess_noise_snu",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "surprising",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 2,
+      "key": "noise_settings_with_negative_estimated_excess_noise_at_maximum_blinding",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.1667,
+      "appears_in_abstract": false
+    }
+  ],
+  "comparison_sets": [
+    {
+      "experiment_index": 0,
+      "member_keys": [
+        "calibrated_excess_noise_snu_at_noise_power_minus_31_8_dBm",
+        "calibrated_excess_noise_snu_at_noise_power_minus_30_8_dBm",
+        "calibrated_excess_noise_snu_at_noise_power_minus_29_9_dBm",
+        "calibrated_excess_noise_snu_at_noise_power_minus_28_3_dBm",
+        "calibrated_excess_noise_snu_at_noise_power_minus_27_0_dBm"
+      ],
+      "ordering_variable": "corrected injected ASE noise-source optical power",
+      "question_type": "monotonic_direction",
+      "description": "This set determines how the receiver-inferred excess noise changes as the calibrated incoherent optical-noise power is increased."
+    },
+    {
+      "experiment_index": 2,
+      "member_keys": [
+        "minimum_blinding_power_dBm_to_hide_0_86_snu_excess_noise",
+        "minimum_blinding_power_dBm_to_hide_1_05_snu_excess_noise",
+        "minimum_blinding_power_dBm_to_hide_1_33_snu_excess_noise",
+        "minimum_blinding_power_dBm_to_hide_1_84_snu_excess_noise",
+        "minimum_blinding_power_dBm_to_hide_2_49_snu_excess_noise"
+      ],
+      "ordering_variable": "calibrated injected excess noise",
+      "question_type": "monotonic_direction",
+      "description": "This set determines how much additional blinding power is required to hide progressively larger injected excess-noise levels below the positive-key-rate threshold."
+    }
+  ]
+}

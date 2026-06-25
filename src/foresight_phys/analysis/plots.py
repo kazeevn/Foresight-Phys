@@ -477,6 +477,107 @@ def fig_model_agreement(wide: pd.DataFrame) -> plt.Figure:
     return fig
 
 
+def _decision_per_model(decisions: pd.DataFrame, scored: pd.DataFrame) -> tuple[list[str], dict[str, dict]]:
+    from .decisions import summarize_decisions
+
+    summary = summarize_decisions(decisions)
+    by_model = {row["model"]: row for row in summary["per_model"]}
+    models = [m for m in _model_order(scored) if m in by_model]
+    return models, by_model
+
+
+def fig_decision_quality(decisions: pd.DataFrame, scored: pd.DataFrame) -> plt.Figure:
+    """Per-model decision quality: did the forecaster make the right call?"""
+    models, by_model = _decision_per_model(decisions, scored)
+    palette = _model_palette(models)
+
+    def get(model: str, key: str) -> float:
+        v = by_model.get(model, {}).get(key)
+        return float(v) if v is not None else float("nan")
+
+    metrics = {
+        "Decision\naccuracy": [get(m, "decision_accuracy_paper_macro") for m in models],
+        "Selection\naccuracy": [get(m, "selection_accuracy") for m in models],
+        "Direction\naccuracy": [get(m, "direction_accuracy") for m in models],
+        "OOM\nwithin ×3": [get(m, "oom_set_factor3") for m in models],
+    }
+
+    fig, ax = plt.subplots(figsize=(8.5, 4.5))
+    x = np.arange(len(metrics))
+    width = 0.8 / max(len(models), 1)
+    for i, m in enumerate(models):
+        vals = [metrics[k][i] for k in metrics]
+        ax.bar(x + (i - (len(models) - 1) / 2) * width, vals, width,
+               label=_nice_label(m), color=palette[m])
+    ax.set_xticks(x, list(metrics.keys()))
+    ax.set_ylim(0, 1)
+    ax.set_ylabel("fraction of decisions correct")
+    ax.set_title("Decision usefulness: choosing / direction / order-of-magnitude\n"
+                 "(from annotated comparison sets; paper-macro for the headline)")
+    ax.legend(title="model", loc="upper right")
+    fig.tight_layout()
+    return fig
+
+
+def fig_decision_regret(decisions: pd.DataFrame, scored: pd.DataFrame) -> plt.Figure:
+    """Selection regret of the forecast-driven policy vs. a no-model baseline.
+
+    Normalised regret in [0, 1]; 0 is the oracle pick. The gap between the
+    no-model (random-pick) baseline and the model is the decision value added.
+    """
+    models, by_model = _decision_per_model(decisions, scored)
+    palette = _model_palette(models)
+
+    model_regret = [by_model.get(m, {}).get("mean_regret") for m in models]
+    base_regret = [by_model.get(m, {}).get("baseline_regret") for m in models]
+    model_regret = [float(v) if v is not None else float("nan") for v in model_regret]
+    base_regret = [float(v) if v is not None else float("nan") for v in base_regret]
+
+    fig, ax = plt.subplots(figsize=(8.5, 4.5))
+    x = np.arange(len(models))
+    width = 0.38
+    ax.bar(x - width / 2, base_regret, width, label="no-model baseline (random pick)",
+           color="#b0b0b0")
+    for i, m in enumerate(models):
+        ax.bar(x[i] + width / 2, model_regret[i], width,
+               color=palette[m], label="forecast-driven" if i == 0 else "_nolegend_")
+    ax.set_xticks(x, [_nice_label(m) for m in models])
+    ax.set_ylabel("normalised selection regret (lower is better)")
+    ax.set_title("Experiment-selection regret: forecast-driven vs. no-model baseline\n"
+                 "(gap = decision value added by the forecaster)")
+    ax.legend(loc="upper right")
+    fig.tight_layout()
+    return fig
+
+
+def fig_foresight_lift(full_scored: pd.DataFrame) -> plt.Figure:
+    """Full-context vs. name-only quality: how much the experiment description adds."""
+    macro = _paper_macro_score(full_scored, "quality")
+    base_models = [m for m in macro.index if not m.endswith("[name-only]")]
+    base_models = [m for m in base_models if f"{m} [name-only]" in macro.index]
+    base_models = sorted(base_models, key=lambda m: macro.get(m, 0.0))
+
+    full_vals = [float(macro.get(m, float("nan"))) for m in base_models]
+    name_vals = [float(macro.get(f"{m} [name-only]", float("nan"))) for m in base_models]
+
+    fig, ax = plt.subplots(figsize=(8.5, 4.5))
+    x = np.arange(len(base_models))
+    width = 0.38
+    ax.bar(x - width / 2, name_vals, width, label="name-only (typed key prior)", color="#b0b0b0")
+    ax.bar(x + width / 2, full_vals, width, label="full experiment context", color="#0b7d2b")
+    for xi, lo, hi in zip(x, name_vals, full_vals):
+        if math.isfinite(lo) and math.isfinite(hi):
+            ax.annotate(f"+{hi - lo:.3f}", (xi, max(hi, lo) + 0.01), ha="center", fontsize=9)
+    ax.set_xticks(x, [_nice_label(m) for m in base_models])
+    ax.set_ylim(0, 1)
+    ax.set_ylabel("paper-macro quality")
+    ax.set_title("Foresight lift: predictive value of the experiment description\n"
+                 "(gap over the name-only prior = real physical foresight)")
+    ax.legend(loc="lower right")
+    fig.tight_layout()
+    return fig
+
+
 PlotFactory = Callable[..., plt.Figure]
 
 
@@ -492,7 +593,18 @@ def _figure_specs() -> list[tuple[str, PlotFactory, tuple[str, ...]]]:
         ("difficulty_distribution", fig_difficulty, ("wide",)),
         ("numeric_scatter", fig_numeric_scatter, ("scored",)),
         ("model_agreement", fig_model_agreement, ("wide",)),
+        ("decision_quality", fig_decision_quality, ("decisions", "scored")),
+        ("decision_regret", fig_decision_regret, ("decisions", "scored")),
+        ("foresight_lift", fig_foresight_lift, ("ablation",)),
     ]
+
+
+def _is_empty(value) -> bool:
+    if value is None:
+        return True
+    if isinstance(value, pd.DataFrame):
+        return value.empty
+    return False
 
 
 def write_all_plots(paths: AnalysisPaths | None = None) -> list[Path]:
@@ -500,12 +612,25 @@ def write_all_plots(paths: AnalysisPaths | None = None) -> list[Path]:
     paths.ensure_dirs()
 
     _setup_matplotlib()
-    scored = pd.read_parquet(paths.scored_parquet)
+    full_scored = pd.read_parquet(paths.scored_parquet)
+    if "ablation" in full_scored.columns:
+        scored = full_scored[full_scored["ablation"] == "none"].copy()
+        ablation = full_scored if (full_scored["ablation"] == "name-only").any() else pd.DataFrame()
+    else:
+        scored = full_scored
+        ablation = pd.DataFrame()
     wide = pd.read_parquet(paths.per_field_parquet)
-    context = {"scored": scored, "wide": wide}
+    decisions = (
+        pd.read_parquet(paths.decisions_parquet)
+        if paths.decisions_parquet.exists()
+        else pd.DataFrame()
+    )
+    context = {"scored": scored, "wide": wide, "decisions": decisions, "ablation": ablation}
 
     written: list[Path] = []
     for stem, builder, arg_names in _figure_specs():
+        if any(_is_empty(context[name]) for name in arg_names):
+            continue
         fig = builder(*(context[name] for name in arg_names))
         out = paths.plots_dir / f"{stem}.pdf"
         fig.savefig(out, bbox_inches="tight")

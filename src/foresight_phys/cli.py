@@ -106,6 +106,14 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument('--model', default='gpt-5.4-nano', help='LLM model name.')
     parser.add_argument(
+        '--ablation',
+        choices=('none', 'name-only'),
+        default='none',
+        help="Masking ablation. 'name-only' withholds the experiment description and "
+             "result descriptions so the model predicts from typed keys alone; the "
+             "full-minus-name-only quality gap is the foresight lift.",
+    )
+    parser.add_argument(
         '--service-tier',
         default='flex',
         help='OpenAI Responses API service tier passed to benchmark prediction calls.',

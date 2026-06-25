@@ -1,0 +1,229 @@
+{
+  "arxiv_id": "2605.06514",
+  "paper_title": "Pair-Breaking and Dimensionality in Spin-Orbit Coupled Superconductors",
+  "model": "gpt-5.5",
+  "response_id": "resp_06b3a1842520b229006a3cc526ae94819b9e555965f2786ffd",
+  "abstract_proxy": {
+    "title": "Pair-Breaking and Dimensionality in Spin-Orbit Coupled Superconductors",
+    "abstract_chars": 950
+  },
+  "field_annotations": [
+    {
+      "experiment_index": 0,
+      "key": "tc_exp_75_nm_mK",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 0,
+      "key": "tc_exp_34_nm_mK",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 0,
+      "key": "tc_exp_12_nm_mK",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 0,
+      "key": "tc_exp_8p5_nm_mK",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 0,
+      "key": "tc_exp_3p0_nm_mK",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 0,
+      "key": "tc_exp_2p1_nm_mK",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "xi_ab_75_nm_nm",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.25,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "xi_ab_34_nm_nm",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.25,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "xi_ab_12_nm_nm",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.25,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "xi_ab_8p5_nm_nm",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.25,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "xi_ab_3p0_nm_nm",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.25,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "xi_ab_2p1_nm_nm",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.25,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 2,
+      "key": "species_averaged_carrier_density_power_law_cm_minus3",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 2,
+      "key": "normal_state_magnetotransport_weak_antilocalization_in_ultrathin_limit",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.1429,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 3,
+      "key": "field_enhanced_tc_observed_2p1_nm",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "surprising",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.6667,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 3,
+      "key": "hc2_parallel_over_bcs_pauli_limit_2p1_nm",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "surprising",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.75,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 3,
+      "key": "hc2_parallel_pauli_violation_thickness_exponent",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.6,
+      "appears_in_abstract": true
+    }
+  ],
+  "comparison_sets": [
+    {
+      "experiment_index": 0,
+      "member_keys": [
+        "tc_exp_75_nm_mK",
+        "tc_exp_34_nm_mK",
+        "tc_exp_12_nm_mK",
+        "tc_exp_8p5_nm_mK",
+        "tc_exp_3p0_nm_mK",
+        "tc_exp_2p1_nm_mK"
+      ],
+      "ordering_variable": "LaBi2 film thickness t",
+      "question_type": "monotonic_direction",
+      "description": "Determine how the zero-field superconducting critical temperature evolves as LaBi2 is thinned toward the ultrathin limit."
+    },
+    {
+      "experiment_index": 1,
+      "member_keys": [
+        "xi_ab_75_nm_nm",
+        "xi_ab_34_nm_nm",
+        "xi_ab_12_nm_nm",
+        "xi_ab_8p5_nm_nm",
+        "xi_ab_3p0_nm_nm",
+        "xi_ab_2p1_nm_nm"
+      ],
+      "ordering_variable": "LaBi2 film thickness t",
+      "question_type": "monotonic_direction",
+      "description": "Determine how the in-plane superconducting coherence length changes with film thickness for assessing the dirty-limit regime."
+    }
+  ]
+}

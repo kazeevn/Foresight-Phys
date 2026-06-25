@@ -23,8 +23,36 @@ NUMERIC_TYPES = {"float", "integer", "int", "number"}
 CORRECT_THRESHOLD = 0.5
 UNIT_FACTORS = (1e-6, 1e-3, 1e3, 1e6)
 
+# Per-field annotation labels joined onto every (file, experiment, key) row when a
+# matching JSONs/annotations/<file>.json exists. Absent annotations leave them None.
+ANNOTATION_COLUMNS = (
+    "centrality",
+    "is_headline",
+    "ex_ante_surprise",
+    "leakage_sufficient",
+    "appears_in_abstract",
+)
+
+
+def _load_field_annotations(paths: AnalysisPaths) -> dict[tuple[str, int, str], dict]:
+    out: dict[tuple[str, int, str], dict] = {}
+    annotations_dir = paths.annotations_dir
+    if not annotations_dir.exists():
+        return out
+    for ap in sorted(annotations_dir.glob("*.json")):
+        record = json.loads(ap.read_text())
+        file_id = ap.stem
+        for fa in record.get("field_annotations", []):
+            try:
+                key = (file_id, int(fa["experiment_index"]), str(fa["key"]))
+            except (KeyError, TypeError, ValueError):
+                continue
+            out[key] = fa
+    return out
+
 
 def _load_ground_truth(paths: AnalysisPaths) -> pd.DataFrame:
+    annotations = _load_field_annotations(paths)
     rows: list[dict] = []
     for jp in sorted(paths.json_dir.glob("*.json")):
         data = json.loads(jp.read_text())
@@ -33,6 +61,7 @@ def _load_ground_truth(paths: AnalysisPaths) -> pd.DataFrame:
         for ei, exp in enumerate(data):
             exp_desc = exp["experiment_description"]
             for k, v in exp["experiment_results"].items():
+                annotation = annotations.get((jp.stem, ei, k), {})
                 rows.append({
                     "file_id": jp.stem,
                     "experiment": ei,
@@ -41,6 +70,7 @@ def _load_ground_truth(paths: AnalysisPaths) -> pd.DataFrame:
                     "gt_value": v.get("result"),
                     "result_description": v.get("description", ""),
                     "experiment_description": exp_desc,
+                    **{col: annotation.get(col) for col in ANNOTATION_COLUMNS},
                 })
     return pd.DataFrame(rows)
 
@@ -92,6 +122,7 @@ def build_scored_dataset(paths: AnalysisPaths | None = None) -> pd.DataFrame:
         ground_truth[[
             "file_id", "experiment", "key", "gt_type", "gt_value",
             "result_description", "experiment_description",
+            *ANNOTATION_COLUMNS,
         ]],
         on=["file_id", "experiment", "key"],
         how="left",
@@ -112,6 +143,15 @@ def build_scored_dataset(paths: AnalysisPaths | None = None) -> pd.DataFrame:
     df["correct"] = df["quality"].apply(
         lambda v: (v is not None and not pd.isna(v) and float(v) >= CORRECT_THRESHOLD)
     )
+
+    # Grounded centrality: appearing in the abstract is an objective, reproducible
+    # marker of importance, so it forms the top tier; the (subjective) LLM centrality
+    # supplies the finer levels for everything the abstract does not surface.
+    if "appears_in_abstract" in df.columns and "centrality" in df.columns:
+        in_abstract = df["appears_in_abstract"] == True  # noqa: E712
+        df["centrality_grounded"] = df["centrality"].where(~in_abstract, "in_abstract")
+    else:
+        df["centrality_grounded"] = df.get("centrality")
 
     # gt_value may contain mixed types; serialize so we can write parquet.
     df["gt_value"] = df["gt_value"].apply(lambda v: json.dumps(v, ensure_ascii=False))

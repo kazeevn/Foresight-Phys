@@ -1,0 +1,562 @@
+{
+  "arxiv_id": "2605.11786",
+  "paper_title": "Realization of Backward Retrieval in a Stark-modulated Spin-wave Quantum Memory",
+  "model": "gpt-5.5",
+  "response_id": "resp_0366009087811b9f006a3cc5420ca881988996b9f02bb140da",
+  "abstract_proxy": {
+    "title": "Realization of Backward Retrieval in a Stark-modulated Spin-wave Quantum Memory",
+    "abstract_chars": 936
+  },
+  "field_annotations": [
+    {
+      "experiment_index": 0,
+      "key": "prepared_absorption_feature_optical_depth",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.4,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 0,
+      "key": "prepared_absorption_feature_bandwidth_MHz",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "linear_stark_coefficient_kHz_per_V_cm_minus1",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.3333,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "linear_stark_coefficient_uncertainty_kHz_per_V_cm_minus1",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.25,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 2,
+      "key": "forward_memory_efficiency_percent_at_29_us",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.6667,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 2,
+      "key": "forward_memory_efficiency_uncertainty_percent_at_29_us",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.5,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 2,
+      "key": "forward_excited_state_spin_inhomogeneous_linewidth_Gamma35_kHz",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.1667,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 2,
+      "key": "forward_excited_state_spin_inhomogeneous_linewidth_Gamma35_uncertainty_kHz",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.1429,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 2,
+      "key": "forward_ground_state_spin_inhomogeneous_linewidth_Gamma13_kHz",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.1667,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 2,
+      "key": "forward_ground_state_spin_inhomogeneous_linewidth_Gamma13_uncertainty_kHz",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.1429,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 2,
+      "key": "effective_optical_decoherence_rate_gamma_kHz",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.4,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 2,
+      "key": "effective_optical_decoherence_rate_gamma_uncertainty_kHz",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.3333,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 2,
+      "key": "forward_control_pulse_efficiency_percent_from_efficiency_model",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 3,
+      "key": "backward_memory_efficiency_percent_at_23_us",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 1.0,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 3,
+      "key": "backward_memory_efficiency_uncertainty_percent_at_23_us",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.75,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 3,
+      "key": "backward_excited_state_spin_inhomogeneous_linewidth_Gamma35_kHz",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.3333,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 3,
+      "key": "backward_excited_state_spin_inhomogeneous_linewidth_Gamma35_uncertainty_kHz",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2857,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 3,
+      "key": "backward_ground_state_spin_inhomogeneous_linewidth_Gamma13_kHz",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.3333,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 3,
+      "key": "backward_ground_state_spin_inhomogeneous_linewidth_Gamma13_uncertainty_kHz",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2857,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 3,
+      "key": "backward_combined_phase_matching_and_control_factor_percent",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.1667,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 4,
+      "key": "fid_noise_residual_fraction_upper_bound_with_stark_pulse",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2857,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 5,
+      "key": "forward_control_pulse_efficiency_percent_from_noise_ratio",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.4,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 5,
+      "key": "backward_control_pulse_efficiency_percent_from_noise_ratio",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.6,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 5,
+      "key": "backward_phase_matching_efficiency_percent",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.5,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 6,
+      "key": "forward_early_time_bin_fidelity_percent",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 6,
+      "key": "forward_early_time_bin_fidelity_uncertainty_percent",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 6,
+      "key": "forward_late_time_bin_fidelity_percent",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 6,
+      "key": "forward_late_time_bin_fidelity_uncertainty_percent",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 6,
+      "key": "forward_plus_superposition_fidelity_percent",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 6,
+      "key": "forward_plus_superposition_fidelity_uncertainty_percent",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 6,
+      "key": "forward_minus_superposition_fidelity_percent",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 6,
+      "key": "forward_minus_superposition_fidelity_uncertainty_percent",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 6,
+      "key": "forward_total_conditional_qubit_fidelity_percent",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 6,
+      "key": "forward_total_conditional_qubit_fidelity_uncertainty_percent",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 6,
+      "key": "backward_early_time_bin_fidelity_percent",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 6,
+      "key": "backward_early_time_bin_fidelity_uncertainty_percent",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.1667,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 6,
+      "key": "backward_late_time_bin_fidelity_percent",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 6,
+      "key": "backward_late_time_bin_fidelity_uncertainty_percent",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.1667,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 6,
+      "key": "backward_plus_superposition_fidelity_percent",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.25,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 6,
+      "key": "backward_plus_superposition_fidelity_uncertainty_percent",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 6,
+      "key": "backward_minus_superposition_fidelity_percent",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.25,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 6,
+      "key": "backward_minus_superposition_fidelity_uncertainty_percent",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 6,
+      "key": "backward_total_conditional_qubit_fidelity_percent",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.25,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 6,
+      "key": "backward_total_conditional_qubit_fidelity_uncertainty_percent",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2,
+      "appears_in_abstract": false
+    }
+  ],
+  "comparison_sets": [
+    {
+      "experiment_index": 2,
+      "member_keys": [
+        "forward_excited_state_spin_inhomogeneous_linewidth_Gamma35_kHz",
+        "forward_ground_state_spin_inhomogeneous_linewidth_Gamma13_kHz"
+      ],
+      "ordering_variable": "spin transition identity, excited-state Γ35 versus ground-state Γ13",
+      "question_type": "argmax_select",
+      "description": "Determine which spin transition contributes the larger inhomogeneous dephasing in the forward-retrieval decay model."
+    },
+    {
+      "experiment_index": 3,
+      "member_keys": [
+        "backward_excited_state_spin_inhomogeneous_linewidth_Gamma35_kHz",
+        "backward_ground_state_spin_inhomogeneous_linewidth_Gamma13_kHz"
+      ],
+      "ordering_variable": "spin transition identity, excited-state Γ35 versus ground-state Γ13",
+      "question_type": "argmax_select",
+      "description": "Determine which spin transition contributes the larger inhomogeneous dephasing in the backward-retrieval decay model."
+    },
+    {
+      "experiment_index": 5,
+      "member_keys": [
+        "forward_control_pulse_efficiency_percent_from_noise_ratio",
+        "backward_control_pulse_efficiency_percent_from_noise_ratio"
+      ],
+      "ordering_variable": "retrieval geometry, forward versus backward",
+      "question_type": "sign_vs_baseline",
+      "description": "Assess whether switching to the backward-retrieval geometry changes the inferred optical π-pulse transfer efficiency relative to the forward geometry."
+    },
+    {
+      "experiment_index": 6,
+      "member_keys": [
+        "forward_total_conditional_qubit_fidelity_percent",
+        "backward_total_conditional_qubit_fidelity_percent"
+      ],
+      "ordering_variable": "retrieval direction, forward versus backward",
+      "question_type": "sign_vs_baseline",
+      "description": "Assess whether backward retrieval preserves the overall conditional qubit fidelity at the same level as forward retrieval."
+    },
+    {
+      "experiment_index": 6,
+      "member_keys": [
+        "forward_early_time_bin_fidelity_percent",
+        "forward_late_time_bin_fidelity_percent",
+        "forward_plus_superposition_fidelity_percent",
+        "forward_minus_superposition_fidelity_percent"
+      ],
+      "ordering_variable": "input qubit state for forward retrieval",
+      "question_type": "argmax_select",
+      "description": "Identify which time-bin qubit state has the highest or lowest conditional fidelity under forward retrieval."
+    },
+    {
+      "experiment_index": 6,
+      "member_keys": [
+        "backward_early_time_bin_fidelity_percent",
+        "backward_late_time_bin_fidelity_percent",
+        "backward_plus_superposition_fidelity_percent",
+        "backward_minus_superposition_fidelity_percent"
+      ],
+      "ordering_variable": "input qubit state for backward retrieval",
+      "question_type": "argmax_select",
+      "description": "Identify which time-bin qubit state has the highest or lowest conditional fidelity under backward retrieval."
+    }
+  ]
+}

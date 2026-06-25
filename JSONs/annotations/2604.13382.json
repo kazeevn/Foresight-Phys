@@ -1,0 +1,482 @@
+{
+  "arxiv_id": "2604.13382",
+  "paper_title": "Dynamics of wavepackets and entanglement in many-body kicked rotors under quantum resonance",
+  "model": "gpt-5.5",
+  "response_id": "resp_01a0c72bb2e8556d006a3cc4a56f44819881b23e6b6314bdc7",
+  "abstract_proxy": {
+    "title": "Dynamics of wavepackets and entanglement in many-body kicked rotors under quantum resonance",
+    "abstract_chars": 837
+  },
+  "field_annotations": [
+    {
+      "experiment_index": 0,
+      "key": "p1_variance_quadratic_coefficient_lambda_1_plus",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 0,
+      "key": "p1_variance_odd_step_oscillation_magnitude_lambda_1_minus",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.1429,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 0,
+      "key": "p1_wavepacket_dynamical_regime",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": true,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.6667,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 0,
+      "key": "p2_variance_odd_step_oscillation_magnitude_lambda_2_minus",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.1429,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 0,
+      "key": "p2_wavepacket_dynamical_regime",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": true,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.6667,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 0,
+      "key": "odd_step_linear_entropy",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.25,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 0,
+      "key": "linear_entropy_dynamical_regime",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": true,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.5,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 1,
+      "key": "p1_variance_quadratic_coefficient_lambda_1_plus",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "p2_variance_quadratic_coefficient_lambda_2_plus",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "p1_variance_odd_step_oscillation_magnitude_lambda_1_minus",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.1429,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "p2_variance_odd_step_oscillation_magnitude_lambda_2_minus",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.1429,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "p1_wavepacket_dynamical_regime",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": true,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.6667,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 1,
+      "key": "p2_wavepacket_dynamical_regime",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": true,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.6667,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 1,
+      "key": "short_time_linear_entropy_quadratic_coefficient",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.3333,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "linear_entropy_crossover_time_steps",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "linear_entropy_dynamical_regime",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": true,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.5,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 2,
+      "key": "linear_entropy_dynamical_regime",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": true,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.5,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 3,
+      "key": "p1_variance_quadratic_coefficient_lambda_1_plus",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 3,
+      "key": "p2_variance_quadratic_coefficient_lambda_2_plus",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 3,
+      "key": "p1_variance_odd_step_oscillation_magnitude_lambda_1_minus",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.1429,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 3,
+      "key": "p2_variance_odd_step_oscillation_magnitude_lambda_2_minus",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.1429,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 3,
+      "key": "p1_wavepacket_dynamical_regime",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": true,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.6667,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 3,
+      "key": "p2_wavepacket_dynamical_regime",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": true,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.6667,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 3,
+      "key": "odd_step_linear_entropy",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.25,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 3,
+      "key": "linear_entropy_dynamical_regime",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": true,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.5,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 4,
+      "key": "p1_variance_time_exponent",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 4,
+      "key": "p2_variance_time_exponent",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 4,
+      "key": "linear_entropy_initial_time_exponent",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "surprising",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 4,
+      "key": "linear_entropy_dynamical_regime",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "surprising",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.5,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 5,
+      "key": "agreement_time_steps_for_delta_tau_1e_minus_3",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 5,
+      "key": "relative_deviation_time_exponent",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 5,
+      "key": "agreement_time_detuning_scaling_exponent",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 5,
+      "key": "undetuned_odd_step_linear_entropy",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 6,
+      "key": "j1z_wavepacket_dynamical_regime",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": true,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.6667,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 6,
+      "key": "j2z_wavepacket_dynamical_regime",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": true,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.6667,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 6,
+      "key": "linear_entropy_dynamical_regime",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": true,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.5,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 6,
+      "key": "wavepacket_variance_saturation_scale_formula",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": true,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2,
+      "appears_in_abstract": false
+    }
+  ],
+  "comparison_sets": [
+    {
+      "experiment_index": 0,
+      "member_keys": [
+        "p1_variance_odd_step_oscillation_magnitude_lambda_1_minus",
+        "p2_variance_odd_step_oscillation_magnitude_lambda_2_minus"
+      ],
+      "ordering_variable": "rotor index / effective-potential symmetry under the partial pi translation",
+      "question_type": "argmax_select",
+      "description": "Determine which rotor has the larger anti-resonant odd-step oscillation amplitude in the mixed principal-secondary resonance case."
+    },
+    {
+      "experiment_index": 1,
+      "member_keys": [
+        "p1_variance_quadratic_coefficient_lambda_1_plus",
+        "p2_variance_quadratic_coefficient_lambda_2_plus"
+      ],
+      "ordering_variable": "rotor index with both rotors at secondary resonance",
+      "question_type": "argmax_select",
+      "description": "Check whether either rotor has the larger ballistic quadratic spreading coefficient when both effective potentials are mixed-symmetry."
+    },
+    {
+      "experiment_index": 1,
+      "member_keys": [
+        "p1_variance_odd_step_oscillation_magnitude_lambda_1_minus",
+        "p2_variance_odd_step_oscillation_magnitude_lambda_2_minus"
+      ],
+      "ordering_variable": "rotor index with different local kick strengths k1 and k2",
+      "question_type": "argmax_select",
+      "description": "Determine which rotor has the larger odd-step oscillatory component of the hybrid wavepacket spreading."
+    },
+    {
+      "experiment_index": 3,
+      "member_keys": [
+        "p1_variance_quadratic_coefficient_lambda_1_plus",
+        "p2_variance_quadratic_coefficient_lambda_2_plus"
+      ],
+      "ordering_variable": "rotor index in the higher-harmonic secondary-resonance model",
+      "question_type": "argmax_select",
+      "description": "Check whether the two rotors have equal or different ballistic spreading coefficients in the generalized high-harmonic model."
+    },
+    {
+      "experiment_index": 3,
+      "member_keys": [
+        "p1_variance_odd_step_oscillation_magnitude_lambda_1_minus",
+        "p2_variance_odd_step_oscillation_magnitude_lambda_2_minus"
+      ],
+      "ordering_variable": "rotor index in the higher-harmonic secondary-resonance model",
+      "question_type": "argmax_select",
+      "description": "Determine which rotor has the larger odd-step oscillation amplitude in the generalized high-harmonic model."
+    },
+    {
+      "experiment_index": 4,
+      "member_keys": [
+        "p1_variance_time_exponent",
+        "p2_variance_time_exponent",
+        "linear_entropy_initial_time_exponent"
+      ],
+      "ordering_variable": "observable type: rotor-1 variance, rotor-2 variance, or bipartite linear entropy",
+      "question_type": "order_of_magnitude",
+      "description": "Compare the growth-law exponents to decide whether higher-order resonances give the same scaling for wavepacket spreading and entanglement production."
+    }
+  ]
+}

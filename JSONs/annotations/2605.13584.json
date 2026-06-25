@@ -1,0 +1,112 @@
+{
+  "arxiv_id": "2605.13584",
+  "paper_title": "Ghost State of Light",
+  "model": "gpt-5.5",
+  "response_id": "resp_04d0723781953ba4006a3cc589b25c819b92862f55fd3fddaf",
+  "abstract_proxy": {
+    "title": "Ghost State of Light",
+    "abstract_chars": 1141
+  },
+  "field_annotations": [
+    {
+      "experiment_index": 0,
+      "key": "near_saddle_node_transmission_plateau_observed",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 1.0,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 0,
+      "key": "near_saddle_node_plateau_duration_ms",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.75,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 0,
+      "key": "far_from_saddle_node_transmission_plateau_observed",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.8333,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 0,
+      "key": "plateau_duration_to_thermal_relaxation_time_ratio",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.6,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 1,
+      "key": "olive_oil_thermal_relaxation_time_us",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.4,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 2,
+      "key": "number_of_experimental_ghost_lifetime_trajectories",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": true,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.75,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 2,
+      "key": "ghost_lifetime_pdf_power_law_exponent",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.3333,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 2,
+      "key": "long_lifetime_distribution_fat_tail_observed",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.6667,
+      "appears_in_abstract": true
+    }
+  ],
+  "comparison_sets": [
+    {
+      "experiment_index": 0,
+      "member_keys": [
+        "near_saddle_node_transmission_plateau_observed",
+        "far_from_saddle_node_transmission_plateau_observed"
+      ],
+      "ordering_variable": "laser-cavity detuning / proximity to the saddle-node bifurcation",
+      "question_type": "sign_vs_baseline",
+      "description": "Determine whether tuning close to the saddle-node bifurcation produces a transmission plateau relative to a farther-detuned baseline."
+    }
+  ]
+}

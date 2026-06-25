@@ -47,6 +47,7 @@ def run_benchmark(args: argparse.Namespace) -> dict[str, Any]:
         'max_workers': args.max_workers,
         'prediction_cache': prediction_cache,
         'docs_dir': Path('docs'),
+        'ablation': getattr(args, 'ablation', 'none'),
     }
     benchmark_items = build_benchmark_items(**benchmark_item_kwargs)
 
@@ -80,6 +81,8 @@ def run_benchmark(args: argparse.Namespace) -> dict[str, Any]:
         'numeric_crps_scaled',
         'coverage_1sigma',
         'coverage_2sigma',
+        'oom_coverage_factor3',
+        'oom_coverage_decade',
         'bool_brier',
         'bool_quality',
         'bool_categorical_accuracy',
@@ -95,6 +98,7 @@ def run_benchmark(args: argparse.Namespace) -> dict[str, Any]:
         'generated_at_utc': __import__('datetime').datetime.now(__import__('datetime').timezone.utc).isoformat(),
         'run_name': args.run_name,
         'model': args.model,
+        'ablation': getattr(args, 'ablation', 'none'),
         'service_tier': getattr(args, 'service_tier', 'flex'),
         'max_workers': args.max_workers,
         'files_evaluated': len(rows),

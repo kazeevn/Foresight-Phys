@@ -1,0 +1,383 @@
+{
+  "arxiv_id": "2605.07281",
+  "paper_title": "Scalable Liquid-Crystal Integrated Silicon Nitride Photonic Circuits for Reconfigurable Quantum Interference",
+  "model": "gpt-5.5",
+  "response_id": "resp_02f717c233dbb7d8006a3cc5281aac8198b75970caebd38f02",
+  "abstract_proxy": {
+    "title": "Scalable Liquid-Crystal Integrated Silicon Nitride Photonic Circuits for Reconfigurable Quantum Interference",
+    "abstract_chars": 1283
+  },
+  "field_annotations": [
+    {
+      "experiment_index": 0,
+      "key": "ebeam_lc_mzi_target_structure_formed",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 0,
+      "key": "lc_alignment_in_waveguide_region_detected",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "field_induced_lc_reorientation_detected",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 2,
+      "key": "unbalanced_mzi_vpi_V",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.3333,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 2,
+      "key": "unbalanced_mzi_vpi_length_product_V_mm",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 2,
+      "key": "balanced_mzi_vpi_V",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.3333,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 2,
+      "key": "balanced_mzi_extinction_ratio_dB",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.3333,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 3,
+      "key": "lc_mzi_rise_time_ms",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.3333,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 3,
+      "key": "lc_mzi_fall_time_ms",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.3333,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 4,
+      "key": "fiber_hom_visibility_percent",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.3333,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 5,
+      "key": "two_photon_coincidence_voltage_oscillation_relative_frequency",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.5,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 5,
+      "key": "on_chip_two_photon_visibility_at_1p06V_percent",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.75,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 5,
+      "key": "on_chip_two_photon_visibility_at_1p22V_percent",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.75,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 5,
+      "key": "on_chip_two_photon_visibility_at_1p40V_percent",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.75,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 6,
+      "key": "stepper_4inch_wafer_lc_mzi_structures_formed",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.6,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 6,
+      "key": "stepper_device_electrode_lc_physical_isolation_confirmed",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": true,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.3333,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 7,
+      "key": "stepper_vpi_L500um_g5um_V",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.5,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 7,
+      "key": "stepper_vpi_L500um_g6um_V",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.5,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 7,
+      "key": "stepper_vpi_L500um_g7um_V",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.5,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 7,
+      "key": "stepper_vpi_L1000um_g5um_V",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.5,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 7,
+      "key": "stepper_vpi_L1000um_g6um_V",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.5,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 7,
+      "key": "stepper_vpi_L1000um_g7um_V",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.5,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 7,
+      "key": "stepper_vpi_L2000um_g5um_V",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.5,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 7,
+      "key": "stepper_vpi_L2000um_g6um_V",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.5,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 7,
+      "key": "stepper_vpi_L2000um_g7um_V",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.5,
+      "appears_in_abstract": true
+    }
+  ],
+  "comparison_sets": [
+    {
+      "experiment_index": 5,
+      "member_keys": [
+        "on_chip_two_photon_visibility_at_1p06V_percent",
+        "on_chip_two_photon_visibility_at_1p22V_percent",
+        "on_chip_two_photon_visibility_at_1p40V_percent"
+      ],
+      "ordering_variable": "applied LC voltage",
+      "question_type": "argmax_select",
+      "description": "Determine which LC bias voltage gives the strongest on-chip two-photon interference visibility."
+    },
+    {
+      "experiment_index": 7,
+      "member_keys": [
+        "stepper_vpi_L500um_g5um_V",
+        "stepper_vpi_L500um_g6um_V",
+        "stepper_vpi_L500um_g7um_V"
+      ],
+      "ordering_variable": "electrode gap at fixed 500 µm modulator length",
+      "question_type": "monotonic_direction",
+      "description": "Determine how increasing the electrode gap changes Vpi for the 500 µm stepper-fabricated LC phase shifter."
+    },
+    {
+      "experiment_index": 7,
+      "member_keys": [
+        "stepper_vpi_L1000um_g5um_V",
+        "stepper_vpi_L1000um_g6um_V",
+        "stepper_vpi_L1000um_g7um_V"
+      ],
+      "ordering_variable": "electrode gap at fixed 1000 µm modulator length",
+      "question_type": "monotonic_direction",
+      "description": "Determine how increasing the electrode gap changes Vpi for the 1000 µm stepper-fabricated LC phase shifter."
+    },
+    {
+      "experiment_index": 7,
+      "member_keys": [
+        "stepper_vpi_L2000um_g5um_V",
+        "stepper_vpi_L2000um_g6um_V",
+        "stepper_vpi_L2000um_g7um_V"
+      ],
+      "ordering_variable": "electrode gap at fixed 2000 µm modulator length",
+      "question_type": "monotonic_direction",
+      "description": "Determine how increasing the electrode gap changes Vpi for the 2000 µm stepper-fabricated LC phase shifter."
+    },
+    {
+      "experiment_index": 7,
+      "member_keys": [
+        "stepper_vpi_L500um_g5um_V",
+        "stepper_vpi_L1000um_g5um_V",
+        "stepper_vpi_L2000um_g5um_V"
+      ],
+      "ordering_variable": "LC modulator length at fixed 5 µm electrode gap",
+      "question_type": "monotonic_direction",
+      "description": "Determine how increasing LC interaction length changes Vpi for a 5 µm electrode gap."
+    },
+    {
+      "experiment_index": 7,
+      "member_keys": [
+        "stepper_vpi_L500um_g6um_V",
+        "stepper_vpi_L1000um_g6um_V",
+        "stepper_vpi_L2000um_g6um_V"
+      ],
+      "ordering_variable": "LC modulator length at fixed 6 µm electrode gap",
+      "question_type": "monotonic_direction",
+      "description": "Determine how increasing LC interaction length changes Vpi for a 6 µm electrode gap."
+    },
+    {
+      "experiment_index": 7,
+      "member_keys": [
+        "stepper_vpi_L500um_g7um_V",
+        "stepper_vpi_L1000um_g7um_V",
+        "stepper_vpi_L2000um_g7um_V"
+      ],
+      "ordering_variable": "LC modulator length at fixed 7 µm electrode gap",
+      "question_type": "monotonic_direction",
+      "description": "Determine how increasing LC interaction length changes Vpi for a 7 µm electrode gap."
+    },
+    {
+      "experiment_index": 7,
+      "member_keys": [
+        "stepper_vpi_L500um_g5um_V",
+        "stepper_vpi_L500um_g6um_V",
+        "stepper_vpi_L500um_g7um_V",
+        "stepper_vpi_L1000um_g5um_V",
+        "stepper_vpi_L1000um_g6um_V",
+        "stepper_vpi_L1000um_g7um_V",
+        "stepper_vpi_L2000um_g5um_V",
+        "stepper_vpi_L2000um_g6um_V",
+        "stepper_vpi_L2000um_g7um_V"
+      ],
+      "ordering_variable": "LC modulator length and electrode gap",
+      "question_type": "argmax_select",
+      "description": "Select the stepper-fabricated geometry that optimizes low-voltage π phase shifting across the tested length-gap design space."
+    }
+  ]
+}

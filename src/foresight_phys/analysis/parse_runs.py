@@ -39,6 +39,11 @@ def parse_summary(model: str, run_name: str, summary: dict[str, Any]) -> list[di
     if not isinstance(per_file, list):
         return rows
 
+    ablation = summary.get("ablation") or "none"
+    # Ablation runs share the base model name, so give them a distinct grouping
+    # label; ``base_model`` + ``ablation`` let the analysis pair them for the lift.
+    model_label = model if ablation == "none" else f"{model} [{ablation}]"
+
     for item in per_file:
         if not isinstance(item, dict):
             continue
@@ -61,7 +66,9 @@ def parse_summary(model: str, run_name: str, summary: dict[str, Any]) -> list[di
                     continue
                 rows.append({
                     "run_name": run_name,
-                    "model": model,
+                    "model": model_label,
+                    "base_model": model,
+                    "ablation": ablation,
                     "file": file_id,
                     "paper_title": paper_title,
                     "experiment": exp_idx,
@@ -82,6 +89,9 @@ def parse_summary(model: str, run_name: str, summary: dict[str, Any]) -> list[di
                     "crps": row.get("crps", row.get("nll")),
                     "crps_scaled": row.get("crps_scaled"),
                     "quality": row.get("quality"),
+                    "abs_log10_error": row.get("abs_log10_error"),
+                    "within_factor_3": row.get("within_factor_3"),
+                    "within_decade": row.get("within_decade"),
                     "prob_true": row.get("prob_true"),
                     "probabilities_json": _serialize_optional_mapping(row.get("probabilities")),
                     "confidence": row.get("confidence"),

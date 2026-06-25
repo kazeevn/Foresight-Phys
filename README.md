@@ -101,6 +101,7 @@ Useful examples:
 uv run --env-file .env foresight-phys --max-files 2
 uv run --env-file .env foresight-phys --json-dir JSONs/filtered --max-workers 8
 uv run --env-file .env foresight-phys --model gpt-5.4-nano
+uv run --env-file .env foresight-phys --ablation name-only
 uv run --env-file .env foresight-phys --service-tier priority
 uv run --env-file .env foresight-phys --run-name paper-benchmark-run-01
 uv run --env-file .env foresight-phys --disable-langfuse
@@ -243,6 +244,60 @@ writes:
 The current checked-in `docs/analysis/plots/` directory contains figures such
 as aggregate quality bars, numeric calibration plots, reliability diagrams, and
 difficulty distributions.
+
+## Interpretability analyses
+
+Aggregate quality alone cannot say whether models predict the *crucial* variables
+or just trivial/secondary ones, nor whether they are *useful for deciding which
+experiments to run*. These analyses add those axes. They build on a per-paper
+annotation pass and are surfaced in `docs/analysis/summary.json`.
+
+### Annotate papers
+
+```bash
+uv run --env-file .env foresight-phys-annotate
+```
+
+For each non-empty filtered paper this writes `JSONs/annotations/<arXiv id>.json`
+with, per result field: `centrality`
+(`headline`/`key_supporting`/`secondary`/`setup_or_control`), `is_headline`,
+`ex_ante_surprise` (`implied_or_derivable`/`uncertain`/`surprising`), and
+`leakage_sufficient` (is the description alone enough to answer it?). It also
+emits `comparison_sets` — swept series or baseline/intervention contrasts — each
+with an `ordering_variable` and a `question_type`
+(`argmax_select`/`monotonic_direction`/`sign_vs_baseline`/`order_of_magnitude`).
+A code-side `appears_in_abstract` proxy is attached as an objective, reproducible
+signal: it heads the centrality scale as the top tier (the LLM labels apply only
+beneath it) and independently corroborates the headline labels. Annotation runs
+once and is consumed by `analyze`.
+
+### What the analysis adds
+
+Running `foresight-phys-analysis all` (after annotation) augments
+`summary.json` with:
+
+- `decisions`: decision-usefulness from the comparison sets — `selection_accuracy`
+  and normalised `mean_regret`/`decision_value` (vs a no-model pick) for
+  `argmax_select`, `direction_accuracy` and a proper `sign_brier` for
+  direction/sign questions, and order-of-magnitude coverage. `decisions.parquet`
+  holds the per-set rows.
+- `headline`, `quality_by_centrality`, `quality_by_surprise`: quality restricted
+  to crucial / by-importance / by-surprise fields (paper-macro, comparable to the
+  headline number).
+- `foresight_lift`: full-context minus name-only quality per base model. Produce
+  the name-only run with `foresight-phys --ablation name-only` (a distinct
+  `<model> [name-only]` run); the lift is the predictive value the experiment
+  description adds over generic typed-key priors.
+- `leakage`: a leakage-excluded "clean" aggregate using the annotation's
+  `leakage_sufficient` flag (`detect_leakage.py` is a complementary literal +
+  normalized-numeric audit).
+- `dataset_composition` and `dedup_aggregate`: field-count composition by
+  type/centrality/surprise and fields-per-paper skew, plus a quality recomputed
+  with each comparison set collapsed to one trend vote.
+
+Numeric scoring also records per-field order-of-magnitude bands
+(`abs_log10_error`, `within_factor_3`, `within_decade`) and the run aggregates
+`oom_coverage_factor3` / `oom_coverage_decade`.
 
 ## Extract benchmark JSON from paper PDFs
 

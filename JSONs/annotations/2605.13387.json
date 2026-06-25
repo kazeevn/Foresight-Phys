@@ -1,0 +1,699 @@
+{
+  "arxiv_id": "2605.13387",
+  "paper_title": "Λ -enhanced gray-molasses loading and EIT cooling of neutral atoms in nanophotonic traps",
+  "model": "gpt-5.5",
+  "response_id": "resp_0274e16b763ee0a8006a3cc56c25c08198b6fee3ae6f3dca76",
+  "abstract_proxy": {
+    "title": "Λ -enhanced gray-molasses loading and EIT cooling of neutral atoms in nanophotonic traps",
+    "abstract_chars": 1270
+  },
+  "field_annotations": [
+    {
+      "experiment_index": 0,
+      "key": "rpgc_asymptotic_optical_depth",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.5,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 0,
+      "key": "rpgc_asymptotic_optical_depth_uncertainty",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.4,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 0,
+      "key": "rpgc_loading_time_constant_ms",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.5,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 0,
+      "key": "rpgc_loading_time_constant_uncertainty_ms",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.4,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 0,
+      "key": "lambda_gm_asymptotic_optical_depth",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.5,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 0,
+      "key": "lambda_gm_asymptotic_optical_depth_uncertainty",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.4,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 0,
+      "key": "lambda_gm_loading_time_constant_ms",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.5,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 0,
+      "key": "lambda_gm_loading_time_constant_uncertainty_ms",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.4,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 0,
+      "key": "lambda_gm_od_enhancement_over_rpgc",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "rpgc_cloud_temperature_uK",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "rpgc_cloud_temperature_uncertainty_uK",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "lambda_gm_cloud_temperature_after_long_cooling_uK",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.3333,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "lambda_gm_cloud_temperature_after_long_cooling_uncertainty_uK",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2857,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 2,
+      "key": "lambda_gm_optimal_two_photon_detuning_kHz",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 2,
+      "key": "lambda_gm_optimal_two_photon_detuning_uncertainty_kHz",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.1667,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 3,
+      "key": "representative_optical_depth",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.6667,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 3,
+      "key": "representative_optical_depth_uncertainty",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.5,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 3,
+      "key": "depumping_atom_number",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.5,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 3,
+      "key": "depumping_atom_number_uncertainty",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.3333,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 3,
+      "key": "single_atom_waveguide_decay_probability_percent",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.4,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 3,
+      "key": "single_atom_waveguide_decay_probability_uncertainty_percent",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.3333,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 4,
+      "key": "maximum_site_filling_factor",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 4,
+      "key": "flat_top_distribution_length_mm",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.25,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 4,
+      "key": "collisional_blockade_regime_reached",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.75,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 5,
+      "key": "passive_storage_time_ms",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 1.0,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 5,
+      "key": "passive_storage_time_uncertainty_ms",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.75,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 5,
+      "key": "lambda_gm_active_storage_time_ms",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.5,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 5,
+      "key": "lambda_gm_active_storage_time_uncertainty_ms",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.4,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 5,
+      "key": "lambda_gm_storage_time_enhancement_factor",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.4,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 6,
+      "key": "passive_beta_time_trend",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.5,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 6,
+      "key": "lambda_gm_cooled_beta_time_trend",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.2,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 6,
+      "key": "lambda_gm_cooled_beta_percent",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 7,
+      "key": "guided_eit_passive_storage_time_ms",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 1.0,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 7,
+      "key": "guided_eit_passive_storage_time_uncertainty_ms",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.8333,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 7,
+      "key": "guided_eit_active_storage_time_ms",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.8,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 7,
+      "key": "guided_eit_active_storage_time_uncertainty_ms",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.6667,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 7,
+      "key": "guided_eit_storage_time_enhancement_factor",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.6667,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 8,
+      "key": "guided_eit_optimal_two_photon_detuning_kHz",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.5,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 8,
+      "key": "guided_eit_optimal_coupler_power_pW",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "surprising",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.6,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 8,
+      "key": "guided_eit_optimal_coupler_power_fraction_of_saturation",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.5,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 8,
+      "key": "guided_eit_fitted_trap_frequency_kHz",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.6,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 8,
+      "key": "guided_eit_fitted_trap_frequency_uncertainty_kHz",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.5,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 9,
+      "key": "lambda_gm_single_site_loading_rate_s_inv",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.1667,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 9,
+      "key": "lambda_gm_single_site_loading_rate_uncertainty_s_inv",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.1429,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 9,
+      "key": "rpgc_single_site_loading_rate_s_inv",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.1667,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 9,
+      "key": "rpgc_single_site_loading_rate_uncertainty_s_inv",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.1429,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 9,
+      "key": "lambda_gm_one_atom_loss_rate_s_inv",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.1667,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 9,
+      "key": "lambda_gm_one_atom_loss_rate_uncertainty_s_inv",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.1429,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 9,
+      "key": "rpgc_one_atom_loss_rate_s_inv",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.1667,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 9,
+      "key": "rpgc_one_atom_loss_rate_uncertainty_s_inv",
+      "centrality": "secondary",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.1429,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 9,
+      "key": "normalized_two_body_loss_rate_s_inv",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.1667,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 9,
+      "key": "lambda_gm_loading_regime",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.6667,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 9,
+      "key": "rpgc_loading_regime",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.6667,
+      "appears_in_abstract": true
+    }
+  ],
+  "comparison_sets": [
+    {
+      "experiment_index": 0,
+      "member_keys": [
+        "rpgc_asymptotic_optical_depth",
+        "lambda_gm_asymptotic_optical_depth"
+      ],
+      "ordering_variable": "loading method: RPGC baseline vs ΛGM after RPGC",
+      "question_type": "sign_vs_baseline",
+      "description": "Determine whether switching from conventional RPGC loading to ΛGM-assisted loading increases the final nanofiber-trapped optical depth."
+    },
+    {
+      "experiment_index": 0,
+      "member_keys": [
+        "rpgc_loading_time_constant_ms",
+        "lambda_gm_loading_time_constant_ms"
+      ],
+      "ordering_variable": "loading method: RPGC stage vs ΛGM stage",
+      "question_type": "sign_vs_baseline",
+      "description": "Compare the characteristic loading time scale of the RPGC and ΛGM loading stages."
+    },
+    {
+      "experiment_index": 1,
+      "member_keys": [
+        "rpgc_cloud_temperature_uK",
+        "lambda_gm_cloud_temperature_after_long_cooling_uK"
+      ],
+      "ordering_variable": "cooling stage: RPGC baseline vs long-duration ΛGM",
+      "question_type": "sign_vs_baseline",
+      "description": "Determine how much the ΛGM stage lowers the untrapped molasses-cloud temperature relative to RPGC."
+    },
+    {
+      "experiment_index": 5,
+      "member_keys": [
+        "passive_storage_time_ms",
+        "lambda_gm_active_storage_time_ms"
+      ],
+      "ordering_variable": "storage condition: passive hold vs reapplied free-space ΛGM/EIT cooling",
+      "question_type": "sign_vs_baseline",
+      "description": "Determine whether applying ΛGM/EIT cooling after loading extends the nanofiber-trap storage time relative to passive storage."
+    },
+    {
+      "experiment_index": 6,
+      "member_keys": [
+        "passive_beta_time_trend",
+        "lambda_gm_cooled_beta_time_trend"
+      ],
+      "ordering_variable": "storage condition: passive hold vs ΛGM/EIT-cooled hold",
+      "question_type": "sign_vs_baseline",
+      "description": "Decide whether active ΛGM/EIT cooling prevents the time-dependent degradation of atom–nanofiber coupling observed during passive storage."
+    },
+    {
+      "experiment_index": 7,
+      "member_keys": [
+        "guided_eit_passive_storage_time_ms",
+        "guided_eit_active_storage_time_ms"
+      ],
+      "ordering_variable": "storage condition: passive hold vs all-guided EIT cooling",
+      "question_type": "sign_vs_baseline",
+      "description": "Determine whether co-propagating guided EIT fields extend the trap storage time relative to passive storage."
+    },
+    {
+      "experiment_index": 9,
+      "member_keys": [
+        "rpgc_single_site_loading_rate_s_inv",
+        "lambda_gm_single_site_loading_rate_s_inv"
+      ],
+      "ordering_variable": "loading method: RPGC vs ΛGM",
+      "question_type": "sign_vs_baseline",
+      "description": "Compare the per-site loading rate achieved by ΛGM with that achieved by RPGC."
+    },
+    {
+      "experiment_index": 9,
+      "member_keys": [
+        "rpgc_one_atom_loss_rate_s_inv",
+        "lambda_gm_one_atom_loss_rate_s_inv"
+      ],
+      "ordering_variable": "cooling method during storage: RPGC vs ΛGM",
+      "question_type": "sign_vs_baseline",
+      "description": "Compare the one-atom loss rate under ΛGM cooling with that under RPGC cooling."
+    },
+    {
+      "experiment_index": 9,
+      "member_keys": [
+        "lambda_gm_one_atom_loss_rate_s_inv",
+        "lambda_gm_single_site_loading_rate_s_inv",
+        "normalized_two_body_loss_rate_s_inv"
+      ],
+      "ordering_variable": "rate hierarchy for ΛGM loading: one-body loss, single-site loading, and two-body loss scale",
+      "question_type": "order_of_magnitude",
+      "description": "Check whether the ΛGM loading and loss rates fall in the hierarchy required for collisional-blockade-limited loading."
+    },
+    {
+      "experiment_index": 9,
+      "member_keys": [
+        "rpgc_one_atom_loss_rate_s_inv",
+        "rpgc_single_site_loading_rate_s_inv",
+        "normalized_two_body_loss_rate_s_inv"
+      ],
+      "ordering_variable": "rate hierarchy for RPGC loading: one-body loss, single-site loading, and two-body loss scale",
+      "question_type": "order_of_magnitude",
+      "description": "Check whether the RPGC loading and loss rates instead place the system in the weak-loading regime."
+    }
+  ]
+}

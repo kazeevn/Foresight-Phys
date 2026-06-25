@@ -189,6 +189,79 @@ class ScoreNumericTests(unittest.TestCase):
         self.assertIsNone(score["crps_scaled"])
 
 
+class OrderOfMagnitudeBandTests(unittest.TestCase):
+    def test_centered_prediction_is_within_all_bands(self) -> None:
+        score = score_numeric(
+            expected_value=1.0,
+            actual_meta=_quantile_meta_log_normal(p50=1.0, sigma_dex=0.3),
+        )
+        self.assertAlmostEqual(score["abs_log10_error"], 0.0)
+        self.assertTrue(score["within_factor_3"])
+        self.assertTrue(score["within_decade"])
+
+    def test_factor_two_off_is_within_factor_three(self) -> None:
+        score = score_numeric(
+            expected_value=2.0,
+            actual_meta=_quantile_meta_normal(p50=1.0, sigma=0.1),
+        )
+        self.assertAlmostEqual(score["abs_log10_error"], math.log10(2.0))
+        self.assertTrue(score["within_factor_3"])
+        self.assertTrue(score["within_decade"])
+
+    def test_factor_five_off_misses_factor_three_band(self) -> None:
+        score = score_numeric(
+            expected_value=5.0,
+            actual_meta=_quantile_meta_normal(p50=1.0, sigma=0.1),
+        )
+        self.assertAlmostEqual(score["abs_log10_error"], math.log10(5.0))
+        self.assertFalse(score["within_factor_3"])
+        self.assertTrue(score["within_decade"])
+
+    def test_two_decades_off_misses_decade_band(self) -> None:
+        score = score_numeric(
+            expected_value=100.0,
+            actual_meta=_quantile_meta_log_normal(p50=1.0, sigma_dex=0.3),
+        )
+        self.assertAlmostEqual(score["abs_log10_error"], 2.0)
+        self.assertFalse(score["within_factor_3"])
+        self.assertFalse(score["within_decade"])
+
+    def test_zero_ground_truth_has_no_oom_bands(self) -> None:
+        score = score_numeric(
+            expected_value=0.0,
+            actual_meta=_quantile_meta_normal(p50=0.0, sigma=0.5),
+        )
+        self.assertIsNone(score["abs_log10_error"])
+        self.assertIsNone(score["within_factor_3"])
+        self.assertIsNone(score["within_decade"])
+
+    def test_missing_prediction_has_no_oom_bands(self) -> None:
+        score = score_numeric(expected_value=5.0, actual_meta=None)
+        self.assertIsNone(score["abs_log10_error"])
+        self.assertIsNone(score["within_factor_3"])
+        self.assertIsNone(score["within_decade"])
+
+    def test_file_metrics_aggregate_oom_coverage(self) -> None:
+        expected_json = {
+            "experiment_description": "OOM coverage",
+            "experiment_results": {
+                "a": {"type": "float", "description": "", "result": 1.0},
+                "b": {"type": "float", "description": "", "result": 1.0},
+            },
+        }
+        actual_json = {
+            "experiment_results": {
+                # within factor 3 (and decade)
+                "a": {"type": "float", **_quantile_meta_normal(p50=2.0, sigma=0.1)},
+                # off by a decade exactly -> outside both bands (strict <)
+                "b": {"type": "float", **_quantile_meta_log_normal(p50=10.0, sigma_dex=0.3)},
+            },
+        }
+        metrics = compute_file_metrics(expected_json, actual_json)
+        self.assertAlmostEqual(metrics["oom_coverage_factor3"], 0.5)
+        self.assertAlmostEqual(metrics["oom_coverage_decade"], 0.5)
+
+
 class ScoreBoolTests(unittest.TestCase):
     def test_uniform_prediction_has_brier_one_quarter(self) -> None:
         score = score_bool(

@@ -1,0 +1,134 @@
+{
+  "arxiv_id": "2605.02512",
+  "paper_title": "Direct Time-Domain Observation of 𝒍 -Doubling via CentrifugalDistortion Pre-compensation",
+  "model": "gpt-5.5",
+  "response_id": "resp_08ca1723c166b36c006a3cc4f2ecb0819babc0511be48a8072",
+  "abstract_proxy": {
+    "title": "Direct Time-Domain Observation of 𝒍 -Doubling via CentrifugalDistortion Pre-compensation",
+    "abstract_chars": 1132
+  },
+  "field_annotations": [
+    {
+      "experiment_index": 0,
+      "key": "cubic_phase_design_law",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.25,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 0,
+      "key": "unshaped_ch3i_selected_revivals_multi_oscillatory",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.4,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 0,
+      "key": "cubic_phase_ch3i_selected_revivals_single_cycle",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.5,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 0,
+      "key": "analytic_vs_numerical_cubic_phase_difference_upper_bound_percent_for_n_gt_5",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.1429,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 1,
+      "key": "co2_reference_alignment_signal_duration_ps",
+      "centrality": "setup_or_control",
+      "is_headline": false,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 2,
+      "key": "unshaped_co2_32trev_revival_multi_oscillatory",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.5,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 2,
+      "key": "unshaped_co2_32trev_l_doubling_components_temporally_resolved",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.4,
+      "appears_in_abstract": false
+    },
+    {
+      "experiment_index": 3,
+      "key": "cubic_phase_co2_l_doubling_components_temporally_resolved",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.5,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 3,
+      "key": "number_of_time_domain_rotational_components_resolved",
+      "centrality": "key_supporting",
+      "is_headline": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": true,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.6,
+      "appears_in_abstract": true
+    },
+    {
+      "experiment_index": 3,
+      "key": "resolved_co2_component_set",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": true,
+      "annotation_filled": false,
+      "abstract_term_overlap": 0.0,
+      "appears_in_abstract": false
+    }
+  ],
+  "comparison_sets": [
+    {
+      "experiment_index": 0,
+      "member_keys": [
+        "unshaped_ch3i_selected_revivals_multi_oscillatory",
+        "cubic_phase_ch3i_selected_revivals_single_cycle"
+      ],
+      "ordering_variable": "pump spectral phase condition: transform-limited baseline vs cubic pre-compensating spectral phase",
+      "question_type": "sign_vs_baseline",
+      "description": "This comparison determines whether applying the cubic spectral phase converts the centrifugal-distortion-broadened CH3I revival morphology into a compact single-cycle-like revival relative to the unshaped-pulse baseline."
+    }
+  ]
+}

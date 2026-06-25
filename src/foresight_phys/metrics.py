@@ -188,6 +188,31 @@ def _coerce_finite_float(value: Any) -> tuple[bool, float]:
     return True, f
 
 
+# log10(3): boundary of the "within a factor of 3" order-of-magnitude band.
+LOG10_3 = math.log10(3.0)
+
+
+def _oom_bands(predicted: float | None, expected: float | None) -> dict[str, Any]:
+    """Scale-free, decision-relevant point-accuracy of the median forecast.
+
+    ``abs_log10_error`` is ``|log10|p50| - log10|y||`` — the absolute error of the
+    point estimate measured in decades, defined for both ``normal`` and
+    ``log_normal`` targets whenever both magnitudes are nonzero. Unlike relative
+    CRPS, the order-of-magnitude hit-rate has a meaningful prior-only baseline,
+    so it anchors the decision-usefulness and foresight-lift analyses. This is a
+    *magnitude* accuracy and ignores sign; directional/sign correctness is scored
+    over contrasts in the decisions analysis.
+    """
+    if predicted is None or expected is None or predicted == 0.0 or expected == 0.0:
+        return {"abs_log10_error": None, "within_factor_3": None, "within_decade": None}
+    abs_log10_error = abs(math.log10(abs(predicted)) - math.log10(abs(expected)))
+    return {
+        "abs_log10_error": abs_log10_error,
+        "within_factor_3": bool(abs_log10_error < LOG10_3),
+        "within_decade": bool(abs_log10_error < 1.0),
+    }
+
+
 def score_numeric(
     *,
     expected_value: Any,
@@ -220,6 +245,9 @@ def score_numeric(
         "quality": _quality_from_crps_scaled(max_penalty_scaled),
         "within_1sigma": None,
         "within_2sigma": None,
+        "abs_log10_error": None,
+        "within_factor_3": None,
+        "within_decade": None,
         "missing": actual_meta is None,
     }
     if not expected_ok or actual_meta is None:
@@ -244,6 +272,7 @@ def score_numeric(
     result["p50"] = p50
     result["p90"] = p90
     result["predicted_value"] = p50
+    result.update(_oom_bands(p50, expected_value_f))
 
     if distribution == "log_normal":
         # log_normal requires all quantiles strictly positive; otherwise undefined.
@@ -525,6 +554,8 @@ METRIC_KEYS = (
     "numeric_crps_scaled",
     "coverage_1sigma",
     "coverage_2sigma",
+    "oom_coverage_factor3",
+    "oom_coverage_decade",
     "bool_brier",
     "bool_quality",
     "bool_categorical_accuracy",
@@ -645,6 +676,8 @@ def build_experiment_report(
     numeric_crps_scaled_values: list[float] = []
     coverage_1sigma_hits: list[float] = []
     coverage_2sigma_hits: list[float] = []
+    oom_factor3_hits: list[float] = []
+    oom_decade_hits: list[float] = []
     bool_brier_values: list[float] = []
     bool_quality_values: list[float] = []
     classification_total = 0
@@ -699,6 +732,10 @@ def build_experiment_report(
                 coverage_1sigma_hits.append(1.0 if score["within_1sigma"] else 0.0)
             if score["within_2sigma"] is not None:
                 coverage_2sigma_hits.append(1.0 if score["within_2sigma"] else 0.0)
+            if score["within_factor_3"] is not None:
+                oom_factor3_hits.append(1.0 if score["within_factor_3"] else 0.0)
+            if score["within_decade"] is not None:
+                oom_decade_hits.append(1.0 if score["within_decade"] else 0.0)
             status_text, status_class, status_title = _format_numeric_status(score)
             row.update(
                 {
@@ -711,6 +748,9 @@ def build_experiment_report(
                     "crps": score["crps"],
                     "crps_scaled": score["crps_scaled"],
                     "quality": score["quality"],
+                    "abs_log10_error": score["abs_log10_error"],
+                    "within_factor_3": score["within_factor_3"],
+                    "within_decade": score["within_decade"],
                 }
             )
         elif is_formula_result(field_type):
@@ -822,6 +862,16 @@ def build_experiment_report(
         "coverage_2sigma": (
             sum(coverage_2sigma_hits) / len(coverage_2sigma_hits)
             if coverage_2sigma_hits
+            else None
+        ),
+        "oom_coverage_factor3": (
+            sum(oom_factor3_hits) / len(oom_factor3_hits)
+            if oom_factor3_hits
+            else None
+        ),
+        "oom_coverage_decade": (
+            sum(oom_decade_hits) / len(oom_decade_hits)
+            if oom_decade_hits
             else None
         ),
         "bool_brier": (

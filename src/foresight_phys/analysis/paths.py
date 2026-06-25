@@ -50,6 +50,14 @@ class AnalysisPaths:
         return self.cache_dir / "per_field.parquet"
 
     @property
+    def decisions_parquet(self) -> Path:
+        return self.cache_dir / "decisions.parquet"
+
+    @property
+    def annotations_dir(self) -> Path:
+        return self.project_root / "JSONs" / "annotations"
+
+    @property
     def summary_json(self) -> Path:
         return self.analysis_docs_dir / "summary.json"
 
