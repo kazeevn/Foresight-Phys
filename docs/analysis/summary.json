@@ -160,6 +160,100 @@
       "trivial (all correct)": 20
     }
   ],
+  "hard_field": {
+    "non_trivial_n_fields": 178,
+    "trivial_n_fields": 483,
+    "per_model": [
+      {
+        "model": "gpt-5.4",
+        "hard_quality_paper_macro": 0.6557049687744257,
+        "hard_quality_micro": 0.5884147907539612,
+        "n_fields_non_trivial": 178
+      },
+      {
+        "model": "gpt-5.4-mini",
+        "hard_quality_paper_macro": 0.5262740935458041,
+        "hard_quality_micro": 0.5060971351277083,
+        "n_fields_non_trivial": 178
+      },
+      {
+        "model": "gpt-5.4-nano",
+        "hard_quality_paper_macro": 0.49108267435773756,
+        "hard_quality_micro": 0.386971282934332,
+        "n_fields_non_trivial": 178
+      },
+      {
+        "model": "gpt-5.5",
+        "hard_quality_paper_macro": 0.7133722681599296,
+        "hard_quality_micro": 0.7152978763383592,
+        "n_fields_non_trivial": 178
+      }
+    ]
+  },
+  "quality_by_difficulty": [
+    {
+      "difficulty": "discriminative",
+      "n_fields": 52,
+      "quality__gpt-5.4": 0.6133633806419752,
+      "quality__gpt-5.4-mini": 0.43474400506474775,
+      "quality__gpt-5.4-nano": 0.2942917323176735,
+      "quality__gpt-5.5": 0.7097046107711539
+    },
+    {
+      "difficulty": "easy (1 wrong)",
+      "n_fields": 90,
+      "quality__gpt-5.4": 0.7368870265442932,
+      "quality__gpt-5.4-mini": 0.6598126097123619,
+      "quality__gpt-5.4-nano": 0.5145699051647924,
+      "quality__gpt-5.5": 0.8608945841196588
+    },
+    {
+      "difficulty": "hard (1 right)",
+      "n_fields": 18,
+      "quality__gpt-5.4": 0.1538084615583285,
+      "quality__gpt-5.4-mini": 0.27208939688736433,
+      "quality__gpt-5.4-nano": 0.2467835898280771,
+      "quality__gpt-5.5": 0.49489585111277573
+    },
+    {
+      "difficulty": "intractable (none correct)",
+      "n_fields": 18,
+      "quality__gpt-5.4": 0.1000637929121594,
+      "quality__gpt-5.4-mini": 0.08381923076923077,
+      "quality__gpt-5.4-nano": 0.0911740763084323,
+      "quality__gpt-5.5": 0.08346805942680342
+    },
+    {
+      "difficulty": "trivial (all correct)",
+      "n_fields": 483,
+      "quality__gpt-5.4": 0.9128921574600481,
+      "quality__gpt-5.4-mini": 0.8819433481226729,
+      "quality__gpt-5.4-nano": 0.8750604045848246,
+      "quality__gpt-5.5": 0.9299384606034992
+    }
+  ],
+  "random_baselines": {
+    "boolean": {
+      "exact": 0.5,
+      "quality": 0.75,
+      "note": "uninformative p=0.5; Brier 0.25"
+    },
+    "categorical": {
+      "exact": 0.2926900584795321,
+      "quality": 0.6463450292397661,
+      "note": "per-question uniform over k allowed values, averaged over the k-distribution"
+    },
+    "formula": {
+      "exact": 0.0,
+      "quality": 0.75,
+      "note": "random expression ~never matches; uninformative confidence 0.5"
+    },
+    "numeric": {
+      "exact": null,
+      "quality": null,
+      "note": "no well-defined uniform baseline (relative-CRPS quality depends on the forecaster's chosen scale); calibrated-Gaussian 1-sigma coverage is 0.6827"
+    }
+  },
   "categorical_random_baseline": 0.2926900584795321,
   "categorical_k_distribution": {
     "3": 25,

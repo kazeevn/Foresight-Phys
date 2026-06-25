@@ -188,7 +188,76 @@ def _numeric_calibration(scored: pd.DataFrame) -> list[dict]:
     return out
 
 
-def _categorical_baseline(paths: AnalysisPaths) -> dict:
+TRIVIAL_LABEL = "trivial (all correct)"
+# 1sigma coverage of a calibrated Gaussian; the natural calibration reference
+# for numeric fields, which have no well-defined uniform "random guess".
+GAUSSIAN_1SIGMA_COVERAGE = 0.6826894921370859
+
+
+def _merge_difficulty(scored: pd.DataFrame, wide: pd.DataFrame) -> pd.DataFrame:
+    """Attach the per-field difficulty label onto each long (model, field) row."""
+    keys = ["file_id", "experiment", "key"]
+    return scored.merge(wide[[*keys, "difficulty"]], on=keys, how="left")
+
+
+def _hard_field_summary(scored: pd.DataFrame, wide: pd.DataFrame) -> dict:
+    """Per-model quality restricted to non-trivial fields (not solved by all models).
+
+    The aggregate quality is inflated by the large trivial mass, so we report the
+    same paper-macro-of-experiment-macro on the non-trivial subset (directly
+    comparable to the headline) alongside a transparent field-level micro mean.
+    """
+    merged = _merge_difficulty(scored, wide)
+    non_trivial = merged[merged["difficulty"] != TRIVIAL_LABEL]
+    quality_macro = _paper_macro(non_trivial, "quality")
+    micro = non_trivial.groupby("model")["quality"].mean()
+    counts = non_trivial.groupby("model")["quality"].size()
+    per_model = [
+        {
+            "model": m,
+            "hard_quality_paper_macro": (
+                float(quality_macro.get(m)) if m in quality_macro.index else None
+            ),
+            "hard_quality_micro": float(micro.get(m)) if m in micro.index else None,
+            "n_fields_non_trivial": int(counts.get(m, 0)),
+        }
+        for m in sorted(scored["model"].unique())
+    ]
+    n_non_trivial = int((wide["difficulty"] != TRIVIAL_LABEL).sum())
+    return {
+        "non_trivial_n_fields": n_non_trivial,
+        "trivial_n_fields": int(len(wide) - n_non_trivial),
+        "per_model": per_model,
+    }
+
+
+def _quality_by_difficulty(scored: pd.DataFrame, wide: pd.DataFrame) -> list[dict]:
+    """Field-level (micro) mean quality per (difficulty bin, model)."""
+    merged = _merge_difficulty(scored, wide)
+    rows: list[dict] = []
+    models = sorted(scored["model"].unique())
+    for difficulty, sub in merged.groupby("difficulty"):
+        # n_fields counts distinct fields in the bin, not model-rows.
+        n_fields = int(sub[["file_id", "experiment", "key"]].drop_duplicates().shape[0])
+        per_model_quality = sub.groupby("model")["quality"].mean()
+        rows.append(
+            {
+                "difficulty": difficulty,
+                "n_fields": n_fields,
+                **{
+                    f"quality__{m}": (
+                        float(per_model_quality.get(m))
+                        if m in per_model_quality.index
+                        else None
+                    )
+                    for m in models
+                },
+            }
+        )
+    return rows
+
+
+def _gather_categorical_k(paths: AnalysisPaths) -> list[int]:
     cat_k: list[int] = []
     for jp in sorted(paths.json_dir.glob("*.json")):
         data = json.loads(jp.read_text())
@@ -200,11 +269,58 @@ def _categorical_baseline(paths: AnalysisPaths) -> dict:
                     allowed = v.get("allowed_categorial_values")
                     if isinstance(allowed, list) and len(allowed) > 1:
                         cat_k.append(len(allowed))
+    return cat_k
+
+
+def _categorical_baseline(cat_k: list[int]) -> dict:
     if not cat_k:
         return {}
     return {
         "categorical_random_baseline": float(np.mean([1.0 / k for k in cat_k])),
         "categorical_k_distribution": dict(Counter(cat_k)),
+    }
+
+
+def _random_baselines(cat_k: list[int]) -> dict:
+    """Random-guess reference per answer type.
+
+    Quality uses the same per-type rule as the scorer. For an uninformative
+    guess: boolean p=0.5 -> Brier 0.25 -> quality 0.75; categorical uniform over
+    k -> Brier (k-1)/k -> quality 1 - 0.5*(k-1)/k, averaged over the observed
+    k-distribution; formula with uninformative confidence 0.5 -> quality 0.75,
+    and a random expression effectively never matches (exact 0). Numeric has no
+    well-defined uniform guess (relative-CRPS quality depends on the forecaster's
+    chosen scale), so we record the calibrated-Gaussian coverage as the reference.
+    """
+    cat_exact = float(np.mean([1.0 / k for k in cat_k])) if cat_k else None
+    cat_quality = (
+        float(np.mean([1.0 - 0.5 * (k - 1) / k for k in cat_k])) if cat_k else None
+    )
+    return {
+        "boolean": {
+            "exact": 0.5,
+            "quality": 0.75,
+            "note": "uninformative p=0.5; Brier 0.25",
+        },
+        "categorical": {
+            "exact": cat_exact,
+            "quality": cat_quality,
+            "note": "per-question uniform over k allowed values, averaged over the k-distribution",
+        },
+        "formula": {
+            "exact": 0.0,
+            "quality": 0.75,
+            "note": "random expression ~never matches; uninformative confidence 0.5",
+        },
+        "numeric": {
+            "exact": None,
+            "quality": None,
+            "note": (
+                "no well-defined uniform baseline (relative-CRPS quality depends on the "
+                f"forecaster's chosen scale); calibrated-Gaussian 1-sigma coverage is "
+                f"{GAUSSIAN_1SIGMA_COVERAGE:.4f}"
+            ),
+        },
     }
 
 
@@ -222,6 +338,7 @@ def write_summary(paths: AnalysisPaths | None = None) -> dict:
         .reset_index().to_dict(orient="records")
     )
 
+    cat_k = _gather_categorical_k(paths)
     summary = {
         "n_models": int(scored["model"].nunique()),
         "n_papers": int(scored["file_id"].nunique()),
@@ -231,7 +348,10 @@ def write_summary(paths: AnalysisPaths | None = None) -> dict:
         "numeric_calibration": _numeric_calibration(scored),
         "difficulty_distribution_overall": difficulty_overall,
         "difficulty_by_type": difficulty_by_type,
-        **_categorical_baseline(paths),
+        "hard_field": _hard_field_summary(scored, wide),
+        "quality_by_difficulty": _quality_by_difficulty(scored, wide),
+        "random_baselines": _random_baselines(cat_k),
+        **_categorical_baseline(cat_k),
     }
     paths.summary_json.write_text(
         json.dumps(summary, indent=2, default=str), encoding="utf-8"
