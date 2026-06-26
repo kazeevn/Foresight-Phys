@@ -2,7 +2,7 @@
   "arxiv_id": "2604.19115",
   "paper_title": "Wave-particle transition and quantum Zeno effect in which-way experiments with a superconducting quantum processor",
   "model": "gpt-5.5",
-  "response_id": "resp_095aeadc6232b450006a3cc4b2dc0481989b9861a32a66a6a7",
+  "response_id": "resp_05418cf9e2cdfe06006a3e67066bec8199a1a497e5a2c8f9e1",
   "abstract_proxy": {
     "title": "Wave-particle transition and quantum Zeno effect in which-way experiments with a superconducting quantum processor",
     "abstract_chars": 1452
@@ -15,64 +15,76 @@
       "is_headline": true,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.6667,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 0,
       "key": "fringe_visibility_at_gamma_0p333_mhz",
-      "centrality": "headline",
-      "is_headline": true,
+      "centrality": "key_supporting",
+      "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.6667,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 0,
       "key": "fringe_visibility_at_gamma_0p748_mhz",
-      "centrality": "headline",
-      "is_headline": true,
+      "centrality": "key_supporting",
+      "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.6667,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 0,
       "key": "fringe_visibility_at_gamma_1p330_mhz",
-      "centrality": "headline",
-      "is_headline": true,
+      "centrality": "key_supporting",
+      "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.6667,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 0,
       "key": "fringe_visibility_at_gamma_2p365_mhz",
-      "centrality": "headline",
-      "is_headline": true,
+      "centrality": "key_supporting",
+      "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.6667,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 0,
       "key": "fringe_visibility_at_highest_gamma",
       "centrality": "headline",
       "is_headline": true,
-      "ex_ante_surprise": "implied_or_derivable",
+      "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.5,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 1,
@@ -81,8 +93,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -90,11 +104,13 @@
       "key": "q1_q2_concurrence_at_high_dephasing",
       "centrality": "key_supporting",
       "is_headline": false,
-      "ex_ante_surprise": "implied_or_derivable",
+      "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": true,
       "annotation_filled": false,
       "abstract_term_overlap": 0.3333,
-      "appears_in_abstract": false
+      "appears_in_abstract_lexical": false,
+      "appears_in_abstract": true
     },
     {
       "experiment_index": 1,
@@ -103,8 +119,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.2,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -112,10 +130,12 @@
       "key": "single_excitation_purity_at_high_dephasing",
       "centrality": "key_supporting",
       "is_headline": false,
-      "ex_ante_surprise": "implied_or_derivable",
+      "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.4,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -125,8 +145,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.4286,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -134,11 +156,13 @@
       "key": "single_excitation_von_neumann_entropy_at_high_dephasing",
       "centrality": "key_supporting",
       "is_headline": false,
-      "ex_ante_surprise": "implied_or_derivable",
+      "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.5714,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 2,
@@ -147,20 +171,24 @@
       "is_headline": true,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": true,
       "annotation_filled": false,
       "abstract_term_overlap": 0.6667,
+      "appears_in_abstract_lexical": true,
       "appears_in_abstract": true
     },
     {
       "experiment_index": 2,
       "key": "dominant_transport_path_at_strong_continuous_measurement",
-      "centrality": "headline",
-      "is_headline": true,
+      "centrality": "key_supporting",
+      "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.5,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 2,
@@ -169,8 +197,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.2,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -180,8 +210,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -191,8 +223,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.3333,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -200,10 +234,12 @@
       "key": "q4_q8_single_excitation_purity_minimum",
       "centrality": "key_supporting",
       "is_headline": false,
-      "ex_ante_surprise": "uncertain",
+      "ex_ante_surprise": "surprising",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.3333,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -213,8 +249,10 @@
       "is_headline": false,
       "ex_ante_surprise": "surprising",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.4,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -222,10 +260,12 @@
       "key": "q4_q8_single_excitation_entropy_maximum",
       "centrality": "key_supporting",
       "is_headline": false,
-      "ex_ante_surprise": "uncertain",
+      "ex_ante_surprise": "surprising",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.3333,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -235,8 +275,10 @@
       "is_headline": false,
       "ex_ante_surprise": "surprising",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.4,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -246,9 +288,11 @@
       "is_headline": true,
       "ex_ante_surprise": "surprising",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": true,
       "annotation_filled": false,
       "abstract_term_overlap": 0.3333,
-      "appears_in_abstract": false
+      "appears_in_abstract_lexical": false,
+      "appears_in_abstract": true
     },
     {
       "experiment_index": 3,
@@ -257,9 +301,11 @@
       "is_headline": true,
       "ex_ante_surprise": "surprising",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": true,
       "annotation_filled": false,
       "abstract_term_overlap": 0.3333,
-      "appears_in_abstract": false
+      "appears_in_abstract_lexical": false,
+      "appears_in_abstract": true
     }
   ],
   "comparison_sets": [
@@ -275,7 +321,7 @@
       ],
       "ordering_variable": "pulsed which-way measurement-induced dephasing rate Γm/2π",
       "question_type": "monotonic_direction",
-      "description": "Determine whether increasing which-way measurement strength suppresses Mach-Zehnder fringe visibility, demonstrating the wave-to-particle transition."
+      "description": "This set determines that increasing pulsed which-way measurement strength suppresses the Q3 interference-fringe visibility, demonstrating the wave-to-particle transition."
     },
     {
       "experiment_index": 1,
@@ -283,9 +329,9 @@
         "q1_q2_concurrence_at_zero_dephasing",
         "q1_q2_concurrence_at_high_dephasing"
       ],
-      "ordering_variable": "pulsed which-way measurement-induced dephasing, zero versus largest Γm/2π",
+      "ordering_variable": "pulsed which-way measurement-induced dephasing rate Γm/2π",
       "question_type": "sign_vs_baseline",
-      "description": "Determine whether the which-way measurement destroys entanglement between the two interferometer arms."
+      "description": "This baseline-versus-strong-measurement comparison determines whether which-way measurement destroys entanglement between the two interferometer arms."
     },
     {
       "experiment_index": 1,
@@ -293,9 +339,9 @@
         "single_excitation_purity_at_zero_dephasing",
         "single_excitation_purity_at_high_dephasing"
       ],
-      "ordering_variable": "pulsed which-way measurement-induced dephasing, zero versus largest Γm/2π",
+      "ordering_variable": "pulsed which-way measurement-induced dephasing rate Γm/2π",
       "question_type": "sign_vs_baseline",
-      "description": "Determine whether the which-way measurement makes the projected two-path state more mixed."
+      "description": "This comparison determines whether the pulsed which-way measurement makes the projected single-excitation path state more mixed."
     },
     {
       "experiment_index": 1,
@@ -303,9 +349,9 @@
         "single_excitation_von_neumann_entropy_at_zero_dephasing",
         "single_excitation_von_neumann_entropy_at_high_dephasing"
       ],
-      "ordering_variable": "pulsed which-way measurement-induced dephasing, zero versus largest Γm/2π",
+      "ordering_variable": "pulsed which-way measurement-induced dephasing rate Γm/2π",
       "question_type": "sign_vs_baseline",
-      "description": "Determine whether the which-way measurement increases entropy and hence information leakage to the measurement apparatus."
+      "description": "This comparison determines whether pulsed which-way measurement increases the entropy associated with information leakage from the path subsystem."
     },
     {
       "experiment_index": 3,
@@ -313,29 +359,31 @@
         "q4_q8_concurrence_at_zero_dephasing",
         "q4_q8_concurrence_at_high_dephasing"
       ],
-      "ordering_variable": "continuous which-way measurement-induced dephasing, zero versus high Γm/2π",
+      "ordering_variable": "continuous which-way measurement-induced dephasing rate Γm/2π",
       "question_type": "sign_vs_baseline",
-      "description": "Determine whether continuous which-way monitoring reduces inter-arm concurrence downstream in the 12-qubit interferometer."
+      "description": "This comparison determines whether continuous which-way monitoring reduces downstream inter-path entanglement between Q4 and Q8."
     },
     {
       "experiment_index": 3,
       "member_keys": [
         "q4_q8_single_excitation_purity_minimum",
-        "q4_q8_single_excitation_purity_high_dephasing"
+        "q4_q8_single_excitation_purity_high_dephasing",
+        "q4_q8_purity_trend_vs_dephasing"
       ],
-      "ordering_variable": "continuous dephasing strength from leakage-maximal intermediate measurement to high Zeno-dominated measurement",
-      "question_type": "sign_vs_baseline",
-      "description": "Determine whether the Zeno-dominated high-measurement regime restores purity relative to the minimum-purity point."
+      "ordering_variable": "continuous which-way measurement-induced dephasing rate Γm/2π",
+      "question_type": "argmax_select",
+      "description": "This set identifies the Zeno-induced recovery of purity at strong continuous measurement after the intermediate-strength minimum."
     },
     {
       "experiment_index": 3,
       "member_keys": [
         "q4_q8_single_excitation_entropy_maximum",
-        "q4_q8_single_excitation_entropy_high_dephasing"
+        "q4_q8_single_excitation_entropy_high_dephasing",
+        "q4_q8_entropy_trend_vs_dephasing"
       ],
-      "ordering_variable": "continuous dephasing strength from leakage-maximal intermediate measurement to high Zeno-dominated measurement",
-      "question_type": "sign_vs_baseline",
-      "description": "Determine whether the Zeno-dominated high-measurement regime suppresses entropy relative to the maximum-entropy point."
+      "ordering_variable": "continuous which-way measurement-induced dephasing rate Γm/2π",
+      "question_type": "argmax_select",
+      "description": "This set identifies the intermediate measurement regime where entropy, and therefore information leakage, is maximal before Zeno reflection suppresses it at high dephasing."
     }
   ]
 }

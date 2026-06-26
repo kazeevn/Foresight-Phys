@@ -2,7 +2,7 @@
   "arxiv_id": "2604.12264",
   "paper_title": "Polymer-free van der Waals assembly of 2D material heterostructures using muscovite crystals",
   "model": "gpt-5.5",
-  "response_id": "resp_00d029efa60718ce006a3cc490e088819ab2d672e2da03b23e",
+  "response_id": "resp_073c64c8feeb17cc006a3e66fe0a048198835dbb2d8afb93fd",
   "abstract_proxy": {
     "title": "Polymer-free van der Waals assembly of 2D material heterostructures using muscovite crystals",
     "abstract_chars": 1367
@@ -11,12 +11,14 @@
     {
       "experiment_index": 0,
       "key": "polymer_free_hbn_graphene_hbn_heterostructure_formed",
-      "centrality": "setup_or_control",
-      "is_headline": false,
-      "ex_ante_surprise": "implied_or_derivable",
-      "leakage_sufficient": false,
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": true,
+      "result_stated_in_abstract": true,
       "annotation_filled": false,
       "abstract_term_overlap": 0.5,
+      "appears_in_abstract_lexical": true,
       "appears_in_abstract": true
     },
     {
@@ -25,10 +27,12 @@
       "centrality": "headline",
       "is_headline": true,
       "ex_ante_surprise": "uncertain",
-      "leakage_sufficient": false,
+      "leakage_sufficient": true,
+      "result_stated_in_abstract": true,
       "annotation_filled": false,
       "abstract_term_overlap": 0.1429,
-      "appears_in_abstract": false
+      "appears_in_abstract_lexical": false,
+      "appears_in_abstract": true
     },
     {
       "experiment_index": 1,
@@ -37,19 +41,23 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
       "experiment_index": 1,
       "key": "surface_peak_to_peak_roughness_pm",
-      "centrality": "secondary",
+      "centrality": "key_supporting",
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -59,19 +67,23 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
       "experiment_index": 2,
       "key": "surface_peak_to_peak_roughness_pm",
-      "centrality": "secondary",
+      "centrality": "key_supporting",
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -81,19 +93,23 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
       "experiment_index": 3,
       "key": "surface_peak_to_peak_roughness_pm",
-      "centrality": "secondary",
+      "centrality": "key_supporting",
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -103,9 +119,11 @@
       "is_headline": true,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": true,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
-      "appears_in_abstract": false
+      "appears_in_abstract_lexical": false,
+      "appears_in_abstract": true
     },
     {
       "experiment_index": 4,
@@ -114,19 +132,23 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
       "experiment_index": 4,
       "key": "hbn_moire_superlattice_fabrication_yield_fraction",
-      "centrality": "secondary",
+      "centrality": "key_supporting",
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.2,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -136,8 +158,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -147,8 +171,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -158,8 +184,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -169,8 +197,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.3333,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -180,19 +210,23 @@
       "is_headline": true,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.1429,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
       "experiment_index": 7,
       "key": "moire_period_for_0p8deg_tbg_nm",
-      "centrality": "secondary",
+      "centrality": "key_supporting",
       "is_headline": false,
-      "ex_ante_surprise": "uncertain",
+      "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -202,8 +236,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -213,8 +249,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -224,8 +262,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -235,8 +275,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -246,8 +288,10 @@
       "is_headline": true,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -257,8 +301,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -266,10 +312,12 @@
       "key": "landau_quantization_onset_mT",
       "centrality": "key_supporting",
       "is_headline": false,
-      "ex_ante_surprise": "uncertain",
+      "ex_ante_surprise": "surprising",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -279,8 +327,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -288,10 +338,12 @@
       "key": "room_temperature_gate_hysteresis_observed",
       "centrality": "key_supporting",
       "is_headline": false,
-      "ex_ante_surprise": "surprising",
+      "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.2,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -299,10 +351,12 @@
       "key": "large_dirac_peak_asymmetry_observed",
       "centrality": "key_supporting",
       "is_headline": false,
-      "ex_ante_surprise": "surprising",
+      "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -312,30 +366,36 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.1667,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
       "experiment_index": 11,
       "key": "suspended_slg_hbn_membrane_formed",
-      "centrality": "setup_or_control",
-      "is_headline": false,
-      "ex_ante_surprise": "implied_or_derivable",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "uncertain",
       "leakage_sufficient": true,
+      "result_stated_in_abstract": true,
       "annotation_filled": false,
       "abstract_term_overlap": 0.2,
-      "appears_in_abstract": false
+      "appears_in_abstract_lexical": false,
+      "appears_in_abstract": true
     },
     {
       "experiment_index": 11,
       "key": "youngs_modulus_GPa",
       "centrality": "secondary",
       "is_headline": false,
-      "ex_ante_surprise": "uncertain",
+      "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -345,8 +405,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -356,8 +418,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -367,41 +431,49 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
       "experiment_index": 13,
       "key": "suspended_slg_hbn_moire_membrane_formed",
-      "centrality": "setup_or_control",
-      "is_headline": false,
-      "ex_ante_surprise": "implied_or_derivable",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "uncertain",
       "leakage_sufficient": true,
+      "result_stated_in_abstract": true,
       "annotation_filled": false,
       "abstract_term_overlap": 0.1667,
-      "appears_in_abstract": false
+      "appears_in_abstract_lexical": false,
+      "appears_in_abstract": true
     },
     {
       "experiment_index": 13,
       "key": "moire_pattern_spans_suspended_membrane",
-      "centrality": "headline",
-      "is_headline": true,
+      "centrality": "key_supporting",
+      "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.2,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
       "experiment_index": 14,
       "key": "folded_3r_mos2_structure_formed",
-      "centrality": "setup_or_control",
+      "centrality": "secondary",
       "is_headline": false,
-      "ex_ante_surprise": "implied_or_derivable",
+      "ex_ante_surprise": "uncertain",
       "leakage_sufficient": true,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -411,8 +483,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -422,8 +496,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -433,8 +509,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -442,10 +520,12 @@
       "key": "room_temperature_pl_peak_energy_eV",
       "centrality": "secondary",
       "is_headline": false,
-      "ex_ante_surprise": "uncertain",
+      "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.25,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -455,41 +535,49 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.3333,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
       "experiment_index": 16,
       "key": "uncapped_slg_on_hbn_formed",
-      "centrality": "setup_or_control",
+      "centrality": "key_supporting",
       "is_headline": false,
-      "ex_ante_surprise": "implied_or_derivable",
+      "ex_ante_surprise": "uncertain",
       "leakage_sufficient": true,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
       "experiment_index": 16,
       "key": "hbn_encapsulated_few_layer_crbr3_formed",
-      "centrality": "setup_or_control",
+      "centrality": "key_supporting",
       "is_headline": false,
-      "ex_ante_surprise": "implied_or_derivable",
+      "ex_ante_surprise": "uncertain",
       "leakage_sufficient": true,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.2,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
       "experiment_index": 16,
       "key": "few_layer_feps3_on_hbn_formed",
-      "centrality": "setup_or_control",
+      "centrality": "key_supporting",
       "is_headline": false,
-      "ex_ante_surprise": "implied_or_derivable",
+      "ex_ante_surprise": "uncertain",
       "leakage_sufficient": true,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.25,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -499,8 +587,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.2857,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -510,8 +600,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.4,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -521,8 +613,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.4,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     }
   ],
@@ -533,9 +627,9 @@
         "moire_potential_screened_by_pc_residues",
         "moire_potential_detectable_after_afm_cleaning"
       ],
-      "ordering_variable": "surface condition: PC-residue-covered versus AFM-cleaned",
+      "ordering_variable": "PC residue condition / AFM mechanical cleaning",
       "question_type": "sign_vs_baseline",
-      "description": "This comparison determines whether mechanical AFM cleaning reverses polymer-residue screening and restores KPFM detection of the hBN/hBN moiré potential."
+      "description": "Determine whether removing PC residues by contact-mode AFM restores KPFM visibility of the hBN/hBN moiré ferroelectric potential."
     },
     {
       "experiment_index": 6,
@@ -543,9 +637,9 @@
         "moire_wavelength_on_sio2_nm",
         "moire_wavelength_on_mica_nm"
       ],
-      "ordering_variable": "substrate/transfer state: before versus after mica pickup",
+      "ordering_variable": "substrate/support before versus after mica pickup",
       "question_type": "sign_vs_baseline",
-      "description": "This comparison determines whether mica pickup changes the SLG/hBN moiré wavelength, and therefore the twist angle, relative to the pre-pickup baseline."
+      "description": "Compare the SLG/hBN moiré wavelength before and after mica pickup to decide whether the pickup process changes the twist angle."
     },
     {
       "experiment_index": 14,
@@ -553,9 +647,9 @@
         "folded_region_peak_to_peak_roughness_pm",
         "unfolded_region_peak_to_peak_roughness_pm"
       ],
-      "ordering_variable": "MoS2 region: folded versus unfolded",
+      "ordering_variable": "3R-MoS2 region folded versus unfolded",
       "question_type": "sign_vs_baseline",
-      "description": "This comparison determines whether the mica-induced folding procedure leaves the folded 3R-MoS2 region rougher or comparably flat relative to the adjacent unfolded region."
+      "description": "Compare the roughness of the folded 3R-MoS2 interface against the adjacent unfolded region to assess whether mica folding preserves a flat surface."
     }
   ]
 }

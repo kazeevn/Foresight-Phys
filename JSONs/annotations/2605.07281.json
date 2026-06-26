@@ -2,7 +2,7 @@
   "arxiv_id": "2605.07281",
   "paper_title": "Scalable Liquid-Crystal Integrated Silicon Nitride Photonic Circuits for Reconfigurable Quantum Interference",
   "model": "gpt-5.5",
-  "response_id": "resp_02f717c233dbb7d8006a3cc5281aac8198b75970caebd38f02",
+  "response_id": "resp_001f88fe004a83b2006a3e673b24ec819a82925a837f7b2eb9",
   "abstract_proxy": {
     "title": "Scalable Liquid-Crystal Integrated Silicon Nitride Photonic Circuits for Reconfigurable Quantum Interference",
     "abstract_chars": 1283
@@ -15,9 +15,11 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": true,
       "annotation_filled": false,
       "abstract_term_overlap": 0.2,
-      "appears_in_abstract": false
+      "appears_in_abstract_lexical": false,
+      "appears_in_abstract": true
     },
     {
       "experiment_index": 0,
@@ -26,8 +28,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -37,8 +41,10 @@
       "is_headline": false,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -48,8 +54,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.3333,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -59,9 +67,11 @@
       "is_headline": true,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": true,
       "annotation_filled": false,
       "abstract_term_overlap": 0.2,
-      "appears_in_abstract": false
+      "appears_in_abstract_lexical": false,
+      "appears_in_abstract": true
     },
     {
       "experiment_index": 2,
@@ -70,19 +80,23 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.3333,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
       "experiment_index": 2,
       "key": "balanced_mzi_extinction_ratio_dB",
-      "centrality": "secondary",
+      "centrality": "key_supporting",
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.3333,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -92,8 +106,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.3333,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -103,8 +119,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.3333,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -114,8 +132,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.3333,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -125,9 +145,11 @@
       "is_headline": false,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.5,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 5,
@@ -136,8 +158,10 @@
       "is_headline": true,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": true,
       "annotation_filled": false,
       "abstract_term_overlap": 0.75,
+      "appears_in_abstract_lexical": true,
       "appears_in_abstract": true
     },
     {
@@ -147,9 +171,11 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.75,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 5,
@@ -158,9 +184,11 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.75,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 6,
@@ -169,8 +197,10 @@
       "is_headline": true,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": true,
       "annotation_filled": false,
       "abstract_term_overlap": 0.6,
+      "appears_in_abstract_lexical": true,
       "appears_in_abstract": true
     },
     {
@@ -178,10 +208,12 @@
       "key": "stepper_device_electrode_lc_physical_isolation_confirmed",
       "centrality": "key_supporting",
       "is_headline": false,
-      "ex_ante_surprise": "implied_or_derivable",
-      "leakage_sufficient": true,
+      "ex_ante_surprise": "uncertain",
+      "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.3333,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -191,9 +223,11 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.5,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 7,
@@ -202,9 +236,11 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.5,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 7,
@@ -213,9 +249,11 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.5,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 7,
@@ -224,9 +262,11 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.5,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 7,
@@ -235,9 +275,11 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.5,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 7,
@@ -246,9 +288,11 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.5,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 7,
@@ -257,9 +301,11 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.5,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 7,
@@ -268,9 +314,11 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.5,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 7,
@@ -279,9 +327,11 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.5,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     }
   ],
   "comparison_sets": [
@@ -294,7 +344,7 @@
       ],
       "ordering_variable": "applied LC voltage",
       "question_type": "argmax_select",
-      "description": "Determine which LC bias voltage gives the strongest on-chip two-photon interference visibility."
+      "description": "Select the LC bias voltage that gives the highest on-chip two-photon interference visibility among the representative delay-sweep voltages."
     },
     {
       "experiment_index": 7,
@@ -303,9 +353,9 @@
         "stepper_vpi_L500um_g6um_V",
         "stepper_vpi_L500um_g7um_V"
       ],
-      "ordering_variable": "electrode gap at fixed 500 µm modulator length",
+      "ordering_variable": "electrode gap g at fixed modulator length L = 500 µm",
       "question_type": "monotonic_direction",
-      "description": "Determine how increasing the electrode gap changes Vpi for the 500 µm stepper-fabricated LC phase shifter."
+      "description": "Determine how the π-phase-shift voltage changes as the electrode gap is widened for 500 µm stepper-fabricated modulators."
     },
     {
       "experiment_index": 7,
@@ -314,9 +364,9 @@
         "stepper_vpi_L1000um_g6um_V",
         "stepper_vpi_L1000um_g7um_V"
       ],
-      "ordering_variable": "electrode gap at fixed 1000 µm modulator length",
+      "ordering_variable": "electrode gap g at fixed modulator length L = 1000 µm",
       "question_type": "monotonic_direction",
-      "description": "Determine how increasing the electrode gap changes Vpi for the 1000 µm stepper-fabricated LC phase shifter."
+      "description": "Determine how the π-phase-shift voltage changes as the electrode gap is widened for 1000 µm stepper-fabricated modulators."
     },
     {
       "experiment_index": 7,
@@ -325,9 +375,9 @@
         "stepper_vpi_L2000um_g6um_V",
         "stepper_vpi_L2000um_g7um_V"
       ],
-      "ordering_variable": "electrode gap at fixed 2000 µm modulator length",
+      "ordering_variable": "electrode gap g at fixed modulator length L = 2000 µm",
       "question_type": "monotonic_direction",
-      "description": "Determine how increasing the electrode gap changes Vpi for the 2000 µm stepper-fabricated LC phase shifter."
+      "description": "Determine how the π-phase-shift voltage changes as the electrode gap is widened for 2000 µm stepper-fabricated modulators."
     },
     {
       "experiment_index": 7,
@@ -336,9 +386,9 @@
         "stepper_vpi_L1000um_g5um_V",
         "stepper_vpi_L2000um_g5um_V"
       ],
-      "ordering_variable": "LC modulator length at fixed 5 µm electrode gap",
+      "ordering_variable": "LC modulator length L at fixed electrode gap g = 5 µm",
       "question_type": "monotonic_direction",
-      "description": "Determine how increasing LC interaction length changes Vpi for a 5 µm electrode gap."
+      "description": "Determine how the π-phase-shift voltage changes as the LC interaction length is increased for devices with a 5 µm electrode gap."
     },
     {
       "experiment_index": 7,
@@ -347,9 +397,9 @@
         "stepper_vpi_L1000um_g6um_V",
         "stepper_vpi_L2000um_g6um_V"
       ],
-      "ordering_variable": "LC modulator length at fixed 6 µm electrode gap",
+      "ordering_variable": "LC modulator length L at fixed electrode gap g = 6 µm",
       "question_type": "monotonic_direction",
-      "description": "Determine how increasing LC interaction length changes Vpi for a 6 µm electrode gap."
+      "description": "Determine how the π-phase-shift voltage changes as the LC interaction length is increased for devices with a 6 µm electrode gap."
     },
     {
       "experiment_index": 7,
@@ -358,9 +408,9 @@
         "stepper_vpi_L1000um_g7um_V",
         "stepper_vpi_L2000um_g7um_V"
       ],
-      "ordering_variable": "LC modulator length at fixed 7 µm electrode gap",
+      "ordering_variable": "LC modulator length L at fixed electrode gap g = 7 µm",
       "question_type": "monotonic_direction",
-      "description": "Determine how increasing LC interaction length changes Vpi for a 7 µm electrode gap."
+      "description": "Determine how the π-phase-shift voltage changes as the LC interaction length is increased for devices with a 7 µm electrode gap."
     },
     {
       "experiment_index": 7,
@@ -375,9 +425,9 @@
         "stepper_vpi_L2000um_g6um_V",
         "stepper_vpi_L2000um_g7um_V"
       ],
-      "ordering_variable": "LC modulator length and electrode gap",
+      "ordering_variable": "LC modulator geometry, combining modulator length L and electrode gap g",
       "question_type": "argmax_select",
-      "description": "Select the stepper-fabricated geometry that optimizes low-voltage π phase shifting across the tested length-gap design space."
+      "description": "Choose the stepper-fabricated modulator geometry that optimizes for lowest π-phase-shift voltage across the tested length-gap design matrix."
     }
   ]
 }

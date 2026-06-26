@@ -2,7 +2,7 @@
   "arxiv_id": "2603.15534",
   "paper_title": "Analog-Digital Quantum Computing with Quantum Annealing Processors",
   "model": "gpt-5.5",
-  "response_id": "resp_013bd13c3808d6b2006a3cc4349c048198bae7e1d3b123d543",
+  "response_id": "resp_07aa8fec9b6d16c4006a3e66d9352881998e91167d0904348d",
   "abstract_proxy": {
     "title": "Analog-Digital Quantum Computing with Quantum Annealing Processors",
     "abstract_chars": 1510
@@ -11,23 +11,27 @@
     {
       "experiment_index": 0,
       "key": "single_qubit_relaxation_time_T1_ns",
-      "centrality": "setup_or_control",
+      "centrality": "secondary",
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.5,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 0,
       "key": "single_qubit_pure_dephasing_time_Tphi_ns",
-      "centrality": "setup_or_control",
+      "centrality": "secondary",
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.3333,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -37,20 +41,24 @@
       "is_headline": true,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": true,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
-      "appears_in_abstract": false
+      "appears_in_abstract_lexical": false,
+      "appears_in_abstract": true
     },
     {
       "experiment_index": 1,
       "key": "two_qubit_relaxation_time_T1_ns",
-      "centrality": "setup_or_control",
+      "centrality": "secondary",
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.5,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 1,
@@ -59,8 +67,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.3333,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -70,9 +80,11 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.5,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 2,
@@ -80,20 +92,24 @@
       "centrality": "headline",
       "is_headline": true,
       "ex_ante_surprise": "implied_or_derivable",
-      "leakage_sufficient": false,
+      "leakage_sufficient": true,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.4,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
       "experiment_index": 2,
       "key": "coherent_propagation_normalized_time_lower_bound",
-      "centrality": "headline",
-      "is_headline": true,
+      "centrality": "key_supporting",
+      "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.1667,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -102,20 +118,24 @@
       "centrality": "key_supporting",
       "is_headline": false,
       "ex_ante_surprise": "implied_or_derivable",
-      "leakage_sufficient": false,
+      "leakage_sufficient": true,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.2,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
       "experiment_index": 3,
       "key": "coherent_propagation_distance_qubits_lower_bound",
-      "centrality": "headline",
-      "is_headline": true,
+      "centrality": "key_supporting",
+      "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.3333,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -125,8 +145,10 @@
       "is_headline": true,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": true,
       "annotation_filled": false,
       "abstract_term_overlap": 0.75,
+      "appears_in_abstract_lexical": true,
       "appears_in_abstract": true
     }
   ],

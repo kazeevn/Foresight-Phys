@@ -2,7 +2,7 @@
   "arxiv_id": "2601.11796",
   "paper_title": "Discovery of Van Hove Singularities: Electronic Fingerprints of 3Q Magnetic Order in a van der Waals Quantum Magnet",
   "model": "gpt-5.5",
-  "response_id": "resp_077fd50c3dfef1af006a3cc399b234819a8b3f6ffecc146355",
+  "response_id": "resp_016bf62cfefd9a41006a3e66d940888198b55f71ba83468a64",
   "abstract_proxy": {
     "title": "Discovery of Van Hove Singularities: Electronic Fingerprints of 3Q Magnetic Order in a van der Waals Quantum Magnet",
     "abstract_chars": 1128
@@ -14,9 +14,11 @@
       "centrality": "setup_or_control",
       "is_headline": false,
       "ex_ante_surprise": "implied_or_derivable",
-      "leakage_sufficient": true,
+      "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -26,8 +28,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -37,8 +41,10 @@
       "is_headline": false,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": true,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.3333,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -48,8 +54,10 @@
       "is_headline": false,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": true,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.3333,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -59,8 +67,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.3333,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -70,8 +80,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.25,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -81,8 +93,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.3333,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -92,8 +106,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -103,8 +119,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -114,8 +132,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.2,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -125,8 +145,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.2,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -136,8 +158,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -147,8 +171,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.3333,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -158,8 +184,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.3333,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -169,8 +197,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.2,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -180,19 +210,23 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.2,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
       "experiment_index": 2,
       "key": "alpha_beta_band_dominant_orbital_character",
-      "centrality": "secondary",
+      "centrality": "key_supporting",
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.1667,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -202,8 +236,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.2,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -213,8 +249,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.25,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -222,10 +260,12 @@
       "key": "gamma_m_band_upturn_at_x0_36_meV",
       "centrality": "key_supporting",
       "is_headline": false,
-      "ex_ante_surprise": "surprising",
+      "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.3333,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -233,10 +273,12 @@
       "key": "gamma_k_band_upturn_at_x0_36_meV",
       "centrality": "key_supporting",
       "is_headline": false,
-      "ex_ante_surprise": "surprising",
+      "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.3333,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -246,19 +288,23 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.5,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 4,
       "key": "alpha_beta_downshift_after_four_k_depositions_approx_meV",
-      "centrality": "key_supporting",
+      "centrality": "setup_or_control",
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -268,8 +314,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -279,8 +327,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.1667,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -290,8 +340,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -301,8 +353,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -312,8 +366,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -323,8 +379,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -334,8 +392,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -345,8 +405,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -356,8 +418,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -367,8 +431,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -378,8 +444,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -389,8 +457,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -400,9 +470,11 @@
       "is_headline": true,
       "ex_ante_surprise": "surprising",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": true,
       "annotation_filled": false,
       "abstract_term_overlap": 0.3333,
-      "appears_in_abstract": false
+      "appears_in_abstract_lexical": false,
+      "appears_in_abstract": true
     },
     {
       "experiment_index": 6,
@@ -411,8 +483,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.3333,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -422,9 +496,11 @@
       "is_headline": true,
       "ex_ante_surprise": "surprising",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": true,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
-      "appears_in_abstract": false
+      "appears_in_abstract_lexical": false,
+      "appears_in_abstract": true
     },
     {
       "experiment_index": 6,
@@ -433,8 +509,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     }
   ],
@@ -446,9 +524,9 @@
         "alpha_band_bottom_shift_along_gamma0_m0_meV",
         "beta_band_shift_at_m0_meV"
       ],
-      "ordering_variable": "band and momentum direction for Co-intercalation-induced shift",
+      "ordering_variable": "TaS2-derived band and momentum direction under Co intercalation",
       "question_type": "argmax_select",
-      "description": "Compare the Co-intercalation-induced energy shifts to decide whether the TaS2-derived bands shift rigidly or anisotropically, and which band/direction shifts most."
+      "description": "Compare which TaS2-derived band/direction exhibits the largest energy shift when going from pristine 2H-TaS2 to Co0.32TaS2."
     },
     {
       "experiment_index": 1,
@@ -456,9 +534,19 @@
         "spin_orbit_momentum_splitting_2h_tas2_inverse_angstrom",
         "spin_orbit_momentum_splitting_co0_32tas2_inverse_angstrom"
       ],
-      "ordering_variable": "pristine versus Co-intercalated sample",
+      "ordering_variable": "baseline pristine 2H-TaS2 versus Co0.32TaS2 intercalation",
       "question_type": "sign_vs_baseline",
       "description": "Determine whether Co intercalation increases the Fermi-level spin-orbit momentum splitting relative to pristine 2H-TaS2."
+    },
+    {
+      "experiment_index": 1,
+      "member_keys": [
+        "gamma_k_band_bottom_binding_energy_approx_meV",
+        "gamma_m_band_extremum_binding_energy_approx_meV"
+      ],
+      "ordering_variable": "Co-superlattice momentum point K versus M",
+      "question_type": "argmax_select",
+      "description": "Compare the near-EF energy scale of the Co-derived γ-band extrema at K and M."
     },
     {
       "experiment_index": 2,
@@ -466,9 +554,9 @@
         "gamma_band_lv_visibility",
         "epsilon_band_lv_visibility"
       ],
-      "ordering_variable": "band identity under LV versus LH polarization",
-      "question_type": "argmax_select",
-      "description": "Use polarization matrix-element contrast to decide which bands are suppressed or enhanced under LV light, supporting orbital assignments."
+      "ordering_variable": "band identity under linearly vertical versus horizontal polarization",
+      "question_type": "sign_vs_baseline",
+      "description": "Use the opposite LV-polarization matrix-element response of γ and ε bands to distinguish their orbital characters."
     },
     {
       "experiment_index": 3,
@@ -477,19 +565,9 @@
         "gamma_m_band_upturn_at_x0_36_meV",
         "gamma_k_band_upturn_at_x0_36_meV"
       ],
-      "ordering_variable": "band orbital class under increasing Co composition x",
+      "ordering_variable": "band character under increasing Co composition from x=0.29 to x=0.36",
       "question_type": "argmax_select",
-      "description": "Compare Co-composition-induced shifts of TaS2-derived and Co-derived bands to decide which electronic states absorb most of the added charge."
-    },
-    {
-      "experiment_index": 4,
-      "member_keys": [
-        "alpha_beta_downshift_after_four_k_depositions_approx_meV",
-        "gamma_m_response_to_k_deposition"
-      ],
-      "ordering_variable": "band orbital class under potassium electron donation",
-      "question_type": "sign_vs_baseline",
-      "description": "Contrast TaS2-derived and Co-derived band responses to surface electron doping to decide whether the γM band is pinned while α and β shift."
+      "description": "Determine whether TaS2-derived or Co-derived bands respond more strongly in energy to changing Co composition."
     },
     {
       "experiment_index": 5,
@@ -502,7 +580,7 @@
       ],
       "ordering_variable": "Co composition x",
       "question_type": "monotonic_direction",
-      "description": "Track whether Fermi-surface spectral weight transfers from the γ-pocket tip toward M as Co composition crosses the magnetic-regime boundary."
+      "description": "Track whether Fermi-surface spectral weight shifts from the γ-pocket tip toward M as Co composition crosses the magnetic-regime boundary."
     },
     {
       "experiment_index": 6,
@@ -515,7 +593,7 @@
       ],
       "ordering_variable": "Co composition x",
       "question_type": "monotonic_direction",
-      "description": "Determine how the EDC spectral-weight ratio between kF and M evolves with Co composition across the proposed 3Q-to-helical transition."
+      "description": "Track the doping-dependent spectral-weight transfer from kF to the M point along K–M–K′."
     },
     {
       "experiment_index": 6,
@@ -523,19 +601,9 @@
         "near_ef_gamma_dispersion_shape_x0_29",
         "near_ef_gamma_dispersion_shape_x0_36"
       ],
-      "ordering_variable": "low versus high Co composition / magnetic regime",
+      "ordering_variable": "low-Co 3Q regime versus high-Co helical-regime composition",
       "question_type": "sign_vs_baseline",
-      "description": "Compare the γ-band dispersion shape below and above the critical composition to identify the inverse-Mexican-hat fingerprint of 3Q order."
-    },
-    {
-      "experiment_index": 6,
-      "member_keys": [
-        "vhs_configuration_x0_29",
-        "m_point_dip_presence_x0_34_x0_36"
-      ],
-      "ordering_variable": "low versus high Co composition / magnetic regime",
-      "question_type": "sign_vs_baseline",
-      "description": "Contrast the low-doping displaced-VHS/dip configuration with the high-doping absence of an M-point dip to assess the magnetic-order-driven reconstruction."
+      "description": "Decide whether the inverse-Mexican-hat γ-band reconstruction present at low Co composition is suppressed at high Co composition."
     }
   ]
 }

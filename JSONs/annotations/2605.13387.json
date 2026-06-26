@@ -2,7 +2,7 @@
   "arxiv_id": "2605.13387",
   "paper_title": "Λ -enhanced gray-molasses loading and EIT cooling of neutral atoms in nanophotonic traps",
   "model": "gpt-5.5",
-  "response_id": "resp_0274e16b763ee0a8006a3cc56c25c08198b6fee3ae6f3dca76",
+  "response_id": "resp_0f51245c8b00f6d2006a3e6755265c81998b65681756bd1df0",
   "abstract_proxy": {
     "title": "Λ -enhanced gray-molasses loading and EIT cooling of neutral atoms in nanophotonic traps",
     "abstract_chars": 1270
@@ -15,9 +15,11 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.5,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 0,
@@ -26,8 +28,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.4,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -37,9 +41,11 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.5,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 0,
@@ -48,20 +54,24 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.4,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
       "experiment_index": 0,
       "key": "lambda_gm_asymptotic_optical_depth",
-      "centrality": "headline",
-      "is_headline": true,
+      "centrality": "key_supporting",
+      "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.5,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 0,
@@ -70,8 +80,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.4,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -81,9 +93,11 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.5,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 0,
@@ -92,8 +106,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.4,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -103,9 +119,11 @@
       "is_headline": true,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": true,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
-      "appears_in_abstract": false
+      "appears_in_abstract_lexical": false,
+      "appears_in_abstract": true
     },
     {
       "experiment_index": 1,
@@ -114,8 +132,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -125,8 +145,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -136,8 +158,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.3333,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -147,8 +171,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.2857,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -158,8 +184,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.2,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -169,8 +197,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.1667,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -180,8 +210,10 @@
       "is_headline": true,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": true,
       "annotation_filled": false,
       "abstract_term_overlap": 0.6667,
+      "appears_in_abstract_lexical": true,
       "appears_in_abstract": true
     },
     {
@@ -191,9 +223,11 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.5,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 3,
@@ -202,8 +236,10 @@
       "is_headline": true,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": true,
       "annotation_filled": false,
       "abstract_term_overlap": 0.5,
+      "appears_in_abstract_lexical": true,
       "appears_in_abstract": true
     },
     {
@@ -213,8 +249,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.3333,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -224,8 +262,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.4,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -235,31 +275,37 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.3333,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
       "experiment_index": 4,
       "key": "maximum_site_filling_factor",
-      "centrality": "headline",
-      "is_headline": true,
+      "centrality": "key_supporting",
+      "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
       "experiment_index": 4,
       "key": "flat_top_distribution_length_mm",
-      "centrality": "headline",
-      "is_headline": true,
+      "centrality": "key_supporting",
+      "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": true,
       "annotation_filled": false,
       "abstract_term_overlap": 0.25,
-      "appears_in_abstract": false
+      "appears_in_abstract_lexical": false,
+      "appears_in_abstract": true
     },
     {
       "experiment_index": 4,
@@ -268,8 +314,10 @@
       "is_headline": true,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": true,
       "annotation_filled": false,
       "abstract_term_overlap": 0.75,
+      "appears_in_abstract_lexical": true,
       "appears_in_abstract": true
     },
     {
@@ -279,9 +327,11 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 1.0,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 5,
@@ -290,9 +340,11 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.75,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 5,
@@ -301,8 +353,10 @@
       "is_headline": true,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": true,
       "annotation_filled": false,
       "abstract_term_overlap": 0.5,
+      "appears_in_abstract_lexical": true,
       "appears_in_abstract": true
     },
     {
@@ -312,9 +366,11 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": true,
       "annotation_filled": false,
       "abstract_term_overlap": 0.4,
-      "appears_in_abstract": false
+      "appears_in_abstract_lexical": false,
+      "appears_in_abstract": true
     },
     {
       "experiment_index": 5,
@@ -323,9 +379,11 @@
       "is_headline": true,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": true,
       "annotation_filled": false,
       "abstract_term_overlap": 0.4,
-      "appears_in_abstract": false
+      "appears_in_abstract_lexical": false,
+      "appears_in_abstract": true
     },
     {
       "experiment_index": 6,
@@ -334,9 +392,11 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.5,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 6,
@@ -345,8 +405,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.2,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -356,8 +418,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -367,9 +431,11 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 1.0,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 7,
@@ -378,9 +444,11 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.8333,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 7,
@@ -389,9 +457,11 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.8,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 7,
@@ -400,9 +470,11 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.6667,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 7,
@@ -411,9 +483,11 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.6667,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 8,
@@ -422,19 +496,23 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.5,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 8,
       "key": "guided_eit_optimal_coupler_power_pW",
       "centrality": "headline",
       "is_headline": true,
-      "ex_ante_surprise": "surprising",
+      "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": true,
       "annotation_filled": false,
       "abstract_term_overlap": 0.6,
+      "appears_in_abstract_lexical": true,
       "appears_in_abstract": true
     },
     {
@@ -444,9 +522,11 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.5,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 8,
@@ -455,9 +535,11 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.6,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 8,
@@ -466,9 +548,11 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.5,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 9,
@@ -477,8 +561,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.1667,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -488,8 +574,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.1429,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -499,8 +587,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.1667,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -510,8 +600,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.1429,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -521,8 +613,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.1667,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -532,8 +626,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.1429,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -543,8 +639,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.1667,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -554,19 +652,23 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.1429,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
       "experiment_index": 9,
       "key": "normalized_two_body_loss_rate_s_inv",
-      "centrality": "key_supporting",
+      "centrality": "setup_or_control",
       "is_headline": false,
-      "ex_ante_surprise": "uncertain",
+      "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.1667,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -576,9 +678,11 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.6667,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 9,
@@ -587,9 +691,11 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.6667,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     }
   ],
   "comparison_sets": [
@@ -599,9 +705,9 @@
         "rpgc_asymptotic_optical_depth",
         "lambda_gm_asymptotic_optical_depth"
       ],
-      "ordering_variable": "loading method: RPGC baseline vs ΛGM after RPGC",
+      "ordering_variable": "cooling/loading method: RPGC baseline versus ΛGM stage",
       "question_type": "sign_vs_baseline",
-      "description": "Determine whether switching from conventional RPGC loading to ΛGM-assisted loading increases the final nanofiber-trapped optical depth."
+      "description": "Decide whether ΛGM loading increases the steady-state nanofiber-trapped optical depth relative to conventional RPGC."
     },
     {
       "experiment_index": 0,
@@ -609,9 +715,9 @@
         "rpgc_loading_time_constant_ms",
         "lambda_gm_loading_time_constant_ms"
       ],
-      "ordering_variable": "loading method: RPGC stage vs ΛGM stage",
+      "ordering_variable": "cooling/loading method: RPGC baseline versus ΛGM stage",
       "question_type": "sign_vs_baseline",
-      "description": "Compare the characteristic loading time scale of the RPGC and ΛGM loading stages."
+      "description": "Compare the characteristic loading times of the RPGC and ΛGM stages."
     },
     {
       "experiment_index": 1,
@@ -619,9 +725,9 @@
         "rpgc_cloud_temperature_uK",
         "lambda_gm_cloud_temperature_after_long_cooling_uK"
       ],
-      "ordering_variable": "cooling stage: RPGC baseline vs long-duration ΛGM",
+      "ordering_variable": "cooling method/duration: RPGC baseline versus long ΛGM cooling",
       "question_type": "sign_vs_baseline",
-      "description": "Determine how much the ΛGM stage lowers the untrapped molasses-cloud temperature relative to RPGC."
+      "description": "Decide whether ΛGM produces a colder untrapped cesium cloud than the preceding RPGC stage."
     },
     {
       "experiment_index": 5,
@@ -629,9 +735,9 @@
         "passive_storage_time_ms",
         "lambda_gm_active_storage_time_ms"
       ],
-      "ordering_variable": "storage condition: passive hold vs reapplied free-space ΛGM/EIT cooling",
+      "ordering_variable": "storage condition: passive hold versus reapplied ΛGM/EIT-assisted cooling",
       "question_type": "sign_vs_baseline",
-      "description": "Determine whether applying ΛGM/EIT cooling after loading extends the nanofiber-trap storage time relative to passive storage."
+      "description": "Decide whether applying free-space ΛGM/EIT cooling extends the nanofiber-trap storage time relative to passive storage."
     },
     {
       "experiment_index": 6,
@@ -639,9 +745,9 @@
         "passive_beta_time_trend",
         "lambda_gm_cooled_beta_time_trend"
       ],
-      "ordering_variable": "storage condition: passive hold vs ΛGM/EIT-cooled hold",
+      "ordering_variable": "storage condition: passive hold versus reapplied ΛGM/EIT-assisted cooling",
       "question_type": "sign_vs_baseline",
-      "description": "Decide whether active ΛGM/EIT cooling prevents the time-dependent degradation of atom–nanofiber coupling observed during passive storage."
+      "description": "Decide whether active ΛGM/EIT cooling prevents the time-dependent degradation of atom–waveguide coupling seen during passive storage."
     },
     {
       "experiment_index": 7,
@@ -649,9 +755,9 @@
         "guided_eit_passive_storage_time_ms",
         "guided_eit_active_storage_time_ms"
       ],
-      "ordering_variable": "storage condition: passive hold vs all-guided EIT cooling",
+      "ordering_variable": "storage condition: passive hold versus all-guided EIT cooling",
       "question_type": "sign_vs_baseline",
-      "description": "Determine whether co-propagating guided EIT fields extend the trap storage time relative to passive storage."
+      "description": "Decide whether co-propagating guided EIT-cooling fields extend storage time relative to passive holding."
     },
     {
       "experiment_index": 9,
@@ -659,9 +765,9 @@
         "rpgc_single_site_loading_rate_s_inv",
         "lambda_gm_single_site_loading_rate_s_inv"
       ],
-      "ordering_variable": "loading method: RPGC vs ΛGM",
+      "ordering_variable": "cooling/loading method: RPGC versus ΛGM",
       "question_type": "sign_vs_baseline",
-      "description": "Compare the per-site loading rate achieved by ΛGM with that achieved by RPGC."
+      "description": "Compare the single-site atom loading rates to decide which cooling method loads nanofiber trap sites more efficiently."
     },
     {
       "experiment_index": 9,
@@ -669,31 +775,19 @@
         "rpgc_one_atom_loss_rate_s_inv",
         "lambda_gm_one_atom_loss_rate_s_inv"
       ],
-      "ordering_variable": "cooling method during storage: RPGC vs ΛGM",
+      "ordering_variable": "cooling/storage method: RPGC versus ΛGM",
       "question_type": "sign_vs_baseline",
-      "description": "Compare the one-atom loss rate under ΛGM cooling with that under RPGC cooling."
+      "description": "Compare one-atom loss rates under RPGC and ΛGM conditions to determine which method better preserves trapped atoms."
     },
     {
       "experiment_index": 9,
       "member_keys": [
-        "lambda_gm_one_atom_loss_rate_s_inv",
-        "lambda_gm_single_site_loading_rate_s_inv",
-        "normalized_two_body_loss_rate_s_inv"
+        "rpgc_loading_regime",
+        "lambda_gm_loading_regime"
       ],
-      "ordering_variable": "rate hierarchy for ΛGM loading: one-body loss, single-site loading, and two-body loss scale",
-      "question_type": "order_of_magnitude",
-      "description": "Check whether the ΛGM loading and loss rates fall in the hierarchy required for collisional-blockade-limited loading."
-    },
-    {
-      "experiment_index": 9,
-      "member_keys": [
-        "rpgc_one_atom_loss_rate_s_inv",
-        "rpgc_single_site_loading_rate_s_inv",
-        "normalized_two_body_loss_rate_s_inv"
-      ],
-      "ordering_variable": "rate hierarchy for RPGC loading: one-body loss, single-site loading, and two-body loss scale",
-      "question_type": "order_of_magnitude",
-      "description": "Check whether the RPGC loading and loss rates instead place the system in the weak-loading regime."
+      "ordering_variable": "cooling/loading method: RPGC versus ΛGM",
+      "question_type": "argmax_select",
+      "description": "Decide which loading method reaches the collisional-blockade-limited regime rather than weak loading."
     }
   ]
 }

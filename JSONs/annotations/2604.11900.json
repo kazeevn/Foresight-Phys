@@ -2,7 +2,7 @@
   "arxiv_id": "2604.11900",
   "paper_title": "Observation of feedback-directed quantum dynamics in large-scale quantum processors",
   "model": "gpt-5.5",
-  "response_id": "resp_0a6e7eb25ca1be5b006a3cc47e8570819890f95835d89943bc",
+  "response_id": "resp_01f0ed9aa2bd8407006a3e66fd5fb081999fcd92da7d15f98b",
   "abstract_proxy": {
     "title": "Observation of feedback-directed quantum dynamics in large-scale quantum processors",
     "abstract_chars": 1231
@@ -15,8 +15,10 @@
       "is_headline": false,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.3333,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -26,8 +28,10 @@
       "is_headline": false,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.25,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -37,8 +41,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -48,8 +54,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -59,8 +67,10 @@
       "is_headline": false,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.1667,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -70,8 +80,10 @@
       "is_headline": false,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.1429,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -79,10 +91,12 @@
       "key": "center_initial_layer10_delta_center_of_mass_conditional_x_sites",
       "centrality": "headline",
       "is_headline": true,
-      "ex_ante_surprise": "surprising",
+      "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -92,8 +106,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.125,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -103,19 +119,23 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.1111,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
       "experiment_index": 1,
       "key": "right_edge_initial_layer10_delta_center_of_mass_conditional_x_sites",
-      "centrality": "key_supporting",
+      "centrality": "secondary",
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -125,8 +145,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -136,8 +158,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -147,8 +171,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -158,8 +184,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -169,8 +197,10 @@
       "is_headline": false,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.3333,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -180,8 +210,10 @@
       "is_headline": false,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.3333,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -191,8 +223,10 @@
       "is_headline": false,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.3333,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -202,8 +236,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -213,8 +249,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -222,10 +260,12 @@
       "key": "conditional_x_L100_layer10_end_to_end_polarization_dimensionless",
       "centrality": "headline",
       "is_headline": true,
-      "ex_ante_surprise": "surprising",
+      "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     }
   ],
@@ -238,9 +278,9 @@
         "layer10_center_of_mass_conditional_x_dimensionless",
         "layer10_center_of_mass_conditional_swap_dimensionless"
       ],
-      "ordering_variable": "circuit architecture: unitary, measurement-only, conditional-X feedback, conditional-SWAP feedback",
+      "ordering_variable": "circuit architecture / feedback protocol",
       "question_type": "argmax_select",
-      "description": "This comparison decides which circuit architecture produces the strongest directional center-of-mass displacement at fixed system size and depth."
+      "description": "Compare the final center-of-mass displacement across unitary, measurement-only, conditional-X, and conditional-SWAP circuits to identify which architecture produces the strongest directed motion."
     },
     {
       "experiment_index": 1,
@@ -251,7 +291,7 @@
       ],
       "ordering_variable": "circuit class for center-initialized 100-qubit chain",
       "question_type": "sign_vs_baseline",
-      "description": "This comparison tests whether conditional-X feedback produces a positive displacement beyond the unitary and measurement-only controls for a center-localized initial state."
+      "description": "Determine whether conditional-X feedback produces a positive center-of-mass shift relative to unitary and measurement-only controls for a center-initialized 100-qubit chain."
     },
     {
       "experiment_index": 1,
@@ -262,7 +302,7 @@
       ],
       "ordering_variable": "circuit class for right-edge-initialized 100-qubit chain",
       "question_type": "sign_vs_baseline",
-      "description": "This comparison tests whether the feedback-induced transport survives when the initial population is placed near the low-measurement right boundary."
+      "description": "Test whether the feedback-induced shift remains distinct from the controls when the initial state is placed near the low-measurement-rate right boundary."
     },
     {
       "experiment_index": 1,
@@ -270,9 +310,9 @@
         "center_initial_layer10_delta_center_of_mass_conditional_x_sites",
         "right_edge_initial_layer10_delta_center_of_mass_conditional_x_sites"
       ],
-      "ordering_variable": "initial excitation placement: chain center versus right edge",
-      "question_type": "sign_vs_baseline",
-      "description": "This comparison determines whether the same conditional-X feedback protocol is blocked or strongly reduced by boundary-localized initialization."
+      "ordering_variable": "initial state position",
+      "question_type": "argmax_select",
+      "description": "Compare conditional-X feedback for center and right-edge initializations to decide where feedback pumping is effective rather than boundary-blocked."
     },
     {
       "experiment_index": 2,
@@ -282,9 +322,9 @@
         "g_0p006_layer5_delta_center_of_mass_sites",
         "g_0p008_layer5_delta_center_of_mass_sites"
       ],
-      "ordering_variable": "measurement-gradient strength g",
+      "ordering_variable": "measurement-gradient parameter g",
       "question_type": "monotonic_direction",
-      "description": "This comparison determines whether increasing the spatial measurement-feedback gradient monotonically enhances the feedback-directed pumping."
+      "description": "Assess whether increasing the measurement-gradient strength monotonically enhances feedback-driven center-of-mass pumping."
     },
     {
       "experiment_index": 3,
@@ -292,9 +332,9 @@
         "unitary_L50_layer10_end_to_end_polarization_dimensionless",
         "conditional_x_L50_layer10_end_to_end_polarization_dimensionless"
       ],
-      "ordering_variable": "circuit class at L = 50: unitary baseline versus conditional-X feedback",
+      "ordering_variable": "unitary baseline versus conditional-X feedback at L=50",
       "question_type": "sign_vs_baseline",
-      "description": "This comparison tests whether conditional-X feedback generates a nonzero end-to-end polarization relative to the unitary baseline at 50 qubits."
+      "description": "Determine whether conditional-X feedback generates a positive end-to-end polarization compared with the unitary control at 50 qubits."
     },
     {
       "experiment_index": 3,
@@ -302,9 +342,9 @@
         "unitary_L80_layer10_end_to_end_polarization_dimensionless",
         "conditional_x_L80_layer10_end_to_end_polarization_dimensionless"
       ],
-      "ordering_variable": "circuit class at L = 80: unitary baseline versus conditional-X feedback",
+      "ordering_variable": "unitary baseline versus conditional-X feedback at L=80",
       "question_type": "sign_vs_baseline",
-      "description": "This comparison tests whether conditional-X feedback generates a nonzero end-to-end polarization relative to the unitary baseline at 80 qubits."
+      "description": "Determine whether conditional-X feedback generates a positive end-to-end polarization compared with the unitary control at 80 qubits."
     },
     {
       "experiment_index": 3,
@@ -312,9 +352,9 @@
         "unitary_L100_layer10_end_to_end_polarization_dimensionless",
         "conditional_x_L100_layer10_end_to_end_polarization_dimensionless"
       ],
-      "ordering_variable": "circuit class at L = 100: unitary baseline versus conditional-X feedback",
+      "ordering_variable": "unitary baseline versus conditional-X feedback at L=100",
       "question_type": "sign_vs_baseline",
-      "description": "This comparison tests whether conditional-X feedback generates a robust end-to-end polarization relative to the unitary baseline at the largest demonstrated 100-qubit scale."
+      "description": "Determine whether conditional-X feedback generates a positive end-to-end polarization compared with the unitary control at 100 qubits."
     },
     {
       "experiment_index": 3,
@@ -323,9 +363,9 @@
         "conditional_x_L80_layer10_end_to_end_polarization_dimensionless",
         "conditional_x_L100_layer10_end_to_end_polarization_dimensionless"
       ],
-      "ordering_variable": "system size L under conditional-X feedback",
+      "ordering_variable": "system size L",
       "question_type": "monotonic_direction",
-      "description": "This comparison determines how the feedback-induced polarization changes as the chain size is increased from 50 to 100 qubits."
+      "description": "Check how the feedback-induced end-to-end polarization changes with system size under the size-scaled measurement gradient."
     }
   ]
 }

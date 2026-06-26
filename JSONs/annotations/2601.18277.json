@@ -2,7 +2,7 @@
   "arxiv_id": "2601.18277",
   "paper_title": "Voltage-controlled  topological  spin  textures  in  the monolayer limit",
   "model": "gpt-5.5",
-  "response_id": "resp_0a5597c82474cd32006a3cc3fec4b4819a9d0eefb3bcaa6808",
+  "response_id": "resp_0adf899a4860195f006a3e66d93cd4819a89c18617d77dde45",
   "abstract_proxy": {
     "title": "Voltage-controlled  topological  spin  textures  in  the monolayer limit",
     "abstract_chars": 1290
@@ -15,8 +15,10 @@
       "is_headline": false,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -26,8 +28,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -37,8 +41,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.1667,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -48,8 +54,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -59,8 +67,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.25,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -70,8 +80,10 @@
       "is_headline": false,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -81,8 +93,10 @@
       "is_headline": false,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.1429,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -92,8 +106,10 @@
       "is_headline": true,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.4,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -103,8 +119,10 @@
       "is_headline": true,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.25,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -114,8 +132,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.3333,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -125,8 +145,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.3333,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -136,8 +158,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -147,9 +171,11 @@
       "is_headline": true,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.6,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 4,
@@ -158,8 +184,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.4,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -169,8 +197,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.2,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -180,8 +210,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.3333,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -191,8 +223,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.3333,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -202,9 +236,11 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.5,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 4,
@@ -213,9 +249,11 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.5,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     }
   ],
   "comparison_sets": [
@@ -225,9 +263,19 @@
         "positive_topological_charge_peak_field_shift_Oe_per_V",
         "negative_topological_charge_peak_field_shift_Oe_per_V"
       ],
-      "ordering_variable": "topological charge sign of the RCDT peak",
+      "ordering_variable": "topological charge sign / magnetic-field sweep direction",
       "question_type": "argmax_select",
-      "description": "Compare whether positive- or negative-topological-charge skyrmion peaks are more strongly shifted in magnetic field by gate voltage."
+      "description": "Compare whether the voltage tuning of the RCDT peak field is stronger for positive- or negative-topological-charge peaks."
+    },
+    {
+      "experiment_index": 3,
+      "member_keys": [
+        "topological_circular_dichroism_onset_voltage_V",
+        "type_i_to_type_ii_skyrmion_transition_voltage_V"
+      ],
+      "ordering_variable": "gate voltage",
+      "question_type": "monotonic_direction",
+      "description": "Use the two voltage thresholds to delimit the voltage windows for the ferromagnetic, type-I skyrmion, and type-II skyrmion regimes."
     },
     {
       "experiment_index": 4,
@@ -235,9 +283,9 @@
         "positive_topological_peak_field_temperature_slope_Oe_per_K",
         "negative_topological_peak_field_temperature_slope_Oe_per_K"
       ],
-      "ordering_variable": "topological charge sign of the RMCD/RCDT peak",
+      "ordering_variable": "topological charge sign / magnetic-field sweep direction",
       "question_type": "argmax_select",
-      "description": "Compare whether positive- or negative-topological-charge peak positions have the larger temperature-dependent field shift."
+      "description": "Compare whether the temperature-driven shift of the peak field is larger for positive- or negative-topological-charge peaks."
     },
     {
       "experiment_index": 4,
@@ -247,7 +295,17 @@
       ],
       "ordering_variable": "out-of-plane magnetic-field magnitude",
       "question_type": "monotonic_direction",
-      "description": "Determine how increasing the applied out-of-plane field magnitude changes the critical temperature of the voltage-induced topological phase."
+      "description": "Determine how increasing the absolute out-of-plane magnetic field changes the critical temperature of the voltage-induced topological phase."
+    },
+    {
+      "experiment_index": 4,
+      "member_keys": [
+        "topological_to_in_plane_ferromagnetic_transition_temperature_at_16V_K",
+        "in_plane_ferromagnetic_to_paramagnetic_transition_temperature_at_16V_K"
+      ],
+      "ordering_variable": "temperature",
+      "question_type": "monotonic_direction",
+      "description": "Compare the successive thermal phase boundaries to identify the temperature interval where the in-plane ferromagnetic state persists after the topological phase disappears."
     }
   ]
 }

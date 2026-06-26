@@ -2,7 +2,7 @@
   "arxiv_id": "2604.13382",
   "paper_title": "Dynamics of wavepackets and entanglement in many-body kicked rotors under quantum resonance",
   "model": "gpt-5.5",
-  "response_id": "resp_01a0c72bb2e8556d006a3cc4a56f44819881b23e6b6314bdc7",
+  "response_id": "resp_0a6ed7d6c6fd4f45006a3e66fff9fc819a8cf917f39b6e906c",
   "abstract_proxy": {
     "title": "Dynamics of wavepackets and entanglement in many-body kicked rotors under quantum resonance",
     "abstract_chars": 837
@@ -15,8 +15,10 @@
       "is_headline": false,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.2,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -26,8 +28,10 @@
       "is_headline": false,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.1429,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -37,9 +41,11 @@
       "is_headline": true,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": true,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.6667,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 0,
@@ -48,8 +54,10 @@
       "is_headline": false,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.1429,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -59,19 +67,23 @@
       "is_headline": true,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": true,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.6667,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 0,
       "key": "odd_step_linear_entropy",
       "centrality": "key_supporting",
       "is_headline": false,
-      "ex_ante_surprise": "implied_or_derivable",
+      "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.25,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -81,9 +93,11 @@
       "is_headline": true,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": true,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.5,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 1,
@@ -92,8 +106,10 @@
       "is_headline": false,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.2,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -103,8 +119,10 @@
       "is_headline": false,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.2,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -114,8 +132,10 @@
       "is_headline": false,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.1429,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -125,8 +145,10 @@
       "is_headline": false,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.1429,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -136,9 +158,11 @@
       "is_headline": true,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": true,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.6667,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 1,
@@ -147,9 +171,11 @@
       "is_headline": true,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": true,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.6667,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 1,
@@ -158,8 +184,10 @@
       "is_headline": false,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.3333,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -169,8 +197,10 @@
       "is_headline": false,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.2,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -180,9 +210,11 @@
       "is_headline": true,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": true,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.5,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 2,
@@ -191,9 +223,11 @@
       "is_headline": true,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": true,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.5,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 3,
@@ -202,8 +236,10 @@
       "is_headline": false,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.2,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -213,8 +249,10 @@
       "is_headline": false,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.2,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -224,8 +262,10 @@
       "is_headline": false,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.1429,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -235,8 +275,10 @@
       "is_headline": false,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.1429,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -246,9 +288,11 @@
       "is_headline": true,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": true,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.6667,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 3,
@@ -257,19 +301,23 @@
       "is_headline": true,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": true,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.6667,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 3,
       "key": "odd_step_linear_entropy",
       "centrality": "key_supporting",
       "is_headline": false,
-      "ex_ante_surprise": "implied_or_derivable",
+      "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.25,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -279,19 +327,23 @@
       "is_headline": true,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": true,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.5,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 4,
       "key": "p1_variance_time_exponent",
       "centrality": "key_supporting",
       "is_headline": false,
-      "ex_ante_surprise": "uncertain",
+      "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -299,10 +351,12 @@
       "key": "p2_variance_time_exponent",
       "centrality": "key_supporting",
       "is_headline": false,
-      "ex_ante_surprise": "uncertain",
+      "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -310,10 +364,12 @@
       "key": "linear_entropy_initial_time_exponent",
       "centrality": "key_supporting",
       "is_headline": false,
-      "ex_ante_surprise": "surprising",
+      "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.2,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -321,11 +377,13 @@
       "key": "linear_entropy_dynamical_regime",
       "centrality": "key_supporting",
       "is_headline": false,
-      "ex_ante_surprise": "surprising",
+      "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.5,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 5,
@@ -334,8 +392,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -345,8 +405,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -356,8 +418,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -365,10 +429,12 @@
       "key": "undetuned_odd_step_linear_entropy",
       "centrality": "setup_or_control",
       "is_headline": false,
-      "ex_ante_surprise": "implied_or_derivable",
+      "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.2,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -378,9 +444,11 @@
       "is_headline": false,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": true,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.6667,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 6,
@@ -389,9 +457,11 @@
       "is_headline": false,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": true,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.6667,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 6,
@@ -400,42 +470,36 @@
       "is_headline": false,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": true,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.5,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 6,
       "key": "wavepacket_variance_saturation_scale_formula",
-      "centrality": "setup_or_control",
+      "centrality": "secondary",
       "is_headline": false,
       "ex_ante_surprise": "implied_or_derivable",
-      "leakage_sufficient": true,
+      "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.2,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     }
   ],
   "comparison_sets": [
     {
-      "experiment_index": 0,
-      "member_keys": [
-        "p1_variance_odd_step_oscillation_magnitude_lambda_1_minus",
-        "p2_variance_odd_step_oscillation_magnitude_lambda_2_minus"
-      ],
-      "ordering_variable": "rotor index / effective-potential symmetry under the partial pi translation",
-      "question_type": "argmax_select",
-      "description": "Determine which rotor has the larger anti-resonant odd-step oscillation amplitude in the mixed principal-secondary resonance case."
-    },
-    {
       "experiment_index": 1,
       "member_keys": [
         "p1_variance_quadratic_coefficient_lambda_1_plus",
         "p2_variance_quadratic_coefficient_lambda_2_plus"
       ],
-      "ordering_variable": "rotor index with both rotors at secondary resonance",
+      "ordering_variable": "rotor index / single-rotor effective potential",
       "question_type": "argmax_select",
-      "description": "Check whether either rotor has the larger ballistic quadratic spreading coefficient when both effective potentials are mixed-symmetry."
+      "description": "Compare the ballistic quadratic spreading coefficients of the two rotors to determine whether either rotor spreads faster in the hybrid regime."
     },
     {
       "experiment_index": 1,
@@ -443,9 +507,9 @@
         "p1_variance_odd_step_oscillation_magnitude_lambda_1_minus",
         "p2_variance_odd_step_oscillation_magnitude_lambda_2_minus"
       ],
-      "ordering_variable": "rotor index with different local kick strengths k1 and k2",
+      "ordering_variable": "rotor index / local kicking strength",
       "question_type": "argmax_select",
-      "description": "Determine which rotor has the larger odd-step oscillatory component of the hybrid wavepacket spreading."
+      "description": "Compare the odd-step oscillatory variance amplitudes to identify which rotor has the larger anti-resonant modulation."
     },
     {
       "experiment_index": 3,
@@ -453,9 +517,9 @@
         "p1_variance_quadratic_coefficient_lambda_1_plus",
         "p2_variance_quadratic_coefficient_lambda_2_plus"
       ],
-      "ordering_variable": "rotor index in the higher-harmonic secondary-resonance model",
+      "ordering_variable": "rotor index in the high-harmonic model",
       "question_type": "argmax_select",
-      "description": "Check whether the two rotors have equal or different ballistic spreading coefficients in the generalized high-harmonic model."
+      "description": "Compare the quadratic spreading coefficients of the two rotors in the extended harmonic model to see whether the symmetric component drives equal or unequal ballistic rates."
     },
     {
       "experiment_index": 3,
@@ -463,20 +527,19 @@
         "p1_variance_odd_step_oscillation_magnitude_lambda_1_minus",
         "p2_variance_odd_step_oscillation_magnitude_lambda_2_minus"
       ],
-      "ordering_variable": "rotor index in the higher-harmonic secondary-resonance model",
+      "ordering_variable": "rotor index in the high-harmonic model",
       "question_type": "argmax_select",
-      "description": "Determine which rotor has the larger odd-step oscillation amplitude in the generalized high-harmonic model."
+      "description": "Compare the oscillatory amplitudes of the two rotors to determine which mixed-symmetry effective potential gives the stronger period-2 modulation."
     },
     {
       "experiment_index": 4,
       "member_keys": [
         "p1_variance_time_exponent",
-        "p2_variance_time_exponent",
-        "linear_entropy_initial_time_exponent"
+        "p2_variance_time_exponent"
       ],
-      "ordering_variable": "observable type: rotor-1 variance, rotor-2 variance, or bipartite linear entropy",
-      "question_type": "order_of_magnitude",
-      "description": "Compare the growth-law exponents to decide whether higher-order resonances give the same scaling for wavepacket spreading and entanglement production."
+      "ordering_variable": "rotor index in higher-order resonances",
+      "question_type": "argmax_select",
+      "description": "Compare the wavepacket growth exponents for the two rotors to determine whether higher-order resonance produces the same ballistic exponent in both momentum spaces."
     }
   ]
 }

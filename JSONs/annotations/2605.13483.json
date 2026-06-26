@@ -2,7 +2,7 @@
   "arxiv_id": "2605.13483",
   "paper_title": "Vectorial field reconstruction without detecting the field",
   "model": "gpt-5.5",
-  "response_id": "resp_01946ac155f1323f006a3cc574f648819885317bbb74909bd6",
+  "response_id": "resp_0d215490bdbc7646006a3e67552894819bafa6c7b59ee9b7e2",
   "abstract_proxy": {
     "title": "Vectorial field reconstruction without detecting the field",
     "abstract_chars": 1570
@@ -15,8 +15,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.25,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -26,19 +28,23 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.1667,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
       "experiment_index": 1,
       "key": "oah_background_level_reduction_vs_psdh_percent",
-      "centrality": "secondary",
+      "centrality": "key_supporting",
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -48,8 +54,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -59,8 +67,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.25,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     }
   ],
@@ -73,9 +83,9 @@
         "oah_snr_enhancement_vs_psdh_percent",
         "oah_phase_degraded_area_fraction_percent"
       ],
-      "ordering_variable": "reconstruction strategy: PSDH baseline versus OAH",
+      "ordering_variable": "reconstruction strategy: PSDH baseline vs OAH",
       "question_type": "sign_vs_baseline",
-      "description": "This set determines the practical trade-off of using OAH instead of PSDH: improved amplitude quality, background, and SNR at the cost of a localized phase-degraded region."
+      "description": "These fields quantify the practical trade-off when choosing OAH instead of PSDH: OAH improves amplitude quality, background, and SNR, but introduces a localized phase-degradation penalty."
     }
   ]
 }

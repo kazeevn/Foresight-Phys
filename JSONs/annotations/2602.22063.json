@@ -2,7 +2,7 @@
   "arxiv_id": "2602.22063",
   "paper_title": "PAPER",
   "model": "gpt-5.5",
-  "response_id": "resp_0a4a1d20a507539b006a3cc432bbd08198b8d3bb18c85c6f61",
+  "response_id": "resp_01677399f76cb0ed006a3e66d93f148198ad9b191b4ca81604",
   "abstract_proxy": {
     "title": "PAPER",
     "abstract_chars": 1144
@@ -15,9 +15,11 @@
       "is_headline": false,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": true,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 1.0,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 0,
@@ -26,8 +28,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -37,8 +41,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -46,10 +52,12 @@
       "key": "geometric_mean_correlation_length_um",
       "centrality": "setup_or_control",
       "is_headline": false,
-      "ex_ante_surprise": "implied_or_derivable",
+      "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -57,21 +65,25 @@
       "key": "correlation_energy_hz",
       "centrality": "setup_or_control",
       "is_headline": false,
-      "ex_ante_surprise": "implied_or_derivable",
+      "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.5,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 1,
       "key": "rf_filtered_rms_energy_width_hz",
       "centrality": "key_supporting",
       "is_headline": false,
-      "ex_ante_surprise": "uncertain",
+      "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.25,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -79,10 +91,12 @@
       "key": "initial_condensate_fraction",
       "centrality": "key_supporting",
       "is_headline": false,
-      "ex_ante_surprise": "uncertain",
-      "leakage_sufficient": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": true,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -90,32 +104,38 @@
       "key": "initial_thermal_fraction",
       "centrality": "key_supporting",
       "is_headline": false,
-      "ex_ante_surprise": "uncertain",
-      "leakage_sufficient": false,
+      "ex_ante_surprise": "implied_or_derivable",
+      "leakage_sufficient": true,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.5,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 1,
       "key": "transferred_energy_distribution",
-      "centrality": "key_supporting",
-      "is_headline": false,
-      "ex_ante_surprise": "uncertain",
+      "centrality": "headline",
+      "is_headline": true,
+      "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.6667,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 2,
       "key": "experimental_mobility_edge_hz",
-      "centrality": "headline",
-      "is_headline": true,
+      "centrality": "key_supporting",
+      "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.3333,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -125,8 +145,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.25,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -136,8 +158,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.2,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -145,10 +169,12 @@
       "key": "transport_regime_Ef_166_hz_experiment",
       "centrality": "headline",
       "is_headline": true,
-      "ex_ante_surprise": "uncertain",
+      "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.3333,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -156,10 +182,12 @@
       "key": "transport_regime_Ef_246_hz_experiment",
       "centrality": "headline",
       "is_headline": true,
-      "ex_ante_surprise": "uncertain",
+      "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.3333,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -167,10 +195,12 @@
       "key": "transport_regime_Ef_366_hz_experiment",
       "centrality": "headline",
       "is_headline": true,
-      "ex_ante_surprise": "uncertain",
+      "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.3333,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     }
   ],
@@ -181,9 +211,9 @@
         "longitudinal_correlation_length_um",
         "transverse_correlation_length_um"
       ],
-      "ordering_variable": "spatial direction in the speckle potential",
+      "ordering_variable": "speckle-correlation direction",
       "question_type": "argmax_select",
-      "description": "Determine which spatial direction has the largest speckle correlation length, establishing the disorder anisotropy."
+      "description": "Determine which spatial direction has the largest speckle correlation length, i.e. quantify the disorder anisotropy."
     },
     {
       "experiment_index": 1,
@@ -191,9 +221,9 @@
         "initial_condensate_fraction",
         "initial_thermal_fraction"
       ],
-      "ordering_variable": "condensed versus thermal component of the initial atomic cloud",
+      "ordering_variable": "initial atomic component: condensate versus thermal",
       "question_type": "argmax_select",
-      "description": "Determine whether the rf-transferred energy distribution is dominated by condensed atoms or by the thermal background."
+      "description": "Determine whether the transferred energy distribution is dominated by the condensate component or by the residual thermal component."
     },
     {
       "experiment_index": 2,
@@ -202,9 +232,9 @@
         "transport_regime_Ef_246_hz_experiment",
         "transport_regime_Ef_366_hz_experiment"
       ],
-      "ordering_variable": "rf-selected target energy Ef/h",
+      "ordering_variable": "rf-selected target energy E_f/h",
       "question_type": "monotonic_direction",
-      "description": "Determine how the observed transport regime changes as the selected energy is increased across the mobility edge."
+      "description": "Determine how the observed transport regime evolves as the selected atom energy is raised through the Anderson mobility edge."
     }
   ]
 }

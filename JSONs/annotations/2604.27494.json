@@ -2,7 +2,7 @@
   "arxiv_id": "2604.27494",
   "paper_title": "Observation antibunching with classical light in a linear interferometer",
   "model": "gpt-5.5",
-  "response_id": "resp_04698c0535c43263006a3cc4eb2f608198b34eab1fc669f29c",
+  "response_id": "resp_0b117119326709ac006a3e671a6f3c819bae52f67b570809da",
   "abstract_proxy": {
     "title": "Observation antibunching with classical light in a linear interferometer",
     "abstract_chars": 1151
@@ -11,13 +11,15 @@
     {
       "experiment_index": 0,
       "key": "temporal_pseudothermal_g00_zero_delay",
-      "centrality": "setup_or_control",
+      "centrality": "key_supporting",
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.5,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 0,
@@ -26,8 +28,10 @@
       "is_headline": true,
       "ex_ante_surprise": "surprising",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": true,
       "annotation_filled": false,
       "abstract_term_overlap": 0.5,
+      "appears_in_abstract_lexical": true,
       "appears_in_abstract": true
     },
     {
@@ -37,9 +41,11 @@
       "is_headline": false,
       "ex_ante_surprise": "surprising",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.5,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 0,
@@ -48,9 +54,11 @@
       "is_headline": false,
       "ex_ante_surprise": "surprising",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.5,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 0,
@@ -59,9 +67,11 @@
       "is_headline": false,
       "ex_ante_surprise": "surprising",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.5,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 1,
@@ -70,19 +80,23 @@
       "is_headline": false,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.4,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
       "experiment_index": 1,
       "key": "pseudothermal_g00_zero_delay_at_nbar_0p66",
-      "centrality": "setup_or_control",
+      "centrality": "secondary",
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.25,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -92,8 +106,10 @@
       "is_headline": false,
       "ex_ante_surprise": "surprising",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.25,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -103,8 +119,10 @@
       "is_headline": false,
       "ex_ante_surprise": "surprising",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.25,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -114,8 +132,10 @@
       "is_headline": false,
       "ex_ante_surprise": "surprising",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.25,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -125,19 +145,23 @@
       "is_headline": false,
       "ex_ante_surprise": "surprising",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.25,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
       "experiment_index": 2,
       "key": "spatial_pseudothermal_g00_at_delta_x_0_nbar_0p66",
-      "centrality": "setup_or_control",
+      "centrality": "key_supporting",
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.25,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -147,9 +171,11 @@
       "is_headline": true,
       "ex_ante_surprise": "surprising",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": true,
       "annotation_filled": false,
       "abstract_term_overlap": 0.25,
-      "appears_in_abstract": false
+      "appears_in_abstract_lexical": false,
+      "appears_in_abstract": true
     },
     {
       "experiment_index": 2,
@@ -158,8 +184,10 @@
       "is_headline": false,
       "ex_ante_surprise": "surprising",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.25,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -169,8 +197,10 @@
       "is_headline": false,
       "ex_ante_surprise": "surprising",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.25,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -180,19 +210,23 @@
       "is_headline": false,
       "ex_ante_surprise": "surprising",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.25,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
       "experiment_index": 2,
       "key": "spatial_pseudothermal_g00_at_delta_x_0_nbar_1p98",
-      "centrality": "setup_or_control",
+      "centrality": "key_supporting",
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.25,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -202,8 +236,10 @@
       "is_headline": true,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.25,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -211,10 +247,12 @@
       "key": "spatial_pseudothermal_g20_at_delta_x_0_nbar_1p98",
       "centrality": "key_supporting",
       "is_headline": false,
-      "ex_ante_surprise": "surprising",
+      "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.25,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -224,8 +262,10 @@
       "is_headline": false,
       "ex_ante_surprise": "surprising",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.25,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -235,8 +275,10 @@
       "is_headline": false,
       "ex_ante_surprise": "surprising",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.25,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     }
   ],
@@ -250,9 +292,9 @@
         "temporal_pseudothermal_g30_zero_delay",
         "temporal_pseudothermal_g40_zero_delay"
       ],
-      "ordering_variable": "D1 photon-number projection m in g_m0^(2)(0)",
+      "ordering_variable": "D1 photon-number projection m at fixed D2 zero-photon projection",
       "question_type": "monotonic_direction",
-      "description": "At fixed temporal alignment and average photon number, increasing the projected photon number m changes the zero-delay correlation from zero-zero bunching to progressively stronger one/multi-zero antibunching."
+      "description": "This set shows whether the zero-delay temporal correlation changes from zero-zero bunching to increasingly strong m-zero antibunching as the projected photon number m is raised."
     },
     {
       "experiment_index": 1,
@@ -260,9 +302,9 @@
         "laser_g10_zero_delay_over_nbar_sweep",
         "pseudothermal_g10_zero_delay_at_nbar_0p66"
       ],
-      "ordering_variable": "light statistics: coherent laser versus pseudothermal light",
+      "ordering_variable": "light source photon statistics: coherent laser versus pseudothermal light",
       "question_type": "sign_vs_baseline",
-      "description": "The comparison decides whether replacing coherent laser light by pseudothermal light suppresses the one-zero projection correlation below the coherent-control value near unity."
+      "description": "This comparison tests whether replacing coherent laser statistics with pseudothermal statistics drives the one-zero projection correlation below the laser baseline of unity."
     },
     {
       "experiment_index": 1,
@@ -273,9 +315,9 @@
         "pseudothermal_g30_zero_delay_at_nbar_0p66",
         "pseudothermal_g40_zero_delay_at_nbar_0p66"
       ],
-      "ordering_variable": "D1 photon-number projection m in pseudothermal g_m0^(2)(0) at nbar = 0.66",
+      "ordering_variable": "D1 photon-number projection m at fixed D2 zero-photon projection and nbar = 0.66",
       "question_type": "monotonic_direction",
-      "description": "At the high end of the pseudothermal intensity sweep, increasing m makes the zero-delay correlation decrease, demonstrating stronger antibunching for higher photon-number projections."
+      "description": "This set determines how the zero-delay pseudothermal m-zero correlation varies with projected photon number at the high end of the intensity sweep."
     },
     {
       "experiment_index": 2,
@@ -286,9 +328,9 @@
         "spatial_pseudothermal_g30_at_delta_x_0_nbar_0p66",
         "spatial_pseudothermal_g40_at_delta_x_0_nbar_0p66"
       ],
-      "ordering_variable": "D1 photon-number projection m in spatial g_m0^(2)(Delta x=0) at nbar = 0.66",
+      "ordering_variable": "D1 photon-number projection m at fixed D2 zero-photon projection for nbar = 0.66",
       "question_type": "monotonic_direction",
-      "description": "For the lower photon-number binning regime, increasing m changes the spatial zero-displacement feature from zero-zero bunching to increasingly strong antibunching."
+      "description": "This set shows how the spatial zero-displacement correlation evolves from zero-zero bunching to stronger m-zero antibunching at the lower average photon number."
     },
     {
       "experiment_index": 2,
@@ -299,9 +341,9 @@
         "spatial_pseudothermal_g30_at_delta_x_0_nbar_1p98",
         "spatial_pseudothermal_g40_at_delta_x_0_nbar_1p98"
       ],
-      "ordering_variable": "D1 photon-number projection m in spatial g_m0^(2)(Delta x=0) at nbar = 1.98",
+      "ordering_variable": "D1 photon-number projection m at fixed D2 zero-photon projection for nbar = 1.98",
       "question_type": "monotonic_direction",
-      "description": "For the higher photon-number binning regime, increasing m monotonically reduces the spatial zero-displacement correlation even though the m=1 channel has become bunched."
+      "description": "This set determines how the spatial zero-displacement m-zero correlations depend on photon-number projection in the higher average-photon-number binning regime."
     },
     {
       "experiment_index": 2,
@@ -309,9 +351,9 @@
         "spatial_pseudothermal_g10_at_delta_x_0_nbar_0p66",
         "spatial_pseudothermal_g10_at_delta_x_0_nbar_1p98"
       ],
-      "ordering_variable": "average detected photon number per bin nbar",
+      "ordering_variable": "average detected photon number per detector per bin",
       "question_type": "sign_vs_baseline",
-      "description": "This comparison decides whether increasing the bin-defined average photon number switches the spatial one-zero correlation from antibunching below 1 to bunching above 1."
+      "description": "This comparison captures the paper's claim that increasing the binned average photon number changes the spatial one-zero g10 feature from antibunching below unity to bunching above unity."
     }
   ]
 }

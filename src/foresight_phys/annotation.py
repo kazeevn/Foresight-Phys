@@ -11,14 +11,18 @@ results (it is meta-analysis, not prediction), and labels each result field with
   priors *before* the experiment (the axis the benchmark motivation cares about),
 - ``leakage_sufficient``: whether the (masked) experiment description alone is
   enough to determine the value without doing the experiment.
+- ``result_stated_in_abstract``: whether the field's *specific result* (its value
+  or an explicit qualitative statement of it) is actually reported in the paper's
+  abstract — a targeted factual check, read off the abstract text, that defines the
+  crucial (abstract-grounded) tier of centrality.
 
 It also groups fields into ``comparison_sets`` — swept series or baseline/
 treatment contrasts — together with the ordering variable and the kind of
 decision they encode, which the decisions analysis scores as selection accuracy,
 regret, and direction.
 
-A cheap, auditable code-side proxy (``appears_in_abstract``) is added on top of
-the LLM labels as an independent cross-check of centrality.
+A cheap lexical overlap (``abstract_term_overlap`` / ``appears_in_abstract_lexical``)
+is retained alongside the LLM check purely as an auditable diagnostic.
 """
 from __future__ import annotations
 
@@ -68,6 +72,13 @@ For EVERY result field of EVERY experiment, assign:
 - leakage_sufficient: true if the experiment description ALONE (without performing the
   experiment) is enough to determine this value — e.g., the value merely restates a
   sweep range, a fixed setting, or a definition given in the description.
+- result_stated_in_abstract: true ONLY if THIS field's specific result is actually
+  reported in the paper's abstract — i.e., the abstract states this measured value (a
+  number, bound, or sign) or makes an explicit qualitative claim about exactly this
+  quantity. This is a strict factual check against the abstract text, NOT a topic match:
+  the abstract merely mentioning the system, method, or general subject area is NOT
+  enough, and neither is the quantity appearing only in the body, figures, or tables.
+  When in doubt, answer false.
 
 Also identify comparison_sets: groups of fields that form a decision-relevant comparison
 within ONE experiment — a quantity measured across a swept control variable, or a
@@ -98,6 +109,13 @@ class FieldAnnotation(BaseModel):
     is_headline: bool
     ex_ante_surprise: Literal["implied_or_derivable", "uncertain", "surprising"]
     leakage_sufficient: bool
+    result_stated_in_abstract: bool = Field(
+        description=(
+            "True only if this field's specific result (its value, bound, sign, or an "
+            "explicit qualitative claim about exactly this quantity) is reported in the "
+            "paper's abstract. A topic/keyword match is not enough; when in doubt, false."
+        )
+    )
 
 
 class ComparisonSet(BaseModel):
@@ -128,7 +146,8 @@ class AnnotationResult:
 
 
 # ---------------------------------------------------------------------------
-# Abstract proxy (code-side, no LLM) — an independent centrality cross-check.
+# Lexical abstract overlap (code-side, no LLM) — retained only as an auditable
+# diagnostic next to the LLM ``result_stated_in_abstract`` check.
 # ---------------------------------------------------------------------------
 
 _STOPWORDS = {
@@ -281,6 +300,7 @@ def _default_field_annotation(experiment_index: int, key: str) -> dict[str, Any]
         "is_headline": False,
         "ex_ante_surprise": "uncertain",
         "leakage_sufficient": False,
+        "result_stated_in_abstract": False,
         "annotation_filled": True,
     }
 
@@ -295,11 +315,16 @@ def build_annotation_record(
     response_id: str,
     paper_markdown: str,
 ) -> dict[str, Any]:
-    """Merge LLM labels with the abstract proxy and normalise field coverage.
+    """Merge LLM labels with the abstract diagnostic and normalise field coverage.
 
     Every (experiment_index, key) present in the dataset gets exactly one record;
     LLM annotations for unknown keys are dropped, and missing keys are filled with a
     neutral default flagged ``annotation_filled`` so coverage gaps stay auditable.
+
+    The crucial (abstract-grounded) tier ``appears_in_abstract`` is taken from the LLM
+    ``result_stated_in_abstract`` check — whether this field's specific result is reported
+    in the abstract. A lexical bag-of-words overlap is recorded alongside it, under
+    ``abstract_term_overlap`` / ``appears_in_abstract_lexical``, only as an audit diagnostic.
     """
     title, abstract = extract_title_and_abstract(paper_markdown)
     corpus_words = _content_words(f"{title}\n{abstract}")
@@ -317,13 +342,15 @@ def build_annotation_record(
     for ei, key in _enumerate_field_keys(experiments):
         row = by_key.get((ei, key)) or _default_field_annotation(ei, key)
         row.setdefault("annotation_filled", False)
-        overlap, appears = abstract_overlap(
+        overlap, lexical_appears = abstract_overlap(
             key=key,
             description=descriptions.get((ei, key), ""),
             corpus_words=corpus_words,
         )
         row["abstract_term_overlap"] = round(overlap, 4)
-        row["appears_in_abstract"] = appears
+        row["appears_in_abstract_lexical"] = lexical_appears
+        # Authoritative crucial-tier marker: the LLM result-in-abstract check.
+        row["appears_in_abstract"] = bool(row.get("result_stated_in_abstract", False))
         field_rows.append(row)
 
     valid_keys = set(_enumerate_field_keys(experiments))

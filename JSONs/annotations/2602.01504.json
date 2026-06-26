@@ -2,7 +2,7 @@
   "arxiv_id": "2602.01504",
   "paper_title": "First Experimental Demonstration of Beam Storage by Three-Dimensional Spiral Injection Scheme for Ultra-Compact Storage Rings",
   "model": "gpt-5.5",
-  "response_id": "resp_0a209be8923c9bc1006a3cc413c4cc81988a4a24573098429b",
+  "response_id": "resp_002dd8bcfb694d02006a3e66d95c10819aae57867c2670fabf",
   "abstract_proxy": {
     "title": "First Experimental Demonstration of Beam Storage by Three-Dimensional Spiral Injection Scheme for Ultra-Compact Storage Rings",
     "abstract_chars": 1099
@@ -15,8 +15,10 @@
       "is_headline": true,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": true,
       "annotation_filled": false,
       "abstract_term_overlap": 0.75,
+      "appears_in_abstract_lexical": true,
       "appears_in_abstract": true
     },
     {
@@ -24,11 +26,13 @@
       "key": "beam_storage_observed_without_kicker",
       "centrality": "key_supporting",
       "is_headline": false,
-      "ex_ante_surprise": "uncertain",
+      "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.6,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 0,
@@ -36,10 +40,12 @@
       "centrality": "headline",
       "is_headline": true,
       "ex_ante_surprise": "uncertain",
-      "leakage_sufficient": true,
+      "leakage_sufficient": false,
+      "result_stated_in_abstract": true,
       "annotation_filled": false,
       "abstract_term_overlap": 0.2,
-      "appears_in_abstract": false
+      "appears_in_abstract_lexical": false,
+      "appears_in_abstract": true
     },
     {
       "experiment_index": 0,
@@ -47,9 +53,11 @@
       "centrality": "key_supporting",
       "is_headline": false,
       "ex_ante_surprise": "implied_or_derivable",
-      "leakage_sufficient": false,
+      "leakage_sufficient": true,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.2,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -59,8 +67,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -70,8 +80,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.25,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -81,8 +93,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -92,8 +106,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.25,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -103,8 +119,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -114,8 +132,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.25,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -125,8 +145,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.0,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -136,8 +158,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.25,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     }
   ],
@@ -148,9 +172,9 @@
         "beam_storage_observed_without_kicker",
         "beam_storage_observed_with_kicker"
       ],
-      "ordering_variable": "kicker activation, off versus on",
+      "ordering_variable": "kicker activation",
       "question_type": "sign_vs_baseline",
-      "description": "Determine whether activating the multi-turn spiral-injection kicker changes the outcome from non-storage to successful beam storage."
+      "description": "Decide whether activating the pulsed kicker changes the outcome from no storage to successful beam storage."
     },
     {
       "experiment_index": 0,
@@ -158,9 +182,9 @@
         "transient_signal_duration_without_kicker_ns",
         "stored_signal_persistence_lower_bound_us"
       ],
-      "ordering_variable": "kicker activation, off versus on",
+      "ordering_variable": "kicker activation",
       "question_type": "order_of_magnitude",
-      "description": "Compare the signal-duration scale with and without the kicker to decide whether the kicker-on case persists far longer than the transient bunch-width-scale signal."
+      "description": "Compare the no-kicker transient duration with the kicker-on stored-signal persistence to establish that storage lasts far longer than the injected pulse."
     },
     {
       "experiment_index": 1,
@@ -170,9 +194,9 @@
         "edge_point_cm_imain_9p20_iaux_7p16",
         "edge_point_cm_imain_9p60_iaux_8p72"
       ],
-      "ordering_variable": "weak-focusing field configuration, ordered by increasing main and auxiliary coil currents",
+      "ordering_variable": "weak-focusing field configuration / solenoid coil currents",
       "question_type": "monotonic_direction",
-      "description": "Determine whether the measured upper edge of the stored-beam distribution shifts upward as the weak-focusing field configuration is varied."
+      "description": "Determine how the measured upper edge of the stored-beam distribution shifts as the weak-focusing field configuration is varied."
     },
     {
       "experiment_index": 1,
@@ -182,9 +206,9 @@
         "storable_range_cm_imain_9p20_iaux_7p16",
         "storable_range_cm_imain_9p60_iaux_8p72"
       ],
-      "ordering_variable": "weak-focusing field configuration, ordered by increasing main and auxiliary coil currents",
+      "ordering_variable": "weak-focusing field configuration / solenoid coil currents",
       "question_type": "monotonic_direction",
-      "description": "Determine whether the storable vertical range increases systematically with the applied weak-focusing field configuration."
+      "description": "Determine how the magnetically allowed storable vertical range changes across the four weak-focusing field configurations."
     }
   ]
 }

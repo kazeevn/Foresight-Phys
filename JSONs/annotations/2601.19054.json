@@ -2,7 +2,7 @@
   "arxiv_id": "2601.19054",
   "paper_title": "Fundamental Tests of Quantum Geometric Bounds in Ionic and Covalent Insulators using Inelastic X-Ray Scattering",
   "model": "gpt-5.5",
-  "response_id": "resp_0dcb2dff8648ee4c006a3cc3fec4d4819aacd124e8109ad696",
+  "response_id": "resp_0ac3a3ab5c01fd5f006a3e66d94000819bb004b7b74f51cfc5",
   "abstract_proxy": {
     "title": "Fundamental Tests of Quantum Geometric Bounds in Ionic and Covalent Insulators using Inelastic X-Ray Scattering",
     "abstract_chars": 1249
@@ -11,12 +11,14 @@
     {
       "experiment_index": 0,
       "key": "lif_small_q_qfi_power_law_exponent",
-      "centrality": "key_supporting",
+      "centrality": "setup_or_control",
       "is_headline": false,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.1667,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -24,11 +26,13 @@
       "key": "diamond_qfi_relative_to_lif_over_measured_q",
       "centrality": "key_supporting",
       "is_headline": false,
-      "ex_ante_surprise": "implied_or_derivable",
+      "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.6667,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 1,
@@ -37,8 +41,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.4,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -48,8 +54,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.4,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -57,33 +65,39 @@
       "key": "diamond_small_q_dimensionless_quantum_weight_category",
       "centrality": "headline",
       "is_headline": true,
-      "ex_ante_surprise": "implied_or_derivable",
+      "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.6,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 2,
       "key": "lif_small_q_dimensionless_quantum_weight_category",
       "centrality": "headline",
       "is_headline": true,
-      "ex_ante_surprise": "implied_or_derivable",
+      "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.6,
-      "appears_in_abstract": true
+      "appears_in_abstract_lexical": true,
+      "appears_in_abstract": false
     },
     {
       "experiment_index": 2,
       "key": "small_q_dimensionless_quantum_weight_material_ordering",
       "centrality": "headline",
       "is_headline": true,
-      "ex_ante_surprise": "implied_or_derivable",
+      "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": true,
       "annotation_filled": false,
       "abstract_term_overlap": 0.4,
-      "appears_in_abstract": false
+      "appears_in_abstract_lexical": false,
+      "appears_in_abstract": true
     },
     {
       "experiment_index": 3,
@@ -92,8 +106,10 @@
       "is_headline": true,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": true,
       "annotation_filled": false,
       "abstract_term_overlap": 0.8333,
+      "appears_in_abstract_lexical": true,
       "appears_in_abstract": true
     },
     {
@@ -103,8 +119,10 @@
       "is_headline": true,
       "ex_ante_surprise": "implied_or_derivable",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": true,
       "annotation_filled": false,
       "abstract_term_overlap": 0.8333,
+      "appears_in_abstract_lexical": true,
       "appears_in_abstract": true
     },
     {
@@ -114,8 +132,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.2,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     },
     {
@@ -125,8 +145,10 @@
       "is_headline": false,
       "ex_ante_surprise": "uncertain",
       "leakage_sufficient": false,
+      "result_stated_in_abstract": false,
       "annotation_filled": false,
       "abstract_term_overlap": 0.2,
+      "appears_in_abstract_lexical": false,
       "appears_in_abstract": false
     }
   ],
@@ -137,30 +159,19 @@
         "diamond_dielectric_high_q_decay_length_A",
         "lif_dielectric_high_q_decay_length_A"
       ],
-      "ordering_variable": "material",
+      "ordering_variable": "material / bonding environment",
       "question_type": "argmax_select",
-      "description": "Determine which material has the longer atomic-scale high-q dielectric screening decay length extracted from the IXS-derived dielectric function."
+      "description": "Compare the high-q dielectric decay lengths to determine which material has the longer atomic-scale electronic-polarization length."
     },
     {
       "experiment_index": 2,
       "member_keys": [
         "diamond_small_q_dimensionless_quantum_weight_category",
-        "lif_small_q_dimensionless_quantum_weight_category",
-        "small_q_dimensionless_quantum_weight_material_ordering"
+        "lif_small_q_dimensionless_quantum_weight_category"
       ],
-      "ordering_variable": "material",
+      "ordering_variable": "material / bonding character, ionic LiF versus covalent diamond",
       "question_type": "argmax_select",
-      "description": "Determine which bonding environment has the larger small-q dimensionless quantum weight and hence greater electronic delocalization/quantum-information sharing."
-    },
-    {
-      "experiment_index": 3,
-      "member_keys": [
-        "diamond_quantum_weight_within_q_dependent_electrostatic_bounds",
-        "lif_quantum_weight_within_q_dependent_electrostatic_bounds"
-      ],
-      "ordering_variable": "material relative to q-dependent electrostatic bound interval",
-      "question_type": "sign_vs_baseline",
-      "description": "Check whether each material's measured finite-q quantum weight satisfies or violates the theoretically allowed electrostatic bound interval."
+      "description": "Determine which bonding environment has the larger small-q dimensionless quantum weight and hence greater electronic delocalization."
     },
     {
       "experiment_index": 3,
@@ -168,9 +179,9 @@
         "diamond_zero_q_bound_position_category",
         "lif_zero_q_bound_position_category"
       ],
-      "ordering_variable": "material",
+      "ordering_variable": "material / bonding character, ionic LiF versus covalent diamond",
       "question_type": "argmax_select",
-      "description": "Determine which material's inferred zero-q quantum weight lies closer to the upper electrostatic delocalization bound."
+      "description": "Compare where each material's inferred zero-q quantum weight falls within the electrostatic bound interval, identifying which approaches the upper bound more closely."
     }
   ]
 }
