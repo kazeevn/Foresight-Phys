@@ -1,4 +1,4 @@
-![[Paper badge](https://img.shields.io/badge/Forecast%40ICML26-Paper-blue)](https://openreview.net/forum?id=GhUK6VGW67)
+[![Paper badge](https://img.shields.io/badge/Forecast%40ICML26-Paper-blue)](https://openreview.net/forum?id=GhUK6VGW67)
 
 # Foresight-Phys Benchmark
 
